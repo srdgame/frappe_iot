@@ -8,7 +8,7 @@
  "custom": 0, 
  "docstatus": 0, 
  "doctype": "DocType", 
- "document_type": "", 
+ "document_type": "Document", 
  "editable_grid": 1, 
  "engine": "InnoDB", 
  "fields": [
@@ -187,7 +187,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-02-20 16:44:15.058428", 
+ "modified": "2017-02-20 16:55:09.394525", 
  "modified_by": "Administrator", 
  "module": "IoT", 
  "name": "IOT Enterprise", 

@@ -8,7 +8,7 @@
  "custom": 0, 
  "docstatus": 0, 
  "doctype": "DocType", 
- "document_type": "", 
+ "document_type": "Setup", 
  "editable_grid": 1, 
  "engine": "InnoDB", 
  "fields": [
@@ -104,7 +104,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-02-20 16:42:05.814175", 
+ "modified": "2017-02-20 16:55:14.677965", 
  "modified_by": "Administrator", 
  "module": "IoT", 
  "name": "IOT Permissions", 
