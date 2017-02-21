@@ -77,9 +77,9 @@ frappe.GroupEditor = Class.extend({
 		var wrapper = this.wrapper;
 		$(wrapper).html('')
 		me.groups.forEach(function(m) {
-			$(repl('<div class="col-sm-6"><div class="checkbox">\
+			$(repl('<div class="col-sm-6" title="%(desc)s"><div class="checkbox">\
 				<label><input type="checkbox" class="block-group-check" data-group="%(group)s">\
-				%(name)s</label></div></div>', {group: m.name, name: m.grp_name})).appendTo(me.wrapper);
+				%(name)s</label></div></div>', {group: m.name, name: m.grp_name, desc:m.description})).appendTo(me.wrapper);
 		});
 		this.bind();
 	},
