@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9307d7f0-9d88-4fe0-b595-b585ff33ec4d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$USER_HOME$/github/frappe/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js" afterPath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py" afterPath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="117" column="68" lean-forward="false" selection-start-line="117" selection-start-column="51" selection-end-line="117" selection-end-column="68" />
+              <folding>
+                <marker date="1486699061711" expanded="true" signature="638:655" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="807:824" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="4269:4415" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="4291:4409" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="4304:4403" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="5750:5901" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="5805:5823" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="6525:6679" ph="..." />
+                <marker date="1486699061711" expanded="false" signature="6600:6615" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="9178:9194" ph="..." />
+                <marker date="1486699061711" expanded="true" signature="10262:10780" ph="..." />
+                <marker date="1486699061711" expanded="false" signature="10282:10298" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="522" column="59" lean-forward="true" selection-start-line="519" selection-start-column="14" selection-end-line="522" selection-end-column="59" />
+              <folding>
+                <marker date="1486699061715" expanded="true" signature="4637:4716" ph="select name tabRole" />
+                <marker date="1486699061715" expanded="true" signature="6590:6843" ph="select disti... tabUserRole" />
+                <marker date="1486699061715" expanded="true" signature="9088:9124" ph="delete from " />
+                <marker date="1486699061715" expanded="true" signature="9162:9218" ph="update tabTo... " />
+                <marker date="1486699061715" expanded="true" signature="9278:9343" ph="delete from " />
+                <marker date="1486699061715" expanded="true" signature="9400:9439" ph="delete from " />
+                <marker date="1486699061715" expanded="true" signature="9495:9652" ph="delete from " />
+                <marker date="1486699061715" expanded="true" signature="10558:10598" ph="update `miss... " />
+                <marker date="1486699061715" expanded="true" signature="10710:10756" ph="update `tabU... " />
+                <marker date="1486699061715" expanded="true" signature="14528:14637" ph="select name tabRole" />
+                <marker date="1486699061715" expanded="true" signature="16242:16348" ph="select email... tabUser Email" />
+                <marker date="1486699061715" expanded="true" signature="16435:16520" ph="update `tabU... " />
+                <marker date="1486699061715" expanded="true" signature="16876:16962" ph="update `tabU... " />
+                <marker date="1486699061715" expanded="true" signature="17224:17336" ph="SELECT DISTI... tabUser Email" />
+                <marker date="1486699061715" expanded="true" signature="18568:18662" ph="select count... tabUser" />
+                <marker date="1486699061715" expanded="true" signature="20114:20462" ph="select name,... tabUser" />
+                <marker date="1486699061715" expanded="true" signature="20953:21070" ph="select sum(s... tabUser" />
+                <marker date="1486699061715" expanded="true" signature="21477:21577" ph="select name tabUser" />
+                <marker date="1486699061715" expanded="true" signature="21799:21950" ph="select count... tabUser" />
+                <marker date="1486699061715" expanded="true" signature="22116:22197" ph="select count... tabUser" />
+                <marker date="1486699061715" expanded="true" signature="22336:22463" ph="select count... tabUser" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/github/frappe/frappe/database.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="201">
+              <caret line="383" column="8" lean-forward="false" selection-start-line="383" selection-start-column="8" selection-end-line="383" selection-end-column="8" />
+              <folding>
+                <marker date="1486699061719" expanded="true" signature="15511:15583" ph="select field... tabSingles" />
+                <marker date="1486699061719" expanded="true" signature="16218:16273" ph="select field... tabSingles" />
+                <marker date="1486699061719" expanded="true" signature="17008:17069" ph="select value... tabSingles" />
+                <marker date="1486699061719" expanded="true" signature="17875:17910" ph="select missi... tabmissing_value" />
+                <marker date="1486699061719" expanded="true" signature="18169:18218" ph="select name,... tabmissing_value" />
+                <marker date="1486699061719" expanded="true" signature="19774:19808" ph="update `tabm... " />
+                <marker date="1486699061719" expanded="true" signature="19960:20027" ph="delete from " />
+                <marker date="1486699061719" expanded="true" signature="20159:20224" ph="insert into tabSingles... " />
+                <marker date="1486699061719" expanded="true" signature="20585:20641" ph="update `tabm... " />
+                <marker date="1486699061719" expanded="true" signature="22917:22978" ph="select name tabDocField" />
+                <marker date="1486699061719" expanded="true" signature="23291:23330" ph="select name tabmissing_value" />
+                <marker date="1486699061719" expanded="true" signature="23913:23944" ph="select name tabmissing_value" />
+                <marker date="1486699061719" expanded="true" signature="24233:24272" ph="select count... tabmissing_value" />
+                <marker date="1486699061719" expanded="true" signature="24361:24393" ph="select count... tabmissing_value" />
+                <marker date="1486699061719" expanded="true" signature="24640:24702" ph="select count... tabmissing_value" />
+                <marker date="1486699061719" expanded="true" signature="25595:25637" ph="alter table `tabmissing_value`... " />
+                <marker date="1486699061719" expanded="true" signature="25909:26048" ph="select CONST... TABLE_CONSTRAINTS" />
+                <marker date="1486699061719" expanded="true" signature="26137:26181" ph="alter table `tabmissing_value`... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base_document.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/github/frappe/frappe/model/base_document.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="774" column="8" lean-forward="false" selection-start-line="774" selection-start-column="8" selection-end-line="774" selection-end-column="8" />
+              <folding>
+                <marker date="1486699061763" expanded="true" signature="8350:8410" ph="insert into `tabmissing_value`... " />
+                <marker date="1486699061763" expanded="true" signature="9441:9493" ph="update `tabm... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="iot_user.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="20" column="60" lean-forward="true" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <marker date="1487655513313" expanded="true" signature="328:345" ph="..." />
+                <marker date="1487655513313" expanded="true" signature="2255:2397" ph="..." />
+                <marker date="1487655513313" expanded="true" signature="2277:2391" ph="..." />
+                <marker date="1487655513313" expanded="true" signature="2290:2385" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="iot_user.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+              <folding>
+                <marker date="1487653518107" expanded="true" signature="924:1010" ph="select name,... tabIOT Employee Group" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>modules</find>
+      <find>block_modules</find>
+      <find>title</find>
+      <find>frappe.db</find>
+      <find>frappe.db.get_value(</find>
+      <find>username_exists</find>
+      <find>remove_all_roles_for_guest</find>
+      <find>remove_disabled_roles</find>
+      <find>create_user_email</find>
+      <find>remove_roles</find>
+      <find>remove_role</find>
+      <find>get_perm_info</find>
+      <find>method</find>
+      <find>has_email_account</find>
+      <find>select</find>
+      <find>module</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>group_assigned</replace>
+      <replace>group</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py" />
+        <option value="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="symlink_iot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frappe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="symlink_iot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="symlink_iot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/github/frappe" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="" />
+    <property name="node.js.path.for.package.jscs" value="project" />
+    <property name="node.js.selected.package.jscs" value="" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="symlink_iot" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="symlink_iot" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="symlink_iot" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="symlink_iot" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <module name="symlink_iot" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="symlink_iot" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="symlink_iot" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9307d7f0-9d88-4fe0-b595-b585ff33ec4d" name="Default" comment="" />
+      <created>1487647872573</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1487647872573</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32916668" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$USER_HOME$/github/frappe/frappe/model/base_document.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="774" column="8" lean-forward="false" selection-start-line="774" selection-start-column="8" selection-end-line="774" selection-end-column="8" />
+          <folding>
+            <marker date="1486699061763" expanded="true" signature="8350:8410" ph="insert into `tabmissing_value`... " />
+            <marker date="1486699061763" expanded="true" signature="9441:9493" ph="update `tabm... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/github/frappe/frappe/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="1104" column="4" lean-forward="false" selection-start-line="1104" selection-start-column="4" selection-end-line="1104" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/github/frappe/frappe/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="383" column="8" lean-forward="false" selection-start-line="383" selection-start-column="8" selection-end-line="383" selection-end-column="8" />
+          <folding>
+            <marker date="1486699061719" expanded="true" signature="15511:15583" ph="select field... tabSingles" />
+            <marker date="1486699061719" expanded="true" signature="16218:16273" ph="select field... tabSingles" />
+            <marker date="1486699061719" expanded="true" signature="17008:17069" ph="select value... tabSingles" />
+            <marker date="1486699061719" expanded="true" signature="17875:17910" ph="select missi... tabmissing_value" />
+            <marker date="1486699061719" expanded="true" signature="18169:18218" ph="select name,... tabmissing_value" />
+            <marker date="1486699061719" expanded="true" signature="19774:19808" ph="update `tabm... " />
+            <marker date="1486699061719" expanded="true" signature="19960:20027" ph="delete from " />
+            <marker date="1486699061719" expanded="true" signature="20159:20224" ph="insert into tabSingles... " />
+            <marker date="1486699061719" expanded="true" signature="20585:20641" ph="update `tabm... " />
+            <marker date="1486699061719" expanded="true" signature="22917:22978" ph="select name tabDocField" />
+            <marker date="1486699061719" expanded="true" signature="23291:23330" ph="select name tabmissing_value" />
+            <marker date="1486699061719" expanded="true" signature="23913:23944" ph="select name tabmissing_value" />
+            <marker date="1486699061719" expanded="true" signature="24233:24272" ph="select count... tabmissing_value" />
+            <marker date="1486699061719" expanded="true" signature="24361:24393" ph="select count... tabmissing_value" />
+            <marker date="1486699061719" expanded="true" signature="24640:24702" ph="select count... tabmissing_value" />
+            <marker date="1486699061719" expanded="true" signature="25595:25637" ph="alter table `tabmissing_value`... " />
+            <marker date="1486699061719" expanded="true" signature="25909:26048" ph="select CONST... TABLE_CONSTRAINTS" />
+            <marker date="1486699061719" expanded="true" signature="26137:26181" ph="alter table `tabmissing_value`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="117" column="68" lean-forward="false" selection-start-line="117" selection-start-column="51" selection-end-line="117" selection-end-column="68" />
+          <folding>
+            <marker date="1486699061711" expanded="true" signature="638:655" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="807:824" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="4269:4415" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="4291:4409" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="4304:4403" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="5750:5901" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="5805:5823" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="6525:6679" ph="..." />
+            <marker date="1486699061711" expanded="false" signature="6600:6615" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="9178:9194" ph="..." />
+            <marker date="1486699061711" expanded="true" signature="10262:10780" ph="..." />
+            <marker date="1486699061711" expanded="false" signature="10282:10298" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="522" column="59" lean-forward="true" selection-start-line="519" selection-start-column="14" selection-end-line="522" selection-end-column="59" />
+          <folding>
+            <marker date="1486699061715" expanded="true" signature="4637:4716" ph="select name tabRole" />
+            <marker date="1486699061715" expanded="true" signature="6590:6843" ph="select disti... tabUserRole" />
+            <marker date="1486699061715" expanded="true" signature="9088:9124" ph="delete from " />
+            <marker date="1486699061715" expanded="true" signature="9162:9218" ph="update tabTo... " />
+            <marker date="1486699061715" expanded="true" signature="9278:9343" ph="delete from " />
+            <marker date="1486699061715" expanded="true" signature="9400:9439" ph="delete from " />
+            <marker date="1486699061715" expanded="true" signature="9495:9652" ph="delete from " />
+            <marker date="1486699061715" expanded="true" signature="10558:10598" ph="update `miss... " />
+            <marker date="1486699061715" expanded="true" signature="10710:10756" ph="update `tabU... " />
+            <marker date="1486699061715" expanded="true" signature="14528:14637" ph="select name tabRole" />
+            <marker date="1486699061715" expanded="true" signature="16242:16348" ph="select email... tabUser Email" />
+            <marker date="1486699061715" expanded="true" signature="16435:16520" ph="update `tabU... " />
+            <marker date="1486699061715" expanded="true" signature="16876:16962" ph="update `tabU... " />
+            <marker date="1486699061715" expanded="true" signature="17224:17336" ph="SELECT DISTI... tabUser Email" />
+            <marker date="1486699061715" expanded="true" signature="18568:18662" ph="select count... tabUser" />
+            <marker date="1486699061715" expanded="true" signature="20114:20462" ph="select name,... tabUser" />
+            <marker date="1486699061715" expanded="true" signature="20953:21070" ph="select sum(s... tabUser" />
+            <marker date="1486699061715" expanded="true" signature="21477:21577" ph="select name tabUser" />
+            <marker date="1486699061715" expanded="true" signature="21799:21950" ph="select count... tabUser" />
+            <marker date="1486699061715" expanded="true" signature="22116:22197" ph="select count... tabUser" />
+            <marker date="1486699061715" expanded="true" signature="22336:22463" ph="select count... tabUser" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+          <folding>
+            <marker date="1487653518107" expanded="true" signature="924:1010" ph="select name,... tabIOT Employee Group" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="60" lean-forward="true" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1487655513313" expanded="true" signature="328:345" ph="..." />
+            <marker date="1487655513313" expanded="true" signature="2255:2397" ph="..." />
+            <marker date="1487655513313" expanded="true" signature="2277:2391" ph="..." />
+            <marker date="1487655513313" expanded="true" signature="2290:2385" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
