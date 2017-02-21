@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9307d7f0-9d88-4fe0-b595-b585ff33ec4d" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$USER_HOME$/github/frappe/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js" afterPath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py" afterPath="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,7 +19,7 @@
         <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="298">
-              <caret line="117" column="68" lean-forward="false" selection-start-line="117" selection-start-column="51" selection-end-line="117" selection-end-column="68" />
+              <caret line="204" column="61" lean-forward="false" selection-start-line="204" selection-start-column="57" selection-end-line="204" selection-end-column="61" />
               <folding>
                 <marker date="1486699061711" expanded="true" signature="638:655" ph="..." />
                 <marker date="1486699061711" expanded="true" signature="807:824" ph="..." />
@@ -43,9 +41,10 @@
       <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="522" column="59" lean-forward="true" selection-start-line="519" selection-start-column="14" selection-end-line="522" selection-end-column="59" />
+            <state relative-caret-position="235">
+              <caret line="448" column="0" lean-forward="true" selection-start-line="448" selection-start-column="0" selection-end-line="448" selection-end-column="0" />
               <folding>
+                <element signature="e#101#140#0" expanded="true" />
                 <marker date="1486699061715" expanded="true" signature="4637:4716" ph="select name tabRole" />
                 <marker date="1486699061715" expanded="true" signature="6590:6843" ph="select disti... tabUserRole" />
                 <marker date="1486699061715" expanded="true" signature="9088:9124" ph="delete from " />
@@ -117,14 +116,14 @@
       <file leaf-file-name="iot_user.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="20" column="60" lean-forward="true" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
+            <state relative-caret-position="387">
+              <caret line="73" column="58" lean-forward="true" selection-start-line="73" selection-start-column="58" selection-end-line="73" selection-end-column="58" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1487655513313" expanded="true" signature="328:345" ph="..." />
-                <marker date="1487655513313" expanded="true" signature="2255:2397" ph="..." />
-                <marker date="1487655513313" expanded="true" signature="2277:2391" ph="..." />
-                <marker date="1487655513313" expanded="true" signature="2290:2385" ph="..." />
+                <marker date="1487668074959" expanded="true" signature="328:345" ph="..." />
+                <marker date="1487668074959" expanded="true" signature="2134:2275" ph="..." />
+                <marker date="1487668074959" expanded="true" signature="2156:2269" ph="..." />
+                <marker date="1487668074959" expanded="true" signature="2169:2263" ph="..." />
               </folding>
             </state>
           </provider>
@@ -133,10 +132,10 @@
       <file leaf-file-name="iot_user.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+            <state relative-caret-position="126">
+              <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
               <folding>
-                <marker date="1487653518107" expanded="true" signature="924:1010" ph="select name,... tabIOT Employee Group" />
+                <marker date="1487668074959" expanded="true" signature="1341:1440" ph="select name,... tabIOT Employee Group" />
               </folding>
             </state>
           </provider>
@@ -147,21 +146,31 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>modules</find>
-      <find>block_modules</find>
       <find>title</find>
-      <find>frappe.db</find>
       <find>frappe.db.get_value(</find>
-      <find>username_exists</find>
       <find>remove_all_roles_for_guest</find>
       <find>remove_disabled_roles</find>
       <find>create_user_email</find>
-      <find>remove_roles</find>
       <find>remove_role</find>
       <find>get_perm_info</find>
-      <find>method</find>
       <find>has_email_account</find>
       <find>select</find>
       <find>module</find>
+      <find>frappe.db</find>
+      <find>__new_password</find>
+      <find>set_full_name</find>
+      <find>throw</find>
+      <find>method</find>
+      <find>get_value</find>
+      <find>username_exists</find>
+      <find>user_type</find>
+      <find>get_blocked_modules</find>
+      <find>block_modules</find>
+      <find>user_roles</find>
+      <find>append_roles</find>
+      <find>add_roles</find>
+      <find>remove_roles</find>
+      <find>each</find>
     </findStrings>
     <replaceStrings>
       <replace>group_assigned</replace>
@@ -175,6 +184,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py" />
+        <option value="$USER_HOME$/github/frappe/frappe/core/doctype/user/user.py" />
         <option value="$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js" />
       </list>
     </option>
@@ -242,7 +252,7 @@
     <property name="node.js.selected.package.eslint" value="" />
     <property name="node.js.path.for.package.jscs" value="project" />
     <property name="node.js.selected.package.jscs" value="" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -479,7 +489,7 @@
     <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
-          <caret line="117" column="68" lean-forward="false" selection-start-line="117" selection-start-column="51" selection-end-line="117" selection-end-column="68" />
+          <caret line="204" column="61" lean-forward="false" selection-start-line="204" selection-start-column="57" selection-end-line="204" selection-end-column="61" />
           <folding>
             <marker date="1486699061711" expanded="true" signature="638:655" ph="..." />
             <marker date="1486699061711" expanded="true" signature="807:824" ph="..." />
@@ -499,9 +509,10 @@
     </entry>
     <entry file="file://$USER_HOME$/github/frappe/frappe/core/doctype/user/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="522" column="59" lean-forward="true" selection-start-line="519" selection-start-column="14" selection-end-line="522" selection-end-column="59" />
+        <state relative-caret-position="235">
+          <caret line="448" column="0" lean-forward="true" selection-start-line="448" selection-start-column="0" selection-end-line="448" selection-end-column="0" />
           <folding>
+            <element signature="e#101#140#0" expanded="true" />
             <marker date="1486699061715" expanded="true" signature="4637:4716" ph="select name tabRole" />
             <marker date="1486699061715" expanded="true" signature="6590:6843" ph="select disti... tabUserRole" />
             <marker date="1486699061715" expanded="true" signature="9088:9124" ph="delete from " />
@@ -529,24 +540,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+        <state relative-caret-position="126">
+          <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
           <folding>
-            <marker date="1487653518107" expanded="true" signature="924:1010" ph="select name,... tabIOT Employee Group" />
+            <marker date="1487668074959" expanded="true" signature="1341:1440" ph="select name,... tabIOT Employee Group" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/iot/iot/doctype/iot_user/iot_user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="60" lean-forward="true" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
+        <state relative-caret-position="387">
+          <caret line="73" column="58" lean-forward="true" selection-start-line="73" selection-start-column="58" selection-end-line="73" selection-end-column="58" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1487655513313" expanded="true" signature="328:345" ph="..." />
-            <marker date="1487655513313" expanded="true" signature="2255:2397" ph="..." />
-            <marker date="1487655513313" expanded="true" signature="2277:2391" ph="..." />
-            <marker date="1487655513313" expanded="true" signature="2290:2385" ph="..." />
+            <marker date="1487668074959" expanded="true" signature="328:345" ph="..." />
+            <marker date="1487668074959" expanded="true" signature="2134:2275" ph="..." />
+            <marker date="1487668074959" expanded="true" signature="2156:2269" ph="..." />
+            <marker date="1487668074959" expanded="true" signature="2169:2263" ph="..." />
           </folding>
         </state>
       </provider>
