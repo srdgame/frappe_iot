@@ -6,7 +6,7 @@ def get_data():
 	return [
 		{
 			"module_name": "IoT",
-			"color": "grey",
+			"color": "#B8860B",
 			"icon": "octicon octicon-cloud-upload",
 			"type": "module",
 			"label": _("IoT")
