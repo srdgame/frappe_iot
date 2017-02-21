@@ -17,12 +17,18 @@ class IOTUser(Document):
 		if org_enterprise != self.enterprise:
 			print('Remove all groups as the Enterpise is changed!')
 			self.remove_all_groups()
+		for g in self.group_assigned:
+			print(g.group)
 
 	def remove_all_groups(self):
 		self.set("group_assigned", list(set(d for d in self.get("group_assigned") if d.group == "Guest")))
 
 	def login_exits(self):
 		return frappe.db.get_value("IOT User", {"login_name": self.login_name, "enterprise": self.enterprise, "name": ("!=", self.name)})
+
+	def get_assigned_groups(self):
+		"""Returns list of groups selected for that user"""
+		return [d.group for d in self.group_assigned] if self.group_assigned else []
 
 
 @frappe.whitelist()
@@ -32,6 +38,12 @@ def get_all_groups(enterprise='SymTech'):
 			from `tabIOT Employee Group`
 			where parent = %(enterprise)s""", {"enterprise": enterprise}, as_dict=1)
 	return groups
+
+@frappe.whitelist()
+def get_user_groups(arg=None):
+	"""get groups for a user"""
+	user = frappe.session.user or frappe.form_dict['uid']
+	return frappe.db.get_value("IOT UserGroup", {"parent": user}, "group")
 
 @frappe.whitelist(allow_guest=True)
 def ping():
