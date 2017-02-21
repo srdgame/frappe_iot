@@ -7,9 +7,18 @@ frappe.ui.form.on('IOT User', {
 			if(!frm.group_editor) {
 				var group_area = $('<div style="min-height: 300px">')
 					.appendTo(frm.fields_dict.group_html.wrapper);
-				frm.group_editor = new frappe.GroupEditor(frm, group_area)
-			} 
+				frm.group_editor = new frappe.GroupEditor(frm, group_area);
+			} else {
+				frm.group_editor.refresh();
+			}
 		}
+		frm.set_query("user", function() {
+			return {
+				"filters": {
+					"ignore_user_type": 1,
+				}
+			};
+		});
 	},
 	refresh: function(frm) {
 		var doc = frm.doc;
@@ -32,7 +41,7 @@ frappe.ui.form.on('IOT User', {
 		}
 
 		if (frappe.route_flags.unsaved===1){
-		    cur_frm.dirty();
+		    frm.dirty();
 		}
 	},
 	enabled: function(frm) {
@@ -49,9 +58,11 @@ frappe.GroupEditor = Class.extend({
 	init: function(frm, wrapper) {
 		this.wrapper = $('<div class="row group-block-list"></div>').appendTo(wrapper);
 		this.frm = frm;
-		this.load_groups(this.frm.doc.enterprise);
+		this.load_groups();
 	},
-	load_groups: function(enterprise) {
+	load_groups: function() {
+		var enterprise = this.frm.doc.enterprise
+		this.__org_enterprise = enterprise
 		var me = this;
 		var wrapper = this.wrapper;
 		$(wrapper).html('<div class="help">' + __("Loading") + '...</div>')
@@ -77,16 +88,30 @@ frappe.GroupEditor = Class.extend({
 		this.bind();
 	},
 	refresh: function() {
-		var me = this;
-		this.wrapper.find(".block-group-check").prop("checked", false);
-		$.each(this.frm.doc.group_assigned, function(i, d) {
-			me.wrapper.find(".block-group-check[data-group='"+ d.group +"']").prop("checked", true);
-		});
+		// Check whether the Enterprise changed or not
+		var enterprise = this.frm.doc.enterprise
+		if(enterprise != this.__org_enterprise) {
+			// reload the groups when Enterprise has changed
+			this.load_groups();
+		} else {
+			var me = this;
+			this.wrapper.find(".block-group-check").prop("checked", false);
+			$.each(this.frm.doc.group_assigned, function(i, d) {
+				me.wrapper.find(".block-group-check[data-group='"+ d.group +"']").prop("checked", true);
+			});
+		}
 	},
 	bind: function() {
+		// Do not binded twice or change event will be called more than once
+		if(this.__wrapper_binded) {
+			return;
+		}
+		this.__wrapper_binded = true;
 		this.wrapper.on("change", ".block-group-check", function() {
 			var group = $(this).attr('data-group');
 			if($(this).prop("checked")) {
+				// Make sure the group is not assigned twice!
+				me.frm.doc.group_assigned = $.map(me.frm.doc.group_assigned || [], function(d) { if(d.group != group){ return d } });
 				me.frm.add_child("group_assigned", {"group": group});
 			} else {
 				// remove from group_assigned
