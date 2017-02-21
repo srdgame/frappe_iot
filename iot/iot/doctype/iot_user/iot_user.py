@@ -7,19 +7,25 @@ import frappe
 from frappe.model.document import Document
 
 class IOTUser(Document):
-	__org_enterprise = None
-
 	def onload(self):
-		self.__org_enterprise = self.enterprise
-
-	def autoname(self):
-		"""set name as <Login Name>@<Enterprise Domain>"""
-		domain = frappe.db.get_value("IOT Enterprise", {"name": self.enterprise}, "domain")
-		self.name = self.login_name + domain
+		login, domain = self.login_name.split('@')
+		self.login_name = login
 
 	def validate(self):
+		# check for login name
+		org_login = frappe.db.get_value("IOT User", {"name": self.name},
+		org_enterprise = frappe.db.get_value("IOT User", {"name": self.name}, "enterprise")
+		if org_login != self.login_name or org_enterprise != self.enterprise:
+			domain = frappe.db.get_value("IOT Enterprise", {"name": self.enterprise}, "domain")
+			login = self.login_name + '@' + domain
+			existing = frappe.db.get_value("IOT User", {"login_name", login}, "name")
+			if existing:
+				frappe.throw(_("Login name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
+			self.login_name = login
+		
 		# clear groups if Enterprise changed
-		if self.__org_enterprise != self.enterprise:
+		if org_enterprise != self.enterprise:
+			print('Remove all groups as the Enterpise is changed!')
 			self.remove_all_groups()
 
 	def remove_all_groups(self):

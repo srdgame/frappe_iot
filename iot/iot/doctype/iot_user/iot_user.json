@@ -2,7 +2,7 @@
  "allow_copy": 0, 
  "allow_import": 0, 
  "allow_rename": 0, 
- "autoname": "", 
+ "autoname": "field:user", 
  "beta": 0, 
  "creation": "2017-02-20 17:39:28.711339", 
  "custom": 0, 
@@ -134,7 +134,7 @@
   {
    "allow_on_submit": 0, 
    "bold": 0, 
-   "collapsible": 1, 
+   "collapsible": 0, 
    "columns": 0, 
    "fieldname": "group_settings", 
    "fieldtype": "Section Break", 
@@ -232,11 +232,11 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-02-21 13:47:38.715003", 
+ "modified": "2017-02-21 14:58:16.251922", 
  "modified_by": "Administrator", 
  "module": "IoT", 
  "name": "IOT User", 
- "name_case": "", 
+ "name_case": "Title Case", 
  "owner": "Administrator", 
  "permissions": [
   {
