@@ -27,8 +27,15 @@ class IOTUser(Document):
 
 
 @frappe.whitelist()
-def get_all_groups(enterprise):
+def get_all_groups(enterprise='SymTech'):
 	"""return all groups in specified enterprise"""
-	frappe.db.sql("""select name, grp_name
+	groups = frappe.db.sql("""select name, grp_name
 			from `tabIOT Employee Group`
 			where parent = %(enterprise)s""", {"enterprise": enterprise}, as_dict=1)
+	return groups
+
+@frappe.whitelist(allow_guest=True)
+def ping():
+	return 'pong'
+
+

@@ -6,7 +6,7 @@ frappe.ui.form.on('IOT User', {
 		if(has_common(user_roles, ["Administrator", "System Manager", "IOT Manager"]) && !frm.doc.__islocal) {
 			if(!frm.group_editor) {
 				var group_area = $('<div style="min-height: 300px">')
-					.appendTo(frm.fields_dict.groups_html.wrapper);
+					.appendTo(frm.fields_dict.group_html.wrapper);
 				frm.group_editor = new frappe.GroupEditor(frm, group_area)
 			} else {
 				frm.group_editor.show();
@@ -14,8 +14,7 @@ frappe.ui.form.on('IOT User', {
 		}
 	},
 	refresh: function(frm) {
-        var doc = frm.doc;
-
+		var doc = frm.doc;
 		if(doc.name===user && !doc.__unsaved
 			&& (doc.language || frappe.boot.user.language)
 			&& doc.language !== frappe.boot.user.language) {
@@ -72,13 +71,15 @@ frappe.GroupEditor = Class.extend({
 				}
 			}
 		});
-    },
+	},
 	make: function() {
 		var me = this;
+		var wrapper = this.wrapper;
+		$(wrapper).html('')
 		me.groups.forEach(function(m) {
 			$(repl('<div class="col-sm-6"><div class="checkbox">\
 				<label><input type="checkbox" class="block-group-check" data-group="%(group)s">\
-				%(group)s</label></div></div>', {group: m})).appendTo(me.wrapper);
+				%(name)s</label></div></div>', {group: m.name, name: m.grp_name})).appendTo(me.wrapper);
 		});
 		this.bind();
 	},
