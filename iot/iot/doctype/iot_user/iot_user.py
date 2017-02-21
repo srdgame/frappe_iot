@@ -4,32 +4,25 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import throw, msgprint, _
 from frappe.model.document import Document
 
 class IOTUser(Document):
-	def onload(self):
-		login, domain = self.login_name.split('@')
-		self.login_name = login
-
 	def validate(self):
-		# check for login name
-		org_login = frappe.db.get_value("IOT User", {"name": self.name},
-		org_enterprise = frappe.db.get_value("IOT User", {"name": self.name}, "enterprise")
-		if org_login != self.login_name or org_enterprise != self.enterprise:
-			domain = frappe.db.get_value("IOT Enterprise", {"name": self.enterprise}, "domain")
-			login = self.login_name + '@' + domain
-			existing = frappe.db.get_value("IOT User", {"login_name", login}, "name")
-			if existing:
-				frappe.throw(_("Login name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
-			self.login_name = login
-		
+		if self.login_exits():
+			frappe.throw(_("Login Name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
+
 		# clear groups if Enterprise changed
+		org_enterprise = frappe.db.get_value("IOT User", {"name": self.name}, "enterprise")
 		if org_enterprise != self.enterprise:
 			print('Remove all groups as the Enterpise is changed!')
 			self.remove_all_groups()
 
 	def remove_all_groups(self):
 		self.set("group_assigned", list(set(d for d in self.get("group_assigned") if d.group == "Guest")))
+
+	def login_exits(self):
+		return frappe.db.get_value("IOT User", {"login_name": self.login_name, "enterprise": self.enterprise, "name": ("!=", self.name)})
 
 
 @frappe.whitelist()

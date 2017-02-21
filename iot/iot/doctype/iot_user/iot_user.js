@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('IOT User', {
 	onload: function(frm) {
-		if(has_common(user_roles, ["Administrator", "System Manager", "IOT Manager"]) && !frm.doc.__islocal) {
+		if(has_common(user_roles, ["Administrator", "System Manager", "IOT Manager", "IOT User"]) && !frm.doc.__islocal) {
 			if(!frm.group_editor) {
 				var group_area = $('<div style="min-height: 300px">')
 					.appendTo(frm.fields_dict.group_html.wrapper);
@@ -25,7 +25,7 @@ frappe.ui.form.on('IOT User', {
 		frm.toggle_display(['group_settings'], false);
 
 		if(!doc.__islocal){
-			if(has_common(user_roles, ["Administrator", "System Manager", "IOT Manager"])) {
+			if(has_common(user_roles, ["Administrator", "System Manager", "IOT Manager", "IOT User"])) {
 				frm.toggle_display(['group_settings'], true);
 			}
 			frm.trigger('enabled');
@@ -39,7 +39,7 @@ frappe.ui.form.on('IOT User', {
 	},
 	enabled: function(frm) {
 		var doc = frm.doc;
-		if(!doc.__islocal && has_common(user_roles, ["Administrator", "System Manager", "IOT Manager"])) {
+		if(!doc.__islocal && has_common(user_roles, ["Administrator", "System Manager", "IOT Manager", "IOT User"])) {
 			frm.toggle_display(['group_settings'], doc.enabled);
 			frm.set_df_property('enabled', 'read_only', 0);
 		}
