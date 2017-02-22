@@ -51,14 +51,16 @@ def list_devices(arg=None):
 	valid_client()
 	user = frappe.form_dict.get('usr')
 	user_doc = frappe.get_doc("IOT User", user)
-	groups = user_doc.get("groups")
-	devices = {}
+	groups = user_doc.get("group_assigned")
+	print(groups)
+	devices = []
 	for g in groups:
-		bunch_codes = frappe.db.get_values("IOT Device Bunch", {"group": g.name}, "code")
+		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"group": g.group}, "code")]
 		sn_list = []
 		for c in bunch_codes:
-			sn_list.append(frappe.db.get_values("IOT Device", {"bunch", c}, "sn"))
-		devices[g.grp_name] = sn_list
+			sl = frappe.db.get_values("IOT Device", {"bunch": c}, "sn")
+			sn_list.append({"bunch": c, "sn": [d[0] for d in sl]})
+		devices.append({"group": g.group, "devices": sn_list})
 
 	return devices
 

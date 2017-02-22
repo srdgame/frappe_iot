@@ -53,14 +53,15 @@ def get_ent_doc(enterprise=None):
 	if not user:
 		throw(_("Authorization error"))
 
-	user_doc = get_user_doc(user)
+	if 'IOT Manager' not in frappe.get_roles(user):
+		user_doc = get_user_doc(user)
 
-	"""Check Enterprise permission"""
-	if enterprise and user_doc.get("enterprise") != enterprise:
-		if 'IOT Manager' not in frappe.get_roles(user):
+		if not enterprise:
+			enterprise = user_doc.get("enterprise")
+
+		"""Check Enterprise permission"""
+		if user_doc.get("enterprise") != enterprise:
 			throw(_("User {0} has no permission to access Enterprise {1}").format(user, enterprise))
-	if not enterprise:
-		enterprise = user_doc.get("enterprise")
 
 	ent_doc = frappe.get_doc("IOT Enterprise", enterprise)
 	if not ent_doc:
@@ -81,13 +82,13 @@ def get_groups(enterprise=None):
 	return ent_doc.get("groups")
 	"""
 	user = frappe.session.user
-	user_doc = get_user_doc(user)
+	if 'IOT Manager' not in frappe.get_roles(user):
+		user_doc = get_user_doc(user)
+		if not enterprise:
+			enterprise = user_doc.get("enterprise")
 
-	if enterprise and user_doc.get("enterprise") != enterprise:
-		if 'IOT Manager' not in frappe.get_roles(user):
+		if user_doc.get("enterprise") != enterprise:
 			throw(_("User {0} has no permission to access Enterprise {1}").format(user, enterprise))
-	if not enterprise:
-		enterprise = user_doc.get("enterprise")
 
 	"""return all groups in specified enterprise"""
 	groups = frappe.db.sql("""select name, grp_name, description
@@ -99,3 +100,7 @@ def get_groups(enterprise=None):
 def get_enterprise(enterprise=None):
 	"""Get Enterprise for current user"""
 	return get_ent_doc(enterprise)
+
+@frappe.whitelist(allow_guest=True)
+def ping():
+	return 'iot_enterprise pong'

@@ -17,8 +17,6 @@ class IOTUser(Document):
 		if org_enterprise != self.enterprise:
 			print('Remove all groups as the Enterpise is changed!')
 			self.remove_all_groups()
-		for g in self.group_assigned:
-			print(g.group)
 
 	def remove_all_groups(self):
 		self.set("group_assigned", list(set(d for d in self.get("group_assigned") if d.group == "Guest")))
