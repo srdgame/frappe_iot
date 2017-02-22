@@ -10,6 +10,8 @@ from frappe.model.document import Document
 
 def valid_client():
 	auth_code = frappe.form_dict.get('authorization_code')
+	if not auth_code:
+		throw(_("Authorization Code is required!"))
 	code = frappe.db.get_single_value("IOT HDB Settings", "authorization_code")
 	if auth_code != code:
 		throw(_("Authorization Code is incorrect!"))
@@ -49,13 +51,16 @@ def list_devices(arg=None):
 	valid_client()
 	user = frappe.form_dict.get('usr')
 	user_doc = frappe.get_doc("IOT User", user)
-	ent_doc = frappe.get_doc("IOT Enterprise", user_doc.get("enterprise"))
-	promots = ent_doc.get("promots")
+	groups = user_doc.get("groups")
 	devices = {}
-	for p in promots:
-		devices[p] = frappe.db.get_values("IOT Device", {"promot", p}, "sn")
+	for g in groups:
+		bunch_codes = frappe.db.get_values("IOT Device Bunch", {"group": g.name}, "code")
+		sn_list = []
+		for c in bunch_codes:
+			sn_list.append(frappe.db.get_values("IOT Device", {"bunch", c}, "sn"))
+		devices[g.grp_name] = sn_list
 
-	return
+	return devices
 
 @frappe.whitelist(allow_guest=True)
 def ping():
