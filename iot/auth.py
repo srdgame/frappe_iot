@@ -10,6 +10,9 @@ from frappe.model.document import Document
 @frappe.whitelist()
 def login(arg=None):
 	hdb_user, pwd = frappe.form_dict.get('usr'), frappe.form_dict.get('pwd')
+	if '@' not in hdb_user:
+		throw(_("Username must be <login_name>@<enterprise domain>"))
+
 	login_name, domain = hdb_user.split('@')
 	enterprise = frappe.get_value("IOT Enterprise", {"domain": domain}, "name")
 	if not enterprise:
