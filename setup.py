@@ -15,7 +15,7 @@ requirements = parse_requirements("requirements.txt", session="")
 setup(
 	name='iot',
 	version=version,
-	description='App for SymLink IoT',
+	description='App for SymLink IOT',
 	author='Dirk Chang',
 	author_email='dirk.chang@symid.com',
 	packages=find_packages(),

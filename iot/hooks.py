@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 from . import __version__ as app_version
 
 app_name = "iot"
-app_title = "IoT"
+app_title = "IOT"
 app_publisher = "Dirk Chang"
-app_description = "App for SymLink IoT"
+app_description = "App for SymLink IOT"
 app_icon = "octicon octicon-cloud-upload"
 app_color = "grey"
 app_email = "dirk.chang@symid.com"

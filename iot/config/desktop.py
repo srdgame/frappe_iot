@@ -5,10 +5,10 @@ from frappe import _
 def get_data():
 	return [
 		{
-			"module_name": "IoT",
+			"module_name": "IOT",
 			"color": "#B8860B",
 			"icon": "octicon octicon-cloud-upload",
 			"type": "module",
-			"label": _("IoT")
+			"label": _("IOT")
 		}
 	]

@@ -1,6 +1,6 @@
-## IoT
+## IOT
 
-App for SymLink IoT
+App for SymLink IOT
 
 #### License
 

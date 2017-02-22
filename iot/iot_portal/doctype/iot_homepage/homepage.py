@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and contributors
+# For license information, please see license.txt
+
+from __future__ import unicode_literals
+import frappe
+from frappe.model.document import Document
+from frappe.website.utils import delete_page_cache
+
+class Homepage(Document):
+	def validate(self):
+		if not self.products:
+			self.setup_items()
+		if not self.description:
+			self.description = frappe._("This is an example website auto-generated from IOT")
+		delete_page_cache('iot_home')

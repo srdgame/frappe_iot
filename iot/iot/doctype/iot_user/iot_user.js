@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('IOT User', {
+	/*
+	setup: function(frm) {
+		frm.fields_dict["products"].grid.get_field("item_code").get_query = function(){
+			return {
+				filters: {'show_in_website': 1}
+			}
+		}
+	},
+	*/
 	onload: function(frm) {
 		if(has_common(user_roles, ["Administrator", "System Manager", "IOT Manager"]) && !frm.doc.__islocal) {
 			if(!frm.group_editor) {
