@@ -7,4 +7,9 @@ import frappe
 from frappe.model.document import Document
 
 class IOTEmployeeGroup(Document):
-	pass
+
+	def autoname(self):
+		"""set name as [self.parent].<name>"""
+		self.grp_name = self.grp_name.strip()
+		print(self.grp_name, self.parent)
+		self.name = '[' + self.parent + '].' + self.grp_name
