@@ -10,7 +10,7 @@ from frappe.model.document import Document
 class IOTUser(Document):
 	def validate(self):
 		if self.login_exists():
-			frappe.throw(_("Login Name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
+			throw(_("Login Name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
 
 		# clear groups if Enterprise changed
 		org_enterprise = frappe.db.get_value("IOT User", {"name": self.name}, "enterprise")
@@ -54,13 +54,13 @@ class IOTUser(Document):
 def get_valid_user():
 	user = frappe.session.user
 	if not user:
-		frappe.throw(_("Authorization error"))
+		throw(_("Authorization error"))
 
 	if 'uid' in frappe.form_dict:
 		if 'IOT Manager' in frappe.get_roles(user):
 			user = frappe.form_dict['uid']
 		else:
-			frappe.throw(_("You are not IOT Mananger, cannot accessing other user's group settings"))
+			throw(_("You are not IOT Mananger, cannot accessing other user's group settings"))
 
 	return user
 
