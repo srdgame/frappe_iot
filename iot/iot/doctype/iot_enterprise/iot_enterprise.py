@@ -10,7 +10,7 @@ from frappe.model.document import Document
 class IOTEnterprise(Document):
 	def __setup__(self):
 		"""Setup an group named Guest"""
-		# self.add_group()
+		self.append("groups", {"grp_name": "Guest"})
 
 	def remove_all_groups(self):
 		self.set("groups", list(set(d for d in self.get("groups") if d.grp_name == "Guest")))
