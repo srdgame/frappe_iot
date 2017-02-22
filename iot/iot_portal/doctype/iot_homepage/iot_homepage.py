@@ -7,7 +7,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.website.utils import delete_page_cache
 
-class Homepage(Document):
+class IOTHomepage(Document):
 	def validate(self):
 		if not self.products:
 			self.setup_items()
