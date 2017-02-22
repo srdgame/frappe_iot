@@ -43,7 +43,13 @@ def get_all_groups(enterprise):
 def get_user_groups(arg=None):
 	"""get groups for a user"""
 	user = frappe.session.user or frappe.form_dict['uid']
-	return frappe.db.get_list("IOT UserGroup", {"parent": user}, "group")
+	groups = frappe.db.get_values("IOT UserGroup", {"parent": user}, "group")
+	print(groups)
+	glist = []
+	for g in groups:
+		glist.append(frappe.db.get("IOT Employee Group", g[0]))
+	return glist
+	
 
 @frappe.whitelist(allow_guest=True)
 def ping():
