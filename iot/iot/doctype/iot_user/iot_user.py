@@ -32,7 +32,7 @@ class IOTUser(Document):
 
 
 @frappe.whitelist()
-def get_all_groups(enterprise='SymTech'):
+def get_all_groups(enterprise):
 	"""return all groups in specified enterprise"""
 	groups = frappe.db.sql("""select name, grp_name, description
 			from `tabIOT Employee Group`
@@ -43,7 +43,7 @@ def get_all_groups(enterprise='SymTech'):
 def get_user_groups(arg=None):
 	"""get groups for a user"""
 	user = frappe.session.user or frappe.form_dict['uid']
-	return frappe.db.get_all("IOT UserGroup", {"parent": user}, "group")
+	return frappe.db.get_list("IOT UserGroup", {"parent": user}, "group")
 
 @frappe.whitelist(allow_guest=True)
 def ping():
