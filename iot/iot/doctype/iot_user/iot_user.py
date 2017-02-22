@@ -45,7 +45,7 @@ def get_user_groups(arg=None):
 	if not user:
 		frappe.throw(_("Authorization error"))
 	"""get groups for a user"""
-	if frappe.from_dict:
+	if frappe.form_dict:
 		user = frappe.form_dict['user'] or frappe.session.user
 
 	groups = frappe.db.get_values("IOT UserGroup", {"parent": user}, "group")
