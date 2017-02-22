@@ -7,7 +7,7 @@ import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def login(arg=None):
 	hdb_user, pwd = frappe.form_dict.get('usr'), frappe.form_dict.get('pwd')
 	if '@' not in hdb_user:
@@ -23,10 +23,10 @@ def login(arg=None):
 		throw(_("User login_name {0} not found in Enterprise {1}").format(login_name, enterprise))
 
 	frappe.local.login_manager.authenticate(user, pwd)
-	if frappe.local.login_manager.user == user:
+	if frappe.local.login_manager.user != user:
 		throw(_("Username password is not matched!"))
-
-	return user
+	
+	return {"user": user, "enterprise": enterprise}
 
 @frappe.whitelist(allow_guest=True)
 def ping():

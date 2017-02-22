@@ -39,7 +39,7 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
-   "unique": 0
+   "unique": 1
   }, 
   {
    "allow_on_submit": 0, 
@@ -58,6 +58,7 @@
    "label": "Domain", 
    "length": 0, 
    "no_copy": 0, 
+   "options": "Domain", 
    "permlevel": 0, 
    "precision": "", 
    "print_hide": 0, 
@@ -66,9 +67,9 @@
    "remember_last_selected_value": 0, 
    "report_hide": 0, 
    "reqd": 1, 
-   "search_index": 0, 
+   "search_index": 1, 
    "set_only_once": 0, 
-   "unique": 0
+   "unique": 1
   }, 
   {
    "allow_on_submit": 0, 
@@ -349,7 +350,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-02-21 15:59:28.515798", 
+ "modified": "2017-02-22 17:44:49.434736", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT Enterprise", 
