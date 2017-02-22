@@ -66,7 +66,7 @@ def get_ent_doc(enterprise=None):
 	if not enterprise:
 		enterprise = user_doc.get("enterprise")
 
-	ent_doc = frappe.get_doc(enterprise)
+	ent_doc = frappe.get_doc("IOT Enterprise", enterprise)
 	if not ent_doc:
 		throw(_("IOT Enterprise {0} does not exists!").format(enterprise))
 
