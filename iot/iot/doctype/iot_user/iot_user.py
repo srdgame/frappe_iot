@@ -9,7 +9,7 @@ from frappe.model.document import Document
 
 class IOTUser(Document):
 	def validate(self):
-		if self.login_exits():
+		if self.login_exists():
 			frappe.throw(_("Login Name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
 
 		# clear groups if Enterprise changed
@@ -23,38 +23,69 @@ class IOTUser(Document):
 	def remove_all_groups(self):
 		self.set("group_assigned", list(set(d for d in self.get("group_assigned") if d.group == "Guest")))
 
-	def login_exits(self):
+	def append_groups(self, *groups):
+		"""Add groups to user"""
+		current_groups = [d.group for d in self.get("group_assigned")]
+		for group in groups:
+			if group in current_groups:
+				continue
+			self.append("group_assigned", {"group": group})
+
+	def add_groups(self, *groups):
+		"""Add groups to user and save"""
+		self.append_groups(*groups)
+		self.save()
+
+	def remove_groups(self, *groups):
+		existing_groups = dict((d.group, d) for d in self.get("group_assigned"))
+		for group in groups:
+			if group in existing_groups:
+				self.get("group_assigned").remove(existing_groups[group])
+
+		self.save()
+
+	def login_exists(self):
 		return frappe.db.get_value("IOT User", {"login_name": self.login_name, "enterprise": self.enterprise, "name": ("!=", self.name)})
 
-	def get_assigned_groups(self):
+	def get_groups(self):
 		"""Returns list of groups selected for that user"""
 		return [d.group for d in self.group_assigned] if self.group_assigned else []
 
-
-@frappe.whitelist()
-def get_all_groups(enterprise):
-	"""return all groups in specified enterprise"""
-	groups = frappe.db.sql("""select name, grp_name, description
-			from `tabIOT Employee Group`
-			where parent = %(enterprise)s""", {"enterprise": enterprise}, as_dict=1)
-	return groups
-
-@frappe.whitelist()
-def get_user_groups(arg=None):
+def get_valid_user():
 	user = frappe.session.user
 	if not user:
 		frappe.throw(_("Authorization error"))
-	"""get groups for a user"""
-	if 'user' in frappe.form_dict:
-		user = frappe.form_dict['user']
 
+	if 'uid' in frappe.form_dict:
+		if 'IOT Manager' in frappe.get_roles(user):
+			user = frappe.form_dict['uid']
+		else:
+			frappe.throw(_("You are not IOT Mananger, cannot accessing other user's group settings"))
+
+	return user
+
+@frappe.whitelist()
+def get_groups(arg=None):
+	"""get groups for a user"""
+	user = get_valid_user()
 	groups = frappe.db.get_values("IOT UserGroup", {"parent": user}, "group")
 
-	glist = []
+	group_list = []
 	for g in groups:
-		glist.append(frappe.db.get("IOT Employee Group", g[0]))
-	return glist
-	
+		group_list.append(frappe.db.get("IOT Employee Group", g[0]))
+	return group_list
+
+@frappe.whitelist()
+def add_groups(groups):
+	user = get_valid_user()
+	user_doc = frappe.get_doc("IOT User", user)
+	user_doc.add_groups(groups)
+
+@frappe.whitelist()
+def remove_groups(groups):
+	user = get_valid_user()
+	user_doc = frappe.get_doc("IOT User", user)
+	user_doc.remove_groups(groups)
 
 @frappe.whitelist(allow_guest=True)
 def ping():

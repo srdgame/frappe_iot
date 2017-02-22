@@ -8,3 +8,13 @@ from frappe.model.document import Document
 
 class IOTEnterprise(Document):
 	pass
+
+
+@frappe.whitelist()
+def get_groups(enterprise):
+	"""return all groups in specified enterprise"""
+	groups = frappe.db.sql("""select name, grp_name, description
+			from `tabIOT Employee Group`
+			where parent = %(enterprise)s""", {"enterprise": enterprise}, as_dict=1)
+	return groups
+

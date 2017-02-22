@@ -76,7 +76,7 @@ frappe.GroupEditor = Class.extend({
 		var wrapper = this.wrapper;
 		$(wrapper).html('<div class="help">' + __("Loading") + '...</div>')
 		return frappe.call({
-			method: 'iot.iot.doctype.iot_user.iot_user.get_all_groups',
+			method: 'iot.iot.doctype.iot_enterprise.iot_enterprise.get_groups',
 			args: {enterprise: enterprise},
 			callback: function(r) {
 				me.groups = r.message;
