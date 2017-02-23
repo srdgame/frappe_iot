@@ -5,25 +5,19 @@ from __future__ import unicode_literals
 import frappe
 import json
 
+
 def get_context(context):
-	project_user = frappe.db.get_value("Project User", {"parent": frappe.form_dict.project, "user": frappe.session.user} , "user")
-	if not project_user or frappe.session.user == 'Guest': 
+	user_roles = frappe.get_roles(frappe.session.user)
+	if 'IOT User' not in user_roles or frappe.session.user == 'Guest':
 		raise frappe.PermissionError
 		
 	context.no_cache = 1
 	context.show_sidebar = True
-	project = frappe.get_doc('Project', frappe.form_dict.project)
+	device = frappe.get_doc('IOT Device', frappe.form_dict.sn)
 
-	project.has_permission('read')
-	
-	project.tasks = get_tasks(project.name, start=0, item_status='open',
-		search=frappe.form_dict.get("search"))
+	device.has_permission('read')
 
-	project.timesheets = get_timesheets(project.name, start=0,
-		search=frappe.form_dict.get("search"))
-
-
-	context.doc = project
+	context.doc = device
 
 
 def get_tasks(project, start=0, search=None, item_status=None):

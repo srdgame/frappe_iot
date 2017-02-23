@@ -1,0 +1,19 @@
+{% if doc.enabled=="True" %}
+<div class="web-list-item">
+	<a class="no-decoration" href="/iot_enterprise_settings?enterprise={{ doc.name }}">
+		<div class="row">
+			<div class="col-xs-6">
+
+				{{ doc.name }}
+			</div>
+			<div class="col-xs-3">
+					<span class="indicator {{ "red" if doc.enabled=="True" else "darkgrey"  }}">
+						{{ doc.enabled }}</span>
+			</div>
+			<div class="col-xs-3 text-right small text-muted">
+				{{ frappe.utils.pretty_date(doc.modified) }}
+			</div>
+		</div>
+	</a>
+</div>
+{% endif %}
