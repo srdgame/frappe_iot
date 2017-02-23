@@ -42,4 +42,4 @@ class IOTDevice(Document):
 		if not bunch:
 			return []
 		group = frappe.get_value("IOT Device Bunch", bunch, "group")
-		return frappe.get_values("IOT UserGroup", {"group", group}, "parent")
+		return frappe.db.get_values("IOT UserGroup", {"group", group}, "parent")
