@@ -23,7 +23,7 @@ class IOTDevice(Document):
 
 	@staticmethod
 	def check_sn_exists(sn):
-		return frappe.db.get_value("IOT User", {"sn": sn}, "sn")
+		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
 
 	@staticmethod
 	def list_device_sn_by_bunch(bunch):
