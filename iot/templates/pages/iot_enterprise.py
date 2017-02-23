@@ -7,6 +7,10 @@ import json
 
 
 def get_context(context):
+	if not frappe.form_dict.enterprise:
+		frappe.local.flags.redirect_location = "/me"
+		raise frappe.Redirect
+
 	user_roles = frappe.get_roles(frappe.session.user)
 	if 'IOT User' not in user_roles or frappe.session.user == 'Guest':
 		raise frappe.PermissionError
