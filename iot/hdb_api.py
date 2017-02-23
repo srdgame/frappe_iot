@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import json
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 
@@ -82,8 +83,11 @@ def list_devices(user=None):
 
 @frappe.whitelist(allow_guest=True)
 def ping():
+	form_data = frappe.form_dict
 	if frappe.request and frappe.request.method == "POST":
-		return frappe.form_dict.get("text") or "No Text"
+		if form_data.data:
+			form_data = json.loads(form_data.data)
+		return form_data.get("text") or "No Text"
 	return 'pong'
 
 
