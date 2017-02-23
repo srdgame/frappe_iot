@@ -147,7 +147,7 @@ def update_device():
 
 
 @frappe.whitelist(allow_guest=True)
-def update_device_bench():
+def update_device_bunch():
 	valid_auth_code()
 	data = get_post_json_data()
 	bunch = data.get("bunch")
