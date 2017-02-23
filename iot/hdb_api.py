@@ -12,7 +12,7 @@ def valid_auth_code(auth_code=None):
 	auth_code = auth_code or frappe.get_request_header("HDB_AuthorizationCode")
 	if not auth_code:
 		throw(_("HDB_AuthorizationCode is required in your HTTP Header!"))
-	frappe.log(_("HDB_AuthorizationCode as {0}").format(auth_code))
+	frappe.logger(__name__).debug(_("HDB_AuthorizationCode as {0}").format(auth_code))
 
 	code = frappe.db.get_single_value("IOT HDB Settings", "authorization_code")
 	if auth_code != code:
@@ -30,7 +30,7 @@ def login(usr=None, pwd=None):
 	valid_auth_code()
 	if not (usr and pwd):
 		usr, pwd = frappe.form_dict.get('usr'), frappe.form_dict.get('pwd')
-	frappe.log(_("HDB Checking login {0} password {1}").format(usr, pwd))
+	frappe.logger(__name__).debug(_("HDB Checking login {0} password {1}").format(usr, pwd))
 
 	if '@' not in usr:
 		throw(_("Username must be <login_name>@<enterprise domain>"))
@@ -64,7 +64,7 @@ def list_devices(user=None):
 	user = user or frappe.form_dict.get('user')
 	if not user:
 		throw(_("Query string user does not specified"))
-	frappe.log(_("List Devices for user {0}").format(user))
+	frappe.logger(__name__).debug(_("List Devices for user {0}").format(user))
 
 	user_doc = frappe.get_doc("IOT User", user)
 	groups = user_doc.get("group_assigned")
