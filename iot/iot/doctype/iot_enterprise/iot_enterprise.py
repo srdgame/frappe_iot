@@ -39,6 +39,38 @@ class IOTEnterprise(Document):
 	def get_groups(self):
 		"""Returns list of groups selected for that user"""
 		return self.groups or []
+"""
+	def get_context(self, context):
+		context.parents = [{'name': 'jobs', 'title': _('All Jobs') }]
+
+def get_list_context(context):
+	context.title = _("Jobs")
+	context.introduction = _('Current Job Openings')
+"""
+
+
+def get_enterprise_list(doctype, txt, filters, limit_start, limit_page_length=20):
+	return frappe.db.sql('''select *
+		from `tabIOT Enterprise`
+		where
+			admin = %(user)s
+			order by modified desc
+			limit {0}, {1}
+		'''.format(limit_start, limit_page_length),
+			{'user':frappe.session.user},
+			as_dict=True,
+			update={'doctype':'IOT Enterprise'})
+
+
+def get_list_context(context=None):
+	return {
+		"show_sidebar": True,
+		"show_search": True,
+		'no_breadcrumbs': True,
+		"title": _("IOT Enteprises"),
+		"get_list": get_enterprise_list,
+		"row_template": "templates/includes/enterprise/enterprise_row.html"
+	}
 
 
 def get_user_doc(user):
