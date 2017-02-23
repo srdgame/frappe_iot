@@ -7,7 +7,6 @@ import frappe
 from frappe.model.document import Document, _
 from frappe.utils import now, get_datetime, cstr
 
-
 class IOTDevice(Document):
 	def update_status(self, status):
 		""" update device status """
@@ -37,3 +36,10 @@ class IOTDevice(Document):
 		finally:
 			frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
 		return dev
+
+	@staticmethod
+	def find_owners_by_bunch(bunch):
+		if not bunch:
+			return []
+		group = frappe.get_value("IOT Device Bunch", {"bunch": bunch}, "group")
+		return frappe.get_values("IOT UserGroup", {"group", group}, "parent")

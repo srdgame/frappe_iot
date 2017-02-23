@@ -127,14 +127,15 @@ def add_device():
 
 	""" Fire callback data """
 	session = requests.session()
-	r = session.post(url, data={
+	user_list = IOTDevice.find_owners_by_bunch(device.get("bunch"))
+	r = session.post(url, json={
 		'cmd': 'add_device',
 		'sn': sn,
-		'data': data
+		'users': user_list
 	})
 
 	if r.status_code != 200:
-		frappe.logger(__name__).error(r.json())
+		frappe.logger(__name__).error(r.text())
 
 	return {"result": True, "data": data}
 
