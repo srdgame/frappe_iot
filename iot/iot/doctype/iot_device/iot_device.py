@@ -41,5 +41,5 @@ class IOTDevice(Document):
 	def find_owners_by_bunch(bunch):
 		if not bunch:
 			return []
-		group = frappe.get_value("IOT Device Bunch", {"bunch": bunch}, "group")
+		group = frappe.get_value("IOT Device Bunch", bunch, "group")
 		return frappe.get_values("IOT UserGroup", {"group", group}, "parent")
