@@ -20,7 +20,7 @@ def valid_auth_code(auth_code=None):
 	if auth_code != code:
 		throw(_("Authorization Code is incorrect!"))
 
-	frappe.session.user = "HDB_USER"
+	frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
 
 
 @frappe.whitelist(allow_guest=True)
@@ -96,6 +96,7 @@ def get_post_json_data():
 
 @frappe.whitelist(allow_guest=True)
 def get_device():
+	valid_auth_code()
 	data = get_post_json_data()
 	sn = data.get("sn")
 	if not sn:
@@ -107,6 +108,7 @@ def get_device():
 
 @frappe.whitelist(allow_guest=True)
 def add_device():
+	valid_auth_code()
 	device = get_post_json_data()
 	sn = device.get("sn")
 	if not sn:
@@ -136,6 +138,7 @@ def add_device():
 
 @frappe.whitelist(allow_guest=True)
 def update_device():
+	valid_auth_code()
 	result = add_device()
 	if result["result"]:
 		update_device_bench()
@@ -146,6 +149,7 @@ def update_device():
 
 @frappe.whitelist(allow_guest=True)
 def update_device_bench():
+	valid_auth_code()
 	data = get_post_json_data()
 	bunch = data.get("bunch")
 	sn = data.get("sn")
@@ -163,6 +167,7 @@ def update_device_bench():
 
 @frappe.whitelist(allow_guest=True)
 def update_device_status():
+	valid_auth_code()
 	data = get_post_json_data()
 	status = data.get("status")
 	sn = data.get("sn")
