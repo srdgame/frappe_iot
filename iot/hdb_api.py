@@ -99,7 +99,7 @@ def get_device():
 	if not sn:
 		return {"result": False, "data": _("Request fields not found. fields: sn")}
 
-	dev = IOTDevice.get_device_doc(sn, ignore_permissions=True)
+	dev = IOTDevice.get_device_doc(sn)
 	return {"result": True, "data": dev}
 
 
@@ -111,7 +111,8 @@ def add_device():
 		return {"result": False, "data": _("Request fields not found. fields: sn")}
 
 	if IOTDevice.check_sn_exists(sn):
-		return {"result": True, "data": IOTDevice.get_device_doc(sn, ignore_permissions=True)}
+		print(IOTDevice.get_device_doc(sn))
+		return {"result": True, "data": IOTDevice.get_device_doc(sn)}
 
 	device.update({
 		"doctype": "IOT Device"
@@ -149,7 +150,7 @@ def update_device_bench():
 	if not (sn and bunch):
 		return {"result": False, "data": _("Request fields not found. fields: sn\tbunch")}
 
-	dev = IOTDevice.get_device_doc(sn, ignore_permissions=True)
+	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 
@@ -166,7 +167,7 @@ def update_device_status():
 	if not (sn and status):
 		return {"result": False, "data": _("Request fields not found. fields: sn\tstatus")}
 
-	dev = IOTDevice.get_device_doc(sn, ignore_permissions=True)
+	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 

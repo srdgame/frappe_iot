@@ -4,35 +4,36 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.model.document import Document
+from frappe.model.document import Document, _
 from frappe.utils import now, get_datetime, cstr
 
 
 class IOTDevice(Document):
-	def update_status(self, status):
+	def update_status(self, status, *args, **kwargs):
 		""" update device status """
 		self.set("status", status)
 		self.set("last_updated", now())
-		self.save()
+		self.save(*args, **kwargs)
 
-	def update_bunch(self, bunch):
+	def update_bunch(self, bunch, *args, **kwargs):
 		""" update device bunch code """
 		self.set("bunch", bunch)
 		self.set("last_updated", now())
-		self.save()
+		self.save(*args, **kwargs)
 
 	@staticmethod
-	def check_sn_exists(sn, *args, **kwargs):
-		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn", *args, **kwargs)
+	def check_sn_exists(sn):
+		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
 
 	@staticmethod
-	def list_device_sn_by_bunch(bunch, *args, **kwargs):
-		return [d[0] for d in frappe.db.get_values("IOT Device", {"bunch": bunch}, "sn", *args, **kwargs)]
+	def list_device_sn_by_bunch(bunch):
+		return [d[0] for d in frappe.db.get_values("IOT Device", {"bunch": bunch}, "sn")]
 
 	@staticmethod
-	def get_device_doc(sn, *args, **kwargs):
+	def get_device_doc(sn):
+		dev = None
 		try:
-			return frappe.get_doc("IOT Device", sn, *args, **kwargs)
+			dev = frappe.get_doc("IOT Device", sn)
 		finally:
-			return
-
+			frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
+		return dev
