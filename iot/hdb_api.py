@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+import requests
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
@@ -123,10 +124,13 @@ def add_device():
 	})
 	data = frappe.get_doc(device).insert().as_dict()
 	url = frappe.db.get_single_value("IOT HDB Settings", "callback_url")
-	r = frappe.session.post(url, data={
+
+	""" Fire callback data """
+	session = requests.session()
+	r = session.post(url, data={
 		'cmd': 'add_device',
-		'sn': sn
-		# 'user': password
+		'sn': sn,
+		'data': data
 	})
 
 	if r.status_code != 200:
@@ -140,7 +144,7 @@ def update_device():
 	valid_auth_code()
 	result = add_device()
 	if result["result"]:
-		update_device_bench()
+		update_device_bunch()
 		update_device_status()
 
 	return result
