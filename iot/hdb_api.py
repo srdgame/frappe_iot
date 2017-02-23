@@ -20,6 +20,8 @@ def valid_auth_code(auth_code=None):
 	if auth_code != code:
 		throw(_("Authorization Code is incorrect!"))
 
+	frappe.session.user = "HDB_USER"
+
 
 @frappe.whitelist(allow_guest=True)
 def login(usr=None, pwd=None):
