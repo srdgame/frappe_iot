@@ -11,7 +11,7 @@ from frappe.utils import now, get_datetime, cstr
 class IOTDevice(Document):
 	def update_status(self, status):
 		""" update device status """
-		self.set("status", status)
+		self.set("dev_status", status)
 		self.set("last_updated", now())
 		self.save()
 
