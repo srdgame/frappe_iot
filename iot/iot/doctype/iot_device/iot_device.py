@@ -9,17 +9,17 @@ from frappe.utils import now, get_datetime, cstr
 
 
 class IOTDevice(Document):
-	def update_status(self, status, *args, **kwargs):
+	def update_status(self, status):
 		""" update device status """
 		self.set("status", status)
 		self.set("last_updated", now())
-		self.save(*args, **kwargs)
+		self.save()
 
-	def update_bunch(self, bunch, *args, **kwargs):
+	def update_bunch(self, bunch):
 		""" update device bunch code """
 		self.set("bunch", bunch)
 		self.set("last_updated", now())
-		self.save(*args, **kwargs)
+		self.save()
 
 	@staticmethod
 	def check_sn_exists(sn):

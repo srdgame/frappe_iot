@@ -119,7 +119,7 @@ def add_device():
 	device.update({
 		"doctype": "IOT Device"
 	})
-	data = frappe.get_doc(device).insert(ignore_permissions=True).as_dict()
+	data = frappe.get_doc(device).insert().as_dict()
 	frappe.db.commit()
 	url = frappe.db.get_single_value("IOT HDB Settings", "callback_url")
 	r = frappe.session.post(url, data={
@@ -156,7 +156,7 @@ def update_device_bench():
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 
-	dev.update_bunch(bunch, ignore_permissions=True)
+	dev.update_bunch(bunch)
 	frappe.db.commit()
 	return {"result": True, "data": bunch}
 
@@ -173,7 +173,7 @@ def update_device_status():
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 
-	dev.update_status(status, ignore_permissions=True)
+	dev.update_status(status)
 	frappe.db.commit()
 	return {"result": True, "info": status}
 
