@@ -8,8 +8,8 @@ from frappe import throw, msgprint, _
 from frappe.model.document import Document
 
 
-def valid_client():
-	auth_code = frappe.form_dict.get('authorization_code')
+def valid_auth_code(auth_code=None):
+	auth_code = auth_code or frappe.get_request_header("HDB_AuthorizationCode")
 	if not auth_code:
 		throw(_("Authorization Code is required!"))
 	code = frappe.db.get_single_value("IOT HDB Settings", "authorization_code")
@@ -18,13 +18,21 @@ def valid_client():
 
 
 @frappe.whitelist(allow_guest=True)
-def login(arg=None):
-	valid_client()
-	hdb_user, pwd = frappe.form_dict.get('usr'), frappe.form_dict.get('pwd')
-	if '@' not in hdb_user:
+def login(usr=None, pwd=None):
+	"""
+	HDB Application checking for user login
+	:param usr: Username (<Login Name>@<IOT Enterprise Domain>)
+	:param pwd: Password (ERPNext User Password)
+	:return: {"usr": <ERPNext user name>, "ent": <IOT Enterprise>}
+	"""
+	valid_auth_code()
+	if not (usr and pwd):
+		usr, pwd = frappe.form_dict.get('usr'), frappe.form_dict.get('pwd')
+
+	if '@' not in usr:
 		throw(_("Username must be <login_name>@<enterprise domain>"))
 
-	login_name, domain = hdb_user.split('@')
+	login_name, domain = usr.split('@')
 	enterprise = frappe.db.get_value("IOT Enterprise", {"domain": domain}, "name")
 	if not enterprise:
 		throw(_("Enterprise Domain {0} does not exists").format(domain))
@@ -41,15 +49,18 @@ def login(arg=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def list_devices(arg=None):
+def list_devices(user=None):
 	"""
 	List devices according to user specified in query params by naming as 'usr'
 		this user is ERPNext user which you got from @iot.auth.login
-	:param arg: None
+	:param authorization_code: IOT HDB Authorization Code
+	:param user: ERPNext username
 	:return: device list
 	"""
-	valid_client()
-	user = frappe.form_dict.get('usr')
+	valid_auth_code()
+	if not user:
+		user = frappe.form_dict.get('user')
+
 	user_doc = frappe.get_doc("IOT User", user)
 	groups = user_doc.get("group_assigned")
 	print(groups)
@@ -66,6 +77,8 @@ def list_devices(arg=None):
 
 @frappe.whitelist(allow_guest=True)
 def ping():
+	if frappe.request and frappe.request.method == "POST":
+		return frappe.form_dict.get("text") or "No Text"
 	return 'pong'
 
 
