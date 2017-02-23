@@ -10,6 +10,9 @@ app_icon = "octicon octicon-cloud-upload"
 app_color = "grey"
 app_email = "dirk.chang@symid.com"
 app_license = "MIT"
+source_link = "https://github.com/srdgame/symlink_iot"
+
+error_report_email = "dirk.chang@symid.com.com"
 
 # Includes in <head>
 # ------------------
@@ -34,7 +37,7 @@ app_license = "MIT"
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+# home_page = "iot_home"
 
 # website user home page (by Role)
 # role_home_page = {
@@ -118,4 +121,31 @@ app_license = "MIT"
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "iot.event.get_events"
 # }
+
+# Website
+website_route_rules = [
+	{"from_route": "/iot_devices", "to_route": "IOT Devices"},
+	{"from_route": "/iot_devices/<path:name>", "to_route": "iot_device",
+		"defaults": {
+			"doctype": "IOT Devices",
+			"parents": [{"title": _("IOT Devices"), "name": "iot_devices"}]
+		}
+	},
+	{"from_route": "/iot_enterprises", "to_route": "IOT Enterprise"},
+	{"from_route": "/iot_enterprise/<path:name>", "to_route": "iot_enterpris",
+		"defaults": {
+			"doctype": "IOT Enterprise",
+			"parents": [{"title": _("IOT Enterprises"), "name": "iot_enterprises"}]
+		}
+	},
+]
+
+default_roles = [
+	{'role': 'IOT User', 'doctype':'IOT User', 'email_field': 'email_id'},
+]
+
+has_website_permission = {
+	"IOT Enterprise": "iot.controllers.website_list_for_contact.has_website_permission",
+	"IOT Device": "iot.controllers.website_list_for_contact.has_website_permission",
+}
 
