@@ -7,6 +7,7 @@ import frappe
 import json
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
+from iot.doctype.iot_device.iot_device import IOTDevice
 
 
 def valid_auth_code(auth_code=None):
@@ -57,7 +58,6 @@ def list_devices(user=None):
 	"""
 	List devices according to user specified in query params by naming as 'usr'
 		this user is ERPNext user which you got from @iot.auth.login
-	:param authorization_code: IOT HDB Authorization Code
 	:param user: ERPNext username
 	:return: device list
 	"""
@@ -75,11 +75,105 @@ def list_devices(user=None):
 		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"group": g.group}, "code")]
 		sn_list = []
 		for c in bunch_codes:
-			sl = frappe.db.get_values("IOT Device", {"bunch": c}, "sn")
-			sn_list.append({"bunch": c, "sn": [d[0] for d in sl]})
+			sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
 		devices.append({"group": g.group, "devices": sn_list})
 
 	return devices
+
+
+def get_post_json_data():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+	ctype = frappe.get_request_header("Content-Type")
+	if "json" not in ctype.lower():
+		throw(_("Incorrect HTTP Content-Type found {0}").format(ctype))
+	if not frappe.form_dict.data:
+		throw(_("JSON Data not found!"))
+	return json.loads(frappe.form_dict.data)
+
+
+@frappe.whitelist(allow_guest=True)
+def get_device():
+	data = get_post_json_data()
+	sn = data.get("sn")
+	if not sn:
+		return {"result": False, "data": _("Request fields not found. fields: sn")}
+
+	dev = IOTDevice.get_device_doc(sn)
+	return {"result": True, "data": dev}
+
+
+@frappe.whitelist(allow_guest=True)
+def add_device():
+	device = get_post_json_data()
+	sn = device.get("sn")
+	if not sn:
+		return {"result": False, "data": _("Request fields not found. fields: sn")}
+
+	if IOTDevice.check_sn_exists(sn):
+		return {"result": True, "data": IOTDevice.get_device_doc(sn)}
+
+	device.update({
+		"doctype": "IOT Device"
+	})
+	data = frappe.get_doc(device).insert().as_dict()
+	frappe.db.commit()
+	url = frappe.db.get_single_value("IOT HDB Settings", "callback_url")
+	r = frappe.session.post(url, data={
+		'cmd': 'add_device',
+		'sn': sn,
+		# 'user': password
+	})
+
+	if r.status_code != 200:
+		frappe.logger(__name__).error(r.json())
+
+	return {"result": True, "data": data}
+
+
+@frappe.whitelist(allow_guest=True)
+def update_device():
+	result = add_device()
+	if result["result"]:
+		update_device_bench()
+		update_device_status()
+
+	return result
+
+
+@frappe.whitelist(allow_guest=True)
+def update_device_bench():
+	data = get_post_json_data()
+	bunch = data.get("bunch")
+	sn = data.get("sn")
+	if not (sn and bunch):
+		return {"result": False, "data": _("Request fields not found. fields: sn\tbunch")}
+
+	dev = IOTDevice.get_device_doc(sn)
+	if not dev:
+		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
+
+	dev.update_bunch(bunch)
+	frappe.db.commit()
+	return {"result": True, "data": bunch}
+
+
+@frappe.whitelist(allow_guest=True)
+def update_device_status():
+	data = get_post_json_data()
+	status = data.get("status")
+	sn = data.get("sn")
+	if not (sn and status):
+		return {"result": False, "data": _("Request fields not found. fields: sn\tstatus")}
+
+	dev = IOTDevice.get_device_doc(sn)
+	if not dev:
+		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
+
+	dev.update_status(status)
+	frappe.db.commit()
+	return {"result": True, "info": status}
+
 
 @frappe.whitelist(allow_guest=True)
 def ping():
