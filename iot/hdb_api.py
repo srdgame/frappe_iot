@@ -99,7 +99,7 @@ def get_device():
 	if not sn:
 		return {"result": False, "data": _("Request fields not found. fields: sn")}
 
-	dev = IOTDevice.get_device_doc(sn)
+	dev = IOTDevice.get_device_doc(sn, ignore_permissions=True)
 	return {"result": True, "data": dev}
 
 
@@ -111,17 +111,17 @@ def add_device():
 		return {"result": False, "data": _("Request fields not found. fields: sn")}
 
 	if IOTDevice.check_sn_exists(sn):
-		return {"result": True, "data": IOTDevice.get_device_doc(sn)}
+		return {"result": True, "data": IOTDevice.get_device_doc(sn, ignore_permissions=True)}
 
 	device.update({
 		"doctype": "IOT Device"
 	})
-	data = frappe.get_doc(device).insert().as_dict()
+	data = frappe.get_doc(device).insert(ignore_permissions=True).as_dict()
 	frappe.db.commit()
 	url = frappe.db.get_single_value("IOT HDB Settings", "callback_url")
 	r = frappe.session.post(url, data={
 		'cmd': 'add_device',
-		'sn': sn,
+		'sn': sn
 		# 'user': password
 	})
 
@@ -149,11 +149,11 @@ def update_device_bench():
 	if not (sn and bunch):
 		return {"result": False, "data": _("Request fields not found. fields: sn\tbunch")}
 
-	dev = IOTDevice.get_device_doc(sn)
+	dev = IOTDevice.get_device_doc(sn, ignore_permissions=True)
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 
-	dev.update_bunch(bunch)
+	dev.update_bunch(bunch, ignore_permissions=True)
 	frappe.db.commit()
 	return {"result": True, "data": bunch}
 
@@ -166,11 +166,11 @@ def update_device_status():
 	if not (sn and status):
 		return {"result": False, "data": _("Request fields not found. fields: sn\tstatus")}
 
-	dev = IOTDevice.get_device_doc(sn)
+	dev = IOTDevice.get_device_doc(sn, ignore_permissions=True)
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 
-	dev.update_status(status)
+	dev.update_status(status, ignore_permissions=True)
 	frappe.db.commit()
 	return {"result": True, "info": status}
 

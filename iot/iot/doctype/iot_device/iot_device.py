@@ -22,17 +22,17 @@ class IOTDevice(Document):
 		self.save()
 
 	@staticmethod
-	def check_sn_exists(sn):
-		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
+	def check_sn_exists(sn, *args, **kwargs):
+		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn", *args, **kwargs)
 
 	@staticmethod
-	def list_device_sn_by_bunch(bunch):
-		return [d[0] for d in frappe.db.get_values("IOT Device", {"bunch": bunch}, "sn")]
+	def list_device_sn_by_bunch(bunch, *args, **kwargs):
+		return [d[0] for d in frappe.db.get_values("IOT Device", {"bunch": bunch}, "sn", *args, **kwargs)]
 
 	@staticmethod
-	def get_device_doc(sn):
+	def get_device_doc(sn, *args, **kwargs):
 		try:
-			return frappe.get_doc("IOT Device", sn)
+			return frappe.get_doc("IOT Device", sn, *args, **kwargs)
 		finally:
 			return
 
