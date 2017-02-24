@@ -72,6 +72,9 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 
 
 def get_list_context(context):
+	context.show_sidebar = True
+	context.show_search = True
+	context.no_breadcrumbs = True
 	context.title = _("IOT Devices")
 	context.introduction = _('Your IOT Devices')
 	context.get_list = get_device_list
