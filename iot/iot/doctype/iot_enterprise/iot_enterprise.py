@@ -59,7 +59,7 @@ def get_list_context(context=None):
 	return {
 		"show_sidebar": True,
 		"show_search": True,
-		'no_breadcrumbs': True,
+		#"no_breadcrumbs": True,
 		"title": _("IOT Enteprises"),
 		"introduction": _('Your IOT Enteprises'),
 		"get_list": get_enterprise_list,
