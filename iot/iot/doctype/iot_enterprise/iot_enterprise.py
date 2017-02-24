@@ -78,7 +78,7 @@ def get_list_context(context=None):
 		"title": _("IOT Enteprises"),
 		"introduction": _('Your IOT Devices'),
 		"get_list": get_enterprise_list,
-		"row_template": "templates/generators/iot_enterprise.html",
+		"row_template": "templates/generators/iot_enterprise_row.html",
 	}
 
 

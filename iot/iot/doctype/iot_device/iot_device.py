@@ -78,4 +78,4 @@ def get_list_context(context):
 	context.title = _("IOT Devices")
 	context.introduction = _('Your IOT Devices')
 	context.get_list = get_device_list
-	context.row_template = "templates/generators/iot_device.html"
+	context.row_template = "templates/generators/iot_device_row.html"
