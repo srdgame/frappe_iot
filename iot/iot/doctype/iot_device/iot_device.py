@@ -55,11 +55,12 @@ class IOTDevice(WebsiteGenerator):
 			return []
 		code = frappe.get_value("IOT Device Bunch", bunch)
 
-		if code.owner_type == "IOT User":
-			return [code.owner_id]
+		id = code.get("owner_id")
+		if code.get("owner_type") == "IOT User":
+			return [id]
 
-		if code.owner_type == "IOT Employee Group":
-			return frappe.db.get_values("IOT UserGroup", {"group": code.owner_id}, "parent")
+		if code.get("owner_type") == "IOT Employee Group":
+			return frappe.db.get_values("IOT UserGroup", {"group": id}, "parent")
 
 		raise Exception("You should got here!")
 
