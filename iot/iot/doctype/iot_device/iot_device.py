@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import traceback
 from frappe.website.website_generator import WebsiteGenerator
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
@@ -45,6 +46,9 @@ class IOTDevice(WebsiteGenerator):
 		dev = None
 		try:
 			dev = frappe.get_doc("IOT Device", sn)
+		except Exception, e:
+			frappe.logger(__name__).error(e)
+			traceback.print_exc()
 		finally:
 			frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
 		return dev
