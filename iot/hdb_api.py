@@ -121,7 +121,6 @@ def add_device():
 		return {"result": False, "data": _("Request fields not found. fields: sn")}
 
 	if IOTDevice.check_sn_exists(sn):
-		print(IOTDevice.get_device_doc(sn))
 		return {"result": True, "data": IOTDevice.get_device_doc(sn)}
 
 	device.update({
