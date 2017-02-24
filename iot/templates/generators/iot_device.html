@@ -1,4 +1,4 @@
-{% if doc.enabled=="True" %}
+{% if doc.enabled %}
 <div class="web-list-item">
 	<a class="no-decoration" href="/iot_device?device={{ doc.name }}">
 		<div class="row">
@@ -6,7 +6,7 @@
 				{{ doc.name }}
 			</div>
 			<div class="col-xs-3">
-					<span class="indicator {{ "red" if doc.enabled=="True" else "darkgrey"  }}">
+					<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
 						{{ doc.enabled }}</span>
 			</div>
 			<div class="col-xs-3 text-right small text-muted">

@@ -3,7 +3,7 @@
 		<a class="no-decoration user-link {{ user.css_seen }}" href="/iot_user?name={{ user.name }}">
 		<div class='row enterprise-item'>
 			<div class='col-xs-9'>
-				<span class="indicator {{ "red" if user.enabled=="True" else "green" if user.enabled=="False" else "darkgrey" }}" title="{{ user.enabled }}"  > {{ user.login_name }}</span>
+				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}"  > {{ user.login_name }}</span>
 	 				<div class="small text-muted item-timestamp"
 	 					title="{{ frappe.utils.pretty_date(user.modified) }}">
 	 					modified {{ frappe.utils.pretty_date(user.modified) }}
