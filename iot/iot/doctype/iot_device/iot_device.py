@@ -69,7 +69,7 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 			or (bunch_code.owner_type = "IOT Employee Group"
 			and user_group.group = bunch_code.owner_id
 			and user_group.parent = %(user)s)
-			order by project.modified desc
+			order by device.modified desc
 			limit {0}, {1}
 		'''.format(limit_start, limit_page_length),
 			{'user':frappe.session.user},
