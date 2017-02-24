@@ -74,4 +74,5 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 def get_list_context(context):
 	context.title = _("IOT Devices")
 	context.introduction = _('Your IOT Devices')
-	context.get_list = 	get_device_list,
+	context.get_list = get_device_list
+	context.template = "templates/generators/iot_device.html"
