@@ -125,20 +125,14 @@ error_report_email = "dirk.chang@symid.com.com"
 
 # Website
 website_route_rules = [
-	{"from_route": "/iot_devices", "to_route": "IOT Devices"},
-	{"from_route": "/iot_devices/<path:name>", "to_route": "iot_device",
-		"defaults": {
-			"doctype": "IOT Devices",
-			"parents": [{"title": _("IOT Devices"), "name": "iot_devices"}]
-		}
-	},
 	{"from_route": "/iot_enterprises", "to_route": "IOT Enterprise"},
-	{"from_route": "/iot_enterprise/<path:name>", "to_route": "iot_enterpris",
+	{"from_route": "/iot_enterprises/<path:name>", "to_route": "iot_enterprise",
 		"defaults": {
 			"doctype": "IOT Enterprise",
 			"parents": [{"title": _("IOT Enterprises"), "name": "iot_enterprises"}]
 		}
 	},
+	{"from_route": "/iot_devices", "to_route": "IOT Device"},
 ]
 
 default_roles = [
