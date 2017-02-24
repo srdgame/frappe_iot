@@ -129,7 +129,7 @@ website_route_rules = [
 	{"from_route": "/iot_enterprises/<path:name>", "to_route": "iot_enterprise",
 		"defaults": {
 			"doctype": "IOT Enterprise",
-			"parents": [{"title": _("IOT Enterprise"), "name": "iot_enterprise"}]
+			"parents": [{"title": _("IOT Enterprise"), "name": "iot_enterprises"}]
 		}
 	},
 	{"from_route": "/iot_devices", "to_route": "IOT Device"},
