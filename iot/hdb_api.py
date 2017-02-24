@@ -72,14 +72,19 @@ def list_devices(user=None):
 
 	user_doc = frappe.get_doc("IOT User", user)
 	groups = user_doc.get("group_assigned")
-	print(groups)
 	devices = []
 	for g in groups:
-		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"group": g.group}, "code")]
+		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": g.group, "owner_type": "IOT Employee Group"}, "code")]
 		sn_list = []
 		for c in bunch_codes:
 			sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
 		devices.append({"group": g.group, "devices": sn_list})
+
+	bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "IOT User"}, "code")]
+	sn_list = []
+	for c in bunch_codes:
+		sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
+	devices.append({"private_devices": sn_list})
 
 	return devices
 
@@ -164,6 +169,9 @@ def update_device_bunch():
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 
+	"""
+	TODO: Check for bunch changes and fire callback
+	"""
 	dev.update_bunch(bunch)
 	return {"result": True, "data": dev}
 
