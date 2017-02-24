@@ -61,7 +61,7 @@ class IOTDevice(Document):
 
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 	return frappe.db.sql('''select distinct device.*
-		from `tabIOT Device` device, `tabIOT UserGroup` user_group `tabIOT Device Bunch` bunch_code 
+		from `tabIOT Device` device, `tabIOT UserGroup` user_group, `tabIOT Device Bunch` bunch_code 
 		where
 			(bunch_code.owenr_type = "IOT User"
 			and bunch_code.owener_id = %(user)s
