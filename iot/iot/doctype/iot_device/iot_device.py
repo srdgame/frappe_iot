@@ -17,6 +17,9 @@ class IOTDevice(WebsiteGenerator):
 		page_title_field="dev_name",
 	)
 
+	def get_context(self, context):
+		context.parents = [{'name': 'iot_devices', 'title': _('All IOT Devices') }]
+
 	def update_status(self, status):
 		""" update device status """
 		self.set("device_status", status)
@@ -53,9 +56,6 @@ class IOTDevice(WebsiteGenerator):
 		group = frappe.get_value("IOT Device Bunch", bunch, "group")
 		return frappe.db.get_values("IOT UserGroup", {"group": group}, "parent")
 
-	def get_context(self, context):
-		context.parents = [{'name': 'iot_devices', 'title': _('All IOT Devices') }]
-
 
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 	return frappe.db.sql('''select *
@@ -84,7 +84,7 @@ def get_list_context(context=None):
 		"show_sidebar": True,
 		"show_search": True,
 		'no_breadcrumbs': True,
-		"title": _("IOT Enteprises"),
+		"title": _("IOT Devices"),
 		"introduction": _('Your IOT Devices'),
 		"get_list": get_device_list,
 		"row_template": "templates/generators/iot_device_row.html",
