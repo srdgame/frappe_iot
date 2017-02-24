@@ -1,8 +1,11 @@
 <div class="web-list-item">
-	<a class="no-decoration" href="/iot_device?name={{ doc.name }}">
+	<a class="no-decoration" href="/iot_device?name={{ doc.dev_name }}">
 		<div class="row">
 			<div class="col-xs-6">
 				{{ doc.name }}
+			</div>
+			<div class="col-xs-6">
+				{{ doc.dev_name }}
 			</div>
 			<div class="col-xs-3">
 					<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
