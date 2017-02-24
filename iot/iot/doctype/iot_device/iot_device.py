@@ -81,7 +81,7 @@ def get_list_context(context=None):
 	return {
 		"show_sidebar": True,
 		"show_search": True,
-		# "no_breadcrumbs": True,
+		"no_breadcrumbs": True,
 		"title": _("IOT Devices"),
 		"introduction": _('Your IOT Devices'),
 		"get_list": get_device_list,
