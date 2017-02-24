@@ -4,10 +4,20 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.model.document import Document, _
+from frappe.model.document import Document
+from frappe.website.website_generator import WebsiteGenerator
+from frappe import _
 from frappe.utils import now, get_datetime, cstr
 
-class IOTDevice(Document):
+
+class IOTDevice(WebsiteGenerator):
+	website = frappe._dict(
+		template="templates/generators/iot_device.html",
+		condition_field="enabled",
+		order_by="modified desc",
+		page_title_field="dev_name",
+	)
+
 	def update_status(self, status):
 		""" update device status """
 		self.set("device_status", status)
@@ -43,3 +53,14 @@ class IOTDevice(Document):
 			return []
 		group = frappe.get_value("IOT Device Bunch", bunch, "group")
 		return frappe.db.get_values("IOT UserGroup", {"group": group}, "parent")
+
+	def get_context(self, context):
+		if not self.enbaled:
+			raise Exception, "This blog has not been published yet!"
+
+		context.parents = [{'name': 'iot_devices', 'title': _('All Devices') }]
+
+
+def get_list_context(context):
+	context.title = _("IOT Devices")
+	context.introduction = _('Your IOT Devices')

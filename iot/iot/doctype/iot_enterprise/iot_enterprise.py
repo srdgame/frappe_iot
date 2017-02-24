@@ -39,14 +39,6 @@ class IOTEnterprise(Document):
 	def get_groups(self):
 		"""Returns list of groups selected for that user"""
 		return self.groups or []
-"""
-	def get_context(self, context):
-		context.parents = [{'name': 'jobs', 'title': _('All Jobs') }]
-
-def get_list_context(context):
-	context.title = _("Jobs")
-	context.introduction = _('Current Job Openings')
-"""
 
 
 def get_enterprise_list(doctype, txt, filters, limit_start, limit_page_length=20):
@@ -74,13 +66,23 @@ def get_list_context(context=None):
 
 
 def get_user_doc(user):
+	"""
+	Get User Document Object
+	:param user: User's name
+	:return: User Document Object
+	"""
 	user_doc = frappe.get_doc("IOT User", user)
 	if not user_doc:
 		throw(_("User {0} is not an IOT User").format(user))
 	return user_doc
 
+
 def get_ent_doc(enterprise=None):
-	"""Get Enterprise Document for current user"""
+	"""
+	Get Enterprise Document for current user or specified Enterprise
+	:param enterprise: Specified Enterprise Name
+	:return: Enterprise Document Object
+	"""
 	user = frappe.session.user
 	if not user:
 		throw(_("Authorization error"))
@@ -107,8 +109,14 @@ def get_ent_doc(enterprise=None):
 
 	return ent_doc
 
+
 @frappe.whitelist()
 def get_groups(enterprise=None):
+	"""
+	Get Groups of Specified Enterprise
+	:param enterprise: Enterprise Name
+	:return: Group object list
+	"""
 	"""
 	ent_doc = get_ent_doc(enterprise)
 	return ent_doc.get("groups")
@@ -128,10 +136,12 @@ def get_groups(enterprise=None):
 			where parent = %(enterprise)s""", {"enterprise": enterprise}, as_dict=1)
 	return groups
 
+
 @frappe.whitelist()
 def get_enterprise(enterprise=None):
 	"""Get Enterprise for current user"""
 	return get_ent_doc(enterprise)
+
 
 @frappe.whitelist(allow_guest=True)
 def ping():
