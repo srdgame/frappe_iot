@@ -5,7 +5,6 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
-from frappe.model.document import Document
 from frappe.website.website_generator import WebsiteGenerator
 
 class IOTEnterprise(WebsiteGenerator):
@@ -76,7 +75,7 @@ def get_list_context(context=None):
 		"show_search": True,
 		'no_breadcrumbs': True,
 		"title": _("IOT Enteprises"),
-		"introduction": _('Your IOT Devices'),
+		"introduction": _('Your IOT Enteprises'),
 		"get_list": get_enterprise_list,
 		"row_template": "templates/generators/iot_enterprise_row.html",
 	}

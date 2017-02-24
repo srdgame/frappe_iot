@@ -4,7 +4,6 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.model.document import Document
 from frappe.website.website_generator import WebsiteGenerator
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
@@ -70,7 +69,7 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 			as_dict=True,
 			update={'doctype':'IOT Device'})
 
-
+"""
 def get_list_context(context):
 	context.show_sidebar = True
 	context.show_search = True
@@ -79,3 +78,14 @@ def get_list_context(context):
 	context.introduction = _('Your IOT Devices')
 	context.get_list = get_device_list
 	context.row_template = "templates/generators/iot_device_row.html"
+"""
+def get_list_context(context=None):
+	return {
+		"show_sidebar": True,
+		"show_search": True,
+		'no_breadcrumbs': True,
+		"title": _("IOT Enteprises"),
+		"introduction": _('Your IOT Devices'),
+		"get_list": get_device_list,
+		"row_template": "templates/generators/iot_device_row.html",
+	}
