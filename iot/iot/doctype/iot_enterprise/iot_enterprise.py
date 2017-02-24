@@ -10,7 +10,7 @@ from frappe.website.website_generator import WebsiteGenerator
 
 class IOTEnterprise(WebsiteGenerator):
 	website = frappe._dict(
-		template="templates/generators/iot_enterprise.html",
+		template="iot/templates/generators/iot_enterprise.html",
 		condition_field="enabled",
 		order_by="modified desc",
 		page_title_field="ent_name",
