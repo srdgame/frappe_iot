@@ -58,6 +58,20 @@ class IOTDevice(WebsiteGenerator):
 		context.parents = [{'name': 'iot_devices', 'title': _('All IOT Devices') }]
 
 
+def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
+	return frappe.db.sql('''select *
+		from `tabIOT Device`
+		where
+			admin = %(user)s
+			order by modified desc
+			limit {0}, {1}
+		'''.format(limit_start, limit_page_length),
+			{'user':frappe.session.user},
+			as_dict=True,
+			update={'doctype':'IOT Device'})
+
+
 def get_list_context(context):
 	context.title = _("IOT Devices")
 	context.introduction = _('Your IOT Devices')
+	context.get_list = 	get_device_list,

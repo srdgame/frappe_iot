@@ -7,8 +7,8 @@ import json
 
 
 def get_context(context):
-	ent_name = frappe.form_dict.enterprise or frappe.form_dict.name
-	if not ent_name:
+	name = frappe.form_dict.enterprise or frappe.form_dict.name
+	if not name:
 		frappe.local.flags.redirect_location = "/me"
 		raise frappe.Redirect
 
@@ -18,7 +18,7 @@ def get_context(context):
 
 	context.no_cache = 1
 	context.show_sidebar = True
-	enterprise = frappe.get_doc('IOT Enterprise', ent_name)
+	enterprise = frappe.get_doc('IOT Enterprise', name)
 	if enterprise.get('admin') != frappe.session.user:
 		raise frappe.PermissionError
 
