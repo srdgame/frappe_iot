@@ -53,7 +53,7 @@ class IOTDevice(WebsiteGenerator):
 	def find_owners_by_bunch(bunch):
 		if not bunch:
 			return []
-		code = frappe.get_value("IOT Device Bunch", bunch)
+		code = frappe.get_doc("IOT Device Bunch", bunch)
 
 		id = code.get("owner_id")
 		if code.get("owner_type") == "IOT User":
