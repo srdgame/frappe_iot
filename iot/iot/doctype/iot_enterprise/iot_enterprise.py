@@ -60,8 +60,9 @@ def get_list_context(context=None):
 		"show_search": True,
 		'no_breadcrumbs': True,
 		"title": _("IOT Enteprises"),
+		"introduction": _('Your IOT Devices'),
 		"get_list": get_enterprise_list,
-		"row_template": "templates/includes/enterprise/enterprise_row.html"
+		"row_template": "iot/templates/includes/enterprise/enterprise_row.html"
 	}
 
 
