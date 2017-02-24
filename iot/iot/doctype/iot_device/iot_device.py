@@ -55,10 +55,7 @@ class IOTDevice(WebsiteGenerator):
 		return frappe.db.get_values("IOT UserGroup", {"group": group}, "parent")
 
 	def get_context(self, context):
-		if not self.enbaled:
-			raise Exception, "This blog has not been published yet!"
-
-		context.parents = [{'name': 'iot_devices', 'title': _('All Devices') }]
+		context.parents = [{'name': 'iot_devices', 'title': _('All IOT Devices') }]
 
 
 def get_list_context(context):

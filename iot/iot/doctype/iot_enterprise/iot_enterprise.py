@@ -6,8 +6,24 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
+from frappe.website.website_generator import WebsiteGenerator
 
-class IOTEnterprise(Document):
+class IOTEnterprise(WebsiteGenerator):
+	website = frappe._dict(
+		template="templates/generators/iot_enterprise.html",
+		condition_field="enabled",
+		order_by="modified desc",
+		page_title_field="ent_name",
+	)
+
+	def get_context(self, context):
+		"""
+		if not self.enbaled:
+			raise Exception, "This blog has not been published yet!"
+		"""
+
+		context.parents = [{'name': 'iot_enterprises', 'title': _('All IOT Enterprises') }]
+
 	def remove_all_groups(self):
 		self.set("groups", list(set(d for d in self.get("groups") if d.grp_name == "Guest")))
 
@@ -62,7 +78,6 @@ def get_list_context(context=None):
 		"title": _("IOT Enteprises"),
 		"introduction": _('Your IOT Devices'),
 		"get_list": get_enterprise_list,
-		"row_template": "iot/templates/includes/enterprise/enterprise_row.html"
 	}
 
 
