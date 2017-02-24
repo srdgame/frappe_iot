@@ -63,11 +63,11 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 	return frappe.db.sql('''select distinct device.*
 		from `tabIOT Device` device, `tabIOT UserGroup` user_group, `tabIOT Device Bunch` bunch_code 
 		where
-			(bunch_code.owenr_type = "IOT User"
-			and bunch_code.owener_id = %(user)s
+			(bunch_code.owner_type = "IOT User"
+			and bunch_code.owner_id = %(user)s
 			and bunch_code.code = device.bunch)
-			or (bunch_code.owenr_type = "IOT Employee Group"
-			and user_group.group = bunch_code.owenr_id
+			or (bunch_code.owner_type = "IOT Employee Group"
+			and user_group.group = bunch_code.owner_id
 			and user_group.parent = %(user)s)
 			order by project.modified desc
 			limit {0}, {1}
