@@ -5,22 +5,12 @@
 from __future__ import unicode_literals
 import frappe
 import traceback
-from frappe.website.website_generator import WebsiteGenerator
+from frappe.model.document import Document
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
 
 
-class IOTDevice(WebsiteGenerator):
-	website = frappe._dict(
-		template="templates/generators/iot_device.html",
-		condition_field="enabled",
-		order_by="modified desc",
-		page_title_field="dev_name",
-	)
-
-	def get_context(self, context):
-		context.parents = [{'name': 'iot_devices', 'title': _('All IOT Devices') }]
-
+class IOTDevice(Document):
 	def update_status(self, status):
 		""" update device status """
 		self.set("device_status", status)

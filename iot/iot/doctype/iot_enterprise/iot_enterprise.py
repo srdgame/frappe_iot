@@ -5,24 +5,10 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
-from frappe.website.website_generator import WebsiteGenerator
+from frappe.model.document import Document
 
-class IOTEnterprise(WebsiteGenerator):
-	website = frappe._dict(
-		template="templates/generators/iot_enterprise.html",
-		condition_field="enabled",
-		order_by="modified desc",
-		page_title_field="ent_name",
-	)
 
-	def get_context(self, context):
-		"""
-		if not self.enbaled:
-			raise Exception, "This blog has not been published yet!"
-		"""
-
-		context.parents = [{'name': 'iot_enterprises', 'title': _('All IOT Enterprises') }]
-
+class IOTEnterprise(Document):
 	def remove_all_groups(self):
 		self.set("groups", list(set(d for d in self.get("groups") if d.grp_name == "Guest")))
 
