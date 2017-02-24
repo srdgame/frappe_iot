@@ -6,7 +6,7 @@
 			</div>
 			<div class="col-xs-3">
 					<span class="indicator {{ "red" if doc.enabled else "darkgrey"  }}">
-						{{ doc.enabled }}</span>
+						{{ "enabled" if doc.enabled else "disabled" }}</span>
 			</div>
 			<div class="col-xs-3 text-right small text-muted">
 				{{ frappe.utils.pretty_date(doc.modified) }}
