@@ -139,6 +139,13 @@ website_route_rules = [
 			"parents": [{"title": _("IOT Device"), "name": "iot_devices"}]
 		}
 	},
+	{"from_route": "/iot_users", "to_route": "IOT User"},
+	{"from_route": "/iot_users/<path:name>", "to_route": "iot_user",
+		"defaults": {
+			"doctype": "IOT User",
+			"parents": [{"title": _("IOT User"), "name": "iot_users"}]
+		}
+	},
 ]
 
 default_roles = [
@@ -148,5 +155,6 @@ default_roles = [
 has_website_permission = {
 	"IOT Enterprise": "iot.controllers.website_list_for_contact.has_website_permission",
 	"IOT Device": "iot.controllers.website_list_for_contact.has_website_permission",
+	"IOT User": "iot.controllers.website_list_for_contact.has_website_permission",
 }
 
