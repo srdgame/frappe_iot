@@ -11,6 +11,8 @@ def is_enterperise_admin(user, enterprise):
 
 
 def get_context(context):
+	if frappe.form_dict.new:
+
 	name = frappe.form_dict.user or frappe.form_dict.name
 	if not name:
 		frappe.local.flags.redirect_location = "/me"
