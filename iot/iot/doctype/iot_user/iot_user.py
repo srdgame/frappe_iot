@@ -12,7 +12,7 @@ class IOTUser(Document):
 		# because it is handled separately
 		def_ent = frappe.db.get_single_value("IOT Settings", "default_enterprise")
 		if def_ent:
-			self.enterprise = def_ent
+			setattr(self, "enterprise", def_ent)
 
 	def validate(self):
 		if self.login_exists():
