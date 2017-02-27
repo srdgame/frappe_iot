@@ -119,10 +119,11 @@ def get_groups(enterprise=None):
 	:param enterprise: Enterprise Name
 	:return: Group object list
 	"""
-	"""
 	ent_doc = get_ent_doc(enterprise)
 	return ent_doc.get("groups")
-	"""
+
+
+def get_groups_2(enterprise=None):
 	user = frappe.session.user
 	if 'IOT Manager' not in frappe.get_roles(user):
 		user_doc = get_user_doc(user)
