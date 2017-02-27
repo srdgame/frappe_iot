@@ -6,9 +6,23 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
+from iot.iot.doctype.iot_user.iot_user import add_user
 
 
 class IOTEnterprise(Document):
+	def on_update(self):
+		users = frappe.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
+		for user in users:
+			add_user(user = user, enterprise=self.name)
+
+	def on_trash(self):
+		users = frappe.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
+		for user in users:
+			try:
+				frappe.delete_doc("IOT User", user)
+			finally:
+				print("Done")
+
 	def remove_all_groups(self):
 		self.set("groups", list(set(d for d in self.get("groups") if d.grp_name == "Guest")))
 
@@ -40,6 +54,10 @@ class IOTEnterprise(Document):
 	def get_groups(self):
 		"""Returns list of groups selected for that user"""
 		return self.groups or []
+
+	@staticmethod
+	def find_by_domain(domain):
+		return frappe.db.get_value("IOT Enterprise", {"domain": domain})
 
 
 def get_enterprise_list(doctype, txt, filters, limit_start, limit_page_length=20):

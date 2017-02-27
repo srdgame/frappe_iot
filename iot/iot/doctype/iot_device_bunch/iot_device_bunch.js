@@ -6,8 +6,13 @@ frappe.ui.form.on('IOT Device Bunch', {
 		frm.fields_dict["owner_type"].get_query = function(){
 			return {
 				filters: {
-					"name": ["in","IOT User,IOT Employee Group"],
+					"name": ["in","User,IOT Employee Group"],
 				}
+			}
+		}
+		frm.fields_dict["owner_id"].get_query = function(){
+			return {
+				filters: {"ignore_user_type": 1}
 			}
 		}
 	},

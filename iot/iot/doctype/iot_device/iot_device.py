@@ -50,7 +50,7 @@ class IOTDevice(Document):
 		code = frappe.get_doc("IOT Device Bunch", bunch)
 
 		id = code.get("owner_id")
-		if code.get("owner_type") == "IOT User":
+		if code.get("owner_type") == "User":
 			return [id]
 
 		if code.get("owner_type") == "IOT Employee Group":
@@ -63,7 +63,7 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 	return frappe.db.sql('''select distinct device.*
 		from `tabIOT Device` device, `tabIOT UserGroup` user_group, `tabIOT Device Bunch` bunch_code 
 		where
-			(bunch_code.owner_type = "IOT User"
+			(bunch_code.owner_type = "User"
 			and bunch_code.owner_id = %(user)s
 			and bunch_code.code = device.bunch)
 			or (bunch_code.owner_type = "IOT Employee Group"

@@ -6,17 +6,18 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
+from iot.iot.doctype.iot_enterprise.iot_enterprise import IOTEnterprise
+from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 class IOTUser(Document):
-	def __setup__(self):
-		# because it is handled separately
-		def_ent = frappe.db.get_single_value("IOT Settings", "default_enterprise")
-		if def_ent:
-			setattr(self, "enterprise", def_ent)
-
 	def validate(self):
 		if self.login_exists():
 			throw(_("Login Name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
+
+		usr, domain = self.user.split('@')
+		ent = IOTEnterprise.find_by_domain(domain)
+		if not ent and self.enterprise != ent:
+			throw(_("Cannot add user {0} into {1} as Enterprise {2} has domain {3}").format(self.user, self.enterprise, ent, domain))
 
 		# clear groups if Enterprise changed
 		org_enterprise = frappe.db.get_value("IOT User", {"name": self.name}, "enterprise")
@@ -58,6 +59,10 @@ class IOTUser(Document):
 		"""Returns list of groups selected for that user"""
 		return [d.group for d in self.group_assigned] if self.group_assigned else []
 
+	def update_enterprise(self, enterprise):
+		self.set("enterprise", enterprise)
+		self.save()
+
 
 @frappe.whitelist()
 def add_user(user=None, enterprise=None, login_name=None):
@@ -80,13 +85,21 @@ def add_user(user=None, enterprise=None, login_name=None):
 
 	# Set on behalf if user is not an IOT Manager
 	if not_manager:
-		frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf") or "Administrator"
+		frappe.session.user = "Administrator"
+
+	# Set proper Enterprise to user
+	if not enterprise:
+		usr, domain = user.split('@')
+		enterprise = IOTEnterprise.find_by_domain(domain)
+		if not enterprise:
+			raise frappe.ValidationError(_("No Enterprise for domain {0}").format(domain))
 
 	doc = frappe.get_doc({
 		"doctype": "IOT User",
 		"user": user,
 		"enterprise": enterprise,
-		"login_name": login_name
+		# "login_name": login_name
+		"login_name": "iMbEhIDE"  # login_name
 	})
 	doc.insert()
 
@@ -113,7 +126,7 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 
 	# Set on behalf if user is not an IOT Manager
 	if not_manager:
-		frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf") or "Administrator"
+		frappe.session.user = "Administrator"
 
 	doc = frappe.get_doc('IOT User', user)
 	if enabled is not None:

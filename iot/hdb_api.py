@@ -9,6 +9,8 @@ import requests
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
+from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.doctype.iot_settings.iot_settings import IOTSettings
 
 
 def valid_auth_code(auth_code=None):
@@ -17,11 +19,11 @@ def valid_auth_code(auth_code=None):
 		throw(_("HDB_AuthorizationCode is required in HTTP Header!"))
 	frappe.logger(__name__).debug(_("HDB_AuthorizationCode as {0}").format(auth_code))
 
-	code = frappe.db.get_single_value("IOT HDB Settings", "authorization_code")
+	code = IOTHDBSettings.get_authorization_code()
 	if auth_code != code:
 		throw(_("Authorization Code is incorrect!"))
 
-	frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
+	frappe.session.user = IOTHDBSettings.get_on_behalf()
 
 
 @frappe.whitelist(allow_guest=True)
@@ -32,18 +34,19 @@ def list_enterprises(usr=None, pwd=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def login(usr=None, pwd=None):
+def login(user=None, pwd=None):
 	"""
 	HDB Application checking for user login
-	:param usr: Username (<Login Name>@<IOT Enterprise Domain>)
-	:param pwd: Password (ERPNext User Password)
-	:return: {"usr": <ERPNext user name>, "ent": <IOT Enterprise>}
+	:param user: Username (Frappe Username)
+	:param pwd: Password (Frappe User Password)
+	:return: {"user": <Frappe Username>, "ent": <IOT Enterprise>}
 	"""
 	valid_auth_code()
-	if not (usr and pwd):
-		usr, pwd = frappe.form_dict.get('usr'), frappe.form_dict.get('pwd')
-	frappe.logger(__name__).debug(_("HDB Checking login {0} password {1}").format(usr, pwd))
+	if not (user and pwd):
+		usr, pwd = frappe.form_dict.get('user'), frappe.form_dict.get('pwd')
+	frappe.logger(__name__).debug(_("HDB Checking login {0} password {1}").format(user, pwd))
 
+	"""
 	if '@' not in usr:
 		throw(_("Username must be <login_name>@<enterprise domain>"))
 
@@ -55,10 +58,13 @@ def login(usr=None, pwd=None):
 	user = frappe.db.get_value("IOT User", {"enterprise": enterprise, "login_name": login_name}, "user")
 	if not user:
 		throw(_("User login_name {0} not found in Enterprise {1}").format(login_name, enterprise))
+	"""
 
 	frappe.local.login_manager.authenticate(user, pwd)
 	if frappe.local.login_manager.user != user:
 		throw(_("Username password is not matched!"))
+
+	enterprise = frappe.get_value("IOT User", user, "enterprise") or IOTSettings.get_default_enterprise()
 	
 	return {"usr": user, "ent": enterprise}
 
@@ -77,17 +83,19 @@ def list_devices(user=None):
 		throw(_("Query string user does not specified"))
 	frappe.logger(__name__).debug(_("List Devices for user {0}").format(user))
 
-	user_doc = frappe.get_doc("IOT User", user)
-	groups = user_doc.get("group_assigned")
 	devices = []
-	for g in groups:
-		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": g.group, "owner_type": "IOT Employee Group"}, "code")]
-		sn_list = []
-		for c in bunch_codes:
-			sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-		devices.append({"group": g.group, "devices": sn_list})
 
-	bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "IOT User"}, "code")]
+	if frappe.get_value("IOT User", user):
+		user_doc = frappe.get_doc("IOT User", user)
+		groups = user_doc.get("group_assigned")
+		for g in groups:
+			bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": g.group, "owner_type": "IOT Employee Group"}, "code")]
+			sn_list = []
+			for c in bunch_codes:
+				sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
+			devices.append({"group": g.group, "devices": sn_list})
+
+	bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
 	sn_list = []
 	for c in bunch_codes:
 		sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
@@ -135,7 +143,7 @@ def add_device():
 	})
 	data = frappe.get_doc(device).insert().as_dict()
 
-	url = frappe.db.get_single_value("IOT HDB Settings", "callback_url")
+	url = IOTHDBSettings.get_callback_url()
 	if url:
 		""" Fire callback data """
 		session = requests.session()

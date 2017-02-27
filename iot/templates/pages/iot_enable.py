@@ -6,6 +6,7 @@ import frappe
 import requests
 import json
 from frappe import _
+from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 
 def get_context(context):
@@ -24,7 +25,7 @@ def get_context(context):
 	context.no_cache = 1
 	context.show_sidebar = True
 
-	def_ent = frappe.db.get_single_value("IOT Settings", "default_enterprise")
+	def_ent = IOTSettings.get_default_enterprise()
 
 	login_name, domain = frappe.session.user.split('@')
 	doc = frappe.get_doc({

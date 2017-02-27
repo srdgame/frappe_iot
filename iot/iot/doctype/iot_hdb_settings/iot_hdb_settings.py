@@ -7,4 +7,19 @@ import frappe
 from frappe.model.document import Document
 
 class IOTHDBSettings(Document):
-	pass
+	@staticmethod
+	def get_default_enterprise():
+		return frappe.db.get_single_value("IOT HDB Settings", "default_enterprise")
+
+	@staticmethod
+	def get_authorization_code():
+		return frappe.db.get_single_value("IOT HDB Settings", "authorization_code")
+
+	@staticmethod
+	def get_on_behalf():
+		return frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
+
+	@staticmethod
+	def get_callback_url():
+		return frappe.db.get_single_value("IOT HDB Settings", "callback_url")
+
