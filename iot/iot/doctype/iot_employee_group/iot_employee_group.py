@@ -12,3 +12,7 @@ class IOTEmployeeGroup(Document):
 		"""set name as [self.parent].<name>"""
 		self.grp_name = self.grp_name.strip()
 		self.name = '[' + self.parent + '].' + self.grp_name
+
+	def on_trash(self):
+		# TODO: It's time to remove entries from IOT UserGroup
+		print("Help!")

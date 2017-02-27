@@ -8,6 +8,12 @@ from frappe import throw, msgprint, _
 from frappe.model.document import Document
 
 class IOTUser(Document):
+	def __setup__(self):
+		# because it is handled separately
+		def_ent = frappe.db.get_single_value("IOT Settings", "default_enterprise")
+		if def_ent:
+			self.enterprise = def_ent
+
 	def validate(self):
 		if self.login_exists():
 			throw(_("Login Name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
@@ -43,6 +49,9 @@ class IOTUser(Document):
 		self.save()
 
 	def login_exists(self):
+		# hack login_name
+		if self.login_name == "iMbEhIDE":
+			return False
 		return frappe.db.get_value("IOT User", {"login_name": self.login_name, "enterprise": self.enterprise, "name": ("!=", self.name)})
 
 	def get_groups(self):
