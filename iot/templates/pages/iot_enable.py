@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _
 
 
 def get_context(context):
@@ -36,4 +37,15 @@ def get_context(context):
 
 @frappe.whitelist(allow_guest=True)
 def enable(enabled=None, user=None, enterprise=None, login_name=None):
-	print(enabled, user, enterprise, login_name)
+	if frappe.session.user != user:
+		raise frappe.PermissionError
+
+	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
+	doc = frappe.get_doc({
+		"doctype": "IOT User",
+		"enabled": enabled,
+		"user": user,
+		"enterprise": enterprise,
+		"login_name": login_name
+	})
+	doc.insert()
