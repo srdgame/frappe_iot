@@ -20,8 +20,8 @@
 
 		<div class="form-group">
 			<label for="login_name" class="control-label text-muted small">Login Name</label>
-			<input name="login_name"
-				class="form-control" placeholder="{{ _('Login Name') }}" required>
+			<input name="login_name" class="form-control"
+				   value={{ doc.login_name }} placeholder="{{ _('Login Name') }}" required>
 		</div>
 		<button class="btn btn-primary btn-enable-iot" type="submit">{{ _("Enable") }}</button>
 	</form>
