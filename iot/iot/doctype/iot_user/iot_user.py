@@ -7,7 +7,7 @@ import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.iot.doctype.iot_enterprise.iot_enterprise import IOTEnterprise
-from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
+
 
 class IOTUser(Document):
 	def validate(self):
