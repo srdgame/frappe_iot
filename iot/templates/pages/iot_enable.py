@@ -37,6 +37,9 @@ def get_context(context):
 
 @frappe.whitelist(allow_guest=True)
 def enable(enabled=None, user=None, enterprise=None, login_name=None):
+	if not frappe.request.method == "POST":
+		raise frappe.ValidationError
+
 	if frappe.session.user != user:
 		raise frappe.PermissionError
 
@@ -53,5 +56,4 @@ def enable(enabled=None, user=None, enterprise=None, login_name=None):
 	doc.insert()
 	frappe.session.user = user
 
-	frappe.local.flags.redirect_location = "/iot_me"
-	raise frappe.Redirect
+	return {"result": True, "data": doc}
