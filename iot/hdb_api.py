@@ -25,6 +25,12 @@ def valid_auth_code(auth_code=None):
 
 
 @frappe.whitelist(allow_guest=True)
+def list_enterprises(usr=None, pwd=None):
+	valid_auth_code()
+	return frappe.db.get_values("IOT Enterprise", "*")
+
+
+@frappe.whitelist(allow_guest=True)
 def login(usr=None, pwd=None):
 	"""
 	HDB Application checking for user login
