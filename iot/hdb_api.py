@@ -108,10 +108,9 @@ def get_post_json_data():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_device():
+def get_device(sn=None):
 	valid_auth_code()
-	data = get_post_json_data()
-	sn = data.get("sn")
+	sn = sn or frappe.form_dict.get('sn')
 	if not sn:
 		return {"result": False, "data": _("Request fields not found. fields: sn")}
 
