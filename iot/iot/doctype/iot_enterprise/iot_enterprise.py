@@ -13,7 +13,7 @@ class IOTEnterprise(Document):
 	def on_update(self):
 		users = frappe.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
 		for user in users:
-			add_user(user = user, enterprise=self.name)
+			add_user(user=user, enterprise=self.name)
 
 	def on_trash(self):
 		users = frappe.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
