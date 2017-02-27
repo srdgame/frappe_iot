@@ -14,10 +14,9 @@ def get_context(context):
 		raise frappe.Redirect
 
 	user_roles = frappe.get_roles(frappe.session.user)
-	if 'IOT User' in user_roles:
-		frappe.local.flags.redirect_location = "/iot_me"
-		raise frappe.Redirect
-		
+	if 'IOT User' not in user_roles:
+		raise frappe.PermissionError("Your account is not an IOT User! Please concat admin for user permission request!")
+
 	context.no_cache = 1
 	context.show_sidebar = True
 
