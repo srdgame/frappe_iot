@@ -49,6 +49,8 @@ def enable(enabled=None, user=None, enterprise=None, login_name=None):
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
 
+	if enabled == "True":
+		enabled = True
 	frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf") or "Administrator"
 	doc = frappe.get_doc({
 		"doctype": "IOT User",
