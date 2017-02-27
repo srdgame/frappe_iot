@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import requests
 import json
 from frappe import _
 
@@ -41,6 +42,8 @@ def enable(enabled=None, user=None, enterprise=None, login_name=None):
 		raise frappe.PermissionError
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
+
+	frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf") or "Administrator"
 	doc = frappe.get_doc({
 		"doctype": "IOT User",
 		"enabled": enabled,
@@ -49,3 +52,4 @@ def enable(enabled=None, user=None, enterprise=None, login_name=None):
 		"login_name": login_name
 	})
 	doc.insert()
+	frappe.session.user = user
