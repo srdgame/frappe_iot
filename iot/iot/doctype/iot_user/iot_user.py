@@ -6,7 +6,6 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
-from iot.doctype.iot_enterprise.iot_enterprise import IOTEnterprise
 
 
 class IOTUser(Document):
@@ -15,7 +14,7 @@ class IOTUser(Document):
 			throw(_("Login Name {0} already exists in Enterprise {1}").format(self.login_name, self.enterprise))
 
 		usr, domain = self.user.split('@')
-		ent = IOTEnterprise.find_by_domain(domain)
+		ent = frappe.db.get_value("IOT Enterprise", {"domain": domain})
 		if not ent and self.enterprise != ent:
 			throw(_("Cannot add user {0} into {1} as Enterprise {2} has domain {3}").format(self.user, self.enterprise, ent, domain))
 
@@ -90,7 +89,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 	# Set proper Enterprise to user
 	if not enterprise:
 		usr, domain = user.split('@')
-		enterprise = IOTEnterprise.find_by_domain(domain)
+		enterprise = frappe.db.get_value("IOT Enterprise", {"domain": domain})
 		if not enterprise:
 			raise frappe.ValidationError(_("No Enterprise for domain {0}").format(domain))
 
