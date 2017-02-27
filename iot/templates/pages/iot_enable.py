@@ -52,3 +52,6 @@ def enable(enabled=None, user=None, enterprise=None, login_name=None):
 	})
 	doc.insert()
 	frappe.session.user = user
+
+	frappe.local.flags.redirect_location = "/iot_me"
+	raise frappe.Redirect
