@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
-from iot.iot.doctype.iot_enterprise.iot_enterprise import IOTEnterprise
+from iot.doctype.iot_enterprise.iot_enterprise import IOTEnterprise
 
 
 class IOTUser(Document):
