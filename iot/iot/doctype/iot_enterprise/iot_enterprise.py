@@ -123,6 +123,7 @@ def get_groups(enterprise=None):
 	return ent_doc.get("groups")
 
 
+""" This the get_groups implementation using SQL"""
 def get_groups_2(enterprise=None):
 	user = frappe.session.user
 	if 'IOT Manager' not in frappe.get_roles(user):
@@ -138,6 +139,27 @@ def get_groups_2(enterprise=None):
 			from `tabIOT Employee Group`
 			where parent = %(enterprise)s""", {"enterprise": enterprise}, as_dict=1)
 	return groups
+
+
+@frappe.whitelist()
+def add_groups(enterprise, groups):
+	if not frappe.request.method == "POST":
+		raise frappe.ValidationError
+
+	user = frappe.session.user
+	not_manager = 'IOT Manager' not in frappe.get_roles(user)
+	if not_manager and frappe.db.get_value("IOT Enterprise", enterprise, "admin") != user:
+		raise frappe.PermissionError
+
+	ent_doc = get_ent_doc(enterprise)
+
+	# Set proper doctype
+	for g in groups:
+		g["doctype"] = "IOT Employee Group"
+
+	ent_doc.add_groups(groups)
+
+	return "Done!"
 
 
 @frappe.whitelist()
