@@ -12,13 +12,16 @@ def get_context(context):
 		raise frappe.Redirect
 
 	user_roles = frappe.get_roles(frappe.session.user)
-	if 'IOT User' not in user_roles:
-		frappe.local.flags.redirect_location = "/iot_enable"
+	if 'IOT User' in user_roles:
+		frappe.local.flags.redirect_location = "/iot_me"
 		raise frappe.Redirect
 		
 	context.no_cache = 1
 	context.show_sidebar = True
-	doc = frappe.get_doc('IOT User', frappe.session.user)
-	doc.has_permission('read')
+
+	def_ent = frappe.db.get_single_value("IOT Settings", "default_enterprise")
+
+	doc = frappe.get_doc({"doctype": "IOT User", "enabled": True, "user": frappe.session.user, "enterprise": def_ent})
+	# doc.insert()
 
 	context.doc = doc
