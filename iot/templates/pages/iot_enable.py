@@ -21,7 +21,14 @@ def get_context(context):
 
 	def_ent = frappe.db.get_single_value("IOT Settings", "default_enterprise")
 
-	doc = frappe.get_doc({"doctype": "IOT User", "enabled": True, "user": frappe.session.user, "enterprise": def_ent})
+	login_name, domain = frappe.session.user.split('@')
+	doc = frappe.get_doc({
+		"doctype": "IOT User",
+		"enabled": True,
+		"user": frappe.session.user,
+		"enterprise": def_ent,
+		"login_name": login_name
+	})
 	# doc.insert()
 
 	context.doc = doc
