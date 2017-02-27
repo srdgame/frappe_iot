@@ -49,6 +49,79 @@ class IOTUser(Document):
 		"""Returns list of groups selected for that user"""
 		return [d.group for d in self.group_assigned] if self.group_assigned else []
 
+
+@frappe.whitelist()
+def add_user(user=None, enterprise=None, login_name=None):
+	"""
+	This is used for page form enable on IOT User, which is adding one IOT User DocType document
+	:param enabled:
+	:param user: 
+	:param enterprise: 
+	:param login_name: 
+	:return: 
+	"""
+	if not frappe.request.method == "POST":
+		raise frappe.ValidationError
+
+	not_manager = 'IOT Manager' not in frappe.get_roles(user)
+	if not_manager and frappe.session.user != user:
+		raise frappe.PermissionError
+
+	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
+
+	# Set on behalf if user is not an IOT Manager
+	if not_manager:
+		frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf") or "Administrator"
+
+	doc = frappe.get_doc({
+		"doctype": "IOT User",
+		"user": user,
+		"enterprise": enterprise,
+		"login_name": login_name
+	})
+	doc.insert()
+
+	# Rollback on behalf if user is not an IOT Manager
+	if not_manager:
+		frappe.session.user = user
+
+	return {"result": True, "data": doc}
+
+
+@frappe.whitelist()
+def update_user(user=None, enabled=None, enterprise=None, login_name=None):
+	if not frappe.request.method == "POST":
+		raise frappe.ValidationError
+
+	not_manager = 'IOT Manager' not in frappe.get_roles(user)
+	if not_manager and frappe.session.user != user:
+		raise frappe.PermissionError
+
+	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
+
+	if enabled == "True":
+		enabled = True
+
+	# Set on behalf if user is not an IOT Manager
+	if not_manager:
+		frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf") or "Administrator"
+
+	doc = frappe.get_doc('IOT User', user)
+	if enabled is not None:
+		doc.set("enable", enabled)
+	if enterprise is not None:
+		doc.set("enterprise", enterprise)
+	if login_name is not None:
+		doc.set("login_name", login_name)
+	doc.save()
+
+	# Rollback on behalf if user is not an IOT Manager
+	if not_manager:
+		frappe.session.user = user
+
+	return {"result": True, "data": doc}
+
+
 def get_valid_user():
 	user = frappe.session.user
 	if not user:
@@ -62,6 +135,7 @@ def get_valid_user():
 
 	return user
 
+
 @frappe.whitelist()
 def get_groups(arg=None):
 	"""get groups for a user"""
@@ -73,17 +147,20 @@ def get_groups(arg=None):
 		group_list.append(frappe.db.get("IOT Employee Group", g[0]))
 	return group_list
 
+
 @frappe.whitelist()
 def add_groups(groups):
 	user = get_valid_user()
 	user_doc = frappe.get_doc("IOT User", user)
 	user_doc.add_groups(groups)
 
+
 @frappe.whitelist()
 def remove_groups(groups):
 	user = get_valid_user()
 	user_doc = frappe.get_doc("IOT User", user)
 	user_doc.remove_groups(groups)
+
 
 @frappe.whitelist(allow_guest=True)
 def ping():

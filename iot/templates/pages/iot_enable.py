@@ -37,29 +37,3 @@ def get_context(context):
 	# doc.insert()
 
 	context.doc = doc
-
-
-@frappe.whitelist(allow_guest=True)
-def enable(enabled=None, user=None, enterprise=None, login_name=None):
-	if not frappe.request.method == "POST":
-		raise frappe.ValidationError
-
-	if frappe.session.user != user:
-		raise frappe.PermissionError
-
-	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
-
-	if enabled == "True":
-		enabled = True
-	frappe.session.user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf") or "Administrator"
-	doc = frappe.get_doc({
-		"doctype": "IOT User",
-		"enabled": enabled,
-		"user": user,
-		"enterprise": enterprise,
-		"login_name": login_name
-	})
-	doc.insert()
-	frappe.session.user = user
-
-	return {"result": True, "data": doc}
