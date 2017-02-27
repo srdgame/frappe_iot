@@ -11,7 +11,7 @@ def is_enterperise_admin(user, enterprise):
 
 
 def get_context(context):
-	if frappe.form_dict.new:
+	# if frappe.form_dict.new:
 
 	name = frappe.form_dict.user or frappe.form_dict.name
 	if not name:
@@ -20,13 +20,15 @@ def get_context(context):
 
 	user_roles = frappe.get_roles(frappe.session.user)
 	if 'IOT User' not in user_roles or frappe.session.user == 'Guest':
-		raise frappe.PermissionError("Your are not an IOT User!")
+		raise frappe.PermissionError("Your account is not an IOT User!")
 		
 	context.no_cache = 1
 	context.show_sidebar = True
+	# Get target user document object
 	doc = frappe.get_doc('IOT User', name)
+	# Check for Enterprise permission
 	if not is_enterperise_admin(frappe.session.user, doc.get("enterprise")):
-		raise frappe.PermissionError("Your are not enterprise admin!")
+		raise frappe.PermissionError("Your account is not enterprise admin!")
 
 	doc.has_permission('read')
 

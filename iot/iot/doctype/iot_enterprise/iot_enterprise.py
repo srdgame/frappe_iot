@@ -61,7 +61,7 @@ def get_list_context(context=None):
 		"show_search": True,
 		"no_breadcrumbs": True,
 		"title": _("IOT Enteprises"),
-		"introduction": _('Your IOT Enteprises'),
+		"introduction": _('The IOT Enteprises those you can manage!'),
 		"get_list": get_enterprise_list,
 		"row_template": "templates/generators/iot_enterprise_row.html",
 	}

@@ -14,7 +14,7 @@ from iot.doctype.iot_device.iot_device import IOTDevice
 def valid_auth_code(auth_code=None):
 	auth_code = auth_code or frappe.get_request_header("HDB_AuthorizationCode")
 	if not auth_code:
-		throw(_("HDB_AuthorizationCode is required in your HTTP Header!"))
+		throw(_("HDB_AuthorizationCode is required in HTTP Header!"))
 	frappe.logger(__name__).debug(_("HDB_AuthorizationCode as {0}").format(auth_code))
 
 	code = frappe.db.get_single_value("IOT HDB Settings", "authorization_code")

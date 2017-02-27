@@ -13,11 +13,6 @@
   font-size: 14px;
 }
 
-.user-subject
-{
-	margin: 0px;
-}
-
 .item-timestamp
 {
 	font-size: 10px;
@@ -32,14 +27,6 @@
 	position: relative;
 	outline:none;
 	border:none;
-}
-
-.user-link, .timelog-link {
-	font-weight: bold;
-}
-
-.user-link.seen, .timelog-link.seen {
-	font-weight: normal;
 }
 
 .row-header {
