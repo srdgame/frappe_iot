@@ -13,12 +13,15 @@ def get_context(context):
 
 	user_roles = frappe.get_roles(frappe.session.user)
 	if 'IOT User' not in user_roles:
+		raise frappe.PermissionError("Your account is not an IOT User! Please concat admin for user permission request!")
+
+	try:
+		context.no_cache = 1
+		context.show_sidebar = True
+		doc = frappe.get_doc('IOT User', frappe.session.user)
+		doc.has_permission('read')
+
+		context.doc = doc
+	except Exception:
 		frappe.local.flags.redirect_location = "/iot_enable"
 		raise frappe.Redirect
-		
-	context.no_cache = 1
-	context.show_sidebar = True
-	doc = frappe.get_doc('IOT User', frappe.session.user)
-	doc.has_permission('read')
-
-	context.doc = doc

@@ -25,3 +25,8 @@ def get_context(context):
 	# doc.insert()
 
 	context.doc = doc
+
+
+@frappe.whitelist(allow_guest=True)
+def enable(enabled=None, user=None, enterprise=None, login_name=None):
+	print(enabled, user, enterprise, login_name)
