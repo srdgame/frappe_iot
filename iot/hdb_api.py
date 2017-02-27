@@ -27,7 +27,8 @@ def valid_auth_code(auth_code=None):
 @frappe.whitelist(allow_guest=True)
 def list_enterprises(usr=None, pwd=None):
 	valid_auth_code()
-	return frappe.db.get_values("IOT Enterprise", "*")
+	# 	return frappe.get_all("IOT Enterprise", fields=["*"], filters = {"name": ("like", "*")})
+	return frappe.get_all("IOT Enterprise", fields=["*"])
 
 
 @frappe.whitelist(allow_guest=True)
