@@ -123,8 +123,8 @@ def get_groups(enterprise=None):
 	return ent_doc.get("groups")
 
 
-""" This the get_groups implementation using SQL"""
 def get_groups_2(enterprise=None):
+	""" This the get_groups implementation using SQL"""
 	user = frappe.session.user
 	if 'IOT Manager' not in frappe.get_roles(user):
 		user_doc = get_user_doc(user)
