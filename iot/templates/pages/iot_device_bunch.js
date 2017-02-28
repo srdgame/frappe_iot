@@ -1,4 +1,5 @@
 frappe.ready(function() {
+	alert($(".form-enable-iot"));
 	$(".form-enable-iot").submit(function() {
 		alert("AAAAAAAAAAAAAAAAAAAA");
   		$(this).ajaxSubmit({
