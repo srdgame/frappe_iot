@@ -14,6 +14,7 @@ def get_context(context):
 
 	context.no_cache = 1
 	context.show_sidebar = True
+	context.no_breadcrumbs = False,
 
 	new_flag = frappe.form_dict.new
 	if new_flag:
