@@ -76,7 +76,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 	if not frappe.request.method == "POST":
 		raise frappe.ValidationError
 
-	not_manager = 'IOT Manager' not in frappe.get_roles(user)
+	not_manager = 'IOT Manager' not in frappe.get_roles(frappe.session.user)
 	if not_manager and frappe.session.user != user:
 		raise frappe.PermissionError
 
@@ -114,7 +114,7 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 	if not frappe.request.method == "POST":
 		raise frappe.ValidationError
 
-	not_manager = 'IOT Manager' not in frappe.get_roles(user)
+	not_manager = 'IOT Manager' not in frappe.get_roles(frappe.session.user)
 	if not_manager and frappe.session.user != user:
 		raise frappe.PermissionError
 
