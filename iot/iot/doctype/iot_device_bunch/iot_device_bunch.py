@@ -6,5 +6,8 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 
+
 class IOTDeviceBunch(Document):
-	pass
+	def has_website_permission(self, ptype, verbose=False):
+		"""Returns true if current user is the session user"""
+		return self.owner_type == "User" and self.owner_id == frappe.session.user

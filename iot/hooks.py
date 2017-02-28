@@ -153,8 +153,8 @@ default_roles = [
 ]
 
 has_website_permission = {
-	"IOT Enterprise": "iot.controllers.website_list_for_contact.has_website_permission",
-	"IOT Device": "iot.controllers.website_list_for_contact.has_website_permission",
-	"IOT User": "iot.controllers.website_list_for_contact.has_website_permission",
+	"IOT Enterprise": "iot.controllers.website_permissions.has_website_permission",
+	"IOT Device": "iot.controllers.website_permissions.has_website_permission",
+	"IOT User": "iot.controllers.website_permissions.has_website_permission",
 }
 

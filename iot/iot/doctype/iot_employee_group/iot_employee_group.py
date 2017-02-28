@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 
+
 class IOTEmployeeGroup(Document):
 
 	def autoname(self):
@@ -16,3 +17,8 @@ class IOTEmployeeGroup(Document):
 	def on_trash(self):
 		# TODO: It's time to remove entries from IOT UserGroup
 		print("Help!")
+
+	def has_website_permission(self, ptype, verbose=False):
+		"""Returns true if current user is the session user"""
+		admin = frappe.get_value("IOT Enterprise", self.parent, "admin")
+		return admin == frappe.session.user

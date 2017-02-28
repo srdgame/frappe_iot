@@ -62,6 +62,10 @@ class IOTUser(Document):
 		self.set("enterprise", enterprise)
 		self.save()
 
+	def has_website_permission(self, ptype, verbose=False):
+		"""Returns true if current user is the session user"""
+		return self.user == frappe.session.user
+
 
 @frappe.whitelist()
 def add_user(user=None, enterprise=None, login_name=None):

@@ -56,6 +56,10 @@ class IOTEnterprise(Document):
 		"""Returns list of groups selected for that user"""
 		return self.groups or []
 
+	def has_website_permission(self, ptype, verbose=False):
+		"""Returns true if admin is the session user"""
+		return self.admin == frappe.session.user
+
 
 def get_enterprise_list(doctype, txt, filters, limit_start, limit_page_length=20):
 	return frappe.db.sql('''select *
