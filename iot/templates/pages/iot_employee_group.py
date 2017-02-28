@@ -28,7 +28,7 @@ def get_context(context):
 
 	doc.has_permission('read')
 
-	doc.users = get_users(doc.parent, doc.name, start=0, search=frappe.form_dict.get("search"))
+	doc.users = get_users(doc.name, start=0, search=frappe.form_dict.get("search"))
 
 	context.doc = doc
 
