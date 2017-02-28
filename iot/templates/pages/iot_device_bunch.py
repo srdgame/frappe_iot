@@ -25,7 +25,7 @@ def get_context(context):
 		}
 		return
 
-	bunch = frappe.form_dict.bunch
+	bunch = frappe.form_dict.bunch or frappe.form_dict.name
 	if not new_flag and not bunch:
 		frappe.local.flags.redirect_location = "/me"
 		raise frappe.Redirect
