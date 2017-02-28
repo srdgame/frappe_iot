@@ -16,7 +16,8 @@
 {% block page_content %}
 
 {% for code in codes %}
-	<p>{{ code }}</p>
+	<p>{{ code.name }}</p>
+	<p>{{ code.code}}</p>
 {% endfor %}
 
 <script>
