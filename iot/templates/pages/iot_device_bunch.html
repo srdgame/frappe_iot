@@ -1,0 +1,22 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ doc.name }}{% endblock %}
+
+{% block header %}
+	<h1>{{ doc.dev_name }}</h1>
+{% endblock %}
+
+{% block style %}
+	<style>
+		{% include "templates/includes/iot_device.css" %}
+	</style>
+{% endblock %}
+
+
+{% block page_content %}
+
+<script>
+	{% include "templates/pages/iot_device.js" %}
+</script>
+
+{% endblock %}
