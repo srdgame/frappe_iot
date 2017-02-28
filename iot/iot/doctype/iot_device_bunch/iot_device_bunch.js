@@ -9,14 +9,17 @@ frappe.ui.form.on('IOT Device Bunch', {
 					"name": ["in","User,IOT Employee Group"],
 				}
 			}
-		}
-		frm.fields_dict["owner_id"].get_query = function(){
-			return {
-				filters: {"ignore_user_type": 1}
-			}
-		}
+		};
 	},
 	refresh: function(frm) {
-
+		if (frm.field_dict["owner_type"].val() == 'User') {
+			frm.fields_dict["owner_id"].get_query = function () {
+				return {
+					filters: {"ignore_user_type": 1}
+				}
+			};
+		} else {
+			frm.fields_dict["owner_id"].get_query = null;
+		}
 	}
 });
