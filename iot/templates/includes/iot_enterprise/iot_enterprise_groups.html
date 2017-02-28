@@ -3,18 +3,14 @@
 		<a class="no-decoration group-link {{ group.css_seen }}" href="/iot_employee_groups/{{ group.name }}">
 		<div class='row enterprise-item'>
 			<div class='col-xs-9'>
-				<span class="indicator {{ "green" if group.enabled else "darkgrey" }}" title="{{ group.enabled }}"  > {{ group.name }}</span>
+				<span class="indicator {{ "green" if group.enabled else "darkgrey" }}" title="{{ group.enabled }}"  > {{ group.grp_name }}</span>
 	 				<div class="small text-muted item-timestamp"
 	 					title="{{ frappe.utils.pretty_date(group.modified) }}">
 	 					modified {{ frappe.utils.pretty_date(group.modified) }}
 	 				</div>
 			</div>
 			<div class='col-xs-2'>
-				 <span style="display: inline-block">
-					<div class="switch">
-						<input type="checkbox" {{ "checked" if group.enabled }}/>
-					</div>
-				</span>
+				 {{ group.name }}
 			</div>
 		</div>
 		</a>
