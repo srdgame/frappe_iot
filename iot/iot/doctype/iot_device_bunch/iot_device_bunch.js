@@ -8,7 +8,7 @@ frappe.ui.form.on('IOT Device Bunch', {
 				filters: {
 					"name": ["in","User,IOT Employee Group"],
 				}
-			}
+			};
 		};
 	},
 	refresh: function(frm) {
@@ -16,7 +16,7 @@ frappe.ui.form.on('IOT Device Bunch', {
 			frm.fields_dict["owner_id"].get_query = function () {
 				return {
 					filters: {"ignore_user_type": 1}
-				}
+				};
 			};
 		} else {
 			frm.fields_dict["owner_id"].get_query = null;
