@@ -14,13 +14,13 @@ class IOTEnterprise(Document):
 		# TODO: We will not adding user automatically later, Enterprise Admin will do it manually.
 		users = frappe.db.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
 		for user in users:
-			add_user(user=user.name, enterprise=self.name)
+			add_user(user=user, enterprise=self.name)
 
 	def on_trash(self):
 		users = frappe.db.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
 		for user in users:
 			try:
-				frappe.delete_doc("IOT User", user.name)
+				frappe.delete_doc("IOT User", user)
 			finally:
 				print("Done")
 
