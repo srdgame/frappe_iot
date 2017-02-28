@@ -7,7 +7,9 @@ import json
 
 
 def get_user_bunch_codes(user):
-	return frappe.get_all("IOT Device Bunch", filters={"owner_type" : "User", "owner_id": user})
+	return frappe.get_all("IOT Device Bunch",
+						  filters={"owner_type" : "User", "owner_id": user},
+						  fields=["name", "bunch_name", "code", "modified", "creation"])
 
 
 def get_context(context):
