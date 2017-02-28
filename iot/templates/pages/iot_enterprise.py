@@ -40,11 +40,11 @@ def get_users(enterprise, start=0, search=None, enabled=None):
 		fields=["name", "enabled", "modified", "creation"],
 		limit_start=start, limit_page_length=10)
 
-	for user in users:
+	""" for user in users:
 		user.group_assigned = []
 		groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {'parent': user.name}, "group")]
 		for g in groups:
 			gl = frappe.get_all('IOT Employee Group', filters={'name': g}, fields=["name", "description"])
-			user.group_assigned.append(gl)
+			user.group_assigned.append(gl) """
 
 	return users

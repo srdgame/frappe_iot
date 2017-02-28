@@ -132,6 +132,13 @@ website_route_rules = [
 			"parents": [{"title": _("IOT Enterprise"), "name": "iot_enterprises"}]
 		}
 	},
+	{"from_route": "/iot_employee_groups", "to_route": "IOT Employee Group"},
+	{"from_route": "/iot_employee_groups/<path:name>", "to_route": "iot_employee_group",
+		"defaults": {
+			"doctype": "IOT Employee Group",
+			"parents": [{"title": _("IOT Employee Group"), "name": "iot_employee_groups"}]
+		}
+	},
 	{"from_route": "/iot_devices", "to_route": "IOT Device"},
 	{"from_route": "/iot_devices/<path:name>", "to_route": "iot_device",
 		"defaults": {

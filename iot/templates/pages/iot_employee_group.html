@@ -1,0 +1,41 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ doc.ent_name }}{% endblock %}
+
+{% block header %}
+	<h1>{{ doc.ent_name }}</h1>
+{% endblock %}
+
+{% block style %}
+	<style>
+		{% include "templates/includes/iot_employee_group.css" %}
+	</style>
+{% endblock %}
+
+
+{% block page_content %}
+
+<div class="clearfix">
+  <h4 style="float: left;">{{ _("Users") }}</h4>
+  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_user?new=1&enterprise={{ doc.ent_name }}'>{{ _("New user") }}</a>
+</div>
+
+{% if doc.users %}
+	<div class='enterprise-user-section'>
+		<div class='enterprise-user'>
+		{% include "templates/includes/iot_enterprise/iot_enterprise_users.html" %}
+		</div>
+		<p><a id= 'more-users' style='display: none;' class='more-users small underline'>{{ _("More") }}</a><p>
+	</div>
+{% else %}
+	<p class="text-muted">{{ _("No users") }}</p>
+{% endif %}
+
+<div class='padding'></div>
+
+
+<script>
+	{% include "templates/pages/iot_employee_group.js" %}
+</script>
+
+{% endblock %}
