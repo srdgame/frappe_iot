@@ -11,12 +11,12 @@ from iot.iot.doctype.iot_user.iot_user import add_user
 
 class IOTEnterprise(Document):
 	def on_update(self):
-		users = frappe.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
+		users = frappe.db.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
 		for user in users:
 			add_user(user=user, enterprise=self.name)
 
 	def on_trash(self):
-		users = frappe.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
+		users = frappe.db.get_values("User", {"email": ("like", "%@{0}".format(self.domain))})
 		for user in users:
 			try:
 				frappe.delete_doc("IOT User", user)
