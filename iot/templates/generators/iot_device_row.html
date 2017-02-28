@@ -2,14 +2,15 @@
 	<a class="no-decoration" href="/iot_devices/{{ doc.name }}">
 		<div class="row">
 			<div class="col-xs-3">
-				{{ doc.dev_name }}
+				<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
+					{{ doc.dev_name }}
+				</span>
 			</div>
 			<div class="col-xs-4">
-				{{ doc.name }}
+				{{ doc.sn }}
 			</div>
 			<div class="col-xs-2">
-					<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
-						{{ "enabled" if doc.enabled else "disabled" }}</span>
+				{{ doc.bunch }}
 			</div>
 			<div class="col-xs-3 text-right small text-muted">
 				{{ frappe.utils.pretty_date(doc.modified) }}

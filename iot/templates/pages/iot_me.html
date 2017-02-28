@@ -3,13 +3,13 @@
 {% block title %}{{ doc.name }}{% endblock %}
 
 {% block header %}
-	<h1>{{ doc.user }}</h1>
+    <h1>{{ doc.user }}</h1>
 {% endblock %}
 
 {% block style %}
-	<style>
-		{% include "templates/includes/iot_me.css" %}
-	</style>
+    <style>
+        {% include "templates/includes/iot_me.css" %}
+    </style>
 {% endblock %}
 
 
@@ -17,15 +17,15 @@
 
 
 <table class="table">
-	{% for code in codes %}
+    {% for code in codes %}
 
     <tr>
-		<td>{{ code.bunch_name }}</td>
+        <td>{{ code.bunch_name }}</td>
         <td><code>{{ code.code }}</code></td>
         <td>{{ code.creation}}</td>
         <td>{{ code.modified}}</td>
     </tr>
-	{% endfor %}
+    {% endfor %}
 </table>
 
 <script>
