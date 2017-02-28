@@ -76,8 +76,9 @@ def add_user(user=None, enterprise=None, login_name=None):
 	if not frappe.request.method == "POST":
 		raise frappe.ValidationError
 
-	not_manager = 'IOT Manager' not in frappe.get_roles(frappe.session.user)
-	if not_manager and frappe.session.user != user:
+	session_user = frappe.session.user
+	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
+	if not_manager and session_user != user:
 		raise frappe.PermissionError
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
@@ -95,6 +96,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 
 	doc = frappe.get_doc({
 		"doctype": "IOT User",
+		"enabled": True,
 		"user": user,
 		"enterprise": enterprise,
 		# "login_name": login_name
@@ -104,7 +106,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 
 	# Rollback on behalf if user is not an IOT Manager
 	if not_manager:
-		frappe.session.user = user
+		frappe.session.user = session_user
 
 	return {"result": True, "data": doc}
 
@@ -114,8 +116,9 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 	if not frappe.request.method == "POST":
 		raise frappe.ValidationError
 
-	not_manager = 'IOT Manager' not in frappe.get_roles(frappe.session.user)
-	if not_manager and frappe.session.user != user:
+	session_user = frappe.session.user
+	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
+	if not_manager and session_user != user:
 		raise frappe.PermissionError
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
@@ -138,7 +141,7 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 
 	# Rollback on behalf if user is not an IOT Manager
 	if not_manager:
-		frappe.session.user = user
+		frappe.session.user = session_user
 
 	return {"result": True, "data": doc}
 
