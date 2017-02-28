@@ -21,12 +21,12 @@
 </div>
 
 <table class="table">
-	<th>
-		<td>{{ _("Name") }}</td>
-		<td>{{ _("Code") }}</td>
-		<td>{{ _("Creation") }}</td>
-		<td>{{ _("Modified") }}</td>
-	</th>
+	<tr>
+		<th>{{ _("Name") }}</th>
+		<th>{{ _("Code") }}</th>
+		<th>{{ _("Creation") }}</th>
+		<th>{{ _("Modified") }}</th>
+	</tr>
 	{% for code in codes %}
 	<tr>
 		<td>{{ code.bunch_name }}</td>
