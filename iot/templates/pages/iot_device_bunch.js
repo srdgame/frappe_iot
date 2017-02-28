@@ -9,11 +9,11 @@ frappe.ready(function() {
 
 		if(!args.bunch_name) {
 			frappe.msgprint("Bunch Code Name Required.");
-			return;
+			return false;
 		}
 		if(!args.code) {
 			frappe.msgprint("Bunch Code Required.");
-			return;
+			return false;
 		}
 
 		frappe.call({
