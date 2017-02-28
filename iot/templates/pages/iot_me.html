@@ -15,12 +15,18 @@
 
 {% block page_content %}
 
-{% for code in codes %}
-	<p>{{ code.bunch_name }}</p>
-	<p>{{ code.code}}</p>
-	<p>{{ code.creation}}</p>
-	<p>{{ code.modified}}</p>
-{% endfor %}
+
+<table class="table">
+	{% for code in codes %}
+
+    <tr>
+		<td>{{ code.bunch_name }}</td>
+        <td><code>{{ code.code }}</code></td>
+        <td>{{ code.creation}}</td>
+        <td>{{ code.modified}}</td>
+    </tr>
+	{% endfor %}
+</table>
 
 <script>
 	{% include "templates/pages/iot_me.js" %}
