@@ -11,7 +11,7 @@
 					<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
 						{{ "enabled" if doc.enabled else "disabled" }}</span>
 			</div>
-			<div class="col-xs-3 text-right small text-muted">
+			<div class="col-xs-3 text-right small text-muted" disabled>
 				{{ frappe.utils.pretty_date(doc.modified) }}
 			</div>
 		</div>

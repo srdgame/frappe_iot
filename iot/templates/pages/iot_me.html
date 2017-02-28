@@ -17,8 +17,13 @@
 
 
 <table class="table">
+	<th>
+		<td>{{ _("Bunch Name") }}</td>
+		<td>{{ _("Bunch Code") }}</td>
+		<td>{{ _("Creation") }}</td>
+		<td>{{ _("Modified") }}</td>
+	</th>
     {% for code in codes %}
-
     <tr>
         <td>{{ code.bunch_name }}</td>
         <td><code>{{ code.code }}</code></td>
