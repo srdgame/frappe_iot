@@ -87,6 +87,9 @@ def add_user(user=None, enterprise=None, login_name=None):
 	if not_manager:
 		frappe.session.user = "Administrator"
 
+	if frappe.get_value("IOT User", user):
+		return {"result": False, "data": "User already exists!"}
+
 	# Set proper Enterprise to user
 	if not enterprise:
 		usr, domain = user.split('@')
