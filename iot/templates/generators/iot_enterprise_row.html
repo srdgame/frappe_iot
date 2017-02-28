@@ -2,11 +2,11 @@
 	<a class="no-decoration" href="/iot_enterprises/{{ doc.name }}">
 		<div class="row">
 			<div class="col-xs-6">
-				{{ doc.name }}
+				<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
+					{{ doc.name }}</span>
 			</div>
 			<div class="col-xs-3">
-					<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
-						{{ "enabled" if doc.enabled else "disabled" }}</span>
+				{{ doc.domain }}
 			</div>
 			<div class="col-xs-3 text-right small text-muted">
 				{{ frappe.utils.pretty_date(doc.modified) }}

@@ -64,7 +64,8 @@ class IOTUser(Document):
 
 	def has_website_permission(self, ptype, verbose=False):
 		"""Returns true if current user is the session user"""
-		return self.user == frappe.session.user
+		return self.user == frappe.session.user \
+			   or frappe.get_value("IOT Enterprise", self.enterprise, "admin") == frappe.session.user
 
 
 @frappe.whitelist()

@@ -22,8 +22,8 @@
     <tr>
         <td>{{ code.bunch_name }}</td>
         <td><code>{{ code.code }}</code></td>
-        <td>{{ code.creation}}</td>
-        <td>{{ code.modified}}</td>
+        <td>{{ frappe.utils.pretty_date(code.creation) }}</td>
+        <td>{{ frappe.utils.pretty_date(code.modified) }}</td>
     </tr>
     {% endfor %}
 </table>
