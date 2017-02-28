@@ -40,19 +40,19 @@
    	<form role="form form-enable-iot">
 		<div class="form-group">
 			<label for="bunch_name" class="control-label text-muted small"> {{ _("Name") }}</label>
-        	<input name="bunch_name" class="form-control">
+        	<input id="bunch_name" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="code" class="control-label text-muted small"> {{_("Code")}}</label>
-        	<input name="code" class="form-control">
+        	<input id="code" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="owner_type" class="control-label text-muted small"> {{_("Owner Type")}}</label>
-        	<input name="owner_type" class="form-control" value="{{doc.owner_type}}" readonly>
+        	<input id="owner_type" class="form-control" value="{{doc.owner_type}}" readonly>
 		</div>
 		<div class="form-group">
 			<label for="owner_id" class="control-label text-muted small"> {{_("Owner ID")}}</label>
-        	<input name="owner_id" class="form-control" value="{{doc.owner_id}}" readonly>
+        	<input id="owner_id" class="form-control" value="{{doc.owner_id}}" readonly>
 		</div>
 
 		<button class="btn btn-primary btn-enable-iot" type="submit">{{ _("Enable") }}</button>
