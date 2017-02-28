@@ -36,7 +36,7 @@ frappe.ready(function() {
 					if(r.message) {
 						frappe.msgprint(__("Bunch Code Inserted"));
 	                    setTimeout(function() {
-							window.location.href = "/iot_me";
+							window.location.href = r.message;
 	                    }, 2000);
 					}
 				}

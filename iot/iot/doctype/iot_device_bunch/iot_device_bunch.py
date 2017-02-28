@@ -41,7 +41,6 @@ def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 	if frappe.get_value("IOT Device Bunch", {"code": code}):
 		return {"result": False, "data": "Bunch code already exists!"}
 
-
 	doc = frappe.get_doc({
 		"doctype": "IOT Device Bunch",
 		"bunch_name": bunch_name,
@@ -49,8 +48,10 @@ def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 		"owner_type": owner_type,
 		"owner_id": owner_id,
 	})
-	doc.insert()
-	return doc
+	if owner_type == "User":
+		return "/iot_me"
+	else:
+		return ("/iot_employee_groups/{0}").format(owner_id)
 
 
 @frappe.whitelist()
