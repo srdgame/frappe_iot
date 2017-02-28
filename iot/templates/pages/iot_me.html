@@ -15,23 +15,27 @@
 
 {% block page_content %}
 
-
-<table class="table">
-	<th>
-		<td>{{ _("Bunch Name") }}</td>
-		<td>{{ _("Bunch Code") }}</td>
-		<td>{{ _("Creation") }}</td>
-		<td>{{ _("Modified") }}</td>
-	</th>
-    {% for code in codes %}
-    <tr>
-        <td>{{ code.bunch_name }}</td>
-        <td><code>{{ code.code }}</code></td>
-        <td>{{ frappe.utils.pretty_date(code.creation) }}</td>
-        <td>{{ frappe.utils.pretty_date(code.modified) }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h3 class="panel-title">{{ _("Private Bunch Codes") }}</h3>
+	</div>
+	<table class="table">
+		<th>
+			<td>{{ _("Name") }}</td>
+			<td>{{ _("Code") }}</td>
+			<td>{{ _("Creation") }}</td>
+			<td>{{ _("Modified") }}</td>
+		</th>
+		{% for code in codes %}
+		<tr>
+			<td>{{ code.bunch_name }}</td>
+			<td><code>{{ code.code }}</code></td>
+			<td>{{ frappe.utils.pretty_date(code.creation) }}</td>
+			<td>{{ frappe.utils.pretty_date(code.modified) }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
 
 <script>
 	{% include "templates/pages/iot_me.js" %}
