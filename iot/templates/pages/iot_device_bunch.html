@@ -37,8 +37,7 @@
 	<div class='page-card-head'>
 		<span class='indicator blue'>{{ _("Create new") }}</span>
 	</div>
-   	<form class="form form-enable-iot" method="POST"
-        action="/api/method/iot.iot.doctype.iot_device_bunch.iot_device_bunch.add_bunch_code">
+   	<form role="form form-enable-iot">
 		<div class="form-group">
 			<label for="bunch_name" class="control-label text-muted small"> {{ _("Name") }}</label>
         	<input name="bunch_name" class="form-control">

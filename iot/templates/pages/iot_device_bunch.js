@@ -1,10 +1,48 @@
 frappe.ready(function() {
-	$(".form-enable-iot").submit(function() {
-  		$(this).ajaxSubmit({
-			success: function (responseText, statusText, xhr, $form) {
-				alert(responseText);
+	$(".btn-enable-iot").click(function() {
+		var args = {
+			bunch_name: $("#bunch_name").val(),
+			code: $("#code").val(),
+			owner_type: $("#owner_type").val(),
+			owner_id: $("#owner_id").val()
+		};
+
+		if(!args.bunch_name) {
+			frappe.msgprint("Bunch Code Name Required.");
+			return;
+		}
+		if(!args.code) {
+			frappe.msgprint("Bunch Code Required.");
+			return;
+		}
+
+		frappe.call({
+			type: "POST",
+			method: "iot.iot.doctype.iot_device_bunch.iot_device_bunch.add_bunch_code",
+			btn: $(".btn-enable-iot"),
+			args: args,
+			statusCode: {
+				401: function() {
+					$('.page-card-head .indicator').removeClass().addClass('indicator red')
+						.text(__('Invalid Password'));
+				},
+				200: function(r) {
+					$("input").val("");
+					strength_indicator.addClass('hidden');
+					strength_message.addClass('hidden');
+					$('.page-card-head .indicator')
+						.removeClass().addClass('indicator green')
+						.html(__('Password Updated'));
+					if(r.message) {
+						frappe.msgprint(__("Password Updated"));
+	                    //setTimeout(function() {
+						//	window.location.href = r.message;
+	                    //}, 2000);
+					}
+				}
 			}
 		});
-		return false;
+
+        return false;
 	});
 });
