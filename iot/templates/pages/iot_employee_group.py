@@ -44,6 +44,12 @@ def get_users(group, start=0, search=None):
 
 	users = []
 	for user in user_names:
-		users.append(frappe.get_value("IOT User", user.parent, ["name", "enabled", "modified", "creation"]))
+		u = frappe.get_value("IOT User", user.parent, ["name", "enabled", "modified", "creation"])
+		users.append({
+			"name": u[0],
+			"enabled": u[1],
+			"modified": u[2],
+			"creation": u[3]
+		})
 
 	return users
