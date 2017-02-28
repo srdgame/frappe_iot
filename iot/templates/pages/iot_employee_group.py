@@ -29,6 +29,7 @@ def get_context(context):
 	doc.has_permission('read')
 
 	doc.users = get_users(doc.name, start=0, search=frappe.form_dict.get("search"))
+	doc.bunch_codes = get_bunch_codes(doc.name, start=0, search=frappe.form_dict.get("search"), enabled=True)
 
 	context.doc = doc
 
@@ -53,3 +54,20 @@ def get_users(group, start=0, search=None):
 		})
 
 	return users
+
+
+def get_bunch_codes(group, start=0, search=None):
+	filters = {
+		"owner_type": "IOT Employee Group",
+		"owner_id": group
+	}
+	if search:
+		filters["bunch_name"] = ("like", "%{0}%".format(search))
+
+	bunch_codes = frappe.get_all("IOT Device Bunch", filters=filters,
+		fields=["name", "bunch_name", "code", "modified", "creation"],
+		limit_start=start, limit_page_length=10)
+
+
+	return bunch_codes
+

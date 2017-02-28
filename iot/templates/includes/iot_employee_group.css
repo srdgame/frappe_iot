@@ -13,7 +13,7 @@
   font-size: 14px;
 }
 
-.user-subject, .group-subject
+.bunch-code-subject, .group-subject
 {
 	margin: 0px;
 }
@@ -34,11 +34,11 @@
 	border:none;
 }
 
-.user-link, .group-link {
+.bunch-code-link, .user-link {
 	font-weight: bold;
 }
 
-.user-link.seen, .group-link.seen {
+.bunch-code-link.seen, .user-link.seen {
 	font-weight: normal;
 }
 
@@ -75,7 +75,7 @@
 }
 
 
-.user-btn, .group-btn{
+.bunch-code-btn, .user-btn{
 	padding: 8px;
 }
 

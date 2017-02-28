@@ -16,6 +16,23 @@
 {% block page_content %}
 
 <div class="clearfix">
+  <h4 style="float: left;">{{ _("Bunch Codes") }}</h4>
+  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1&group={{ doc.name }}'>{{ _("New bunch code") }}</a>
+</div>
+
+{% if doc.users %}
+	<div class='device-bench-code-section'>
+		<div class='device-bench-code'>
+		{% include "templates/includes/iot_enterprise/iot_device_bench_codes.html" %}
+		</div>
+		<p><a id= 'more-bunch-codes' style='display: none;' class='more-bunch-codes small underline'>{{ _("More") }}</a><p>
+	</div>
+{% else %}
+	<p class="text-muted">{{ _("No bunch-codes") }}</p>
+{% endif %}
+
+<div class='padding'></div>
+<div class="clearfix">
   <h4 style="float: left;">{{ _("Users") }}</h4>
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_user?new=1&enterprise={{ doc.ent_name }}'>{{ _("New user") }}</a>
 </div>
