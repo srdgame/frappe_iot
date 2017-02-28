@@ -6,6 +6,10 @@ import frappe
 import json
 
 
+def get_user_bunch_codes(user):
+	return frappe.get_all("IOT Device Bunch", filters={"owner_type" : "User", "owner_id": user})
+
+
 def get_context(context):
 	if frappe.session.user == 'Guest':
 		frappe.local.flags.redirect_location = "/login"
@@ -15,13 +19,19 @@ def get_context(context):
 	if 'IOT User' not in user_roles:
 		raise frappe.PermissionError("Your account is not an IOT User! Please concat admin for user permission request!")
 
-	try:
-		context.no_cache = 1
-		context.show_sidebar = True
+	context.no_cache = 1
+	context.show_sidebar = True
+
+	codes = get_user_bunch_codes(frappe.session.user)
+	context.codes = codes
+
+	if frappe.get_value("IOT User", frappe.session.user):
 		doc = frappe.get_doc('IOT User', frappe.session.user)
 		doc.has_permission('read')
 
 		context.doc = doc
-	except Exception:
-		frappe.local.flags.redirect_location = "/iot_enable"
-		raise frappe.Redirect
+	else:
+		context.doc = {
+			"name": frappe.session.user,
+			"user": frappe.session.user,
+		}

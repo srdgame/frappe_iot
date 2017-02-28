@@ -3,7 +3,7 @@
 {% block title %}{{ doc.name }}{% endblock %}
 
 {% block header %}
-	<h1>{{ doc.login_name }}</h1>
+	<h1>{{ doc.user }}</h1>
 {% endblock %}
 
 {% block style %}
@@ -14,6 +14,10 @@
 
 
 {% block page_content %}
+
+{% for code in codes %}
+	<p>{{ code }}</p>
+{% endfor %}
 
 <script>
 	{% include "templates/pages/iot_me.js" %}
