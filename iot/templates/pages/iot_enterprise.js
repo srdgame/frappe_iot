@@ -14,6 +14,11 @@ frappe.ready(function() {
 		more_items('user', true);
 	});
 
+	var start = 10;
+	$(".more-groups").click(function() {
+		more_items('group', true);
+	});
+
 
 	var reload_items = function(enabled, item, $btn) {
 		$.ajax({

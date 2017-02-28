@@ -37,7 +37,7 @@ def get_users(enterprise, start=0, search=None, enabled=None):
 		filters["enabled"] = enabled
 
 	users = frappe.get_all("IOT User", filters=filters,
-		fields=["name", "login_name", "enabled", "modified"],
+		fields=["name", "enabled", "modified", "creation"],
 		limit_start=start, limit_page_length=10)
 
 	for user in users:
