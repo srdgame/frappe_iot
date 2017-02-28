@@ -12,6 +12,9 @@ def get_context(context):
 	if 'IOT User' not in user_roles or frappe.session.user == 'Guest':
 		raise frappe.PermissionError
 
+	context.no_cache = 1
+	context.show_sidebar = True
+
 	new_flag = frappe.form_dict.new
 	if new_flag:
 		context.doc = {
@@ -27,8 +30,6 @@ def get_context(context):
 		frappe.local.flags.redirect_location = "/me"
 		raise frappe.Redirect
 
-	context.no_cache = 1
-	context.show_sidebar = True
 	doc = frappe.get_doc('IOT Device Bunch', bunch)
 	if doc.owner_type == 'User':
 		if doc.owner_id != frappe.session.user:
