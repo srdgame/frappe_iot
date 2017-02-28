@@ -12,6 +12,14 @@ def get_context(context):
 		raise frappe.PermissionError
 
 	new_flag = frappe.form_dict.new
+	if new_flag:
+		context.doc = {
+			"new_flag": new_flag,
+			"owner_type": "User",
+			"owner_id": frappe.session.user
+		}
+		return
+
 	bunch = frappe.form_dict.bunch
 	if not new_flag and not bunch:
 		frappe.local.flags.redirect_location = "/me"
