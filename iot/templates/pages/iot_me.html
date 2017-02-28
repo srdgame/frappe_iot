@@ -20,7 +20,7 @@
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1'>{{ _("New Bunch Code") }}</a>
 </div>
 
-
+::before
 <table class="table">
 	<th>
 		<td>{{ _("Name") }}</td>
@@ -37,6 +37,7 @@
 	</tr>
 	{% endfor %}
 </table>
+::after
 
 <script>
 	{% include "templates/pages/iot_me.js" %}
