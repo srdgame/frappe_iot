@@ -18,7 +18,7 @@ def get_context(context):
 	new_flag = frappe.form_dict.new
 	if new_flag:
 		context.doc = {
-			"name": _("Create private bunch code"),
+			"name": _("Bunch Code"),
 			"new_flag": new_flag,
 			"owner_type": "User",
 			"owner_id": frappe.session.user
