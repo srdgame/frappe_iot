@@ -12,6 +12,7 @@ frappe.ui.form.on('IOT Device Bunch', {
 		};
 	},
 	refresh: function(frm) {
+		alert(frm.fields_dict["owner_type"].value);
 		if (frm.fields_dict["owner_type"].value == 'User') {
 			frm.fields_dict["owner_id"].get_query = function () {
 				return {
