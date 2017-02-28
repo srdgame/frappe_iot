@@ -4,6 +4,7 @@ frappe.ready(function() {
 			success: function (responseText, statusText, xhr, $form) {
 				alert(responseText);
 			}
-		})
+		});
+		return false;
 	});
 });
