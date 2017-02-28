@@ -20,8 +20,8 @@ def get_context(context):
 		context.doc = {
 			"name": _("Bunch Code"),
 			"new_flag": new_flag,
-			"owner_type": "User",
-			"owner_id": frappe.session.user
+			"owner_type": frappe.form_dict.type or "User",
+			"owner_id": frappe.form_dict.owner or frappe.session.user
 		}
 		return
 
