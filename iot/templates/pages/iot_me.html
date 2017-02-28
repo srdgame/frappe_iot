@@ -16,8 +16,10 @@
 {% block page_content %}
 
 {% for code in codes %}
-	<p>{{ code.name }}</p>
+	<p>{{ code.bunch_name }}</p>
 	<p>{{ code.code}}</p>
+	<p>{{ code.creation}}</p>
+	<p>{{ code.modified}}</p>
 {% endfor %}
 
 <script>
