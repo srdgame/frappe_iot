@@ -24,7 +24,7 @@ frappe.ready(function() {
 			statusCode: {
 				401: function() {
 					$('.page-card-head .indicator').removeClass().addClass('indicator red')
-						.text(__('Invalid Password'));
+						.text(__('Invalid Bunch Code'));
 				},
 				200: function(r) {
 					$("input").val("");
@@ -32,12 +32,12 @@ frappe.ready(function() {
 					strength_message.addClass('hidden');
 					$('.page-card-head .indicator')
 						.removeClass().addClass('indicator green')
-						.html(__('Password Updated'));
+						.html(__('Bunch Code Inserted'));
 					if(r.message) {
-						frappe.msgprint(__("Password Updated"));
-	                    //setTimeout(function() {
-						//	window.location.href = r.message;
-	                    //}, 2000);
+						frappe.msgprint(__("Bunch Code Inserted"));
+	                    setTimeout(function() {
+							window.location.href = "/iot_me";
+	                    }, 2000);
 					}
 				}
 			}
@@ -45,4 +45,7 @@ frappe.ready(function() {
 
         return false;
 	});
+
+	window.strength_indicator = $('.bunch-code-strength-indicator');
+	window.strength_message = $('.bunch-code-strength-message');
 });
