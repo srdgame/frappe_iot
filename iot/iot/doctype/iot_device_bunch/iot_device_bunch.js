@@ -10,6 +10,9 @@ frappe.ui.form.on('IOT Device Bunch', {
 				}
 			};
 		};
+		frm.fields_dict["owner_type"].on("change" function()) {
+			this.change_owner_type(frm);
+		}
 	},
 	refresh: function(frm) {
 
