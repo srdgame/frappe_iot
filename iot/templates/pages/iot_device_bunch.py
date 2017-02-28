@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _
 
 
 def get_context(context):
@@ -14,6 +15,7 @@ def get_context(context):
 	new_flag = frappe.form_dict.new
 	if new_flag:
 		context.doc = {
+			"name": _("Create private bunch code"),
 			"new_flag": new_flag,
 			"owner_type": "User",
 			"owner_id": frappe.session.user
