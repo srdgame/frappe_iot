@@ -48,6 +48,8 @@ def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 		"owner_type": owner_type,
 		"owner_id": owner_id,
 	})
+	doc.insert()
+
 	if owner_type == "User":
 		return "/iot_me"
 	else:
