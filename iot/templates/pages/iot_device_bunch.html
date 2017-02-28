@@ -23,14 +23,12 @@
 		<td>{{ _("Creation") }}</td>
 		<td>{{ _("Modified") }}</td>
 	</th>
-	{% for code in codes %}
 	<tr>
 		<td>{{ doc.bunch_name }}</td>
 		<td><code>{{ doc.code }}</code></td>
 		<td>{{ frappe.utils.pretty_date(doc.creation) }}</td>
 		<td>{{ frappe.utils.pretty_date(doc.modified) }}</td>
 	</tr>
-	{% endfor %}
 </table>
 {% else %}
 <div class="page-card">
