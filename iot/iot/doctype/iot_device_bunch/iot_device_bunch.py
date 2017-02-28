@@ -16,10 +16,10 @@ class IOTDeviceBunch(Document):
 
 
 @frappe.whitelist()
-def add_bunch_code(code=None, name=None, owner_type=None, owner_id=None):
+def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 	"""
 	Add device bunch code
-	:param name: Bunch code name
+	:param bunch_name: Bunch code name
 	:param code: Bunch code
 	:param type: Bunch code owner type
 	:param id: Bunch code owner id
@@ -44,7 +44,7 @@ def add_bunch_code(code=None, name=None, owner_type=None, owner_id=None):
 
 	doc = frappe.get_doc({
 		"doctype": "IOT Device Bunch",
-		"bunch_name": name,
+		"bunch_name": bunch_name,
 		"code": code,
 		"owner_type": owner_type,
 		"owner_id": owner_id,
@@ -54,17 +54,17 @@ def add_bunch_code(code=None, name=None, owner_type=None, owner_id=None):
 
 
 @frappe.whitelist()
-def update_bunch_code_name(code=None, name=None):
+def update_bunch_code_name(code=None, bunch_name=None):
 	if not frappe.request.method == "POST":
 		raise frappe.ValidationError
 
 	if 'IOT User' not in frappe.get_roles(frappe.session.user):
 		raise frappe.PermissionError
 
-	frappe.logger(__name__).info(_("Update device bunch code {0} name to {1}").format(code, name))
+	frappe.logger(__name__).info(_("Update device bunch code {0} name to {1}").format(code, bunch_name))
 
 	doc = frappe.get_doc('IOT Device Bunch', {"code": code})
-	doc.set("bunch_name", name)
+	doc.set("bunch_name", bunch_name)
 	doc.save()
 
 	return doc
