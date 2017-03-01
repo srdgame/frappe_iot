@@ -37,6 +37,22 @@
 			<div class="col-xs-4 text-right text-muted">{{ _("SN") }}</div>
 			<div class="col-xs-8">{{ doc.sn }}</div>
 		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Bunch Code") }}</div>
+			<div class="col-xs-8">{{ doc.bunch }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Enterprise") }}</div>
+			<div class="col-xs-8">{{ doc.enterprise }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Status") }}</div>
+			<div class="col-xs-8">{{ doc.status }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Last Updated") }}</div>
+			<div class="col-xs-8">{{ frappe.utils.pretty_date(doc.last_updated) }}</div>
+		</div>
 	</div>
 </div>
 
