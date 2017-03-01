@@ -231,9 +231,9 @@ def update_device_name():
 def get_time(pretty=None):
 	valid_auth_code()
 	now = time.time()
-	if not pretty:
-		return time
-	return pretty_date(time)
+	if pretty is None:
+		return now
+	return pretty_date(now)
 
 
 @frappe.whitelist(allow_guest=True)
