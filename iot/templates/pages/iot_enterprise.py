@@ -21,15 +21,15 @@ def get_context(context):
 
 	context.no_cache = 1
 	context.show_sidebar = True
-	enterprise = frappe.get_doc('IOT Enterprise', name)
-	if enterprise.get('admin') != frappe.session.user:
-		raise frappe.PermissionError
 
+	enterprise = frappe.get_doc('IOT Enterprise', name)
 	enterprise.has_permission('read')
 
-	enterprise.users = get_users(enterprise.name, start=0, enabled=True, search=frappe.form_dict.get("search"))
+	if enterprise.get('admin') == frappe.session.user:
+		enterprise.users = get_users(enterprise.name, start=0, enabled=True, search=frappe.form_dict.get("search"))
 
-	context.parents = [{"label": _("IOT Enterprises"), "route": "/iot_enterprises"}]
+	# context.parents = [{"label": _("IOT Enterprises"), "route": "/iot_enterprises"}]
+
 	context.doc = enterprise
 	"""
 	context.parents = [
