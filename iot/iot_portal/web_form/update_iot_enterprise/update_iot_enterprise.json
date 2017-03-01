@@ -17,7 +17,7 @@
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 14:47:55.217869", 
+ "modified": "2017-03-01 17:48:42.874247", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-enterprise", 
@@ -63,7 +63,7 @@
   }, 
   {
    "fieldname": "image", 
-   "fieldtype": "Data", 
+   "fieldtype": "Attach", 
    "hidden": 0, 
    "label": "Image", 
    "max_length": 0, 
