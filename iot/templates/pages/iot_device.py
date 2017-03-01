@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _
 
 
 def get_context(context):
@@ -22,8 +23,11 @@ def get_context(context):
 
 	device.has_permission('read')
 
+	context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
 	context.doc = device
+	"""
 	context.parents = [
 		{"label": _("Back"), "route": frappe.get_request_header("referer")},
 		{"label": _("IOT Devices"), "route": "/iot_devices"}
 	]
+	"""

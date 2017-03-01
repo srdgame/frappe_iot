@@ -27,11 +27,14 @@ def get_context(context):
 
 	enterprise.users = get_users(enterprise.name, start=0, enabled=True, search=frappe.form_dict.get("search"))
 
+	context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
 	context.doc = enterprise
+	"""
 	context.parents = [
 		{"label": _("Back"), "route": frappe.get_request_header("referer")},
 		{"label": _("IOT Enterprises"), "route": "/iot_enterprises"}
 	]
+	"""
 
 def get_users(enterprise, start=0, search=None, enabled=None):
 	filters = {"enterprise": enterprise}
