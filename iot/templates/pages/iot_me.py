@@ -36,4 +36,5 @@ def get_context(context):
 		context.doc = {
 			"name": frappe.session.user,
 			"user": frappe.session.user,
+			"enterprise": "Public",
 		}

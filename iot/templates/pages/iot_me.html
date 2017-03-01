@@ -16,7 +16,7 @@
 {% block page_content %}
 
 <!-- no-cache -->
-<div class="row your-account-info hidden-xs" style="min-height: 400px; padding-bottom: 50px;">
+<div class="row your-account-info hidden-xs" style="min-height: 200px; padding-bottom: 50px;">
 	<div class="col-sm-4">
 			<span class="user-image-myaccount"></span>
 			<div>
@@ -38,6 +38,10 @@
 		<div class="row">
 			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
 			<div class="col-xs-8">{{ fullname }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Enterprise") }}</div>
+			<div class="col-xs-8">{{ doc.enterprise }}</div>
 		</div>
 	</div>
 </div>
