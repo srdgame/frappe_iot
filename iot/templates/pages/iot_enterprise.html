@@ -17,6 +17,7 @@
 <div class="row iot-enterprise-info hidden-xs" style="min-height: 200px; padding-bottom: 50px;">
 	<div class="col-sm-4">
 		<span class="user-image-myaccount"></span>
+		{% if is_admin %}
 		<div>
 			<ul class="list-unstyled">
 				<li><a href="/update-iot-enterprise?name={{ doc.name }}">
@@ -28,6 +29,7 @@
 
 			</ul>
 		</div>
+		{% endif %}
 	</div>
 	<div class="col-sm-8 pull-left">
 		<div class="row">
