@@ -226,6 +226,12 @@ def update_device_name():
 
 
 @frappe.whitelist(allow_guest=True)
+def time():
+	valid_auth_code()
+	return time()
+
+
+@frappe.whitelist(allow_guest=True)
 def ping():
 	form_data = frappe.form_dict
 	if frappe.request and frappe.request.method == "POST":
