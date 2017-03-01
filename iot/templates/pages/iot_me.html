@@ -15,6 +15,33 @@
 
 {% block page_content %}
 
+<!-- no-cache -->
+<div class="row your-account-info hidden-xs" style="min-height: 400px; padding-bottom: 50px;">
+	<div class="col-sm-4">
+			<span class="user-image-myaccount"></span>
+			<div>
+				<ul class="list-unstyled">
+					<li><a href="/update-password">
+						<h6 class="text-muted">{{ _("Reset Password") }}</h6>
+					</a></li>
+						<li><a href="/update-profile?name={{ user }}">
+						<h6 class="text-muted">{{ _("Edit Profile") }}</h6>
+					</a></li>
+						<li><a href="/update-iot-user?name={{ doc.user }}">
+						<h6 class="text-muted">{{ _("Edit IOT Profile") }}</h6>
+					</a></li>
+
+				</ul>
+			</div>
+		</div>
+	<div class="col-sm-8 pull-left">
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
+			<div class="col-xs-8">{{ fullname }}</div>
+		</div>
+	</div>
+</div>
+
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Private Bunch Codes") }}</h4>
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1'>{{ _("New Bunch Code") }}</a>

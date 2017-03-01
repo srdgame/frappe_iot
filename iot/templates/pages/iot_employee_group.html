@@ -15,6 +15,31 @@
 
 {% block page_content %}
 
+<!-- no-cache -->
+<div class="row iot-employee-group-info hidden-xs" style="min-height: 200px; padding-bottom: 50px;">
+	<div class="col-sm-4">
+		<span class="user-image-myaccount"></span>
+		<div>
+			<ul class="list-unstyled">
+				<li><a href="/update-iot-employee-group?name={{ doc.name }}">
+					<h6 class="text-muted">{{ _("Edit") }}</h6>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+	<div class="col-sm-8 pull-left">
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
+			<div class="col-xs-8">{{ doc.grp_name }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Description") }}</div>
+			<div class="col-xs-8">{{ doc.description }}</div>
+		</div>
+	</div>
+</div>
+
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Bunch Codes") }}</h4>
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1&type=IOT Employee Group&owner={{ doc.name }}'>{{ _("New bunch code") }}</a>

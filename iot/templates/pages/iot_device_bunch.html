@@ -16,20 +16,48 @@
 {% block page_content %}
 
 {% if not doc.new_flag %}
-<table class="table">
-	<th>
-		<td>{{ _("Name") }}</td>
-		<td>{{ _("Code") }}</td>
-		<td>{{ _("Creation") }}</td>
-		<td>{{ _("Modified") }}</td>
-	</th>
-	<tr>
-		<td>{{ doc.bunch_name }}</td>
-		<td><code>{{ doc.code }}</code></td>
-		<td>{{ frappe.utils.pretty_date(doc.creation) }}</td>
-		<td>{{ frappe.utils.pretty_date(doc.modified) }}</td>
-	</tr>
-</table>
+
+<!-- no-cache -->
+<div class="row iot-device-bunch-info hidden-xs" style="min-height: 400px; padding-bottom: 50px;">
+	<div class="col-sm-4">
+		<span class="user-image-myaccount"></span>
+		<div>
+			<ul class="list-unstyled">
+				<li><a href="/update-iot-device-bunch?name={{ doc.name }}">
+					<h6 class="text-muted">{{ _("Edit") }}</h6>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+	<div class="col-sm-8 pull-left">
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
+			<div class="col-xs-8">{{ doc.bunch_name }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Code") }}</div>
+			<div class="col-xs-8">{{ doc.code }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Owner Type") }}</div>
+			<div class="col-xs-8">{{ doc.owner_type }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Owner ID") }}</div>
+			<div class="col-xs-8">{{ doc.owner_id }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Creation") }}</div>
+			<div class="col-xs-8">{{ frappe.utils.pretty_date(doc.creation) }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Modified") }}</div>
+			<div class="col-xs-8">{{ frappe.utils.pretty_date(doc.modified) }}</div>
+		</div>
+	</div>
+</div>
+
 {% else %}
 <div class="page-card">
 	<div class='page-card-head'>
