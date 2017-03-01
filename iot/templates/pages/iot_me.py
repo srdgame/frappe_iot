@@ -23,7 +23,7 @@ def get_context(context):
 		raise frappe.PermissionError("Your account is not an IOT User! Please concat admin for user permission request!")
 
 	context.no_cache = 1
-	context.show_sidebar = True
+	#context.show_sidebar = True
 
 	codes = get_user_bunch_codes(frappe.session.user)
 	context.codes = codes
