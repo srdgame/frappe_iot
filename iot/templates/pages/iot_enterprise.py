@@ -8,7 +8,9 @@ from frappe import _
 
 
 def get_context(context):
-	name = frappe.form_dict.enterprise or frappe.form_dict.name
+	name = frappe.form_dict.enterprise or frappe.form_dict.name \
+			or frappe.get_value("IOT User", frappe.session.user, "enterprise")
+
 	if not name:
 		frappe.local.flags.redirect_location = "/me"
 		raise frappe.Redirect
