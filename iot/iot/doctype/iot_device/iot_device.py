@@ -104,7 +104,7 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, or
 			and bunch_code.owner_id = %(user)s
 			and bunch_code.code = device.bunch)
 			or (bunch_code.owner_type = "IOT Employee Group"
-			and em_group.group = bunch_code.owner_id
+			and em_group.name = bunch_code.owner_id
 			and em_group.parent = %(ent)s
 			and bunch_code.code = device.bunch)
 			order by device.{0}
