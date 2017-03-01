@@ -1,9 +1,9 @@
 {% extends "templates/web.html" %}
 
-{% block title %}{{ doc.name }}{% endblock %}
+{% block title %}{{ _("My IOT Account") }}{% endblock %}
 
 {% block header %}
-    <h1>{{ doc.user }}</h1>
+    <h1>{{ _("My IOT Account") }}</h1>
 {% endblock %}
 
 {% block style %}
@@ -22,6 +22,10 @@
 		</div>
 	<div class="col-sm-8 pull-left">
 		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Username") }}</div>
+			<div class="col-xs-8">{{ user }}</div>
+		</div>
+		<div class="row">
 			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
 			<div class="col-xs-8">{{ fullname }}</div>
 		</div>
@@ -38,7 +42,7 @@
 </div>
 
 {% if doc.bunch_codes %}
-	<div class='device-bench-code-section' style="min-height: 200px; padding-bottom: 50px;">
+	<div class='device-bench-code-section'>
 		<div class='device-bench-code'>
 		{% include "templates/includes/iot_enterprise/iot_device_bunch_codes.html" %}
 		</div>
