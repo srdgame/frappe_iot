@@ -15,6 +15,34 @@
 
 {% block page_content %}
 
+<!-- no-cache -->
+<div class="row iot-device-info hidden-xs" style="min-height: 400px; padding-bottom: 50px;">
+	<div class="col-sm-8 pull-left">
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
+			<div class="col-xs-8">{{ doc.dev_name }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("SN") }}</div>
+			<div class="col-xs-8">{{ doc.sn }}</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<span class="user-image-myaccount"></span>
+		<div>
+			<ul class="list-unstyled">
+				<li><a href="/update-iot-device?name={{ doc.name }}">
+					<h6 class="text-muted">{{ _("Edit") }}</h6>
+				</a></li>
+					<li><a href="/update-iot-device?name={{ doc.name }}">
+					<h6 class="text-muted">{{ _("Edit Profile") }}</h6>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+</div>
+
 <script>
 	{% include "templates/pages/iot_device.js" %}
 </script>

@@ -72,7 +72,7 @@ website_route_rules = [
 		}
 	},
 	{"from_route": "/iot_devices", "to_route": "IOT Device"},
-	{"from_route": "/iot_devices/<path:name>", "to_route": "update-iot-device",
+	{"from_route": "/iot_devices/<path:name>", "to_route": "iot_device",
 		"defaults": {
 			"doctype": "IOT Device",
 			"parents": [{"title": _("IOT Device"), "name": "iot_devices"}]
