@@ -45,6 +45,8 @@
 	</div>
 </div>
 
+{% if is_admin %}
+
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Groups") }}</h4>
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/update-iot-employee-group?name={{ doc.name }}'>{{ _("New group") }}</a>
@@ -81,6 +83,7 @@
 
 <div class='padding'></div>
 
+{% endif %} <!-- is_admin -->
 
 <script>
 	{% include "templates/pages/iot_enterprise.js" %}

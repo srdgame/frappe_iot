@@ -27,6 +27,9 @@ def get_context(context):
 
 	if enterprise.get('admin') == frappe.session.user:
 		enterprise.users = get_users(enterprise.name, start=0, enabled=True, search=frappe.form_dict.get("search"))
+		context.is_admin = True
+	else:
+		enterprise.groups = None
 
 	# context.parents = [{"label": _("IOT Enterprises"), "route": "/iot_enterprises"}]
 
