@@ -18,9 +18,9 @@ def get_context(context):
 	if 'IOT User' not in user_roles:
 		raise frappe.PermissionError("Your account is not an IOT User! Please concat admin for user permission request!")
 
-	if frappe.get_value("IOT User", frappe.session.user, "name"):
+	if not frappe.get_value("IOT User", frappe.session.user, "name"):
 		frappe.local.flags.redirect_location = "/iot_me"
-		raise frappe.Redirect
+		raise frappe.PermissionError("Your account is not an IOT User!")
 
 	user = frappe.form_dict.name
 	if not user:
