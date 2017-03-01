@@ -14,11 +14,11 @@
  "docstatus": 0, 
  "doctype": "Web Form", 
  "idx": 0, 
- "introduction_text": "Update IOT Devices", 
+ "introduction_text": "", 
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 14:56:21.526656", 
+ "modified": "2017-03-01 15:06:52.450317", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-device", 
@@ -31,16 +31,6 @@
  "success_url": "/update-iot-device", 
  "title": "Update IOT Device", 
  "web_form_fields": [
-  {
-   "fieldname": "sn", 
-   "fieldtype": "Data", 
-   "hidden": 0, 
-   "label": "SN", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "read_only": 1, 
-   "reqd": 1
-  }, 
   {
    "fieldname": "dev_name", 
    "fieldtype": "Data", 
@@ -102,37 +92,6 @@
    "max_value": 0, 
    "read_only": 0, 
    "reqd": 1
-  }, 
-  {
-   "fieldtype": "Section Break", 
-   "hidden": 0, 
-   "label": "sb1", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "read_only": 0, 
-   "reqd": 0
-  }, 
-  {
-   "default": "", 
-   "fieldname": "device_status", 
-   "fieldtype": "Select", 
-   "hidden": 0, 
-   "label": "Device Status", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "options": "\nONLINE\nOFFLINE", 
-   "read_only": 1, 
-   "reqd": 0
-  }, 
-  {
-   "fieldname": "last_updated", 
-   "fieldtype": "Datetime", 
-   "hidden": 0, 
-   "label": "Last Updated", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "read_only": 1, 
-   "reqd": 0
   }
  ]
 }
