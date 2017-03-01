@@ -1,7 +1,7 @@
 {% extends "templates/web.html" %}
 
 {% block title %}{{ _("IOT Account - ") }} {{ doc.user }}{% endblock %}
-{% block header %}<h1>{{ doc.user }}</h1>{% endblock %}
+{% block header %} <h1>{{ _("IOT User") }}</h1> % endblock %}
 
 {% block style %}
 	<style>
@@ -30,8 +30,16 @@
 		</div>
 	<div class="col-sm-8 pull-left">
 		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Username") }}</div>
+			<div class="col-xs-8">{{ user_doc.name }}</div>
+		</div>
+		<div class="row">
 			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
 			<div class="col-xs-8">{{ user_doc.full_name }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Enterprise") }}</div>
+			<div class="col-xs-8">{{ doc.enterprise }}</div>
 		</div>
 	</div>
 </div>
