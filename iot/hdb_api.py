@@ -34,7 +34,7 @@ def list_enterprises(usr=None, pwd=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def login(user=None, pwd=None):
+def login(user=None, passwd=None):
 	"""
 	HDB Application checking for user login
 	:param user: Username (Frappe Username)
@@ -42,9 +42,9 @@ def login(user=None, pwd=None):
 	:return: {"user": <Frappe Username>, "ent": <IOT Enterprise>}
 	"""
 	valid_auth_code()
-	if not (user and pwd):
-		usr, pwd = frappe.form_dict.get('user'), frappe.form_dict.get('pwd')
-	frappe.logger(__name__).debug(_("HDB Checking login {0} password {1}").format(user, pwd))
+	if not (user and passwd):
+		usr, passwd = frappe.form_dict.get('user'), frappe.form_dict.get('passwd')
+	frappe.logger(__name__).debug(_("HDB Checking login {0} password {1}").format(user, passwd))
 
 	"""
 	if '@' not in usr:
@@ -60,7 +60,7 @@ def login(user=None, pwd=None):
 		throw(_("User login_name {0} not found in Enterprise {1}").format(login_name, enterprise))
 	"""
 
-	frappe.local.login_manager.authenticate(user, pwd)
+	frappe.local.login_manager.authenticate(user, passwd)
 	if frappe.local.login_manager.user != user:
 		throw(_("Username password is not matched!"))
 
