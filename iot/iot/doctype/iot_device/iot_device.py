@@ -60,11 +60,12 @@ class IOTDevice(Document):
 
 	def has_website_permission(self, ptype, verbose=False):
 		user = frappe.session.user
-		if self.owner_type == "User" and self.owner_id == user:
+		bench = frappe.get_doc("IOT Device Bunch", self.bunch)
+		if bench.owner_type == "User" and bench.owner_id == user:
 			return True
 
 		groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
-		if self.owner_type == "IOT Employee Group" and self.owner_id in groups:
+		if bench.owner_type == "IOT Employee Group" and bench.owner_id in groups:
 			return True
 
 		return False
@@ -74,9 +75,11 @@ def get_permission_query_conditions(user):
 	if not user: user = frappe.session.user
 	groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
 
-	return """(`tabIOT Device Bunch`.owner_type='User' and `tabIOT Device Bunch`.owner_id='%(user)s'
-		or (`tabIOT Device Bunch`.owner_type='IOT Employee Group' and
-			`tabIOT Device Bunch`.owner_id in ('%(groups)s'))
+	return """`tabIOT Device`.bunch=`tabIOT Device Bunch`.code
+				and ((`tabIOT Device Bunch`.owner_type='User' 
+					and `tabIOT Device Bunch`.owner_id='%(user)s')
+					or (`tabIOT Device Bunch`.owner_type='IOT Employee Group'
+					and	`tabIOT Device Bunch`.owner_id in ('%(groups)s')))
 		""" % {
 			"user": frappe.db.escape(user),
 			"groups": "', '".join([frappe.db.escape(r) for r in groups])
