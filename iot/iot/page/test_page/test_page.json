@@ -1,0 +1,22 @@
+{
+ "content": null, 
+ "creation": "2017-03-01 10:16:59.112746", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "idx": 0, 
+ "modified": "2017-03-01 10:16:59.112746", 
+ "modified_by": "Administrator", 
+ "module": "IOT", 
+ "name": "test_page", 
+ "owner": "Administrator", 
+ "page_name": "test_page", 
+ "roles": [
+  {
+   "role": "IOT User"
+  }
+ ], 
+ "script": null, 
+ "standard": "Yes", 
+ "style": null, 
+ "title": "Test Page"
+}
