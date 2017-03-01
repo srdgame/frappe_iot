@@ -32,5 +32,6 @@ def get_context(context):
 
 	doc.has_permission('read')
 
-	context.doc = doc
+	context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
 	context.user_doc = frappe.get_doc("User", doc.user)
+	context.doc = doc
