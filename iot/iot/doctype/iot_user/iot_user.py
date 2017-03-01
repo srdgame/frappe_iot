@@ -21,6 +21,9 @@ class IOTUser(Document):
 		# clear groups if Enterprise changed
 		org_enterprise = frappe.db.get_value("IOT User", {"name": self.name}, "enterprise")
 		if org_enterprise != self.enterprise:
+			if frappe.db.get_value("IOT Enterprise", org_enterprise, "admin") == self.user:
+				raise frappe.ValidationError(_("User {0} is admin of Enterprise {1}, cannot remove it").format(self.user, org_enterprise))
+
 			print('Remove all groups as the Enterpise is changed!')
 			self.remove_all_groups()
 
