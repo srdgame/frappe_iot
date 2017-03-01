@@ -135,3 +135,4 @@ apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +82,Your Enteprises,�
 apps/iot/iot/templates/pages/iot_device_bunch.py +50,Your IOT Account,您的IOT账户
 DocType: IOT Device,hdb,
 ,Name,名称
+,Home,主页
