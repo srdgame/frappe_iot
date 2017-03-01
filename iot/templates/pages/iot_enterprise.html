@@ -15,6 +15,38 @@
 
 {% block page_content %}
 
+<!-- no-cache -->
+<div class="row iot-device-info hidden-xs" style="min-height: 400px; padding-bottom: 50px;">
+	<div class="col-sm-4">
+		<span class="user-image-myaccount"></span>
+		<div>
+			<ul class="list-unstyled">
+				<li><a href="/update-iot-enterprse?name={{ doc.name }}">
+					<h6 class="text-muted">{{ _("Edit") }}</h6>
+				</a></li>
+					<li><a href="/update-iot-enterprse?name={{ doc.name }}">
+					<h6 class="text-muted">{{ _("Edit Profile") }}</h6>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+	<div class="col-sm-8 pull-left">
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
+			<div class="col-xs-8">{{ doc.ent_name }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Address") }}</div>
+			<div class="col-xs-8">{{ doc.address }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Administrator") }}</div>
+			<div class="col-xs-8">{{ doc.admin }}</div>
+		</div>
+	</div>
+</div>
+
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Groups") }}</h4>
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_employee_group?new=1&enterprise={{ doc.ent_name }}'>{{ _("New group") }}</a>
