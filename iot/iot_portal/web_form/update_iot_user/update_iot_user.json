@@ -1,6 +1,6 @@
 {
  "accept_payment": 0, 
- "allow_comments": 0, 
+ "allow_comments": 1, 
  "allow_delete": 0, 
  "allow_edit": 1, 
  "allow_incomplete": 0, 
@@ -17,7 +17,7 @@
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 14:15:13.559375", 
+ "modified": "2017-03-01 14:56:10.413222", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-user", 
@@ -38,17 +38,6 @@
    "label": "Enabled", 
    "max_length": 0, 
    "max_value": 0, 
-   "read_only": 0, 
-   "reqd": 1
-  }, 
-  {
-   "fieldname": "enterprise", 
-   "fieldtype": "Link", 
-   "hidden": 0, 
-   "label": "Enterprise", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "options": "IOT Enterprise", 
    "read_only": 0, 
    "reqd": 1
   }, 

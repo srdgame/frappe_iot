@@ -17,7 +17,7 @@
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 14:46:28.580735", 
+ "modified": "2017-03-01 14:55:58.137773", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-employee-group", 
@@ -30,16 +30,6 @@
  "success_url": "/update-iot-employee-group", 
  "title": "Update IOT Employee Group", 
  "web_form_fields": [
-  {
-   "fieldname": "ent_name", 
-   "fieldtype": "Data", 
-   "hidden": 0, 
-   "label": "Name", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "read_only": 1, 
-   "reqd": 1
-  }, 
   {
    "fieldname": "groups", 
    "fieldtype": "Table", 

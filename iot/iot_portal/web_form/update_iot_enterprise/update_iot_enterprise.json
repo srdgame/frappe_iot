@@ -17,7 +17,7 @@
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 14:15:21.577570", 
+ "modified": "2017-03-01 14:47:55.217869", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-enterprise", 
@@ -78,17 +78,6 @@
    "label": "Contact", 
    "max_length": 0, 
    "max_value": 0, 
-   "read_only": 0, 
-   "reqd": 0
-  }, 
-  {
-   "fieldname": "groups", 
-   "fieldtype": "Table", 
-   "hidden": 0, 
-   "label": "Groups", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "options": "IOT Employee Group", 
    "read_only": 0, 
    "reqd": 0
   }
