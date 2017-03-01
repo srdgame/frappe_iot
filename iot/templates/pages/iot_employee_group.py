@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _
 
 
 def is_enterperise_admin(user, enterprise):
@@ -32,6 +33,7 @@ def get_context(context):
 	doc.bunch_codes = get_bunch_codes(doc.name, start=0, search=frappe.form_dict.get("search"))
 
 	context.doc = doc
+	context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
 
 
 def get_users(group, start=0, search=None):
