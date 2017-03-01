@@ -1,7 +1,7 @@
 {% extends "templates/web.html" %}
 
-{% block title %}{{ _("My IOT Account") }}{% endblock %}
-{% block header %}<h1>{{ _("My IOT Account") }}</h1>{% endblock %}
+{% block title %}{{ _("IOT Account - ") }} {{ doc.user }}{% endblock %}
+{% block header %}<h1>{{ _("IOT Account - ") }} {{ doc.user }}</h1>{% endblock %}
 
 {% block style %}
 	<style>
