@@ -23,7 +23,7 @@ def get_context(context):
 		raise frappe.PermissionError("Your account is not an IOT User!")
 
 	user = frappe.form_dict.name
-	if not user:
+	if not user or user == frappe.session.user:
 		frappe.local.flags.redirect_location = "/update-password"
 		raise frappe.Redirect
 
