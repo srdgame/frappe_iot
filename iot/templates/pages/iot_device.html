@@ -17,16 +17,6 @@
 
 <!-- no-cache -->
 <div class="row iot-device-info hidden-xs" style="min-height: 400px; padding-bottom: 50px;">
-	<div class="col-sm-8 pull-left">
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
-			<div class="col-xs-8">{{ doc.dev_name }}</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("SN") }}</div>
-			<div class="col-xs-8">{{ doc.sn }}</div>
-		</div>
-	</div>
 	<div class="col-sm-4">
 		<span class="user-image-myaccount"></span>
 		<div>
@@ -39,6 +29,16 @@
 				</a></li>
 
 			</ul>
+		</div>
+	</div>
+	<div class="col-sm-8 pull-left">
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
+			<div class="col-xs-8">{{ doc.dev_name }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 text-right text-muted">{{ _("SN") }}</div>
+			<div class="col-xs-8">{{ doc.sn }}</div>
 		</div>
 	</div>
 </div>
