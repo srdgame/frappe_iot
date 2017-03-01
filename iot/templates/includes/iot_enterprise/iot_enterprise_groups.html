@@ -1,7 +1,7 @@
 {% for group in doc.groups %}
 	<div class='group'>
 		<a class="no-decoration group-link {{ group.css_seen }}" href="/iot_employee_groups/{{ group.name }}">
-		<div class='row enterprise-item'>
+		<div class='row group-item'>
 			<div class='col-xs-6'>
 				<span class="indicator {{ "green" if group.enabled else "darkgrey" }}" title="{{ group.enabled }}"  > {{ group.name }}</span>
 	 				<div class="small text-muted item-timestamp"

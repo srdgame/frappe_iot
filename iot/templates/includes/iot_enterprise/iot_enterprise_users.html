@@ -1,7 +1,7 @@
 {% for user in doc.users %}
 	<div class='user'>
 		<a class="no-decoration user-link {{ user.css_seen }}" href="/iot_users/{{ user.name }}">
-		<div class='row enterprise-item'>
+		<div class='row user-item'>
 			<div class='col-xs-9'>
 				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}"  > {{ user.name }}</span>
 	 				<div class="small text-muted item-timestamp"

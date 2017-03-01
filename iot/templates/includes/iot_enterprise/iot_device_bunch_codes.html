@@ -1,7 +1,7 @@
 {% for code in doc.bunch_codes %}
 	<div class='bunch-code'>
 		<a class="no-decoration bunch-code-link {{ code.css_seen }}" href="/iot_device_bunch_codes/{{ code.name }}">
-		<div class='row enterprise-item'>
+		<div class='row bunch-code-item'>
 			<div class='col-xs-9'>
 				<span class="indicator {{ "green" if code.enabled else "darkgrey" }}" title="{{ code.enabled }}"  > {{ code.name }}</span>
 	 				<div class="small text-muted item-timestamp"
