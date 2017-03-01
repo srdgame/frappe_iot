@@ -23,7 +23,7 @@ def get_context(context):
 
 	device.has_permission('read')
 
-	context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
+	context.parents = [{"label": _("IOT Devices"), "route": "/iot_devices"}]
 	context.doc = device
 	"""
 	context.parents = [
