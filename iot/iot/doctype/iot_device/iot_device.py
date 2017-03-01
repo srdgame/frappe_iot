@@ -75,7 +75,7 @@ def get_permission_query_conditions(user):
 	if not user: user = frappe.session.user
 	groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
 
-	return """`tabIOT Device`.bunch=`tabIOT Device Bunch`.code
+	cond = """`tabIOT Device`.bunch=`tabIOT Device Bunch`.code
 				and ((`tabIOT Device Bunch`.owner_type='User' 
 					and `tabIOT Device Bunch`.owner_id='%(user)s')
 					or (`tabIOT Device Bunch`.owner_type='IOT Employee Group'
@@ -84,6 +84,8 @@ def get_permission_query_conditions(user):
 			"user": frappe.db.escape(user),
 			"groups": "', '".join([frappe.db.escape(r) for r in groups])
 		}
+	print(cond)
+	return cond
 
 
 def has_permission(doc, user):
