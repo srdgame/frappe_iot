@@ -13,6 +13,9 @@ class IOTDeviceBunch(Document):
 		"""Returns true if current user is the session user"""
 		return self.owner_type == "User" and self.owner_id == frappe.session.user
 
+	def on_trash(self):
+		# TODO:Let's verify devices.
+		print("DO it!")
 
 
 @frappe.whitelist()

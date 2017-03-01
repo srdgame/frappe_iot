@@ -15,8 +15,8 @@ class IOTEmployeeGroup(Document):
 		self.name = '[' + self.parent + '].' + self.grp_name
 
 	def on_trash(self):
-		# TODO: It's time to remove entries from IOT UserGroup
-		print("Help!")
+		for d in frappe.get_all("IOT UserGroup", {"group": self.name}):
+			d.delete()
 
 	def has_website_permission(self, ptype, verbose=False):
 		"""Returns true if current user is the session user"""
