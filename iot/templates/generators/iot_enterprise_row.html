@@ -1,19 +1,18 @@
 <div class="web-list-item">
-	<a class="no-decoration" href="/iot_enterprises/{{ doc.name }}">
-		<div class="row">
-			<div class="col-xs-5">
-				{{ doc.name }}
+	<div class='group'>
+		<a class="no-decoration group-link {{ group.css_seen }}" href="/iot_enterprises/{{ doc.name }}">
+		<div class='row enterprise-item'>
+			<div class='col-xs-6'>
+				<span class="indicator {{ "green" if doc.enabled else "darkgrey" }}" title="{{ doc.enabled }}"  > {{ doc.ent_name }}</span>
+					<div class="small text-muted item-timestamp"
+						title="{{ frappe.utils.pretty_date(group.modified) }}">
+						modified {{ frappe.utils.pretty_date(doc.modified) }}
+					</div>
 			</div>
-			<div class="col-xs-2">
-				{{ doc.domain }}
-			</div>
-			<div class="col-xs-2">
-					<span class="indicator {{ "green" if doc.enabled else "darkgrey"  }}">
-						{{ "enabled" if doc.enabled else "disabled" }}</span>
-			</div>
-			<div class="col-xs-3 text-right small text-muted" disabled>
-				{{ frappe.utils.pretty_date(doc.modified) }}
+			<div class='col-xs-2'>
+				 {{ doc.domain }}
 			</div>
 		</div>
-	</a>
+		</a>
+	</div>
 </div>
