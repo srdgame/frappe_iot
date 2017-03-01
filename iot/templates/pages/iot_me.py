@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _
 
 
 def get_user_bunch_codes(user):
