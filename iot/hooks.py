@@ -114,9 +114,9 @@ default_roles = [
 # -----------
 # Permissions evaluated in scripted ways
 
-permission_query_conditions = {
-	"IOT Device": "iot.iot.doctype.iot_device.iot_device.get_permission_query_conditions",
-}
+#permission_query_conditions = {
+#	"IOT Device": "iot.iot.doctype.iot_device.iot_device.get_permission_query_conditions",
+#}
 
 has_permission = {
 	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
