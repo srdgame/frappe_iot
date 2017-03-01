@@ -75,14 +75,12 @@ def has_permission(doc, user):
 	if not user:
 		user = frappe.session.user
 
-	if "IOT Manager" in frappe.get_roles(user):
-		return True
-
-	if doc.owner_type == "User" and doc.owner_id == user:
+	bench = frappe.get_doc("IOT Device Bunch", doc.bunch)
+	if bench.owner_type == "User" and bench.owner_id == user:
 		return True
 
 	groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
-	if doc.owner_type == "IOT Employee Group" and doc.owner_id in groups:
+	if bench.owner_type == "IOT Employee Group" and bench.owner_id in groups:
 		return True
 
 	return False
