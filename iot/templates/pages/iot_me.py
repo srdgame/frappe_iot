@@ -25,9 +25,6 @@ def get_context(context):
 	context.no_cache = 1
 	context.show_sidebar = True
 
-	codes = get_user_bunch_codes(frappe.session.user)
-	context.codes = codes
-
 	# context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
 
 	if frappe.get_value("IOT User", frappe.session.user):
@@ -41,3 +38,5 @@ def get_context(context):
 			"user": frappe.session.user,
 			"enterprise": "Public",
 		}
+
+	context.doc.codes = get_user_bunch_codes(frappe.session.user)

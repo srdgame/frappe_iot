@@ -37,22 +37,18 @@
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1'>{{ _("New Bunch Code") }}</a>
 </div>
 
-<table class="table">
-	<tr>
-		<th>{{ _("Name") }}</th>
-		<th>{{ _("Code") }}</th>
-		<th>{{ _("Creation") }}</th>
-		<th>{{ _("Modified") }}</th>
-	</tr>
-	{% for code in codes %}
-	<tr>
-		<td>{{ code.bunch_name }}</td>
-		<td><code>{{ code.code }}</code></td>
-		<td>{{ frappe.utils.pretty_date(code.creation) }}</td>
-		<td>{{ frappe.utils.pretty_date(code.modified) }}</td>
-	</tr>
-	{% endfor %}
-</table>
+{% if doc.codes %}
+	<div class='device-bench-code-section'>
+		<div class='device-bench-code'>
+		{% include "templates/includes/iot_enterprise/iot_device_bunch_codes.html" %}
+		</div>
+		<p><a id= 'more-bunch-codes' style='display: none;' class='more-bunch-codes small underline'>{{ _("More") }}</a><p>
+	</div>
+{% else %}
+	<p class="text-muted">{{ _("No bunch-codes") }}</p>
+{% endif %}
+
+<div class='padding'></div>
 
 <script>
 	{% include "templates/pages/iot_me.js" %}
