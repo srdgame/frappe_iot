@@ -76,7 +76,7 @@ DocType: IOT User,Login Name,登录名
 apps/iot/iot/iot/doctype/iot_user/iot_user.py +14,Login Name {0} already exists in Enterprise {1},企业 {1} 中已经有人使用了该登录名 {0}
 apps/iot/iot/templates/pages/iot_device_bunch.html +55,Modified,编辑时间
 apps/iot/iot/templates/pages/iot_enterprise.html +60,More,更多
-DocType: IOT Device,Name,设备名
+DocType: IOT Device,Name,名称
 apps/iot/iot/templates/pages/iot_me.html +37,New Bunch Code,新增绑定码
 apps/iot/iot/templates/pages/iot_reset_password.html +14,New Password,新密码
 apps/iot/iot/templates/pages/iot_employee_group.html +45,New bunch code,新增绑定码
@@ -134,5 +134,3 @@ apps/iot/iot/iot/doctype/iot_device/iot_device.py +113,Your Devices,您的设备
 apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +82,Your Enteprises,您的企业列表
 apps/iot/iot/templates/pages/iot_device_bunch.py +50,Your IOT Account,您的IOT账户
 DocType: IOT Device,hdb,
-,Name,名称
-,Home,主页
