@@ -59,7 +59,7 @@ class IOTDevice(Document):
 		raise Exception("You should got here!")
 
 
-def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
+def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
 	return frappe.db.sql('''select distinct device.*
 		from `tabIOT Device` device, `tabIOT UserGroup` user_group, `tabIOT Device Bunch` bunch_code 
 		where
@@ -70,9 +70,9 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20):
 			and user_group.group = bunch_code.owner_id
 			and user_group.parent = %(user)s
 			and bunch_code.code = device.bunch)
-			order by device.modified desc
-			limit {0}, {1}
-		'''.format(limit_start, limit_page_length),
+			order by device.{0}
+			limit {1}, {2}
+		'''.format(order_by, limit_start, limit_page_length),
 			{'user':frappe.session.user},
 			as_dict=True,
 			update={'doctype':'IOT Device'})

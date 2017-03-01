@@ -61,15 +61,15 @@ class IOTEnterprise(Document):
 		return self.admin == frappe.session.user
 
 
-def get_enterprise_list(doctype, txt, filters, limit_start, limit_page_length=20):
+def get_enterprise_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
 	return frappe.db.sql('''select *
 		from `tabIOT Enterprise`
 		where
 			admin = %(user)s
-			order by modified desc
+			order by %(order_by)s
 			limit {0}, {1}
 		'''.format(limit_start, limit_page_length),
-			{'user':frappe.session.user},
+			{'user':frappe.session.user, 'order_by': order_by},
 			as_dict=True,
 			update={'doctype':'IOT Enterprise'})
 
