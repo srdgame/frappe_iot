@@ -8,6 +8,7 @@ import json
 import requests
 import time
 from frappe import throw, msgprint, _
+from frappe.utils import pretty_date
 from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
@@ -227,9 +228,12 @@ def update_device_name():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_time():
+def get_time(pretty=None):
 	valid_auth_code()
-	return time.time()
+	now = time.time()
+	if not pretty:
+		return time
+	return pretty_date(time)
 
 
 @frappe.whitelist(allow_guest=True)
