@@ -87,6 +87,12 @@ website_route_rules = [
 	},
 ]
 
+portal_menu_items = [
+	{"title": _("IOT Enterprises"), "route": "/iot_enterprises", "reference_doctype": "IOT Enterprise", "role": "IOT User"},
+	{"title": _("IOT Devices"), "route": "/iot_devices", "reference_doctype": "IOT Enterprise", "role": "IOT User"},
+	{"title": _("IOT Account"), "route": "/iot_me"}
+]
+
 # Website Default User Role
 default_roles = [
 	{'role': 'IOT User', 'doctype':'IOT User', 'email_field': 'email_id'},
