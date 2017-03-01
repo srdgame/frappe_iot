@@ -33,3 +33,4 @@ def get_context(context):
 	doc.has_permission('read')
 
 	context.doc = doc
+	context.user_doc = frappe.get_doc("User", doc.user)
