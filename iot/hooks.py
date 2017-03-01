@@ -48,6 +48,50 @@ error_report_email = "dirk.chang@symid.com.com"
 # Website user home page (by function)
 # get_website_user_home_page = "iot.utils.get_home_page"
 
+# Website Route Rules
+website_route_rules = [
+	{"from_route": "/iot_enterprises", "to_route": "IOT Enterprise"},
+	{"from_route": "/iot_enterprises/<path:name>", "to_route": "iot_enterprise",
+		"defaults": {
+			"doctype": "IOT Enterprise",
+			"parents": [{"title": _("IOT Enterprise"), "name": "iot_enterprises"}]
+		}
+	},
+	{"from_route": "/iot_employee_groups", "to_route": "IOT Employee Group"},
+	{"from_route": "/iot_employee_groups/<path:name>", "to_route": "iot_employee_group",
+		"defaults": {
+			"doctype": "IOT Employee Group",
+			"parents": [{"title": _("IOT Employee Group"), "name": "iot_employee_groups"}]
+		}
+	},
+	{"from_route": "/iot_device_bunch_codes", "to_route": "IOT Device Bunch"},
+	{"from_route": "/iot_device_bunch_codes/<path:name>", "to_route": "iot_device_bunch",
+		"defaults": {
+			"doctype": "IOT Device Bunch",
+			"parents": [{"title": _("IOT Device Bunch"), "name": "iot_device_bunch_codes"}]
+		}
+	},
+	{"from_route": "/iot_devices", "to_route": "IOT Device"},
+	{"from_route": "/iot_devices/<path:name>", "to_route": "update-iot-device",
+		"defaults": {
+			"doctype": "IOT Device",
+			"parents": [{"title": _("IOT Device"), "name": "iot_devices"}]
+		}
+	},
+	{"from_route": "/iot_users", "to_route": "IOT User"},
+	{"from_route": "/iot_users/<path:name>", "to_route": "iot_user",
+		"defaults": {
+			"doctype": "IOT User",
+			"parents": [{"title": _("IOT User"), "name": "iot_users"}]
+		}
+	},
+]
+
+# Website Default User Role
+default_roles = [
+	{'role': 'IOT User', 'doctype':'IOT User', 'email_field': 'email_id'},
+]
+
 # Generators
 # ----------
 
@@ -70,13 +114,19 @@ error_report_email = "dirk.chang@symid.com.com"
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+permission_query_conditions = {
+	"IOT Device": "iot.iot.doctype.iot_device.iot_device.get_permission_query_conditions",
+}
+
+has_permission = {
+	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
+}
+
+has_website_permission = {
+	"IOT Enterprise": "iot.iot.doctype.iot_enteprise.iot_enterprise.has_website_permission",
+	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_website_permission",
+	"IOT User": "iot.iot.doctype.iot_user.iot_user.has_website_permission",
+}
 
 # Document Events
 # ---------------
@@ -122,53 +172,4 @@ error_report_email = "dirk.chang@symid.com.com"
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "iot.event.get_events"
 # }
-
-# Website
-website_route_rules = [
-	{"from_route": "/iot_enterprises", "to_route": "IOT Enterprise"},
-	{"from_route": "/iot_enterprises/<path:name>", "to_route": "iot_enterprise",
-		"defaults": {
-			"doctype": "IOT Enterprise",
-			"parents": [{"title": _("IOT Enterprise"), "name": "iot_enterprises"}]
-		}
-	},
-	{"from_route": "/iot_employee_groups", "to_route": "IOT Employee Group"},
-	{"from_route": "/iot_employee_groups/<path:name>", "to_route": "iot_employee_group",
-		"defaults": {
-			"doctype": "IOT Employee Group",
-			"parents": [{"title": _("IOT Employee Group"), "name": "iot_employee_groups"}]
-		}
-	},
-	{"from_route": "/iot_device_bunch_codes", "to_route": "IOT Device Bunch"},
-	{"from_route": "/iot_device_bunch_codes/<path:name>", "to_route": "iot_device_bunch",
-		"defaults": {
-			"doctype": "IOT Device Bunch",
-			"parents": [{"title": _("IOT Device Bunch"), "name": "iot_device_bunch_codes"}]
-		}
-	},
-	{"from_route": "/iot_devices", "to_route": "IOT Device"},
-	{"from_route": "/iot_devices/<path:name>", "to_route": "update-iot-device",
-		"defaults": {
-			"doctype": "IOT Device",
-			"parents": [{"title": _("IOT Device"), "name": "iot_devices"}]
-		}
-	},
-	{"from_route": "/iot_users", "to_route": "IOT User"},
-	{"from_route": "/iot_users/<path:name>", "to_route": "iot_user",
-		"defaults": {
-			"doctype": "IOT User",
-			"parents": [{"title": _("IOT User"), "name": "iot_users"}]
-		}
-	},
-]
-
-default_roles = [
-	{'role': 'IOT User', 'doctype':'IOT User', 'email_field': 'email_id'},
-]
-
-has_website_permission = {
-	"IOT Enterprise": "iot.controllers.website_permissions.has_website_permission",
-	"IOT Device": "iot.controllers.website_permissions.has_website_permission",
-	"IOT User": "iot.controllers.website_permissions.has_website_permission",
-}
 
