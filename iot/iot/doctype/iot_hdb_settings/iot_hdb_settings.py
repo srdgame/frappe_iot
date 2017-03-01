@@ -7,9 +7,6 @@ import frappe
 from frappe.model.document import Document
 
 class IOTHDBSettings(Document):
-	@staticmethod
-	def get_default_enterprise():
-		return frappe.db.get_single_value("IOT HDB Settings", "default_enterprise")
 
 	@staticmethod
 	def get_authorization_code():

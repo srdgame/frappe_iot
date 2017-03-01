@@ -7,4 +7,6 @@ import frappe
 from frappe.model.document import Document
 
 class IOTSettings(Document):
-	pass
+	@staticmethod
+	def get_default_enterprise():
+		return frappe.db.get_single_value("IOT Settings", "default_enterprise")
