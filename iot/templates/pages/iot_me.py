@@ -28,7 +28,7 @@ def get_context(context):
 	codes = get_user_bunch_codes(frappe.session.user)
 	context.codes = codes
 
-	context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
+	# context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
 
 	if frappe.get_value("IOT User", frappe.session.user):
 		doc = frappe.get_doc('IOT User', frappe.session.user)
