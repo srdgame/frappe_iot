@@ -110,7 +110,7 @@ def get_list_context(context=None):
 		"show_sidebar": True,
 		"show_search": True,
 		"no_breadcrumbs": True,
-		"title": _("IOT Devices"),
+		"title": _("Your Devices"),
 		#"introduction": _('IOT Devices of your group/account'),
 		"get_list": get_device_list,
 		"row_template": "templates/generators/iot_device_row.html",
