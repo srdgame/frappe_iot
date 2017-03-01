@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 import json
 import requests
+import time
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
@@ -226,9 +227,9 @@ def update_device_name():
 
 
 @frappe.whitelist(allow_guest=True)
-def time():
+def get_time():
 	valid_auth_code()
-	return time()
+	return time.time()
 
 
 @frappe.whitelist(allow_guest=True)
