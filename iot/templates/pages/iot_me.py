@@ -31,12 +31,12 @@ def get_context(context):
 		doc = frappe.get_doc('IOT User', frappe.session.user)
 		doc.has_permission('read')
 
+		doc.bunch_codes = get_user_bunch_codes(frappe.session.user)
 		context.doc = doc
 	else:
 		context.doc = {
 			"name": frappe.session.user,
 			"user": frappe.session.user,
 			"enterprise": "Public",
+			"bunch_codes": get_user_bunch_codes(frappe.session.user)
 		}
-
-	context.doc.set("bunch_codes", get_user_bunch_codes(frappe.session.user))
