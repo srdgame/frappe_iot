@@ -11,6 +11,8 @@ from frappe.model.document import Document
 class IOTDeviceBunch(Document):
 	def has_website_permission(self, ptype, verbose=False):
 		"""Returns true if current user is the session user"""
+		#if ptype == "read":
+		#	return True
 		user = frappe.session.user
 		if self.owner_type == "User" and self.owner_id == user:
 			return True
