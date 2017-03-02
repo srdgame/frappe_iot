@@ -24,9 +24,6 @@
 						<li><a href="/update-iot-user?name={{ doc.user }}">
 						<h6 class="text-muted">{{ _("Edit IOT Profile") }}</h6>
 					</a></li>
-						<li><a href="/iot_delete_user?name={{ doc.user }}">
-						<h6 class="text-muted">{{ _("Remove User From") }} {{ doc.enterprise }}</h6>
-					</a></li>
 
 				</ul>
 			</div>
@@ -46,6 +43,13 @@
 		</div>
 	</div>
 </div>
+
+<form role="form form-iot-delete-user">
+	<input type="hidden" id="enterprise" name="enterprise" value="{{ doc.enterprise }}">
+	<input type="hidden" id="user" name="user" value="{{ doc.user }}">
+	<button class="btn btn-primary btn-iot-delete-user" type="submit">{{ _("Delete User From") }} {{ doc.enterprise }}</button>
+	<p class='iot-delete-user-strength-message text-muted small hidden'></p>
+</form>
 
 <script>
 	{% include "templates/pages/iot_user.js" %}

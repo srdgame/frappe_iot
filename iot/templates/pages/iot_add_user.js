@@ -19,7 +19,6 @@ frappe.ready(function() {
 			callback: function(r) {
 				if(!r.exc) {
 					$("input").val("");
-					strength_indicator.addClass('hidden');
 					strength_message.addClass('hidden');
 					$('.page-card-head .indicator')
 						.removeClass().addClass('indicator green')
@@ -40,6 +39,5 @@ frappe.ready(function() {
         return false;
 	});
 
-	window.strength_indicator = $('.bunch-code-strength-indicator');
-	window.strength_message = $('.bunch-code-strength-message');
+	window.strength_message = $('.iot-add-user-strength-message');
 });

@@ -168,7 +168,7 @@ def delete_user(user=None):
 	frappe.logger(__name__).info(_("Delete IOT User {0} from {1}").format(user, enterprise))
 
 	frappe.delete_doc('IOT User', user, ignore_permissions=True)
-	frappe.db.commit()
+	#frappe.db.commit()
 
 
 def get_valid_user():
