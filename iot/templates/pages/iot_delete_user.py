@@ -13,8 +13,7 @@ def is_enterprise_admin(user, enterprise):
 
 
 def get_context(context):
-	user = frappe.session.user
-	enterprise = frappe.form_dict.enterprise or frappe.db.get_value("IOT Enterprise", {"admin": user})
+	enterprise = frappe.form_dict.enterprise or frappe.db.get_value("IOT Enterprise", {"admin": frappe.session.user})
 	delete_user(frappe.form_dict.name)
 
 	frappe.local.flags.redirect_location = "/iot_enterprises/" + enterprise
