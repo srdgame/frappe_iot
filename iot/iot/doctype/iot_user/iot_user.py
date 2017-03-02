@@ -82,12 +82,12 @@ def add_user(user=None, enterprise=None, login_name=None):
 	:return: 
 	"""
 	if not frappe.request.method == "POST":
-		raise frappe.ValidationError
+		frappe.throw(_("Method must be POST"))
 
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
-	if not_manager and session_user != user:
-		raise frappe.PermissionError
+	if not_manager and session_user != user and frappe.get_value('IOT Enterprise', enterprise, 'admin') != session_user:
+		frappe.throw(_("You do not perrmission for adding IOT User to {0}").format(enterprise))
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
 
