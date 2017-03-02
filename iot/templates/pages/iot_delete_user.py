@@ -14,12 +14,24 @@ def is_enterprise_admin(user, enterprise):
 
 def get_context(context):
 	enterprise = frappe.form_dict.enterprise or frappe.db.get_value("IOT Enterprise", {"admin": frappe.session.user})
-	delete_user(frappe.form_dict.name)
+
+	user = frappe.form_dict.name
+	if not user:
+		raise frappe.ValidationError(_("IOT User name is required!"))
+
+	info = _("IOT User {0} has been removed!").format(user)
+
+	try:
+		delete_user(user)
+	except Exception, e:
+		info = e.message
+
+	context.no_cache = 1
+	context.show_sidebar = True
+
+	context.parents = [{"label": enterprise, "route": "/iot_enterprises/" + enterprise}]
 
 	context.doc = {
-		"enterprise": enterprise
+		"enterprise": enterprise,
+		"info": info
 	}
-	"""
-	frappe.local.flags.redirect_location = ("/iot_enterprises/{0}").format(enterprise)
-	raise frappe.Redirect
-	"""
