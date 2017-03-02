@@ -163,13 +163,9 @@ def add_device():
 @frappe.whitelist(allow_guest=True)
 def update_device():
 	valid_auth_code()
-	r, err = add_device()
-	if r:
-		r, err = update_device_bunch()
-	if r:
-		r, err = update_device_status()
-
-	return r, err
+	add_device()
+	update_device_bunch()
+	return update_device_status()
 
 
 @frappe.whitelist(allow_guest=True)
