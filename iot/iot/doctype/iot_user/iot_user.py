@@ -81,9 +81,6 @@ def add_user(user=None, enterprise=None, login_name=None):
 	:param login_name: 
 	:return: 
 	"""
-	if not frappe.request.method == "POST":
-		throw(_("Method must be POST"))
-
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
 	if not_manager and session_user != user and frappe.get_value('IOT Enterprise', enterprise, 'admin') != session_user:
@@ -124,9 +121,6 @@ def add_user(user=None, enterprise=None, login_name=None):
 
 @frappe.whitelist()
 def update_user(user=None, enabled=None, enterprise=None, login_name=None):
-	if not frappe.request.method == "POST":
-		frappe.throw(_("Method must be POST"))
-
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
 	if not_manager and session_user != user:

@@ -28,7 +28,7 @@ def get_context(context):
 	enterprise = frappe.form_dict.enterprise
 	if frappe.form_dict.user:
 		add_user(frappe.form_dict.user, enterprise)
-		
+
 	user = frappe.session.user
 
 	if not enterprise:
