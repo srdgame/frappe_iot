@@ -15,7 +15,7 @@ class IOTUser(Document):
 
 		usr, domain = self.user.split('@')
 		ent = frappe.db.get_value("IOT Enterprise", {"domain": domain})
-		if not ent and self.enterprise != ent:
+		if ent and ent != self.enterprise:
 			throw(_("Cannot add user {0} into {1} as Enterprise {2} has domain {3}").format(self.user, self.enterprise, ent, domain))
 
 		# clear groups if Enterprise changed
