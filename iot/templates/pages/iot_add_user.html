@@ -12,9 +12,13 @@
 
 {% block page_content %}
 
+{% if doc.possible_users %}
+<div class="clearfix">
+  <h4 style="float: left;">{{ _("Possible Users") }}</h4>
+</div>
 {% for user in doc.possible_users %}
 	<div class='user'>
-		<a class="no-decoration user-link {{ user.css_seen }}" href="/iot_users/{{ user.name }}">
+		<a class="no-decoration user-link {{ user.css_seen }}" href="/iot_add_user?user={{ user.name }}&enterprise=doc.enterprise">
 		<div class='row user-item'>
 			<div class='col-xs-9'>
 				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}"  > {{ user.name }}</span>
@@ -36,6 +40,7 @@
 		</a>
 	</div>
 {% endfor %}
+{% endif %}
 
 <script>
 	{% include "templates/pages/iot_add_user.js" %}
