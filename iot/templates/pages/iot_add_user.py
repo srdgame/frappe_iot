@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
+from iot.iot.doctype.iot_user.iot_user import add_user
 
 
 def is_enterprise_admin(user, enterprise):
@@ -25,6 +26,9 @@ def list_possible_users(enterprise):
 
 def get_context(context):
 	enterprise = frappe.form_dict.enterprise
+	if frappe.form_dict.user:
+		add_user(frappe.form_dict.user, enterprise)
+		
 	user = frappe.session.user
 
 	if not enterprise:
