@@ -17,22 +17,16 @@ frappe.ready(function() {
 			args: args,
 			callback: function(r) {
 				if(!r.exc) {
-					strength_message.addClass('hidden');
 					if(r.message) {
 						frappe.msgprint(r.message);
 						setTimeout(function() {
 							window.location.href = "/iot_enterprises/"+args.enterprise;
 						}, 2000);
 					}
-				} else {
-					strength_message.removeClass('hidden');
-					strength_message.text(r.message);
 				}
 			}
 		});
 
         return false;
 	});
-
-	window.strength_message = $('.iot-delete-user-strength-message');
 });
