@@ -47,14 +47,12 @@
 	</div>
 </div>
 
-{% if is_admin %}
-
-<div class="clearfix">
-  <h4 style="float: left;">{{ _("Groups") }}</h4>
-  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/update-iot-employee-group?name={{ doc.name }}'>{{ _("New group") }}</a>
-</div>
 
 {% if doc.groups %}
+	<div class="clearfix">
+	  <h4 style="float: left;">{{ _("Groups") }}</h4>
+	  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/update-iot-employee-group?name={{ doc.name }}'>{{ _("New group") }}</a>
+	</div>
 	<div class='enterprise-group-section'>
 		<div class='enterprise-group'>
 		{% include "templates/includes/iot_enterprise/iot_enterprise_groups.html" %}
@@ -66,6 +64,8 @@
 {% endif %}
 
 <div class='padding'></div>
+
+{% if is_admin %}
 
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Users") }}</h4>
