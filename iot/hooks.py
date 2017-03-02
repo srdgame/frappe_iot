@@ -125,10 +125,11 @@ default_roles = [
 #	"IOT Device": "iot.iot.doctype.iot_device.iot_device.get_permission_query_conditions",
 #}
 
-has_permission = {
-	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
-	"IOT Device Bunch": "iot.iot.doctype.iot_device_bunch.iot_device_bunch.has_permission",
-}
+# Dirk: has permission will replace system's permission checking for DocType
+#has_permission = {
+#	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
+#	"IOT Device Bunch": "iot.iot.doctype.iot_device_bunch.iot_device_bunch.has_permission",
+#}
 
 has_website_permission = {
 	"IOT Enterprise": "iot.iot.doctype.iot_enteprise.iot_enterprise.has_website_permission",

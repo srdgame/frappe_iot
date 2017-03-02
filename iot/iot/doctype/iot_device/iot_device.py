@@ -75,25 +75,6 @@ class IOTDevice(Document):
 		return False
 
 
-def has_permission(doc, user):
-	if not user:
-		user = frappe.session.user
-
-	bench = frappe.get_doc("IOT Device Bunch", doc.bunch)
-	if bench.owner_type == "User" and bench.owner_id == user:
-		return True
-
-	groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
-	ent = frappe.get_value("IOT Enterprise", {"admin": user})
-	if ent:
-		groups = [d[0] for d in frappe.db.get_values('IOT Employee Group', {'parent': ent}, "name")]
-
-	if bench.owner_type == "IOT Employee Group" and bench.owner_id in groups:
-		return True
-
-	return False
-
-
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
 	ent = frappe.get_value("IOT Enterprise", {"admin": frappe.session.user})
 	if ent:

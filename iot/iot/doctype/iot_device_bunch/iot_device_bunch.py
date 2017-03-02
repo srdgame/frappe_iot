@@ -31,23 +31,6 @@ class IOTDeviceBunch(Document):
 		print("DO it!")
 
 
-def has_permission(doc, user):
-	"""Returns true if current user is the session user"""
-	if doc.owner_type == "User" and doc.owner_id == user:
-		return True
-
-	if doc.owner_type == "IOT Employee Group":
-		# Check for Enterprise Admin
-		enterprise = frappe.get_value("IOT Employee Group", doc.owner_id, "parent")
-		if frappe.get_value("IOT Enterprise", enterprise, "admin") == user:
-			return True
-		# Check for Employee Group
-		if frappe.get_value("IOT UserGroup", {"group": doc.owner_id, "parent": user}):
-			return True
-
-	return False
-
-
 @frappe.whitelist()
 def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 	"""
