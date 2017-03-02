@@ -31,7 +31,8 @@ def get_context(context):
 		enterprise.users = get_users(enterprise.name, start=0, enabled=True, search=frappe.form_dict.get("search"))
 		context.is_admin = True
 	else:
-		enterprise.groups = None
+		user_groups= [d[0] for d in frappe.db.get_values("IOT UserGroup", {"parent" : frappe.session.user}, "group")]
+		enterprise.groups = [g for g in enterprise.groups if g.name in user_groups]
 
 	# context.parents = [{"label": _("IOT Enterprises"), "route": "/iot_enterprises"}]
 
@@ -53,12 +54,5 @@ def get_users(enterprise, start=0, search=None, enabled=None):
 	users = frappe.get_all("IOT User", filters=filters,
 		fields=["name", "enabled", "modified", "creation"],
 		limit_start=start, limit_page_length=10)
-
-	""" for user in users:
-		user.group_assigned = []
-		groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {'parent': user.name}, "group")]
-		for g in groups:
-			gl = frappe.get_all('IOT Employee Group', filters={'name': g}, fields=["name", "description"])
-			user.group_assigned.append(gl) """
 
 	return users
