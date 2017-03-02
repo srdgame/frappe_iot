@@ -24,7 +24,7 @@ def get_context(context):
 	try:
 		delete_user(user)
 	except Exception, e:
-		info = e.message
+		info = e
 
 	context.no_cache = 1
 	context.show_sidebar = True
