@@ -87,7 +87,7 @@ def get_list_context(context=None):
 	return {
 		"show_sidebar": True,
 		"show_search": True,
-		#"no_breadcrumbs": True,
+		"no_breadcrumbs": True,
 		"title": _("Your Enteprises"),
 		#"introduction": _('The IOT Enteprises those you can manage!'),
 		"get_list": get_enterprise_list,
