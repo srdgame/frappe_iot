@@ -136,7 +136,8 @@ def add_device():
 
 	if IOTDevice.check_sn_exists(sn):
 		# TODO: Check for bunch code when device is existing.
-		return {"result": True, "data": IOTDevice.get_device_doc(sn)}
+		#return {"result": True, "data": IOTDevice.get_device_doc(sn)}
+		return True, IOTDevice.get_device_doc(sn)
 
 	device.update({
 		"doctype": "IOT Device"
