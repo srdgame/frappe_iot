@@ -163,7 +163,7 @@ def delete_user(user=None):
 
 	#frappe.delete_doc('IOT User', user, ignore_permissions=True)
 	doc = frappe.get_doc("IOT User", user)
-	doc.remove()
+	doc.remove(doc)
 
 
 def get_valid_user():
