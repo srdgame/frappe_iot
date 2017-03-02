@@ -1,6 +1,6 @@
 {
  "accept_payment": 0, 
- "allow_comments": 0, 
+ "allow_comments": 1, 
  "allow_delete": 0, 
  "allow_edit": 1, 
  "allow_incomplete": 0, 
@@ -17,7 +17,7 @@
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 14:55:58.137773", 
+ "modified": "2017-03-02 16:00:06.084924", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-employee-group", 
