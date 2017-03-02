@@ -7,8 +7,8 @@ import json
 from frappe import _
 
 
-def is_enterperise_admin(user, enterprise):
-		return frappe.db.get_value("IOT Enterprise", {"name": enterprise, "admin": user}, "admin")
+def is_enterprise_admin(user, enterprise):
+	return frappe.db.get_value("IOT Enterprise", {"name": enterprise, "admin": user}, "admin")
 
 
 def get_context(context):
@@ -28,7 +28,7 @@ def get_context(context):
 	# Get target user document object
 	doc = frappe.get_doc('IOT User', name)
 	# Check for Enterprise permission
-	if not is_enterperise_admin(frappe.session.user, doc.get("enterprise")):
+	if not is_enterprise_admin(frappe.session.user, doc.get("enterprise")):
 		raise frappe.PermissionError("Your account is not enterprise admin!")
 
 	doc.has_permission('read')

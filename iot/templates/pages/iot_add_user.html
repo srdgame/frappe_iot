@@ -1,0 +1,44 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Adding User to ") }} {{ doc.enterprise }}{% endblock %}
+{% block header %} <h1>{{ doc.enterprise }}</h1> {% endblock %}
+
+{% block style %}
+	<style>
+		{% include "templates/includes/iot_add_user.css" %}
+	</style>
+{% endblock %}
+
+
+{% block page_content %}
+
+{% for user in doc.possible_users %}
+	<div class='user'>
+		<a class="no-decoration user-link {{ user.css_seen }}" href="/iot_users/{{ user.name }}">
+		<div class='row user-item'>
+			<div class='col-xs-9'>
+				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}"  > {{ user.name }}</span>
+	 				<div class="small text-muted item-timestamp"
+	 					title="{{ frappe.utils.pretty_date(user.modified) }}">
+	 					modified {{ frappe.utils.pretty_date(user.modified) }}
+	 				</div>
+			</div>
+			<!--
+			<div class='col-xs-2'>
+				 <span style="display: inline-block">
+					<div class="switch">
+						<input type="checkbox" {{ "checked" if user.enabled }}/>
+					</div>
+				</span>
+			</div>
+			-->
+		</div>
+		</a>
+	</div>
+{% endfor %}
+
+<script>
+	{% include "templates/pages/iot_add_user.js" %}
+</script>
+
+{% endblock %}
