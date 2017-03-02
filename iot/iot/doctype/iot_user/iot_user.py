@@ -155,9 +155,15 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 def delete_user(user=None):
 	session_user = frappe.session.user
 	enterprise = frappe.get_value('IOT User', user, "enterprise")
+
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
-	if not_manager and session_user != user and frappe.get_value('IOT Enterprise', enterprise, 'admin') != session_user:
+	enterprise_admin = frappe.get_value('IOT Enterprise', enterprise, 'admin') == session_user
+
+	if not_manager and session_user != user and not enterprise_admin:
 		throw(_("You do not permission for delete IOT User from {0}").format(enterprise))
+
+	if enterprise_admin and session_user == user:
+		throw(_("You are admin of {0}, cannot delete yourself").format(enterprise))
 
 	frappe.logger(__name__).info(_("Delete IOT User {0} from {1}").format(user, enterprise))
 
