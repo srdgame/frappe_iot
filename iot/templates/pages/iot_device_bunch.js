@@ -1,5 +1,5 @@
 frappe.ready(function() {
-	$(".btn-enable-iot").click(function() {
+	$(".btn-add-bunch-code").click(function() {
 		var args = {
 			bunch_name: $("#bunch_name").val(),
 			code: $("#code").val(),
@@ -19,7 +19,7 @@ frappe.ready(function() {
 		frappe.call({
 			type: "POST",
 			method: "iot.iot.doctype.iot_device_bunch.iot_device_bunch.add_bunch_code",
-			btn: $(".btn-enable-iot"),
+			btn: $(".btn-add-bunch-code"),
 			args: args,
 			statusCode: {
 				401: function() {

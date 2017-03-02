@@ -96,7 +96,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 		frappe.session.user = "Administrator"
 
 	if frappe.get_value("IOT User", user):
-		return {"result": False, "data": "User already exists!"}
+		raise frappe.ValidationError("User already exists!")
 
 	# Set proper Enterprise to user
 	if not enterprise:
@@ -119,7 +119,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 	if not_manager:
 		frappe.session.user = session_user
 
-	return {"result": True, "data": doc}
+	return doc
 
 
 @frappe.whitelist()
@@ -154,7 +154,7 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 	if not_manager:
 		frappe.session.user = session_user
 
-	return {"result": True, "data": doc}
+	return doc
 
 
 def get_valid_user():

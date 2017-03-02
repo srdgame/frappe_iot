@@ -42,6 +42,22 @@
 {% endfor %}
 {% endif %}
 
+<div class="page-card">
+	<div class='page-card-head'>
+		<span class='indicator blue'>{{ _("Enable IOT") }}</span>
+	</div>
+   	<form role="form form-iot-add-user">
+        <input type="hidden" id="enable" name="enabled" value="True">
+        <input type="hidden" id="enterprise" name="enterprise" value="doc.enterprise">
+
+		<div class="form-group">
+			<label for="user" class="control-label text-muted small"> {{ _("Email") }}</label>
+        	<input id="user" name="user" class="form-control">
+		</div>
+		<button class="btn btn-primary btn-iot-add-user" type="submit">{{ _("Add User") }}</button>
+	</form>
+</div>
+
 <script>
 	{% include "templates/pages/iot_add_user.js" %}
 </script>

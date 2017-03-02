@@ -61,7 +61,7 @@
 	<div class='page-card-head'>
 		<span class='indicator blue'>{{ _("Create new") }}</span>
 	</div>
-   	<form role="form form-enable-iot">
+   	<form role="form form-add-bunch-code">
 		<div class="form-group">
 			<label for="bunch_name" class="control-label text-muted small"> {{ _("Name") }}</label>
         	<input id="bunch_name" class="form-control">
@@ -80,7 +80,7 @@
         	<input id="owner_id" class="form-control" value="{{doc.owner_id}}" readonly>
 		</div>
 		<p class='bunch-code-strength-message text-muted small hidden'></p>
-		<button class="btn btn-primary btn-enable-iot" type="submit">{{ _("Enable") }}</button>
+		<button class="btn btn-primary btn-add-bunch-code" type="submit">{{ _("Enable") }}</button>
 	</form>
 </div>
 {% endif %}
