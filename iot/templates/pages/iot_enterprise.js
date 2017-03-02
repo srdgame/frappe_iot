@@ -106,10 +106,4 @@ frappe.ready(function() {
 			window.history.back();
 	 	});
 	}
-	else
-	{
-		$('.page-head h1').addClass('list-head').click(function(){
-			window.history.back();
-	 	});
-	}
 });
