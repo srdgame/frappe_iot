@@ -132,7 +132,7 @@ def add_device():
 	device = get_post_json_data()
 	sn = device.get("sn")
 	if not sn:
-		return throw(_("Request fields not found. fields: sn"))
+		throw(_("Request fields not found. fields: sn"))
 
 	if IOTDevice.check_sn_exists(sn):
 		# TODO: Check for bunch code when device is existing.
@@ -175,11 +175,11 @@ def update_device_bunch():
 	bunch = data.get("bunch")
 	sn = data.get("sn")
 	if not (sn and bunch):
-		return throw(_("Request fields not found. fields: sn\tbunch"))
+		throw(_("Request fields not found. fields: sn\tbunch"))
 
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
-		return throw(_("Device is not found. SN:{0}").format(sn))
+		throw(_("Device is not found. SN:{0}").format(sn))
 
 	if dev.bunch == bunch:
 		return dev
@@ -213,11 +213,11 @@ def update_device_status():
 	status = data.get("status")
 	sn = data.get("sn")
 	if not (sn and status):
-		return throw(_("Request fields not found. fields: sn\tstatus"))
+		throw(_("Request fields not found. fields: sn\tstatus"))
 
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
-		return throw(_("Device is not found. SN:{0}").format(sn))
+		throw(_("Device is not found. SN:{0}").format(sn))
 
 	dev.update_status(status)
 	return dev
@@ -230,11 +230,11 @@ def update_device_name():
 	name = data.get("name")
 	sn = data.get("sn")
 	if not (sn and name):
-		return throw(_("Request fields not found. fields: sn\tname"))
+		throw(_("Request fields not found. fields: sn\tname"))
 
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
-		return throw(_("Device is not found. SN:{0}").format(sn))
+		throw(_("Device is not found. SN:{0}").format(sn))
 
 	dev.update_name(name)
 	return dev
