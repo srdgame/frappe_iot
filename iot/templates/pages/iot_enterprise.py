@@ -5,11 +5,13 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
+from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 
 def get_context(context):
 	name = frappe.form_dict.enterprise or frappe.form_dict.name \
-			or frappe.get_value("IOT User", frappe.session.user, "enterprise")
+			or frappe.get_value("IOT User", frappe.session.user, "enterprise") \
+			or IOTSettings.get_default_enterprise()
 
 	if not name:
 		frappe.local.flags.redirect_location = "/me"
