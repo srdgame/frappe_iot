@@ -117,7 +117,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 	if not_manager:
 		frappe.session.user = session_user
 
-	return doc
+	return _("User has ben added")
 
 
 @frappe.whitelist()
@@ -150,7 +150,7 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 	if not_manager:
 		frappe.session.user = session_user
 
-	return doc
+	return _("User has ben updated")
 
 
 @frappe.whitelist()
@@ -172,6 +172,7 @@ def delete_user(user=None):
 	frappe.delete_doc('IOT User', user, ignore_permissions=True)
 	frappe.db.commit()
 
+	return _("User has ben deleted")
 
 def get_valid_user():
 	user = frappe.session.user
