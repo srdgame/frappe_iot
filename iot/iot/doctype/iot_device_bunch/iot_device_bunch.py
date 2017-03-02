@@ -11,7 +11,19 @@ from frappe.model.document import Document
 class IOTDeviceBunch(Document):
 	def has_website_permission(self, ptype, verbose=False):
 		"""Returns true if current user is the session user"""
-		return self.owner_type == "User" and self.owner_id == frappe.session.user
+		if self.owner_type == "User" and self.owner_id == frappe.session.user:
+			return True
+
+		if self.owner_type == "IOT Employee Group":
+			# Check for Enterprise Admin
+			enterprise = frappe.get_value("IOT Employee Group", self.owner_id, "parent")
+			if frappe.get_value("IOT Enterprise", enterprise, "admin") == frappe.session.user:
+				return True
+			# Check for Employee Group
+			if frappe.get_value("IOT UserGroup", {"group": self.owner_id, "parent":frappe.session.user}):
+				return True
+
+		return False
 
 	def on_trash(self):
 		# TODO:Let's verify devices.
@@ -33,7 +45,7 @@ def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 		frappe.throw(_("You are not an IOT User"))
 
 	# Set proper owner_type owner_id to user
-	if type is None or id is None:
+	if owner_type is None or owner_id is None:
 		owner_type = "User"
 		owner_id = frappe.session.user
 
