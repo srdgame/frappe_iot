@@ -21,12 +21,6 @@ def get_context(context):
 
 	info = _("User {0} has been removed!").format(user)
 
-	try:
-		delete_user(user)
-	except Exception, e:
-		info = _("Failed to delete user: {0}").format(e)
-	finally:
-		print("Error")
 
 	context.no_cache = 1
 	context.show_sidebar = True
@@ -37,3 +31,9 @@ def get_context(context):
 		"enterprise": enterprise,
 		"info": info
 	}
+
+	try:
+		delete_user(user)
+	except Exception, e:
+		context.doc.info = _("Failed to delete user: {0}").format(e)
+
