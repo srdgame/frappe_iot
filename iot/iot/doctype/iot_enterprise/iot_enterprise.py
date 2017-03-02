@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
-from iot.iot.doctype.iot_user.iot_user import add_user
+from iot.iot.doctype.iot_user.iot_user import add_user, update_user
 
 
 class IOTEnterprise(Document):
@@ -18,7 +18,10 @@ class IOTEnterprise(Document):
 			add_user(user=user, enterprise=self.name)
 		"""
 		""" Add admin of enterprise automatically"""
-		add_user(user=self.admin, enterprise=self.name)
+		if frappe.get_value("IOT User", self.admin):
+			update_user(user=self.admin, enterprise=self.name)
+		else:
+			add_user(user=self.admin, enterprise=self.name)
 
 	def on_trash(self):
 		users = [d[0] for d in frappe.db.get_values("IOT User", {"enterprise": self.name})]

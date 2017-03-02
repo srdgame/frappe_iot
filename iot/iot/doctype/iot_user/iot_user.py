@@ -174,6 +174,7 @@ def delete_user(user=None):
 
 	return _("User has ben deleted")
 
+
 def get_valid_user():
 	user = frappe.session.user
 	if not user:
