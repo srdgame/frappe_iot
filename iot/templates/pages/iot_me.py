@@ -39,4 +39,4 @@ def get_context(context):
 			"enterprise": "Public",
 		}
 
-	context.doc.bunch_codes = get_user_bunch_codes(frappe.session.user)
+	context.doc.set("bunch_codes", get_user_bunch_codes(frappe.session.user))
