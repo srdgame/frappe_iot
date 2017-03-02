@@ -67,6 +67,8 @@ class IOTEnterprise(Document):
 
 	def has_website_permission(self, ptype, verbose=False):
 		"""Returns true if admin is the session user"""
+		if ptype == "read":
+			return True
 		return self.admin == frappe.session.user
 
 
