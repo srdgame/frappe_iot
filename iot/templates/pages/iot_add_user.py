@@ -20,7 +20,7 @@ def list_users_by_domain(domain):
 def list_possible_users(enterprise):
 	domain = frappe.db.get_value("IOT Enterprise", enterprise, "domain")
 	users = list_users_by_domain(domain)
-	return list(set([user for user in users if not frappe.get_value('IOT User', {"user": user.name, "enterprise": enterprise})]))
+	return [user for user in users if not frappe.get_value('IOT User', {"user": user.name, "enterprise": enterprise})]
 
 
 def get_context(context):
