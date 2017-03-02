@@ -117,7 +117,7 @@ def get_list_context(context=None):
 	return {
 		"show_sidebar": True,
 		"show_search": True,
-		"no_breadcrumbs": True,
+		#"no_breadcrumbs": True,
 		"title": _("Your Devices"),
 		#"introduction": _('IOT Devices of your group/account'),
 		"get_list": get_device_list,
