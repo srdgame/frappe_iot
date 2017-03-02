@@ -28,11 +28,9 @@ def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 	:param id: Bunch code owner id
 	:return: bunch code document
 	"""
-	if not frappe.request.method == "POST":
-		raise frappe.ValidationError
 
 	if 'IOT User' not in frappe.get_roles(frappe.session.user):
-		raise frappe.PermissionError
+		frappe.throw(_("You are not an IOT User"))
 
 	# Set proper owner_type owner_id to user
 	if type is None or id is None:
@@ -42,7 +40,7 @@ def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 	frappe.logger(__name__).info(_("Add bunch code {0} to {1}:{2}").format(code, owner_type, owner_id))
 
 	if frappe.get_value("IOT Device Bunch", {"code": code}):
-		return {"result": False, "data": "Bunch code already exists!"}
+		frappe.throw(_("Bunch code already exists!"))
 
 	doc = frappe.get_doc({
 		"doctype": "IOT Device Bunch",
