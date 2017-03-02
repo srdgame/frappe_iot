@@ -19,12 +19,12 @@ def get_context(context):
 	if not user:
 		raise frappe.ValidationError(_("IOT User name is required!"))
 
-	info = _("IOT User {0} has been removed!").format(user)
+	info = _("User {0} has been removed!").format(user)
 
 	try:
 		delete_user(user)
 	except Exception, e:
-		info = e
+		raise e
 
 	context.no_cache = 1
 	context.show_sidebar = True
