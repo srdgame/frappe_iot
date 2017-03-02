@@ -26,7 +26,8 @@ class IOTEnterprise(Document):
 			try:
 				frappe.delete_doc("IOT User", user)
 			finally:
-				print("Done")
+				print(_("Deleted Enterprise User {0}").format(user))
+		frappe.db.commit()
 
 	def remove_all_groups(self):
 		self.set("groups", list(set(d for d in self.get("groups") if d.grp_name == "Guest")))
