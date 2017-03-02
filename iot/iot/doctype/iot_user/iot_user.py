@@ -111,6 +111,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 		"login_name": "iMbEhIDE"  # login_name
 	})
 	doc.insert()
+	frappe.db.commit()
 
 	# Rollback on behalf if user is not an IOT Manager
 	if not_manager:
@@ -143,6 +144,7 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 	if login_name is not None:
 		doc.set("login_name", login_name)
 	doc.save()
+	frappe.db.commit()
 
 	# Rollback on behalf if user is not an IOT Manager
 	if not_manager:
@@ -168,7 +170,7 @@ def delete_user(user=None):
 	frappe.logger(__name__).info(_("Delete IOT User {0} from {1}").format(user, enterprise))
 
 	frappe.delete_doc('IOT User', user, ignore_permissions=True)
-	#frappe.db.commit()
+	frappe.db.commit()
 
 
 def get_valid_user():
