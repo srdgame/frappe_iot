@@ -24,7 +24,7 @@
 				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}"  > {{ user.name }}</span>
 	 				<div class="small text-muted item-timestamp"
 	 					title="{{ frappe.utils.pretty_date(user.modified) }}">
-	 					modified {{ frappe.utils.pretty_date(user.modified) }}
+	 					modified {{ frappe.utils.pretty_date(user.creation) }}
 	 				</div>
 			</div>
 			<!--

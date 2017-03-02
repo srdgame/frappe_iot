@@ -13,7 +13,9 @@ def is_enterprise_admin(user, enterprise):
 
 def list_possible_users(enterprise):
 	domain = frappe.db.get_value("IOT Enterprise", enterprise, "domain")
-	return frappe.db.get_values("User", {"email": ("like", "%@{0}".format(domain))})
+	return frappe.get_all("User",
+		filters={"email": ("like", "%@{0}".format(domain))},
+		fields=["name", "full_name", "enabled", "email", "creation"])
 
 
 def get_context(context):
