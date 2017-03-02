@@ -35,5 +35,5 @@ def get_context(context):
 	try:
 		delete_user(user)
 	except Exception, e:
-		context.doc.info = _("Failed to delete user: {0}").format(e.message)
+		context.doc.info = _("Failed to delete user: {0}").format(str(e))
 
