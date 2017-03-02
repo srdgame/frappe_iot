@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
-from frappe import _
+from frappe import throw, msgprint, _
 from iot.iot.doctype.iot_user.iot_user import add_user, delete_user
 
 
@@ -32,8 +32,5 @@ def get_context(context):
 		"info": info
 	}
 
-	try:
-		delete_user(user)
-	except Exception, e:
-		print( _("Failed to delete user: {0}").format(str(e)))
+	delete_user(user)
 
