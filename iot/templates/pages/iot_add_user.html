@@ -18,10 +18,12 @@
 </div>
 {% for user in doc.possible_users %}
 	<div class='user'>
-		<a class="no-decoration user-link {{ user.css_seen }}" href="/iot_add_user?user={{ user.name }}&enterprise=doc.enterprise">
+		<a class="no-decoration user-link {{ user.css_seen }}"
+		   href="/iot_add_user?user={{ user.name }}&enterprise={{ doc.enterprise }}">
 		<div class='row user-item'>
 			<div class='col-xs-9'>
-				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}"  > {{ user.name }}</span>
+				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}">
+					{{ user.name }}</span>
 	 				<div class="small text-muted item-timestamp"
 	 					title="{{ frappe.utils.pretty_date(user.modified) }}">
 	 					modified {{ frappe.utils.pretty_date(user.creation) }}
