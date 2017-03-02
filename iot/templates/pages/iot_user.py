@@ -17,7 +17,7 @@ def get_context(context):
 	name = frappe.form_dict.user or frappe.form_dict.name
 	if not name:
 		frappe.local.flags.redirect_location = "/me"
-		raise frappe.ValidationError
+		raise frappe.Redirect
 
 	user_roles = frappe.get_roles(frappe.session.user)
 	if 'IOT User' not in user_roles or frappe.session.user == 'Guest':

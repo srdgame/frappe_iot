@@ -84,7 +84,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
 	if not_manager and session_user != user and frappe.get_value('IOT Enterprise', enterprise, 'admin') != session_user:
-		throw(_("You do not perrmission for adding IOT User to {0}").format(enterprise))
+		throw(_("You do not permission for adding IOT User to {0}").format(enterprise))
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
 
@@ -149,6 +149,25 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 		frappe.session.user = session_user
 
 	return doc
+
+
+@frappe.whitelist()
+def delete_user(user=None):
+	session_user = frappe.session.user
+	enterprise = frappe.get_value('IOT User', user, "enterprise")
+	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
+	if not_manager and session_user != user and frappe.get_value('IOT Enterprise', enterprise, 'admin') != session_user:
+		throw(_("You do not permission for delete IOT User from {0}").format(enterprise))
+
+	frappe.logger(__name__).info(_("Delete IOT User for {0}").format(user))
+	if not_manager:
+		frappe.session.user = "Administrator"
+
+	frappe.delete_doc()
+
+	# Rollback on behalf if user is not an IOT Manager
+	if not_manager:
+		frappe.session.user = session_user
 
 
 def get_valid_user():
