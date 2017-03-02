@@ -69,7 +69,7 @@
 
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Users") }}</h4>
-  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_user?new=1&enterprise={{ doc.ent_name }}'>{{ _("New user") }}</a>
+  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_add_user?enterprise={{ doc.name }}'>{{ _("New user") }}</a>
 </div>
 
 {% if doc.users %}
