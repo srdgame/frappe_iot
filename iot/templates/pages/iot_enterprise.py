@@ -37,6 +37,7 @@ def get_context(context):
 
 	# context.parents = [{"label": _("IOT Enterprises"), "route": "/iot_enterprises"}]
 
+	context.title = _("IOT Enterprise")
 	context.doc = enterprise
 	"""
 	context.parents = [
