@@ -102,12 +102,12 @@ default_roles = [
 # Top bars
 website_context = {
 	"favicon": 	"/assets/img/frappe-bird-white.png",
-	"top_bar_items": [
-		{"label": "IOT Enterprise", "url": "/iot_enterprises", "right": 1},
-		{"label": "IOT Devices", "url": "/iot_devices", "right": 1},
-		{"label": "IOT Account", "url": "/iot_me", "right": 1},
-		{"label": "SymLink", "url": 'https://www.symid.com', "right": 1}
-	]
+#	"top_bar_items": [
+#		{"label": "IOT Enterprise", "url": "/iot_enterprises", "right": 1},
+#		{"label": "IOT Devices", "url": "/iot_devices", "right": 1},
+#		{"label": "IOT Account", "url": "/iot_me", "right": 1},
+#		{"label": "SymLink", "url": 'https://www.symid.com', "right": 1}
+#	]
 }
 
 # Generators
