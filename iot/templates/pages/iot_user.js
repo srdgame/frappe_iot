@@ -21,7 +21,7 @@ frappe.ready(function() {
 					if(r.message) {
 						frappe.msgprint(r.message);
 						setTimeout(function() {
-							window.location.href = "/iot_users/"+args.user;
+							window.location.href = "/iot_enterprises/"+args.enterprise;
 						}, 2000);
 					}
 				} else {
