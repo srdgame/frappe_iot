@@ -16,12 +16,8 @@ frappe.ready(function() {
 			method: "iot.iot.doctype.iot_user.iot_user.add_user",
 			btn: $(".btn-iot-add-user"),
 			args: args,
-			statusCode: {
-				401: function() {
-					$('.page-card-head .indicator').removeClass().addClass('indicator red')
-						.text(__('Invalid User Email'));
-				},
-				200: function(r) {
+			callback: function(r) {
+				if(!r.exc) {
 					$("input").val("");
 					strength_indicator.addClass('hidden');
 					strength_message.addClass('hidden');
@@ -30,10 +26,13 @@ frappe.ready(function() {
 						.html(__('User has been added'));
 					if(r.message) {
 						frappe.msgprint(r.message);
-	                    setTimeout(function() {
+						setTimeout(function() {
 							window.location.href = "/iot_users/"+args.user;
-	                    }, 2000);
+						}, 2000);
 					}
+				} else {
+					$('.page-card-head .indicator').removeClass().addClass('indicator red')
+					.text(r.message);
 				}
 			}
 		});
