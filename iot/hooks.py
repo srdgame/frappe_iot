@@ -106,7 +106,7 @@ website_context = {
 		{"label": "IOT Enterprise", "url": "/iot_enterprises", "right": 1},
 		{"label": "IOT Devices", "url": "/iot_devices", "right": 1},
 		{"label": "IOT Account", "url": "/iot_me", "right": 1},
-		{"label": "SymLink", "url": 'https://symid.com', "right": 1}
+		{"label": "SymLink", "url": 'https://www.symid.com', "right": 1}
 	]
 }
 
