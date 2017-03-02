@@ -18,10 +18,11 @@ class IOTEnterprise(Document):
 			add_user(user=user, enterprise=self.name)
 		"""
 		""" Add admin of enterprise automatically"""
-		if frappe.get_value("IOT User", self.admin):
-			update_user(user=self.admin, enterprise=self.name)
-		else:
-			add_user(user=self.admin, enterprise=self.name)
+		if self.get("admin") != self.admin:
+			if frappe.get_value("IOT User", self.admin):
+				update_user(user=self.admin, enterprise=self.name)
+			else:
+				add_user(user=self.admin, enterprise=self.name)
 
 	def on_trash(self):
 		users = [d[0] for d in frappe.db.get_values("IOT User", {"enterprise": self.name})]
