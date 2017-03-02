@@ -11,16 +11,17 @@ from frappe.model.document import Document
 class IOTDeviceBunch(Document):
 	def has_website_permission(self, ptype, verbose=False):
 		"""Returns true if current user is the session user"""
-		if self.owner_type == "User" and self.owner_id == frappe.session.user:
+		user = frappe.session.user
+		if self.owner_type == "User" and self.owner_id == user:
 			return True
 
 		if self.owner_type == "IOT Employee Group":
 			# Check for Enterprise Admin
 			enterprise = frappe.get_value("IOT Employee Group", self.owner_id, "parent")
-			if frappe.get_value("IOT Enterprise", enterprise, "admin") == frappe.session.user:
+			if frappe.get_value("IOT Enterprise", enterprise, "admin") == user:
 				return True
 			# Check for Employee Group
-			if frappe.get_value("IOT UserGroup", {"group": self.owner_id, "parent":frappe.session.user}):
+			if frappe.get_value("IOT UserGroup", {"group": self.owner_id, "parent": user}):
 				return True
 
 		return False
@@ -28,6 +29,23 @@ class IOTDeviceBunch(Document):
 	def on_trash(self):
 		# TODO:Let's verify devices.
 		print("DO it!")
+
+
+def has_permission(doc, user):
+	"""Returns true if current user is the session user"""
+	if doc.owner_type == "User" and doc.owner_id == user:
+		return True
+
+	if doc.owner_type == "IOT Employee Group":
+		# Check for Enterprise Admin
+		enterprise = frappe.get_value("IOT Employee Group", doc.owner_id, "parent")
+		if frappe.get_value("IOT Enterprise", enterprise, "admin") == user:
+			return True
+		# Check for Employee Group
+		if frappe.get_value("IOT UserGroup", {"group": doc.owner_id, "parent": user}):
+			return True
+
+	return False
 
 
 @frappe.whitelist()
