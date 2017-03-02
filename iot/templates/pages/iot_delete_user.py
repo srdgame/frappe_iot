@@ -16,5 +16,5 @@ def get_context(context):
 	enterprise = frappe.form_dict.enterprise or frappe.db.get_value("IOT Enterprise", {"admin": frappe.session.user})
 	delete_user(frappe.form_dict.name)
 
-	frappe.local.flags.redirect_location = "/iot_enterprises/" + enterprise
+	frappe.local.flags.redirect_location = ("/iot_enterprises/{0}").format(enterprise)
 	raise frappe.Redirect
