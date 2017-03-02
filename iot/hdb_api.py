@@ -120,10 +120,10 @@ def get_device(sn=None):
 	valid_auth_code()
 	sn = sn or frappe.form_dict.get('sn')
 	if not sn:
-		return {"result": False, "data": _("Request fields not found. fields: sn")}
+		throw(_("Request fields not found. fields: sn"))
 
 	dev = IOTDevice.get_device_doc(sn)
-	return {"result": True, "data": dev}
+	return dev
 
 
 @frappe.whitelist(allow_guest=True)
@@ -132,11 +132,10 @@ def add_device():
 	device = get_post_json_data()
 	sn = device.get("sn")
 	if not sn:
-		return {"result": False, "data": _("Request fields not found. fields: sn")}
+		return False, _("Request fields not found. fields: sn")
 
 	if IOTDevice.check_sn_exists(sn):
 		# TODO: Check for bunch code when device is existing.
-		#return {"result": True, "data": IOTDevice.get_device_doc(sn)}
 		return True, IOTDevice.get_device_doc(sn)
 
 	device.update({
@@ -158,18 +157,19 @@ def add_device():
 		if r.status_code != 200:
 			frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
 
-	return {"result": True, "data": data}
+	return True, data
 
 
 @frappe.whitelist(allow_guest=True)
 def update_device():
 	valid_auth_code()
-	result = add_device()
-	if result["result"]:
-		update_device_bunch()
-		update_device_status()
+	r, err = add_device()
+	if r:
+		r, err = update_device_bunch()
+	if r:
+		r, err = update_device_status()
 
-	return result
+	return r, err
 
 
 @frappe.whitelist(allow_guest=True)
@@ -179,14 +179,14 @@ def update_device_bunch():
 	bunch = data.get("bunch")
 	sn = data.get("sn")
 	if not (sn and bunch):
-		return {"result": False, "data": _("Request fields not found. fields: sn\tbunch")}
+		return False, _("Request fields not found. fields: sn\tbunch")
 
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
-		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
+		return False, _("Device is not found. SN:{0}").format(sn)
 
 	if dev.bunch == bunch:
-		return {"result": True, "data": dev}
+		return True, dev
 
 	org_bunch = dev.bunch
 	dev.update_bunch(bunch)
@@ -207,7 +207,7 @@ def update_device_bunch():
 		if r.status_code != 200:
 			frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
 
-	return {"result": True, "data": dev}
+	return True, dev
 
 
 @frappe.whitelist(allow_guest=True)
@@ -217,14 +217,14 @@ def update_device_status():
 	status = data.get("status")
 	sn = data.get("sn")
 	if not (sn and status):
-		return {"result": False, "data": _("Request fields not found. fields: sn\tstatus")}
+		return False, _("Request fields not found. fields: sn\tstatus")
 
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
-		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
+		return False, _("Device is not found. SN:{0}").format(sn)
 
 	dev.update_status(status)
-	return {"result": True, "data": dev}
+	return True, dev
 
 
 @frappe.whitelist(allow_guest=True)
@@ -234,14 +234,14 @@ def update_device_name():
 	name = data.get("name")
 	sn = data.get("sn")
 	if not (sn and name):
-		return {"result": False, "data": _("Request fields not found. fields: sn\tname")}
+		return False, _("Request fields not found. fields: sn\tname")
 
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
-		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
+		return False, _("Device is not found. SN:{0}").format(sn)
 
 	dev.update_name(name)
-	return {"result": True, "data": dev}
+	return True, dev
 
 
 @frappe.whitelist(allow_guest=True)
