@@ -96,14 +96,14 @@ def add_user(user=None, enterprise=None, login_name=None):
 		frappe.session.user = "Administrator"
 
 	if frappe.get_value("IOT User", user):
-		raise frappe.ValidationError("User already exists!")
+		frappe.throw(_("IOT User already exists!"))
 
 	# Set proper Enterprise to user
 	if not enterprise:
 		usr, domain = user.split('@')
 		enterprise = frappe.db.get_value("IOT Enterprise", {"domain": domain})
 		if not enterprise:
-			raise frappe.ValidationError(_("No Enterprise for domain {0}").format(domain))
+			frappe.throw(_("No Enterprise for domain {0}").format(domain))
 
 	doc = frappe.get_doc({
 		"doctype": "IOT User",
@@ -125,12 +125,12 @@ def add_user(user=None, enterprise=None, login_name=None):
 @frappe.whitelist()
 def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 	if not frappe.request.method == "POST":
-		raise frappe.ValidationError
+		frappe.throw(_("Method must be POST"))
 
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
 	if not_manager and session_user != user:
-		raise frappe.PermissionError
+		frappe.throw(_("Your do not have permission to update IOT User {0}").format(user))
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
 

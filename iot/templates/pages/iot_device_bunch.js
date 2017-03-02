@@ -21,24 +21,23 @@ frappe.ready(function() {
 			method: "iot.iot.doctype.iot_device_bunch.iot_device_bunch.add_bunch_code",
 			btn: $(".btn-add-bunch-code"),
 			args: args,
-			statusCode: {
-				401: function() {
-					$('.page-card-head .indicator').removeClass().addClass('indicator red')
-						.text(__('Invalid Bunch Code'));
-				},
-				200: function(r) {
+			callback: function(r) {
+				if(!r.exc) {
 					$("input").val("");
 					strength_indicator.addClass('hidden');
 					strength_message.addClass('hidden');
 					$('.page-card-head .indicator')
 						.removeClass().addClass('indicator green')
-						.html(__('Bunch Code Inserted'));
+						.html(__('Bunch Code Inserted'))
 					if(r.message) {
-						frappe.msgprint(__("Bunch Code Inserted"));
-	                    setTimeout(function() {
+						frappe.msgprint(r.message);
+						setTimeout(function() {
 							window.location.href = r.message;
-	                    }, 2000);
+						}, 2000);
 					}
+				} else {
+					$('.page-card-head .indicator').removeClass().addClass('indicator red')
+					.text(r.message);
 				}
 			}
 		});
