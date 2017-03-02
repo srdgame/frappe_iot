@@ -25,6 +25,8 @@ def get_context(context):
 		delete_user(user)
 	except Exception, e:
 		info = _("Failed to delete user: {0}").format(e)
+	finally:
+		print("Error")
 
 	context.no_cache = 1
 	context.show_sidebar = True
