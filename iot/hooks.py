@@ -99,6 +99,17 @@ default_roles = [
 	{'role': 'IOT User', 'doctype':'IOT User', 'email_field': 'email_id'},
 ]
 
+# Top bars
+website_context = {
+	"favicon": 	"/assets/img/frappe-bird-white.png",
+	"top_bar_items": [
+		{"label": "IOT Enterprise", "url": "/iot_enterprises", "right": 1},
+		{"label": "IOT Devices", "url": "/iot_devices", "right": 1},
+		{"label": "IOT Account", "url": "/iot_me", "right": 1},
+		{"label": "SymLink", "url": 'https://symid.com', "right": 1}
+	]
+}
+
 # Generators
 # ----------
 
