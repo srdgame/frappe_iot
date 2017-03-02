@@ -23,6 +23,7 @@ def get_context(context):
 
 	context.no_cache = 1
 	context.show_sidebar = True
+	context.no_breadcrumbs = True
 
 	enterprise = frappe.get_doc('IOT Enterprise', name)
 	enterprise.has_permission('read')
