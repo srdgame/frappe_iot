@@ -19,9 +19,11 @@
 		<span class="user-image-myaccount"></span>
 		<div>
 			<ul class="list-unstyled">
+				{% if is_admin %}
 				<li><a href="/update-iot-employee-group?name={{ doc.name }}">
 					<h6 class="text-muted">{{ _("Edit") }}</h6>
 				</a></li>
+				{% endif %}
 
 			</ul>
 		</div>
@@ -58,6 +60,7 @@
 	<p class="text-muted">{{ _("No bunch-codes") }}</p>
 {% endif %}
 
+{% if is_admin %}
 <div class='padding'></div>
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Users") }}</h4>
@@ -76,6 +79,7 @@
 {% endif %}
 
 <div class='padding'></div>
+{% endif %} <!-- if is_admin -->
 
 
 <script>

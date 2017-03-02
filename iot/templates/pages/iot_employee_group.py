@@ -24,12 +24,12 @@ def get_context(context):
 	context.no_cache = 1
 	context.show_sidebar = True
 	doc = frappe.get_doc('IOT Employee Group', name)
-	if not is_enterprise_admin(frappe.session.user, doc.parent):
-		raise frappe.PermissionError
+	is_admin = is_enterprise_admin(frappe.session.user, doc.parent)
 
 	doc.has_permission('read')
 
-	doc.users = get_users(doc.name, start=0, search=frappe.form_dict.get("search"))
+	if is_admin:
+		doc.users = get_users(doc.name, start=0, search=frappe.form_dict.get("search"))
 	doc.bunch_codes = get_bunch_codes(doc.name, start=0, search=frappe.form_dict.get("search"))
 
 	context.parents = [{"label": doc.parent, "route": "/iot_enterprises/" + doc.parent}]
