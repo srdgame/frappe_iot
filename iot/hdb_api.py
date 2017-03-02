@@ -184,10 +184,28 @@ def update_device_bunch():
 	if not dev:
 		return {"result": False, "data": _("Device is not found. SN:{0}").format(sn)}
 
-	"""
-	TODO: Check for bunch changes and fire callback
-	"""
+	if dev.bunch == bunch:
+		return {"result": True, "data": dev}
+
+	org_bunch = dev.bunch
 	dev.update_bunch(bunch)
+
+	url = IOTHDBSettings.get_callback_url()
+	if url:
+		""" Fire callback data """
+		session = requests.session()
+		org_user_list = IOTDevice.find_owners_by_bunch(org_bunch)
+		user_list = IOTDevice.find_owners_by_bunch(bunch)
+		r = session.post(url, json={
+			'cmd': 'update_device',
+			'sn': sn,
+			'add_users': user_list,
+			'del_users': org_user_list
+		})
+
+		if r.status_code != 200:
+			frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
+
 	return {"result": True, "data": dev}
 
 
