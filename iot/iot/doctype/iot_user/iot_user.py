@@ -160,14 +160,8 @@ def delete_user(user=None):
 		throw(_("You do not permission for delete IOT User from {0}").format(enterprise))
 
 	frappe.logger(__name__).info(_("Delete IOT User {0} from {1}").format(user, enterprise))
-	if not_manager:
-		frappe.session.user = "Administrator"
 
-	frappe.delete_doc('IOT User', user)
-
-	# Rollback on behalf if user is not an IOT Manager
-	if not_manager:
-		frappe.session.user = session_user
+	frappe.delete_doc('IOT User', user, ignore_permissions=True)
 
 
 def get_valid_user():
