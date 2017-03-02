@@ -29,7 +29,7 @@ frappe.ready(function() {
 						.removeClass().addClass('indicator green')
 						.html(__('Bunch Code Inserted'))
 					if(r.message) {
-						frappe.msgprint(r.message);
+						frappe.msgprint('Bunch Code Inserted');
 						setTimeout(function() {
 							window.location.href = r.message;
 						}, 2000);
