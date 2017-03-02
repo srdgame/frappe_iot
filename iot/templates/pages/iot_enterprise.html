@@ -1,8 +1,8 @@
 {% extends "templates/web.html" %}
 
-{% block header %}
-	<h1>{{ title }}</h1>
-{% endblock %}
+{% block title %}{{ doc.ent_name }}{% endblock %}
+
+{% block header %} <h1>{{ _("IOT Enterprise") }}</h1> {% endblock %}
 
 {% block style %}
 	<style>
@@ -54,6 +54,7 @@
 {% if is_admin %}
 	  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/update-iot-employee-group?name={{ doc.name }}'>{{ _("New group") }}</a>
 {% endif %}
+
 	</div>
 	<div class='enterprise-group-section'>
 		<div class='enterprise-group'>
