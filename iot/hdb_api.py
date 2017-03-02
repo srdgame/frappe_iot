@@ -60,7 +60,7 @@ def login(user=None, passwd=None):
 		throw(_("User login_name {0} not found in Enterprise {1}").format(login_name, enterprise))
 	"""
 
-	frappe.local.login_manager.authenticate(user, passwd)
+	frappe.local.login_manager.authenticate(user, pwd=passwd)
 	if frappe.local.login_manager.user != user:
 		throw(_("Username password is not matched!"))
 
