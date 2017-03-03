@@ -8,22 +8,23 @@ frappe.ready(function() {
 		method: "iot.iot.doctype.iot_device.iot_device.list_device_map",
 		callback: function(r) {
 			if(!r.exc) {
-				var markers = [];
-				var devices = r.message
-				for (var dev in devices) {
-				   pt = new BMap.Point(devices[dev].longitude, devices[dev].latitude);
-				   markers.push(new BMap.Marker(pt));
+				if(r._server_messages)
+					frappe.msgprint(r._server_messages);
+				else {
+					var markers = [];
+					var devices = r.message
+					for (var dev in devices) {
+						pt = new BMap.Point(devices[dev].longitude, devices[dev].latitude);
+						markers.push(new BMap.Marker(pt));
+					}
+					//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
+					var markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
 				}
-				//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-				var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
 			} else {
-				var MAX = 100;
-				var pt = null;
-				var i = 0;
-				for (; i < MAX; i++) {
-				   pt = new BMap.Point(Math.random() * 40 + 85, Math.random() * 30 + 21);
-				   markers.push(new BMap.Marker(pt));
-				}
+				if(r._server_messages)
+					frappe.msgprint(r._server_messages);
+				else
+					frappe.msgprint(r.message);
 			}
 		}
 	});
