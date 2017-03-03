@@ -4,10 +4,8 @@ frappe.ready(function() {
 	map.enableScrollWheelZoom();
 
 	frappe.call({
-		type: "POST",
+		type: "GET",
 		method: "iot.iot.doctype.iot_device.iot_device.list_device_map",
-		btn: $(".btn-add-bunch-code"),
-		args: args,
 		callback: function(r) {
 			if(!r.exc) {
 				var markers = [];
