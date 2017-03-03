@@ -9,8 +9,9 @@ frappe.ready(function() {
 		callback: function(r) {
 			if(!r.exc) {
 				var markers = [];
-				for (var dev in r.message) {
-				   pt = new BMap.Point(dev.longitude, dev.latitude);
+				var devices = r.message
+				for (var dev in devices) {
+				   pt = new BMap.Point(devices[dev].longitude, devices[dev].latitude);
 				   markers.push(new BMap.Marker(pt));
 				}
 				//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
