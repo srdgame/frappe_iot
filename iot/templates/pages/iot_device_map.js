@@ -5,7 +5,7 @@ frappe.ready(function() {
 
 	frappe.call({
 		type: "POST",
-		method: "iot.iot.doctype.iot_device_bunch.iot_device_bunch.add_bunch_code",
+		method: "iot.iot.doctype.iot_device.iot_device.list_device_map",
 		btn: $(".btn-add-bunch-code"),
 		args: args,
 		callback: function(r) {
@@ -18,8 +18,13 @@ frappe.ready(function() {
 				//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
 				var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
 			} else {
-				$('.page-card-head .indicator').removeClass().addClass('indicator red')
-				.text(r.message);
+				var MAX = 100;
+				var pt = null;
+				var i = 0;
+				for (; i < MAX; i++) {
+				   pt = new BMap.Point(Math.random() * 40 + 85, Math.random() * 30 + 21);
+				   markers.push(new BMap.Marker(pt));
+				}
 			}
 		}
 	});
