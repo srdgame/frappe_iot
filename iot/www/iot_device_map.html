@@ -1,0 +1,26 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("My IOT Account") }}{% endblock %}
+
+{% block header %} <h1>{{ _("My IOT Account") }}</h1> {% endblock %}
+
+{% block style %}
+    <style>
+        {% include "templates/includes/iot_device_map.css" %}
+    </style>
+{% endblock %}
+
+{% block script %}
+	<script>{% include "http://api.map.baidu.com/api?v=2.0&ak=Uunwqg1begLNmZT29X128vIcnh0badER" %}</script>
+	<script>{% include "http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js" %}</script>
+	<script>{% include "http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js" %}</script>
+{% endblock %}
+
+{% block page_content %}
+	<div class="baiduMap" id="baiduMap"></div>
+
+	<script>
+		{% include "iot_device_map.js" %}
+	</script>
+
+{% endblock %}

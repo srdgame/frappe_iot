@@ -184,7 +184,7 @@ def get_valid_user():
 		if 'IOT Manager' in frappe.get_roles(user):
 			user = frappe.form_dict['uid']
 		else:
-			throw(_("You are not IOT Mananger, cannot accessing other user's group settings"))
+			throw(_("You are not IOT Manager, cannot accessing other user's group settings"))
 
 	return user
 

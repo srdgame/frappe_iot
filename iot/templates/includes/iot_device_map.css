@@ -1,0 +1,6 @@
+/* CSS used here will be applied after bootstrap.css */
+
+.baiduMap {
+	width:100%;
+	height:100%;
+}
