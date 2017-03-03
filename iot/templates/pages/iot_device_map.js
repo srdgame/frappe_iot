@@ -9,7 +9,7 @@ frappe.ready(function() {
 		callback: function(r) {
 			if(!r.exc) {
 				var markers = [];
-				for (dev in r.message) {
+				for (var dev in r.message) {
 				   pt = new BMap.Point(dev.longitude, dev.latitude);
 				   markers.push(new BMap.Marker(pt));
 				}
