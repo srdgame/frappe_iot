@@ -123,3 +123,9 @@ def get_list_context(context=None):
 		"get_list": get_device_list,
 		"row_template": "templates/generators/iot_device_row.html",
 	}
+
+
+@frappe.whitelist()
+def list_device_map():
+	devices = frappe.get_all('IOT Device', fields=["sn", "dev_name", "longitude", "latitude"])
+	return devices
