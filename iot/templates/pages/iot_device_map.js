@@ -34,11 +34,11 @@ frappe.ready(function() {
 					for (var dev in devices) {
 						pt = new BMap.Point(devices[dev].longitude, devices[dev].latitude);
 						var marker = new BMap.Marker(pt);
-						var content = "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" +
-							devices[dev].dev_name + "</h4>" +
+						var content = "<a href='/iot_devices/" + devices[dev].sn + "'>" +
+							"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" +
+							devices[dev].dev_name + "</h4></a>" +
 							"<p> Status : " + devices[dev].device_status + "</p>" +
-							"<p> Last Updated : " + devices[dev].last_updated + "</p>" +
-							"<a href='/iot_devices/" + devices[dev].sn + "'>Detials</a>";
+							"<p> Last Updated : " + devices[dev].last_updated + "</p>";
 
 						addClickHandler(content, marker);
 						markers.push(marker);
