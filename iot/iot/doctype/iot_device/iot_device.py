@@ -129,8 +129,8 @@ def get_list_context(context=None):
 def list_device_map():
 	devices = frappe.get_all('IOT Device', fields=["sn", "dev_name", "longitude", "latitude"])
 	for dev in devices:
-		if not dev.longtitue:
-			dev.longtitue = '116.3252'
+		if not dev.longitude:
+			dev.longitude = '116.3252'
 		if not dev.latitude:
 			dev.latitude = '40.045103'
 	return devices
