@@ -126,7 +126,12 @@ def get_list_context(context=None):
 
 
 @frappe.whitelist()
-def list_device_map():
+def list_device_map2():
+	return get_device_list(limit_start=0, limit_page_length=10000)
+
+
+@frappe.whitelist()
+def list_device_map2():
 	devices = frappe.get_all('IOT Device', fields=["sn", "dev_name", "longitude", "latitude", "device_status", "last_updated"])
 	for dev in devices:
 		if not dev.longitude:
