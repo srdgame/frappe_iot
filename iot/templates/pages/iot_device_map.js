@@ -5,8 +5,8 @@ frappe.ready(function() {
 
 	var opts = {
 		width : 250,     // 信息窗口宽度
-		height: 80,     // 信息窗口高度
-		title : "信息窗口" , // 信息窗口标题
+		height: 160,     // 信息窗口高度
+		//title : "设备信息" , // 信息窗口标题
 		enableMessage:true//设置允许信息窗发送短息
 	};
 	function addClickHandler(content,marker){
