@@ -12,10 +12,12 @@ frappe.ready(function() {
 					frappe.msgprint(r._server_messages);
 				else {
 					var markers = [];
-					var devices = r.message
+					var devices = r.message;
+					var i = 0;
 					for (var dev in devices) {
-						pt = new BMap.Point(devices[dev].longitude, devices[dev].latitude);
+						pt = new BMap.Point(devices[dev].longitude + i, devices[dev].latitude);
 						markers.push(new BMap.Marker(pt));
+						i = i + 1;
 					}
 					//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
 					var markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
