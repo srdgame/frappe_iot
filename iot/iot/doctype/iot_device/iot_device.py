@@ -127,7 +127,7 @@ def get_list_context(context=None):
 
 @frappe.whitelist()
 def list_device_map():
-	return get_device_list(limit_start=0, limit_page_length=10000)
+	return get_device_list('IOT Device', '', '*', limit_start=0, limit_page_length=10000)
 
 
 @frappe.whitelist()
