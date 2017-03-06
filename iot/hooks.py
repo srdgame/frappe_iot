@@ -95,12 +95,6 @@ portal_menu_items = [
 	{"title": _("IOT Account"), "route": "/iot_me"}
 ]
 
-doc_events = {
-	"User": {
-		"after_insert": "iot.controllers.user_hooks.after_insert",
-	},
-}
-
 # Top bars
 website_context = {
 	"favicon": 	"/assets/img/frappe-bird-white.png",
@@ -154,6 +148,12 @@ has_website_permission = {
 # Document Events
 # ---------------
 # Hook on document methods and events
+
+doc_events = {
+	"User": {
+		"after_insert": "iot.controllers.user_hooks.after_insert",
+	},
+}
 
 # doc_events = {
 # 	"*": {
