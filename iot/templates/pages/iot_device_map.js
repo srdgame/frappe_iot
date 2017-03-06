@@ -15,7 +15,7 @@ frappe.ready(function() {
 					var devices = r.message;
 					var i = 0;
 					for (var dev in devices) {
-						pt = new BMap.Point(number(devices[dev].longitude) + i, number(devices[dev].latitude));
+						pt = new BMap.Point(Number(devices[dev].longitude) + i, Number(devices[dev].latitude));
 						markers.push(new BMap.Marker(pt));
 						i = i + 1;
 					}
