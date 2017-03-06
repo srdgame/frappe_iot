@@ -95,10 +95,11 @@ portal_menu_items = [
 	{"title": _("IOT Account"), "route": "/iot_me"}
 ]
 
-# Website Default User Role
-default_roles = [
-	{'role': 'IOT User', 'doctype':'IOT User', 'email_field': 'email_id'},
-]
+doc_events = {
+	"User": {
+		"after_insert": "iot.controllers.user_hooks.after_insert",
+	},
+}
 
 # Top bars
 website_context = {
