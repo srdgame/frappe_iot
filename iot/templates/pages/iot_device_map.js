@@ -29,18 +29,17 @@ frappe.ready(function() {
 				if(r._server_messages)
 					frappe.msgprint(r._server_messages);
 				else {
-					var markers = [];
 					var devices = r.message;
+					var markerClusterer = new BMapLib.MarkerClusterer(map);
+
 					for (var dev in devices) {
 						pt = new BMap.Point(devices[dev].longitude, devices[dev].latitude);
 						var marker = new BMap.Marker(pt);
 						var sContent = 	"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" + devices[dev].name + "</h4>" +
 										"<a href='/iot_devices/'" + devices[dev].sn + "'>Detials</a>";
-						addClickHandler(content,marker);
-						markers.push(marker);
+						markerClusterer.addMaker(marker)
+						addClickHandler(content, marker);
 					}
-					//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-					var markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
 				}
 			} else {
 				if(r._server_messages)
