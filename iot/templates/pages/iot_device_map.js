@@ -37,6 +37,8 @@ frappe.ready(function() {
 						var content = 	"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" + devices[dev].name + "</h4>" +
 										"<a href='/iot_devices/'" + devices[dev].sn + "'>Detials</a>";
 
+						alert(content);
+
 						addClickHandler(content, marker);
 						markers.push(marker);
 					}
