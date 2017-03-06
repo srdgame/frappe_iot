@@ -28,7 +28,6 @@ frappe.ready(function() {
 			}
 		}
 	});
-/*
 	var data_info = [[116.417854,39.921988,"地址：北京市东城区王府井大街88号乐天银泰百货八层"],
 						 [116.406605,39.921585,"地址：北京市东城区东华门大街"],
 						 [116.412222,39.912345,"地址：北京市东城区正义路甲5号"]
@@ -56,5 +55,4 @@ frappe.ready(function() {
 		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
 		map.openInfoWindow(infoWindow,point); //开启信息窗口
 	}
-*/
 });
