@@ -5,7 +5,7 @@ frappe.ready(function() {
 
 	var opts = {
 		width : 250,     // 信息窗口宽度
-		height: 160,     // 信息窗口高度
+		height: 120,     // 信息窗口高度
 		//title : "设备信息" , // 信息窗口标题
 		enableMessage:true//设置允许信息窗发送短息
 	};
@@ -39,8 +39,6 @@ frappe.ready(function() {
 							"<p> Status : " + devices[dev].device_status + "</p>" +
 							"<p> Last Updated : " + devices[dev].last_updated + "</p>" +
 							"<a href='/iot_devices/" + devices[dev].sn + "'>Detials</a>";
-
-						alert(content);
 
 						addClickHandler(content, marker);
 						markers.push(marker);
