@@ -11,7 +11,7 @@ app_icon = "octicon octicon-cloud-upload"
 app_color = "grey"
 app_email = "dirk.chang@symid.com"
 app_license = "MIT"
-source_link = "https://github.com/srdgame/symlink_iot"
+source_link = "https://github.com/srdgame/frappe_iot"
 
 error_report_email = "dirk.chang@symid.com.com"
 
