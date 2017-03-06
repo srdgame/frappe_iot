@@ -38,10 +38,10 @@ frappe.ready(function() {
 										"<a href='/iot_devices/'" + devices[dev].sn + "'>Detials</a>";
 						map.addOverlay(marker);
 						addClickHandler(content,marker);
-						markers.push(marker);
+						//markers.push(marker);
 					}
 					//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-					var markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
+					//var markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
 				}
 			} else {
 				if(r._server_messages)
