@@ -36,12 +36,12 @@ frappe.ready(function() {
 						var marker = new BMap.Marker(pt);
 						var sContent = 	"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" + devices[dev].name + "</h4>" +
 										"<a href='/iot_devices/'" + devices[dev].sn + "'>Detials</a>";
-						map.addOverlay(marker);
-						addClickHandler(content,marker);
-						//markers.push(marker);
+
+						addClickHandler(content, marker);
+						markers.push(marker);
 					}
 					//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-					//var markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
+					var markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
 				}
 			} else {
 				if(r._server_messages)
