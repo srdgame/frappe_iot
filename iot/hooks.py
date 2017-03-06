@@ -97,7 +97,7 @@ portal_menu_items = [
 
 doc_events = {
 	"User": {
-		"after_insert": "iot.controllers.user_hooks.after_insert",
+		"after_insert": "iot.controllers.user_hooks.user_hooks.after_insert",
 	},
 }
 
