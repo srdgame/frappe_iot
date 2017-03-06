@@ -126,7 +126,7 @@ def get_list_context(context=None):
 
 
 @frappe.whitelist()
-def list_device_map2():
+def list_device_map():
 	return get_device_list(limit_start=0, limit_page_length=10000)
 
 
