@@ -51,5 +51,14 @@ frappe.ready(function() {
 			}
 		}
 	});
-
+	var data_info = [[116.417854,39.921988,"地址：北京市东城区王府井大街88号乐天银泰百货八层"],
+					 [116.406605,39.921585,"地址：北京市东城区东华门大街"],
+					 [116.412222,39.912345,"地址：北京市东城区正义路甲5号"]
+					];
+	for(var i=0;i<data_info.length;i++){
+		var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
+		var content = data_info[i][2];
+		map.addOverlay(marker);               // 将标注添加到地图中
+		addClickHandler(content,marker);
+	}
 });
