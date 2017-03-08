@@ -127,9 +127,9 @@ def get_device(sn=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def add_device():
+def add_device(device_data=None):
 	valid_auth_code()
-	device = get_post_json_data()
+	device = device_data or get_post_json_data()
 	sn = device.get("sn")
 	if not sn:
 		throw(_("Request fields not found. fields: sn"))
@@ -163,15 +163,17 @@ def add_device():
 @frappe.whitelist(allow_guest=True)
 def update_device():
 	valid_auth_code()
-	add_device()
-	update_device_bunch()
-	return update_device_status()
+	data = get_post_json_data()
+	if data.get("bunch"):
+		add_device(device_data=data)
+	update_device_bunch(device_data=data)
+	return update_device_status(device_data=data)
 
 
 @frappe.whitelist(allow_guest=True)
-def update_device_bunch():
+def update_device_bunch(device_data=None):
 	valid_auth_code()
-	data = get_post_json_data()
+	data = device_data or get_post_json_data()
 	bunch = data.get("bunch")
 	sn = data.get("sn")
 	if not (sn and bunch):
@@ -207,9 +209,9 @@ def update_device_bunch():
 
 
 @frappe.whitelist(allow_guest=True)
-def update_device_status():
+def update_device_status(device_data=None):
 	valid_auth_code()
-	data = get_post_json_data()
+	data = device_data or get_post_json_data()
 	status = data.get("status")
 	sn = data.get("sn")
 	if not (sn and status):
