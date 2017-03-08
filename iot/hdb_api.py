@@ -11,6 +11,7 @@ from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from iot.doctype.iot_settings.iot_settings import IOTSettings
+from frappe.utils import cint
 
 
 def valid_auth_code(auth_code=None):
@@ -87,13 +88,18 @@ def list_devices(user=None):
 
 	if frappe.get_value("IOT User", user):
 		user_doc = frappe.get_doc("IOT User", user)
-		groups = user_doc.get("group_assigned")
-		for g in groups:
-			bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": g.group, "owner_type": "IOT Employee Group"}, "code")]
-			sn_list = []
-			for c in bunch_codes:
-				sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-			devices.append({"group": g.group, "devices": sn_list})
+		if cint(frappe.get_value('IOT Enterprise', user_doc.enterprise, 'enabled')):
+			groups = user_doc.get("group_assigned")
+			for g in groups:
+				bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {
+					"owner_id": g.group,
+					"owner_type": "IOT Employee Group"
+				}, "code")]
+
+				sn_list = []
+				for c in bunch_codes:
+					sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
+				devices.append({"group": g.group, "devices": sn_list})
 
 	bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
 	sn_list = []

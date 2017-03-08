@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
+from frappe.utils import cint
 
 
 def get_context(context):
@@ -40,6 +41,9 @@ def get_context(context):
 	else:
 		if not frappe.db.get_value("IOT UserGroup", {"group": doc.owner_id, "parent": frappe.session.user}):
 			ent = frappe.db.get_value("IOT Employee Group", doc.owner_id, "parent")
+			if not cint(frappe.db.get_value('IOT Enterprise', ent, 'enabled')):
+				raise frappe.PermissionError
+
 			if frappe.db.get_value("IOT Enterprise", ent, "admin") != frappe.session.user:
 				raise frappe.PermissionError
 

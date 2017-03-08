@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils import cint
 
 
 class IOTDeviceBunch(Document):
@@ -18,8 +19,11 @@ class IOTDeviceBunch(Document):
 			return True
 
 		if self.owner_type == "IOT Employee Group":
-			# Check for Enterprise Admin
 			enterprise = frappe.get_value("IOT Employee Group", self.owner_id, "parent")
+			# Check enterprise enabled
+			if not cint(frappe.get_value('IOT Enterprise', self.enterprise, 'enabled')):
+				return False
+			# Check for Enterprise Admin
 			if frappe.get_value("IOT Enterprise", enterprise, "admin") == user:
 				return True
 			# Check for Employee Group

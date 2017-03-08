@@ -8,6 +8,7 @@ import traceback
 from frappe.model.document import Document
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
+from frappe.utils import cint
 
 
 class IOTDevice(Document):
@@ -64,6 +65,9 @@ class IOTDevice(Document):
 		if bench.owner_type == "User" and bench.owner_id == user:
 			return True
 
+		if not cint(frappe.get_value('IOT Enterprise', self.enterprise, 'enabled')):
+			return False
+
 		groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
 		ent = frappe.get_value("IOT Enterprise", {"admin": user})
 		if ent:
@@ -76,6 +80,21 @@ class IOTDevice(Document):
 
 
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
+	ent = frappe.get_value('IOT User', frappe.session.user, 'enterprise')
+	if not ent or not cint(frappe.get_value('IOT Enterprise', ent, 'enabled')):
+		return frappe.db.sql('''select distinct device.*
+		from `tabIOT Device` device, `tabIOT Device Bunch` bunch_code 
+		where
+			(bunch_code.owner_type = "User"
+			and bunch_code.owner_id = %(user)s
+			and bunch_code.code = device.bunch)
+			order by device.{0}
+			limit {1}, {2}
+		'''.format(order_by, limit_start, limit_page_length),
+			{'user':frappe.session.user},
+			as_dict=True,
+			update={'doctype':'IOT Device'})
+
 	ent = frappe.get_value("IOT Enterprise", {"admin": frappe.session.user})
 	if ent:
 		return frappe.db.sql('''select distinct device.*
