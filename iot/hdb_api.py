@@ -164,7 +164,7 @@ def add_device(device_data=None):
 def update_device():
 	valid_auth_code()
 	data = get_post_json_data()
-	if data.get("bunch"):
+	if data.get("bunch") is not None:
 		add_device(device_data=data)
 	update_device_bunch(device_data=data)
 	return update_device_status(device_data=data)
