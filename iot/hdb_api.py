@@ -64,8 +64,6 @@ def login(user=None, passwd=None):
 	if frappe.local.login_manager.user != user:
 		throw(_("Username password is not matched!"))
 
-	if frappe.get_value("IOT User", user, "enabled")
-
 	enterprise = frappe.get_value("IOT User", user, "enterprise") or IOTSettings.get_default_enterprise()
 	
 	return {"usr": user, "ent": enterprise}
@@ -186,7 +184,7 @@ def update_device_bunch(device_data=None):
 		throw(_("Device is not found. SN:{0}").format(sn))
 
 	if bunch == "":
-		bunch = None
+
 	if dev.bunch == bunch:
 		return dev
 
