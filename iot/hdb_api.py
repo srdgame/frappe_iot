@@ -184,7 +184,7 @@ def update_device_bunch(device_data=None):
 		throw(_("Device is not found. SN:{0}").format(sn))
 
 	if bunch == "":
-
+		bunch = None
 	if dev.bunch == bunch:
 		return dev
 
