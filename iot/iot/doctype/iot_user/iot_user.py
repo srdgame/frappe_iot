@@ -75,7 +75,6 @@ class IOTUser(Document):
 def add_user(user=None, enterprise=None, login_name=None):
 	"""
 	This is used for page form enable on IOT User, which is adding one IOT User DocType document
-	:param enabled:
 	:param user: 
 	:param enterprise: 
 	:param login_name: 
@@ -104,7 +103,6 @@ def add_user(user=None, enterprise=None, login_name=None):
 
 	doc = frappe.get_doc({
 		"doctype": "IOT User",
-		"enabled": True,
 		"user": user,
 		"enterprise": enterprise,
 		# "login_name": login_name
@@ -121,7 +119,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 
 
 @frappe.whitelist()
-def update_user(user=None, enabled=None, enterprise=None, login_name=None):
+def update_user(user=None, enterprise=None, login_name=None):
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
 	if not_manager and session_user != user:
@@ -129,16 +127,11 @@ def update_user(user=None, enabled=None, enterprise=None, login_name=None):
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
 
-	if enabled == "True":
-		enabled = True
-
 	# Set on behalf if user is not an IOT Manager
 	if not_manager:
 		frappe.session.user = "Administrator"
 
 	doc = frappe.get_doc('IOT User', user)
-	if enabled is not None:
-		doc.set("enable", enabled)
 	if enterprise is not None:
 		doc.set("enterprise", enterprise)
 	if login_name is not None:
