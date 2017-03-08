@@ -56,7 +56,7 @@ frappe.ui.form.on('IOT User', {
 	enabled: function(frm) {
 		var doc = frm.doc;
 		if(!doc.__islocal && has_common(roles, ["Administrator", "System Manager", "IOT Manager"])) {
-			frm.toggle_display(['group_settings'], doc.enabled);
+			frm.toggle_display(['group_settings'], true);
 			frm.set_df_property('enabled', 'read_only', 0);
 		}
 	}
