@@ -176,13 +176,15 @@ def update_device_bunch(device_data=None):
 	data = device_data or get_post_json_data()
 	bunch = data.get("bunch")
 	sn = data.get("sn")
-	if not (sn and bunch):
-		throw(_("Request fields not found. fields: sn\tbunch"))
+	if sn is None:
+		throw(_("Request fields not found. fields: sn"))
 
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
 		throw(_("Device is not found. SN:{0}").format(sn))
 
+	if bunch == "":
+		bunch = None
 	if dev.bunch == bunch:
 		return dev
 
