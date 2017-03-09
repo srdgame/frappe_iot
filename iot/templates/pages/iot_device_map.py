@@ -12,6 +12,7 @@ def get_context(context):
 	context.no_cache = 1
 	context.show_sidebar = True
 
+	context.title = _("IOT Devices Map")
 	context.doc = {
-		'name': 'Test baidu map',
+		'name': _("IOT Devices Map")
 	}
