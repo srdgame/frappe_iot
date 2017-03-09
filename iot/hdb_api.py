@@ -138,9 +138,9 @@ def fire_callback(cb_url, cb_data):
 	r = session.post(cb_url, json=cb_data)
 
 	if r.status_code != 200:
-		frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
+		frappe.logger(__name__).error("Callback Failed! \r\n", r.text())
 	else:
-		frappe.logger(__name__).info("Callback Successfully! \r\n", r.content)
+		frappe.logger(__name__).info("Callback Successfully! \r\n", r.text())
 
 
 @frappe.whitelist(allow_guest=True)
