@@ -132,6 +132,17 @@ def get_device(sn=None):
 	return dev
 
 
+def fire_callback(url, cb_data):
+	frappe.logger(__name__).debug("HDB Fire Callback with data\r\n", cb_data)
+	session = requests.session()
+	r = session.post(url, json=cb_data)
+
+	if r.status_code != 200:
+		frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
+	else:
+		frappe.logger(__name__).info("Callback Successfully! \r\n", r.content)
+
+
 @frappe.whitelist(allow_guest=True)
 def add_device(device_data=None):
 	valid_auth_code()
@@ -152,16 +163,13 @@ def add_device(device_data=None):
 	url = IOTHDBSettings.get_callback_url()
 	if url:
 		""" Fire callback data """
-		session = requests.session()
 		user_list = IOTDevice.find_owners_by_bunch(device.get("bunch"))
-		r = session.post(url, json={
+
+		frappe.enqueue('iot.iot.hdb_api.fire_callback', cb_data = {
 			'cmd': 'add_device',
 			'sn': sn,
 			'users': user_list
 		})
-
-		if r.status_code != 200:
-			frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
 
 	return doc
 
@@ -200,18 +208,15 @@ def update_device_bunch(device_data=None):
 	url = IOTHDBSettings.get_callback_url()
 	if url:
 		""" Fire callback data """
-		session = requests.session()
 		org_user_list = IOTDevice.find_owners_by_bunch(org_bunch)
 		user_list = IOTDevice.find_owners_by_bunch(bunch)
-		r = session.post(url, json={
+
+		frappe.enqueue('iot.iot.hdb_api.fire_callback', cb_data = {
 			'cmd': 'update_device',
 			'sn': sn,
 			'add_users': user_list,
 			'del_users': org_user_list
 		})
-
-		if r.status_code != 200:
-			frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
 
 	return dev
 
