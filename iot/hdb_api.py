@@ -133,14 +133,15 @@ def get_device(sn=None):
 
 
 def fire_callback(cb_url, cb_data):
-	frappe.logger(__name__).debug("HDB Fire Callback with data\r\n", cb_data)
+	frappe.logger(__name__).debug("HDB Fire Callback with data:")
+	frappe.logger(__name__).debug(cb_data)
 	session = requests.session()
 	r = session.post(cb_url, json=cb_data)
 
 	if r.status_code != 200:
-		frappe.logger(__name__).error("Callback Failed! \r\n", r.text())
+		frappe.logger(__name__).error(r.text)
 	else:
-		frappe.logger(__name__).info("Callback Successfully! \r\n", r.text())
+		frappe.logger(__name__).debug(r.text)
 
 
 @frappe.whitelist(allow_guest=True)
