@@ -33,7 +33,8 @@ frappe.ready(function() {
 					var devices = r.message;
 					for (var dev in devices) {
 						pt = new BMap.Point(devices[dev].longitude, devices[dev].latitude);
-						var marker = new BMap.Marker(pt);
+						var myIcon = new BMap.Icon("/files/access-point.png", new BMap.Size(32,32));
+						var marker = new BMap.Marker(pt,{icon:myIcon});
 						var content = "<a href='/iot_devices/" + devices[dev].sn + "'>" +
 							"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" +
 							devices[dev].dev_name + "</h4></a>" +
