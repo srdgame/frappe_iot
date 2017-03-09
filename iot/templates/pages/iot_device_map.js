@@ -1,6 +1,6 @@
 frappe.ready(function() {
 	var map = new BMap.Map("baiduMap");
-	map.centerAndZoom(new BMap.Point(116.404, 39.915), 4);
+	map.centerAndZoom(new BMap.Point(116.3252, 40.045103), 12);
 	map.enableScrollWheelZoom();
 
 	var opts = {
