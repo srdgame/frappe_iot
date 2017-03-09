@@ -107,7 +107,7 @@ def list_devices(user=None):
 	sn_list = []
 	for c in bunch_codes:
 		sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-	devices.append({"private_devices": sn_list})
+	devices["private_devices"] = sn_list
 
 	return devices
 
