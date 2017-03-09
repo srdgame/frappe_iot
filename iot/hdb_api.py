@@ -132,10 +132,10 @@ def get_device(sn=None):
 	return dev
 
 
-def fire_callback(url, cb_data):
+def fire_callback(cb_url, cb_data):
 	frappe.logger(__name__).debug("HDB Fire Callback with data\r\n", cb_data)
 	session = requests.session()
-	r = session.post(url, json=cb_data)
+	r = session.post(cb_url, json=cb_data)
 
 	if r.status_code != 200:
 		frappe.logger(__name__).error("Callback Failed! \r\n", r.content)
@@ -165,7 +165,7 @@ def add_device(device_data=None):
 		""" Fire callback data """
 		user_list = IOTDevice.find_owners_by_bunch(device.get("bunch"))
 
-		frappe.enqueue('iot.iot.hdb_api.fire_callback', cb_data = {
+		frappe.enqueue('iot.hdb_api.fire_callback', cb_url = url, cb_data = {
 			'cmd': 'add_device',
 			'sn': sn,
 			'users': user_list
@@ -211,7 +211,7 @@ def update_device_bunch(device_data=None):
 		org_user_list = IOTDevice.find_owners_by_bunch(org_bunch)
 		user_list = IOTDevice.find_owners_by_bunch(bunch)
 
-		frappe.enqueue('iot.iot.hdb_api.fire_callback', cb_data = {
+		frappe.enqueue('iot.iot.hdb_api.fire_callback', cb_url = url, cb_data = {
 			'cmd': 'update_device',
 			'sn': sn,
 			'add_users': user_list,
