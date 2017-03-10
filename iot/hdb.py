@@ -13,6 +13,16 @@ from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from hdb_api import valid_auth_code
 
+
+def wrapper_data_json(data):
+	rt = data["boxrt"]
+	return {
+		"device": rt[0].name,
+		"status": rt[0].status,
+		"tags": rt[0].ss
+	}
+
+
 @frappe.whitelist(allow_guest=True)
 def iot_device_data_hdb(sn=None):
 	valid_auth_code()
@@ -21,7 +31,7 @@ def iot_device_data_hdb(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	session = requests.session()
 	url = IOTHDBSettings.get_data_url() + "/rtdb/" + doc.dev_name
-	return session.get(url).json()
+	return wrapper_data_json(session.get(url).json())
 
 
 @frappe.whitelist()
@@ -32,7 +42,7 @@ def iot_device_data(sn=None):
 	doc.has_permission("read")
 	session = requests.session()
 	url = IOTHDBSettings.get_data_url() + "/rtdb/" + doc.dev_name
-	return session.get(url).json()
+	return wrapper_data_json(session.get(url).json())
 
 
 def get_post_json_data():
