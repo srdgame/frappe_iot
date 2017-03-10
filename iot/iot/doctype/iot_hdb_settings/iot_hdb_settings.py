@@ -17,6 +17,13 @@ class IOTHDBSettings(Document):
 		return frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
 
 	@staticmethod
+	def get_data_url():
+		url = frappe.db.get_single_value("IOT HDB Settings", "data_url")
+		if url == "":
+			url = None
+		return url
+
+	@staticmethod
 	def get_callback_url():
 		url = frappe.db.get_single_value("IOT HDB Settings", "callback_url")
 		if url == "":

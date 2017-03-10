@@ -10,7 +10,6 @@ from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from iot.doctype.iot_settings.iot_settings import IOTSettings
 from frappe.utils import cint
 
 
@@ -21,7 +20,8 @@ def get_device_data(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	session = requests.session()
-	return session.get('10.0.0.164:8050/rtdb/'+doc.dev_name).json()
+	url = IOTHDBSettings.get_data_url() + "/rtdb/" + doc.dev_name
+	return session.get(url).json()
 
 
 def get_post_json_data():
