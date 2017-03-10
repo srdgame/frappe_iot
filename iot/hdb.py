@@ -17,9 +17,9 @@ from hdb_api import valid_auth_code
 def wrapper_data_json(data):
 	rt = data["boxrt"]
 	return {
-		"device": rt[0].name,
-		"status": rt[0].status,
-		"tags": rt[0].ss
+		"device": rt[0]["name"],
+		"status": rt[0]["status"],
+		"tags": rt[0]["ss"]
 	}
 
 
