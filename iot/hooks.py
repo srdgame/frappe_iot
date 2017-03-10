@@ -85,6 +85,8 @@ website_route_rules = [
 			"parents": [{"title": _("IOT User"), "name": "iot_users"}]
 		}
 	},
+	{"from_route": "/iot_device_data", "to_route": "/api/method/iot.hdb.iot_device_data"},
+	{"from_route": "/iot_device_data/<path:name>", "to_route": "iot_device_data"},
 ]
 
 portal_menu_items = [
