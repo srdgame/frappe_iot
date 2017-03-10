@@ -7,7 +7,7 @@ def get_data():
 		{
 			"module_name": "IOT",
 			"color": "#B8860B",
-			"icon": "octicon octicon-cloud-upload",
+			"icon": "fa fa-cloud",
 			"type": "module",
 			"label": _("IOT")
 		}
