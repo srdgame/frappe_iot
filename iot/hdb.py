@@ -69,11 +69,21 @@ def fire_callback(cb_url, cb_data):
 
 
 @frappe.whitelist()
-def iot_device_ctrl(cmds=None):
-	cmds = cmds or get_post_json_data()
-	for cmd in cmds:
+def iot_device_ctrl(ctrl=None):
+	ctrl = ctrl or get_post_json_data()
+	cmds = []
+	for cmd in ctrl:
 		doc = frappe.get_doc('IOT Device', cmd.sn)
 		doc.has_permission("write")
+		cmds.append({
+			"boxname": doc.dev_name,
+			"boxsn": cmd.sn,
+			"ctrl": cmd.ctrl,
+			"tag": cmd.tag,
+			"uflg": cmd.uflg,
+			"val": cmd.val,
+			"vt": cmd.vt
+		})
 
 	url = IOTHDBSettings.get_data_url() + "/iocmd"
 	session = requests.session()
