@@ -21,7 +21,7 @@ def get_device_data(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	session = requests.session()
-	return session.get('127.0.0.1:8050/rtdb/'+doc.dev_name).json()
+	return session.get('10.0.0.164:8050/rtdb/'+doc.dev_name).json()
 
 
 def get_post_json_data():
