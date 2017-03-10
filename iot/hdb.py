@@ -13,6 +13,15 @@ from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from frappe.utils import cint
 
 
+@frappe.whitelist(allow_guest=True)
+def get_device_data_test(sn=None):
+	user = frappe.session.user
+	sn = sn or frappe.form_dict.get('sn')
+	doc = frappe.get_doc('IOT Device', sn)
+	session = requests.session()
+	url = IOTHDBSettings.get_data_url() + "/rtdb/" + doc.dev_name
+	return session.get(url).json()
+
 @frappe.whitelist()
 def get_device_data(sn=None):
 	user = frappe.session.user
