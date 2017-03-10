@@ -7,14 +7,15 @@ import frappe
 import json
 import requests
 from frappe import throw, msgprint, _
+from frappe.utils import cint
 from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from frappe.utils import cint
-
+from hdb_api import valid_auth_code
 
 @frappe.whitelist(allow_guest=True)
-def get_device_data_test(sn=None):
+def iot_device_data_hdb(sn=None):
+	valid_auth_code()
 	user = frappe.session.user
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
@@ -22,8 +23,9 @@ def get_device_data_test(sn=None):
 	url = IOTHDBSettings.get_data_url() + "/rtdb/" + doc.dev_name
 	return session.get(url).json()
 
+
 @frappe.whitelist()
-def get_device_data(sn=None):
+def iot_device_data(sn=None):
 	user = frappe.session.user
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
@@ -57,15 +59,17 @@ def fire_callback(cb_url, cb_data):
 
 
 @frappe.whitelist()
-def set_device_data(cmds=None):
+def iot_device_ctrl(cmds=None):
 	cmds = cmds or get_post_json_data()
-	doc = frappe.get_doc('IOT Device', cmds.sn)
+	for cmd in cmds:
+		doc = frappe.get_doc('IOT Device', cmd.sn)
+		doc.has_permission("write")
 
-	url = IOTHDBSettings.get_callback_url()
-	if url:
-		frappe.enqueue('iot.hdb_api.fire_callback', cb_url = url, cb_data = cmds)
-
-	return doc
+	url = IOTHDBSettings.get_data_url() + "/iocmd"
+	session = requests.session()
+	return session.post(url, json={
+		"cmds": cmds
+	})
 
 
 @frappe.whitelist(allow_guest=True)
