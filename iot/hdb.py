@@ -21,8 +21,11 @@ def iot_device_data_hdb(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	session = requests.session()
-	url = IOTHDBSettings.get_data_url() + "/rtdb/boxdata?sn=" + doc.sn
-	return session.get(url).json()
+	url = IOTHDBSettings.get_data_url() + "/rtdb/boxdata"
+	params = {
+		"sn": doc.sn
+	}
+	return session.get(url, params=params).json()
 
 
 @frappe.whitelist()
@@ -32,8 +35,11 @@ def iot_device_data(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	session = requests.session()
-	url = IOTHDBSettings.get_data_url() + "/rtdb/boxdata?sn=" + doc.sn
-	return session.get(url).json()
+	url = IOTHDBSettings.get_data_url() + "/rtdb/boxdata"
+	params = {
+		"sn": doc.sn
+	}
+	return session.get(url, params=params).json()
 
 
 @frappe.whitelist()
@@ -43,8 +49,11 @@ def iot_device_cfg(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	session = requests.session()
-	url = IOTHDBSettings.get_data_url() + "/rtdb/boxcfg?sn=" + doc.sn
-	return session.get(url).json()
+	url = IOTHDBSettings.get_data_url() + "/rtdb/boxcfg"
+	params = {
+		"sn": doc.sn
+	}
+	return session.get(url, params=params).json()
 
 
 def get_post_json_data():
