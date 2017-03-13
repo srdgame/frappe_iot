@@ -44,8 +44,8 @@ def login(user=None, passwd=None):
 	"""
 	valid_auth_code()
 	if not (user and passwd):
-		usr, passwd = frappe.form_dict.get('user'), frappe.form_dict.get('passwd')
-	frappe.logger(__name__).debug(_("HDB Checking login {0} password {1}").format(user, passwd))
+		user, passwd = frappe.form_dict.get('user'), frappe.form_dict.get('passwd')
+	frappe.logger(__name__).debug(_("HDB Checking login user {0} password {1}").format(user, passwd))
 
 	"""
 	if '@' not in usr:
