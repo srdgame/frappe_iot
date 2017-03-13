@@ -17,7 +17,6 @@ from hdb_api import valid_auth_code
 @frappe.whitelist(allow_guest=True)
 def iot_device_data_hdb(sn=None):
 	valid_auth_code()
-	user = frappe.session.user
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	session = requests.session()
@@ -32,7 +31,6 @@ def iot_device_data_hdb(sn=None):
 
 @frappe.whitelist()
 def iot_device_data(sn=None):
-	user = frappe.session.user
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
@@ -48,7 +46,6 @@ def iot_device_data(sn=None):
 
 @frappe.whitelist()
 def iot_device_cfg(sn=None):
-	user = frappe.session.user
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
