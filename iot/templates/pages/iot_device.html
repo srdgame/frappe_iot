@@ -19,10 +19,15 @@
 		<span class="user-image-myaccount"></span>
 		<div>
 			<ul class="list-unstyled">
-				<li><a href="/update-iot-device?name={{ doc.name }}">
+				<!--<li><a href="/update-iot-device?name={{ doc.name }}">
 					<h6 class="text-muted">{{ _("Edit") }}</h6>
+				</a></li> -->
+				<li>a href="/api/method/iot.hdb.iot_device_cfg?sn=={{ doc.sn }}">
+					<h6 class="text-muted">{{ _("Cfg") }}</h6>
 				</a></li>
-
+				<li><a href="/api/method/iot.hdb.iot_device_data?sn=={{ doc.sn }}">
+					<h6 class="text-muted">{{ _("Data") }}</h6>
+				</a></li>
 			</ul>
 		</div>
 	</div>
