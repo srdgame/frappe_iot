@@ -214,7 +214,7 @@ def update_device_bunch(device_data=None):
 		org_user_list = IOTDevice.find_owners_by_bunch(org_bunch)
 		user_list = IOTDevice.find_owners_by_bunch(bunch)
 
-		frappe.enqueue('iot.iot.hdb_api.fire_callback', cb_url = url, cb_data = {
+		frappe.enqueue('iot.hdb_api.fire_callback', cb_url = url, cb_data = {
 			'cmd': 'update_device',
 			'sn': sn,
 			'add_users': user_list,
