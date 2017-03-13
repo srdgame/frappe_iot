@@ -16,7 +16,7 @@ from hdb_api import valid_auth_code
 
 @frappe.whitelist(allow_guest=True)
 def iot_device_data_hdb(sn=None):
-	valid_auth_code()
+	# valid_auth_code()
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	session = requests.session()
