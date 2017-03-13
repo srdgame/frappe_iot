@@ -25,7 +25,9 @@ def iot_device_data_hdb(sn=None):
 	params = {
 		"sn": doc.sn
 	}
-	return session.get(url, params=params).json()
+	r = session.get(url, params=params)
+	if r:
+		return r.json();
 
 
 @frappe.whitelist()
@@ -39,7 +41,9 @@ def iot_device_data(sn=None):
 	params = {
 		"sn": doc.sn
 	}
-	return session.get(url, params=params).json()
+	r = session.get(url, params=params)
+	if r:
+		return r.json();
 
 
 @frappe.whitelist()
@@ -53,7 +57,9 @@ def iot_device_cfg(sn=None):
 	params = {
 		"sn": doc.sn
 	}
-	return session.get(url, params=params).json()
+	r = session.get(url, params=params)
+	if r:
+		return r.json();
 
 
 def get_post_json_data():
@@ -98,9 +104,11 @@ def iot_device_ctrl(ctrl=None):
 
 	url = IOTHDBSettings.get_data_url() + "/iocmd"
 	session = requests.session()
-	return session.post(url, json={
+	r = session.post(url, json={
 		"cmds": cmds
 	})
+	if r:
+		return r.json();
 
 
 @frappe.whitelist(allow_guest=True)
