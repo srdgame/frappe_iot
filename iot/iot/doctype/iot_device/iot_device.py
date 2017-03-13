@@ -65,8 +65,9 @@ class IOTDevice(Document):
 		if bench.owner_type == "User" and bench.owner_id == user:
 			return True
 
-		if not cint(frappe.get_value('IOT Enterprise', self.enterprise, 'enabled')):
-			return False
+		if self.enterprise is not None:
+			if not cint(frappe.get_value('IOT Enterprise', self.enterprise, 'enabled')):
+				return False
 
 		groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
 		ent = frappe.get_value("IOT Enterprise", {"admin": user})
