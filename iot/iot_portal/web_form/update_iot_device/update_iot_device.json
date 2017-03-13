@@ -18,7 +18,7 @@
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 15:06:52.450317", 
+ "modified": "2017-03-13 12:06:04.687052", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-device", 
@@ -49,7 +49,7 @@
    "max_length": 0, 
    "max_value": 0, 
    "options": "IOT Device Bunch", 
-   "read_only": 0, 
+   "read_only": 1, 
    "reqd": 0
   }, 
   {
@@ -60,7 +60,7 @@
    "max_length": 0, 
    "max_value": 0, 
    "options": "IOT Enterprise", 
-   "read_only": 0, 
+   "read_only": 1, 
    "reqd": 0
   }, 
   {
@@ -92,6 +92,28 @@
    "max_value": 0, 
    "read_only": 0, 
    "reqd": 1
+  }, 
+  {
+   "default": "116.3252", 
+   "fieldname": "longitude", 
+   "fieldtype": "Data", 
+   "hidden": 0, 
+   "label": "Longitude", 
+   "max_length": 0, 
+   "max_value": 0, 
+   "read_only": 0, 
+   "reqd": 0
+  }, 
+  {
+   "default": "40.045103", 
+   "fieldname": "latitude", 
+   "fieldtype": "Data", 
+   "hidden": 0, 
+   "label": "Latitude", 
+   "max_length": 0, 
+   "max_value": 0, 
+   "read_only": 0, 
+   "reqd": 0
   }
  ]
 }
