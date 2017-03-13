@@ -34,7 +34,7 @@
    "precision": "", 
    "print_hide": 0, 
    "print_hide_if_no_value": 0, 
-   "read_only": 0, 
+   "read_only": 1, 
    "remember_last_selected_value": 0, 
    "report_hide": 0, 
    "reqd": 1, 
@@ -464,7 +464,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-07 18:13:48.445553", 
+ "modified": "2017-03-13 12:38:04.058828", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT Device", 
@@ -519,7 +519,7 @@
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
- "title_field": "dev_name", 
+ "title_field": "", 
  "track_changes": 1, 
  "track_seen": 0
 }
