@@ -70,18 +70,7 @@ def login(user=None, passwd=None):
 	return {"user": user, "enterprise": enterprise}
 
 
-@frappe.whitelist(allow_guest=True)
-def list_devices(user=None):
-	"""
-	List devices according to user specified in query params by naming as 'usr'
-		this user is ERPNext user which you got from @iot.auth.login
-	:param user: ERPNext username
-	:return: device list
-	"""
-	valid_auth_code()
-	user = user or frappe.form_dict.get('user')
-	if not user:
-		throw(_("Query string user does not specified"))
+def list_iot_devices(user):
 	frappe.logger(__name__).debug(_("List Devices for user {0}").format(user))
 
 	devices = {
@@ -103,13 +92,30 @@ def list_devices(user=None):
 					sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
 				devices['group_devices'].append({"group": g.group, "devices": sn_list})
 
-	bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
+	bunch_codes = [d[0] for d in
+				   frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
 	sn_list = []
 	for c in bunch_codes:
 		sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
 	devices["private_devices"] = sn_list
 
 	return devices
+
+
+@frappe.whitelist(allow_guest=True)
+def list_devices(user=None):
+	"""
+	List devices according to user specified in query params by naming as 'usr'
+		this user is ERPNext user which you got from @iot.auth.login
+	:param user: ERPNext username
+	:return: device list
+	"""
+	valid_auth_code()
+	user = user or frappe.form_dict.get('user')
+	if not user:
+		throw(_("Query string user does not specified"))
+
+	return list_iot_devices(user)
 
 
 def get_post_json_data():
