@@ -14,15 +14,6 @@ from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from hdb_api import valid_auth_code
 
 
-def wrapper_data_json(data):
-	rt = data["boxrt"]
-	return {
-		"device": rt[0]["name"],
-		"status": rt[0]["status"],
-		"tags": rt[0]["ss"]
-	}
-
-
 @frappe.whitelist(allow_guest=True)
 def iot_device_data_hdb(sn=None):
 	valid_auth_code()
@@ -34,7 +25,7 @@ def iot_device_data_hdb(sn=None):
 	params = {
 		"sn": doc.sn
 	}
-	return wrapper_data_json(session.get(url, params=params).json())
+	return session.get(url, params=params).json()
 
 
 @frappe.whitelist()
@@ -48,7 +39,7 @@ def iot_device_data(sn=None):
 	params = {
 		"sn": doc.sn
 	}
-	return wrapper_data_json(session.get(url, params=params).json())
+	return session.get(url, params=params).json()
 
 
 @frappe.whitelist()
@@ -62,7 +53,7 @@ def iot_device_cfg(sn=None):
 	params = {
 		"sn": doc.sn
 	}
-	return wrapper_data_json(session.get(url, params=params).json())
+	return session.get(url, params=params).json()
 
 
 def get_post_json_data():
