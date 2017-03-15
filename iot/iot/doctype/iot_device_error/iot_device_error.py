@@ -34,7 +34,7 @@ def wechat_notify_by_name(err_name, err_doc=None):
 		else:
 			user_list.append(bunch_doc.owner_id)
 
-		if user_list.count() > 0:
+		if len(user_list) > 0:
 			enterprise = enterprise or frappe.get_value("IOT User", user_list[0], "enterprise") or IOTSettings.get_default_enterprise()
 
 			app = frappe.get_value("IOT Enterprise", enterprise, "wechat_app")
