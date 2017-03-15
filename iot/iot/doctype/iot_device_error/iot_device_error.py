@@ -41,7 +41,7 @@ def wechat_notify_by_name(err_name, err_doc=None):
 			if app:
 				from wechat.api import send_device_alarm
 				alarm = {
-					"title": _("有新的{0}").format(err_doc.error_type),
+					"title": "有新的" + err_doc.error_type,
 					"url": "/view-iot-device-error?name=" + err_doc.name,
 					"name": frappe.get_value("IOT Device", err_doc.device, "dev_name"),
 					"time": err_doc.modified,
