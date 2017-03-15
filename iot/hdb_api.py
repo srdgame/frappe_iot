@@ -137,6 +137,8 @@ def get_device(sn=None):
 		throw(_("Request fields not found. fields: sn"))
 
 	dev = IOTDevice.get_device_doc(sn)
+	if dev.enterprise is None:
+		dev.enterprise = dev.get_enterprise()
 	return dev
 
 
@@ -227,6 +229,8 @@ def update_device_bunch(device_data=None):
 			'del_users': org_user_list
 		})
 
+	if dev.enterprise is None:
+		dev.enterprise = dev.get_enterprise()
 	return dev
 
 
@@ -244,6 +248,8 @@ def update_device_status(device_data=None):
 		throw(_("Device is not found. SN:{0}").format(sn))
 
 	dev.update_status(status)
+	if dev.enterprise is None:
+		dev.enterprise = dev.get_enterprise()
 	return dev
 
 
