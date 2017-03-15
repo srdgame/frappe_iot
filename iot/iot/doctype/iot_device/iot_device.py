@@ -9,6 +9,7 @@ from frappe.model.document import Document
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
 from frappe.utils import cint
+from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 
 class IOTDevice(Document):
@@ -59,10 +60,20 @@ class IOTDevice(Document):
 
 		raise Exception("You should got here!")
 
+	def get_enterprise(self):
+		if self.enterprise is not None:
+			return self.enterprise
+		bunch = frappe.get_doc("IOT Device Bunch", self.bunch)
+		if bunch.owner_type == "IOT Employee Group":
+			return frappe.get_value("IOT Employee Group", bunch.owner_id, "parent")
+		else:
+			frappe.get_value("IOT User", bunch.owner_id, "enterprise") \
+				or IOTSettings.get_default_enterprise()
+
 	def has_website_permission(self, ptype, verbose=False):
 		user = frappe.session.user
-		bench = frappe.get_doc("IOT Device Bunch", self.bunch)
-		if bench.owner_type == "User" and bench.owner_id == user:
+		bunch = frappe.get_doc("IOT Device Bunch", self.bunch)
+		if bunch.owner_type == "User" and bunch.owner_id == user:
 			return True
 
 		if self.enterprise is not None:
@@ -74,7 +85,7 @@ class IOTDevice(Document):
 		if ent:
 			groups = [d[0] for d in frappe.db.get_values('IOT Employee Group', {'parent': ent}, "name")]
 
-		if bench.owner_type == "IOT Employee Group" and bench.owner_id in groups:
+		if bunch.owner_type == "IOT Employee Group" and bunch.owner_id in groups:
 			return True
 
 		return False
