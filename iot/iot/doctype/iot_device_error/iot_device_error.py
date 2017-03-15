@@ -48,7 +48,10 @@ def wechat_notify_by_name(err_name, err_doc=None):
 					"content": err_doc.error_info,
 					"remark": ""
 				}
-				send_device_alarm(app, user_list, alarm)
+				try:
+					send_device_alarm(app, user_list, alarm)
+				except Exception, e:
+					print("Calling send_device_alarm failed", e)
 
 	# update flag
 	err_doc.db_set("wechat_sent", 1)
