@@ -189,8 +189,8 @@ def add_device(device_data=None):
 def update_device():
 	valid_auth_code()
 	data = get_post_json_data()
-	if data.get("bunch") is not None:
-		add_device(device_data=data)
+	add_device(device_data=data)
+	update_device_hdb(device_data=data)
 	update_device_bunch(device_data=data)
 	return update_device_status(device_data=data)
 
@@ -211,6 +211,8 @@ def update_device_bunch(device_data=None):
 	if bunch == "":
 		bunch = None
 	if dev.bunch == bunch:
+		if dev.enterprise is None:
+			dev.enterprise = dev.get_enterprise()
 		return dev
 
 	org_bunch = dev.bunch
@@ -229,6 +231,26 @@ def update_device_bunch(device_data=None):
 			'del_users': org_user_list
 		})
 
+	if dev.enterprise is None:
+		dev.enterprise = dev.get_enterprise()
+	return dev
+
+
+@frappe.whitelist(allow_guest=True)
+def update_device_hdb(device_data=None):
+	valid_auth_code()
+	data = device_data or get_post_json_data()
+	hdb = data.get("hdb")
+	sn = data.get("sn")
+	if not (sn and hdb):
+		throw(_("Request fields not found. fields: sn\thdb"))
+
+	dev = IOTDevice.get_device_doc(sn)
+	if not dev:
+		throw(_("Device is not found. SN:{0}").format(sn))
+
+	if dev.hdb != hdb:
+		dev.update_hdb(hdb)
 	if dev.enterprise is None:
 		dev.enterprise = dev.get_enterprise()
 	return dev

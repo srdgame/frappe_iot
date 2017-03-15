@@ -25,6 +25,12 @@ class IOTDevice(Document):
 		self.set("last_updated", now())
 		self.save()
 
+	def update_hdb(self, hdb):
+		""" update device hdb"""
+		self.set("hdb", hdb)
+		self.set("last_updated", now())
+		self.save()
+
 	@staticmethod
 	def check_sn_exists(sn):
 		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
