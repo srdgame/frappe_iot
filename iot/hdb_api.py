@@ -305,7 +305,7 @@ def add_device_error(err_data=None):
 	if not device:
 		throw(_("Request fields not found. fields: device"))
 
-	if IOTDevice.check_sn_exists(device):
+	if not IOTDevice.check_sn_exists(device):
 		throw(_("Device {0} not found.").format(device))
 
 	err_data.update({
