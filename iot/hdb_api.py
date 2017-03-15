@@ -293,6 +293,30 @@ def update_device_name():
 
 
 @frappe.whitelist(allow_guest=True)
+def add_device_error(err_data=None):
+	"""
+	Add device error
+	:param err_data: {"device": device_sn, "error_type": Error Type defined, "error_key": any text, "error_info": any text}
+	:return: iot_device_error
+	"""
+	valid_auth_code()
+	err_data = err_data or get_post_json_data()
+	device = err_data.get("device")
+	if not device:
+		throw(_("Request fields not found. fields: device"))
+
+	if IOTDevice.check_sn_exists(device):
+		throw(_("Device {0} not found.").format(device))
+
+	err_data.update({
+		"doctype": "IOT Device Error"
+	})
+	doc = frappe.get_doc(err_data).insert().as_dict()
+
+	return doc
+
+
+@frappe.whitelist(allow_guest=True)
 def get_time():
 	valid_auth_code()
 	return frappe.utils.now()
