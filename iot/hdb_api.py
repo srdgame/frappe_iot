@@ -25,7 +25,9 @@ def valid_auth_code(auth_code=None):
 		throw(_("Authorization Code is incorrect!"))
 
 	#frappe.session.user = IOTHDBSettings.get_on_behalf()
+	form_dict = frappe.local.form_dict
 	frappe.set_user(IOTHDBSettings.get_on_behalf())
+	frappe.local.form_dict = form_dict
 
 
 @frappe.whitelist(allow_guest=True)
