@@ -110,6 +110,7 @@ def add_user(user=None, enterprise=None, login_name=None):
 	return _("User has ben added")
 
 
+@frappe.whitelist()
 def update_user(user=None, enterprise=None, login_name=None):
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
@@ -129,6 +130,7 @@ def update_user(user=None, enterprise=None, login_name=None):
 	return _("User has ben updated")
 
 
+@frappe.whitelist()
 def delete_user(user=None):
 	session_user = frappe.session.user
 	enterprise = frappe.get_value('IOT User', user, "enterprise")
@@ -145,7 +147,6 @@ def delete_user(user=None):
 	frappe.logger(__name__).info(_("Delete IOT User {0} from {1}").format(user, enterprise))
 
 	frappe.delete_doc('IOT User', user, ignore_permissions=True)
-	frappe.db.commit()
 
 	return _("User has ben deleted")
 

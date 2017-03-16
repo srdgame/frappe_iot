@@ -98,7 +98,7 @@
    "report_hide": 0, 
    "reqd": 1, 
    "search_index": 0, 
-   "set_only_once": 0, 
+   "set_only_once": 1, 
    "unique": 0
   }, 
   {
@@ -128,7 +128,7 @@
    "report_hide": 0, 
    "reqd": 1, 
    "search_index": 0, 
-   "set_only_once": 0, 
+   "set_only_once": 1, 
    "unique": 0
   }
  ], 
@@ -142,7 +142,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-07 18:14:31.663376", 
+ "modified": "2017-03-16 12:02:49.479616", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT Device Bunch", 

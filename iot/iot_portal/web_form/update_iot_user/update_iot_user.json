@@ -17,7 +17,7 @@
  "is_standard": 1, 
  "login_required": 1, 
  "max_attachment_size": 0, 
- "modified": "2017-03-01 15:04:58.353429", 
+ "modified": "2017-03-16 11:53:33.892409", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "update-iot-user", 
@@ -30,17 +30,6 @@
  "success_url": "/update-iot-user", 
  "title": "Update IOT User", 
  "web_form_fields": [
-  {
-   "default": "1", 
-   "fieldname": "enabled", 
-   "fieldtype": "Check", 
-   "hidden": 0, 
-   "label": "Enabled", 
-   "max_length": 0, 
-   "max_value": 0, 
-   "read_only": 0, 
-   "reqd": 1
-  }, 
   {
    "fieldname": "group_assigned", 
    "fieldtype": "Table", 
