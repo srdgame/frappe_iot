@@ -14,9 +14,7 @@ from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 class IOTDevice(Document):
 	def validate(self):
-		# Check for bunch code changing
-		if self.get("bunch") != self.bunch:
-			self.enterprise = self.__get_enterprise()
+		self.enterprise = self.__get_enterprise()
 
 	def update_status(self, status):
 		""" update device status """
@@ -80,8 +78,10 @@ class IOTDevice(Document):
 		if bunch.owner_type == "IOT Employee Group":
 			return frappe.get_value("IOT Employee Group", bunch.owner_id, "parent")
 		else:
-			frappe.get_value("IOT User", bunch.owner_id, "enterprise") \
-				or IOTSettings.get_default_enterprise()
+			# Treat all private bunch codes in default enterprise
+			#return frappe.get_value("IOT User", bunch.owner_id, "enterprise") \
+			#	or IOTSettings.get_default_enterprise()
+			return IOTSettings.get_default_enterprise()
 
 	def has_website_permission(self, ptype, verbose=False):
 		user = frappe.session.user

@@ -142,7 +142,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-16 12:02:49.479616", 
+ "modified": "2017-03-16 12:14:37.836106", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT Device Bunch", 
@@ -197,7 +197,7 @@
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
- "title_field": "bunch_name", 
+ "title_field": "code", 
  "track_changes": 1, 
  "track_seen": 0
 }
