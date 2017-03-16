@@ -13,6 +13,11 @@ from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 
 class IOTDevice(Document):
+	def validate(self):
+		# Check for bunch code changing
+		if self.get("bunch") != self.bunch:
+			self.enterprise = self.__get_enterprise()
+
 	def update_status(self, status):
 		""" update device status """
 		self.set("device_status", status)
@@ -66,10 +71,12 @@ class IOTDevice(Document):
 
 		raise Exception("You should got here!")
 
-	def get_enterprise(self):
-		if self.enterprise is not None:
-			return self.enterprise
+	def __get_enterprise(self):
+		if not self.bunch:
+			return None
 		bunch = frappe.get_doc("IOT Device Bunch", self.bunch)
+		if not bunch:
+			return None
 		if bunch.owner_type == "IOT Employee Group":
 			return frappe.get_value("IOT Employee Group", bunch.owner_id, "parent")
 		else:

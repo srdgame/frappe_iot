@@ -1,3 +1,5 @@
 frappe.ready(function() {
-	// bind events here
+	var form = $('form[data-web-form="update-iot-user"]'),
+		owner = form.attr('data-owner');
+
 })
