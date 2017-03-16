@@ -87,10 +87,6 @@ def add_user(user=None, enterprise=None, login_name=None):
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
 
-	# Set on behalf if user is not an IOT Manager
-	if not_manager:
-		frappe.session.user = "Administrator"
-
 	if frappe.get_value("IOT User", user):
 		throw(_("IOT User already exists!"))
 
@@ -108,17 +104,12 @@ def add_user(user=None, enterprise=None, login_name=None):
 		# "login_name": login_name
 		"login_name": "iMbEhIDE"  # login_name
 	})
-	doc.insert()
+	doc.insert(ignore_permissions=True)
 	frappe.db.commit()
-
-	# Rollback on behalf if user is not an IOT Manager
-	if not_manager:
-		frappe.session.user = session_user
 
 	return _("User has ben added")
 
 
-@frappe.whitelist()
 def update_user(user=None, enterprise=None, login_name=None):
 	session_user = frappe.session.user
 	not_manager = 'IOT Manager' not in frappe.get_roles(session_user)
@@ -127,26 +118,17 @@ def update_user(user=None, enterprise=None, login_name=None):
 
 	frappe.logger(__name__).info(_("Enable IOT User for {0} login_name {1}").format(user, login_name))
 
-	# Set on behalf if user is not an IOT Manager
-	if not_manager:
-		frappe.session.user = "Administrator"
-
 	doc = frappe.get_doc('IOT User', user)
 	if enterprise is not None:
 		doc.set("enterprise", enterprise)
 	if login_name is not None:
 		doc.set("login_name", login_name)
-	doc.save()
+	doc.save(ignore_permissions=True)
 	frappe.db.commit()
-
-	# Rollback on behalf if user is not an IOT Manager
-	if not_manager:
-		frappe.session.user = session_user
 
 	return _("User has ben updated")
 
 
-@frappe.whitelist()
 def delete_user(user=None):
 	session_user = frappe.session.user
 	enterprise = frappe.get_value('IOT User', user, "enterprise")

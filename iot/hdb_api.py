@@ -24,7 +24,8 @@ def valid_auth_code(auth_code=None):
 	if auth_code != code:
 		throw(_("Authorization Code is incorrect!"))
 
-	frappe.session.user = IOTHDBSettings.get_on_behalf()
+	#frappe.session.user = IOTHDBSettings.get_on_behalf()
+	frappe.set_user(IOTHDBSettings.get_on_behalf())
 
 
 @frappe.whitelist(allow_guest=True)
@@ -314,6 +315,13 @@ def add_device_error(err_data=None):
 	doc = frappe.get_doc(err_data).insert().as_dict()
 
 	return doc
+
+
+@frappe.whitelist(allow_guest=True)
+def get_user_session(user):
+	valid_auth_code()
+	if user:
+		frappe.session.get_session_record()
 
 
 @frappe.whitelist(allow_guest=True)
