@@ -13,7 +13,31 @@ class IOTDeviceError(Document):
 			frappe.enqueue('iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify_by_name',
 							err_name = self.name, err_doc=self)
 
+	def wechat_tmsg_data(self):
+		return {
+			"first": {
+				"value": _("有新的") + self.error_type,
+				"color": "red"
+			},
+			"keyword1": {
+				"value": frappe.get_value("IOT Device", self.device, "dev_name"),
+				"color": "blue"
+			},
+			"keyword2": {
+				"value": self.modified,
+				"color": "blue"
+			},
+			"keyword3": {
+				"value": self.error_info,
+				"color": "green",
+			},
+			"remark": {
+				"value": ""
+			}
+		}
 
+	def wechat_tmsg_url(self):
+		return "/view-iot-device-error?name=" + self.name
 
 def wechat_notify_by_name(err_name, err_doc=None):
 	err_doc = err_doc or frappe.get_doc("Repair Issue", err_name)
@@ -39,19 +63,8 @@ def wechat_notify_by_name(err_name, err_doc=None):
 
 			app = frappe.get_value("IOT Enterprise", enterprise, "wechat_app")
 			if app:
-				from wechat.api import send_device_alarm
-				alarm = {
-					"title": "有新的" + err_doc.error_type,
-					"url": "/view-iot-device-error?name=" + err_doc.name,
-					"name": frappe.get_value("IOT Device", err_doc.device, "dev_name"),
-					"time": err_doc.modified,
-					"content": err_doc.error_info,
-					"remark": ""
-				}
-				try:
-					send_device_alarm(app, user_list, alarm)
-				except Exception, e:
-					print("Calling send_device_alarm failed", e)
+				from wechat.api import send_doc
+				send_doc(app, err_doc, user_list)
 
 	# update flag
 	err_doc.db_set("wechat_sent", 1)
