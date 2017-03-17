@@ -16,11 +16,11 @@ class IOTDeviceError(Document):
 	def wechat_tmsg_data(self):
 		return {
 			"first": {
-				"value": _("有新的") + self.error_type.decode('utf-8'),
+				"value": _("有新的") + self.error_type,
 				"color": "red"
 			},
 			"keyword1": {
-				"value": frappe.get_value("IOT Device", self.device.decode('utf-8'), "dev_name"),
+				"value": frappe.get_value("IOT Device", self.device, "dev_name"),
 				"color": "blue"
 			},
 			"keyword2": {
@@ -28,7 +28,7 @@ class IOTDeviceError(Document):
 				"color": "blue"
 			},
 			"keyword3": {
-				"value": self.error_info.decode('utf-8'),
+				"value": self.error_info,
 				"color": "green",
 			},
 			"remark": {
