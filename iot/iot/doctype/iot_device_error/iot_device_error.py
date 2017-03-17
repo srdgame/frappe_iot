@@ -40,7 +40,7 @@ class IOTDeviceError(Document):
 		return "/view-iot-device-error?name=" + self.name
 
 def wechat_notify_by_name(err_name, err_doc=None):
-	err_doc = err_doc or frappe.get_doc("Repair Issue", err_name)
+	err_doc = err_doc or frappe.get_doc("IOT Device Error", err_name)
 	if err_doc.wechat_sent == 1:
 		return
 
@@ -64,7 +64,7 @@ def wechat_notify_by_name(err_name, err_doc=None):
 			app = frappe.get_value("IOT Enterprise", enterprise, "wechat_app")
 			if app:
 				from wechat.api import send_doc
-				send_doc(app, err_doc, user_list)
+				send_doc(app, 'IOT Device Error', err_doc, user_list)
 
 	# update flag
 	err_doc.db_set("wechat_sent", 1)
