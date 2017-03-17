@@ -64,7 +64,7 @@ def wechat_notify_by_name(err_name, err_doc=None):
 			app = frappe.get_value("IOT Enterprise", enterprise, "wechat_app")
 			if app:
 				from wechat.api import send_doc
-				send_doc(app, 'IOT Device Error', err_doc, user_list)
+				send_doc(app, 'IOT Device Error', err_doc.name, user_list)
 
 	# update flag
 	err_doc.db_set("wechat_sent", 1)
