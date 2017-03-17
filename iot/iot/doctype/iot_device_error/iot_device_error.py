@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import _
 from frappe.model.document import Document
 from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
@@ -16,7 +17,7 @@ class IOTDeviceError(Document):
 	def wechat_tmsg_data(self):
 		return {
 			"first": {
-				"value": _("有新的") + self.error_type,
+				"value": _("Has new ") + self.error_type,
 				"color": "red"
 			},
 			"keyword1": {
