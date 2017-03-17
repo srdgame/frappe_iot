@@ -16,7 +16,7 @@ class IOTDeviceError(Document):
 	def wechat_tmsg_data(self):
 		return {
 			"first": {
-				"value": _("有新的") + self.error_type,
+				"value": _("有新的") + self.error_type.decode('utf-8'),
 				"color": "red"
 			},
 			"keyword1": {
