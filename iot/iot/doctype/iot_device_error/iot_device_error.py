@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils.data import format_datetime
 from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 class IOTDeviceError(Document):
@@ -25,7 +26,7 @@ class IOTDeviceError(Document):
 				"color": "blue"
 			},
 			"keyword2": {
-				"value": self.modified,
+				"value": format_datetime(self.modified),
 				"color": "blue"
 			},
 			"keyword3": {
