@@ -21,7 +21,7 @@ def wechat_notify_by_name(err_name, err_doc=None):
 		return
 
 	if err_doc.status in ["New", "Open"]:
-		user_list = {}
+		user_list = []
 		bunch = frappe.db.get_value("IOT Device", err_doc.device, "bunch")
 		if bunch is None:
 			print("No user binded")
