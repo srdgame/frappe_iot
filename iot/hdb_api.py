@@ -140,7 +140,7 @@ def get_device(sn=None):
 		throw(_("Request fields not found. fields: sn"))
 
 	dev = IOTDevice.get_device_doc(sn)
-	return dev
+	return __genareate_hdb(dev)
 
 
 def fire_callback(cb_url, cb_data):
@@ -154,6 +154,15 @@ def fire_callback(cb_url, cb_data):
 	else:
 		frappe.logger(__name__).debug(r.text)
 
+
+def __genareate_hdb(dev):
+	if dev.hdb is None or len(dev.hdb) == 0:
+		dev.hdb = dev.sn
+
+	hdb = dev.hdb.replace("-", "").replace("_", "")
+	domain = frappe.get_value("IOT Enterprise", dev.enterprise, "domain")
+	dev.hdb = ("/{0}/{1}").format(domain, hdb)
+	return dev
 
 @frappe.whitelist(allow_guest=True)
 def add_device(device_data=None):
@@ -183,7 +192,7 @@ def add_device(device_data=None):
 			'users': user_list
 		})
 
-	return doc
+	return __genareate_hdb(doc)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -212,7 +221,7 @@ def update_device_bunch(device_data=None):
 	if bunch == "":
 		bunch = None
 	if dev.bunch == bunch:
-		return dev
+		return __genareate_hdb(dev)
 
 	org_bunch = dev.bunch
 	dev.update_bunch(bunch)
@@ -230,7 +239,7 @@ def update_device_bunch(device_data=None):
 			'del_users': org_user_list
 		})
 
-	return dev
+	return __genareate_hdb(dev)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -248,7 +257,7 @@ def update_device_hdb(device_data=None):
 
 	if dev.hdb != hdb:
 		dev.update_hdb(hdb)
-	return dev
+	return __genareate_hdb(dev)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -265,7 +274,7 @@ def update_device_status(device_data=None):
 		throw(_("Device is not found. SN:{0}").format(sn))
 
 	dev.update_status(status)
-	return dev
+	return __genareate_hdb(dev)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -282,7 +291,7 @@ def update_device_name():
 		throw(_("Device is not found. SN:{0}").format(sn))
 
 	dev.update_name(name)
-	return dev
+	return __genareate_hdb(dev)
 
 
 @frappe.whitelist(allow_guest=True)
