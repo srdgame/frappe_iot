@@ -10,3 +10,7 @@ class IOTSettings(Document):
 	@staticmethod
 	def get_default_enterprise():
 		return frappe.db.get_single_value("IOT Settings", "default_enterprise")
+
+	@staticmethod
+	def get_influxdb_server():
+		return frappe.db.get_single_value("IOT Settings", "influxdb_server")

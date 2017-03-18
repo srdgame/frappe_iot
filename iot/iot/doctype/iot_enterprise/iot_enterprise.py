@@ -4,12 +4,16 @@
 
 from __future__ import unicode_literals
 import frappe
+import requests
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.iot.doctype.iot_user.iot_user import add_user, update_user
 
 
 class IOTEnterprise(Document):
+	def after_insert(self):
+		frappe.enqueue('iot.hdb_api.after_insert_enterprise', ent_doc=self)
+
 	def on_update(self):
 		# TODO: We will not adding user automatically later, Enterprise Admin will do it manually.
 		"""
