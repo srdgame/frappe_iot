@@ -77,5 +77,6 @@ def wechat_notify():
 		and `wechat_sent` is set as true."""
 
 	for err in frappe.get_all("IOT Device Error", "name", filters={"wechat_notify": 1, "wechat_sent": 0}):
-		wechat_notify_by_name(err.name)
+		frappe.enqueue('iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify_by_name',
+						err_name=err.name)
 

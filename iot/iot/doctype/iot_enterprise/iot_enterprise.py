@@ -27,7 +27,7 @@ class IOTEnterprise(Document):
 			add_user(user=user, enterprise=self.name)
 		"""
 		""" Add admin of enterprise automatically"""
-		if self.get("admin") != self.admin:
+		if not self.flags.in_insert and self.get("admin") != self.admin:
 			if frappe.get_value("IOT User", self.admin):
 				update_user(user=self.admin, enterprise=self.name)
 			else:
