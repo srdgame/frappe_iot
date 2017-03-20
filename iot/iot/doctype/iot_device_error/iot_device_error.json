@@ -234,7 +234,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-18 16:29:04.817274", 
+ "modified": "2017-03-20 13:37:01.266871", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT Device Error", 
@@ -268,6 +268,7 @@
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
+ "title_field": "error_key", 
  "track_changes": 1, 
  "track_seen": 1
 }
