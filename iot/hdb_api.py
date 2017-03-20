@@ -155,22 +155,6 @@ def fire_callback(cb_url, cb_data):
 		frappe.logger(__name__).debug(r.text)
 
 
-def after_insert_enterprise(ent_doc):
-	inf_server = IOTSettings.get_influxdb_server()
-	session = requests.session()
-	url = inf_server + "/query"
-	params = {
-		"q": ('''CREATE DATABASE "{0}"''').format(ent_doc.domain)
-	}
-	r = session.get(url, params=params)
-
-	if r.status_code != 200:
-		frappe.logger(__name__).error(r.text)
-		throw(r.text)
-	else:
-		frappe.logger(__name__).debug(r.text)
-
-
 def __genareate_hdb(dev):
 	if dev.hdb is None or len(dev.hdb) == 0:
 		dev.hdb = dev.sn

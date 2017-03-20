@@ -8,11 +8,16 @@ import requests
 from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.iot.doctype.iot_user.iot_user import add_user, update_user
+from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 
 class IOTEnterprise(Document):
+	def validate(self):
+		if not IOTSettings.get_influxdb_server():
+			throw(_("IOT Settings missing InfluxDB server configuration"))
+
 	def after_insert(self):
-		frappe.enqueue('iot.hdb_api.after_insert_enterprise', ent_doc=self)
+		frappe.enqueue('iot.iot.doctype.iot_enterprise.iot_enterprise.after_insert_enterprise', ent_doc=self)
 
 	def on_update(self):
 		# TODO: We will not adding user automatically later, Enterprise Admin will do it manually.
@@ -72,6 +77,27 @@ class IOTEnterprise(Document):
 	def has_website_permission(self, ptype, verbose=False):
 		"""Returns true if admin is the session user"""
 		return self.admin == frappe.session.user
+
+
+def after_insert_enterprise(ent_doc):
+	"""
+	Queue task for post db into influxdb
+	:param ent_doc: 
+	:return: 
+	"""
+	inf_server = IOTSettings.get_influxdb_server()
+	session = requests.session()
+	url = inf_server + "/query"
+	params = {
+		"q": ('''CREATE DATABASE "{0}"''').format(ent_doc.domain)
+	}
+	r = session.get(url, params=params)
+
+	if r.status_code != 200:
+		frappe.logger(__name__).error(r.text)
+		throw(r.text)
+	else:
+		frappe.logger(__name__).debug(r.text)
 
 
 def get_enterprise_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
