@@ -91,7 +91,7 @@ frappe.GroupEditor = Class.extend({
 					'</select></div>' +
 					'<div class="control-value like-disabled-input" style="display: none;">New</div>' +
 					'<p class="help-box small text-muted hidden-xs"></p>' +
-					'</div>'
+					'</div>';
 				me.load_groups();
 			}
 		});
