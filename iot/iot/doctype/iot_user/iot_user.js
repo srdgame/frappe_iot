@@ -88,6 +88,7 @@ frappe.GroupEditor = Class.extend({
 				});
 				me.role_select = '<div class="control-input-wrapper">' +
 					'<div class="control-input"><select data-doctype="IOT User" placeholder="" data-fieldname="role" data-fieldtype="Link" maxlength="140" class="input-with-feedback form-control" autocomplete="off" type="text">' +
+					'<option value=""></option>' +
 					options +
 					'</select></div>' +
 					'<div class="control-value like-disabled-input" style="display: none;">New</div>' +
