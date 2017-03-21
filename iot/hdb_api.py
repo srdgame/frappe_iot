@@ -76,10 +76,8 @@ def login(user=None, passwd=None):
 def list_iot_devices(user):
 	frappe.logger(__name__).debug(_("List Devices for user {0}").format(user))
 
-	devices = {
-		"group_devices": []
-	}
-
+	# Get Enteprise Devices
+	ent_devices = []
 	if frappe.get_value("IOT User", user):
 		user_doc = frappe.get_doc("IOT User", user)
 		if cint(frappe.get_value('IOT Enterprise', user_doc.enterprise, 'enabled')):
@@ -93,15 +91,34 @@ def list_iot_devices(user):
 				sn_list = []
 				for c in bunch_codes:
 					sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-				devices['group_devices'].append({"group": g.group, "devices": sn_list})
+					ent_devices.append({"group": g.group, "devices": sn_list})
 
+	# Get Shared Devices
+	shd_devices = []
+	for shared_group in [d[0] for d in frappe.db.get_values("IOT ShareGroupUser", {"user": user}, "parent")]:
+		# Make sure we will not having shared device from your enterprise
+		if frappe.get_value("IOT User", user):
+			user_doc = frappe.get_doc("IOT User", user)
+			if frappe.get_value("IOT Share Group", shared_group, "enterprise") == user_doc.enterprise:
+				continue
+
+		dev_list = []
+		for dev in [d[0] for d in frappe.db.get_values("IOT SharedGroupDevice", {"parent": shared_group}, "device")]:
+			dev_list.append(dev)
+		shd_devices.append({"group": shared_group, "devices": dev_list})
+
+	# Get Private Devices
 	bunch_codes = [d[0] for d in
 				   frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
-	sn_list = []
+	pri_devices = []
 	for c in bunch_codes:
-		sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-	devices["private_devices"] = sn_list
+		pri_devices.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
 
+	devices = {
+		"enterprise_devices": ent_devices,
+		"private_devices": pri_devices,
+		"shared_devices": shd_devices,
+	}
 	return devices
 
 
@@ -173,7 +190,6 @@ def add_device(device_data=None):
 		throw(_("Request fields not found. fields: sn"))
 
 	if IOTDevice.check_sn_exists(sn):
-		# TODO: Check for bunch code when device is existing.
 		return IOTDevice.get_device_doc(sn)
 
 	device.update({
@@ -199,8 +215,9 @@ def add_device(device_data=None):
 def update_device():
 	valid_auth_code()
 	data = get_post_json_data()
-	add_device(device_data=data)
-	update_device_hdb(device_data=data)
+	dev = add_device(device_data=data)
+	if dev.dev_name != data.dev_name:
+		dev.update_dev_name(data.dev_name)
 	update_device_bunch(device_data=data)
 	return update_device_status(device_data=data)
 
