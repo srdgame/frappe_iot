@@ -18,23 +18,31 @@ class IOTDevice(Document):
 
 	def update_status(self, status):
 		""" update device status """
+		if self.device_status == status:
+			return
 		self.set("device_status", status)
 		self.set("last_updated", now())
 		self.save()
 
 	def update_bunch(self, bunch):
 		""" update device bunch code """
+		if self.bunch == bunch:
+			return
 		self.set("bunch", bunch)
 		self.set("last_updated", now())
 		self.save()
 
 	def update_hdb(self, hdb):
 		""" update device hdb"""
+		if self.hdb == hdb:
+			return
 		self.set("hdb", hdb)
 		self.set("last_updated", now())
 		self.save()
 
 	def update_dev_name(self, dev_name):
+		if self.dev_name == dev_name:
+			return
 		self.set("dev_name", dev_name)
 		self.set("last_updated", now())
 		self.save()

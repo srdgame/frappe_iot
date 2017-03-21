@@ -307,7 +307,7 @@ def update_device_name():
 	if not dev:
 		throw(_("Device is not found. SN:{0}").format(sn))
 
-	dev.update_name(name)
+	dev.update_dev_name(name)
 	return __genareate_hdb(dev)
 
 
