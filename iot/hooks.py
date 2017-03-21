@@ -177,12 +177,6 @@ doc_events = {
 # 	]
 # }
 
-scheduler_events = {
-	"all": [
-		"iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify",
-	],
-}
-
 # Testing
 # -------
 
