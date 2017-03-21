@@ -82,7 +82,7 @@ frappe.GroupEditor = Class.extend({
 			},
 			callback: function(r) {
 				me.roles = r.message;
-				me.roles_select = '<div class="control-input-wrapper">' +
+				me.role_select = '<div class="control-input-wrapper">' +
 					'<div class="control-input"><select data-doctype="IOT User" placeholder="" data-fieldname="role" data-fieldtype="Link" maxlength="140" class="input-with-feedback form-control" autocomplete="off" type="text">' +
 					'<option value="New">New</option>' +
 					'<option value="Open">Open</option>' +
@@ -92,6 +92,7 @@ frappe.GroupEditor = Class.extend({
 					'<div class="control-value like-disabled-input" style="display: none;">New</div>' +
 					'<p class="help-box small text-muted hidden-xs"></p>' +
 					'</div>';
+				alert(me.role_select);
 				me.load_groups();
 			}
 		});
