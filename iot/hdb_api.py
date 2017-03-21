@@ -91,7 +91,7 @@ def list_iot_devices(user):
 				sn_list = []
 				for c in bunch_codes:
 					sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-					ent_devices.append({"group": g.group, "devices": sn_list})
+					ent_devices.append({"group": g.group, "devices": sn_list, "permissions": "all"})
 
 	# Get Shared Devices
 	shd_devices = []
@@ -105,7 +105,7 @@ def list_iot_devices(user):
 		dev_list = []
 		for dev in [d[0] for d in frappe.db.get_values("IOT SharedGroupDevice", {"parent": shared_group}, "device")]:
 			dev_list.append(dev)
-		shd_devices.append({"group": shared_group, "devices": dev_list})
+		shd_devices.append({"group": shared_group, "devices": dev_list, "permissions": "all"})
 
 	# Get Private Devices
 	bunch_codes = [d[0] for d in
