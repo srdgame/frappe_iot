@@ -89,7 +89,6 @@ frappe.GroupEditor = Class.extend({
 				me.role_select =
 					'<div class="control-input">' +
 					'<select maxlength="140" class="input-with-feedback form-control block-group-role" autocomplete="off" type="text">' +
-					'<option value=""></option>' +
 					options +
 					'</select></div>'
 				alert(me.role_select);
