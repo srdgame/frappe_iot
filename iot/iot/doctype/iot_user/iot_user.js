@@ -82,12 +82,13 @@ frappe.GroupEditor = Class.extend({
 			},
 			callback: function(r) {
 				me.roles = r.message;
+				var options = "";
+				me.roles.forEach(function(m) {
+					options = options + '<option value="New">' + m.name + '</option>'
+				});
 				me.role_select = '<div class="control-input-wrapper">' +
 					'<div class="control-input"><select data-doctype="IOT User" placeholder="" data-fieldname="role" data-fieldtype="Link" maxlength="140" class="input-with-feedback form-control" autocomplete="off" type="text">' +
-					'<option value="New">New</option>' +
-					'<option value="Open">Open</option>' +
-					'<option value="Fixed">Fixed</option>' +
-					'<option value="Closed">Closed</option>' +
+					options +
 					'</select></div>' +
 					'<div class="control-value like-disabled-input" style="display: none;">New</div>' +
 					'<p class="help-box small text-muted hidden-xs"></p>' +
