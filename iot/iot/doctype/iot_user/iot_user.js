@@ -67,7 +67,31 @@ frappe.GroupEditor = Class.extend({
 	init: function(frm, wrapper) {
 		this.wrapper = $('<div class="row group-block-list"></div>').appendTo(wrapper);
 		this.frm = frm;
-		this.load_groups();
+		this.load_roles();
+	},
+	load_roles: function() {
+		var enterprise = this.frm.doc.enterprise
+		this.__org_enterprise = enterprise
+		var me = this;
+		var wrapper = this.wrapper;
+		$(wrapper).html('<div class="help">' + __("Loading") + '...</div>')
+		return frappe.call({
+			method: 'IOT Role',
+			callback: function(r) {
+				me.roles = r.message;
+				me.roles_select = '<div class="control-input-wrapper">' +
+					'<div class="control-input"><select data-doctype="IOT User" placeholder="" data-fieldname="role" data-fieldtype="Link" maxlength="140" class="input-with-feedback form-control" autocomplete="off" type="text">' +
+					'<option value="New">New</option>' +
+					'<option value="Open">Open</option>' +
+					'<option value="Fixed">Fixed</option>' +
+					'<option value="Closed">Closed</option>' +
+					'</select></div>' +
+					'<div class="control-value like-disabled-input" style="display: none;">New</div>' +
+					'<p class="help-box small text-muted hidden-xs"></p>' +
+					'</div>'
+				me.load_groups();
+			}
+		});
 	},
 	load_groups: function() {
 		var enterprise = this.frm.doc.enterprise
@@ -92,7 +116,7 @@ frappe.GroupEditor = Class.extend({
 		me.groups.forEach(function(m) {
 			$(repl('<div class="col-sm-6" title="%(desc)s"><div class="checkbox">\
 				<label><input type="checkbox" class="block-group-check" data-group="%(group)s">\
-				%(name)s</label></div></div>', {group: m.name, name: m.grp_name, desc:m.description})).appendTo(me.wrapper);
+				%(name)s</label></div>%(role_select)s</div>', {group: m.name, name: m.grp_name, desc:m.description, role_select:me.role_select})).appendTo(me.wrapper);
 		});
 		this.bind();
 	},
