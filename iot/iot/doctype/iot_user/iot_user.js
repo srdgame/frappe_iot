@@ -76,7 +76,10 @@ frappe.GroupEditor = Class.extend({
 		var wrapper = this.wrapper;
 		$(wrapper).html('<div class="help">' + __("Loading") + '...</div>')
 		return frappe.call({
-			method: 'IOT Role',
+			method: 'frappe.client.get_list',
+			args: {
+				doctype: 'IOT Role'
+			},
 			callback: function(r) {
 				me.roles = r.message;
 				me.roles_select = '<div class="control-input-wrapper">' +
