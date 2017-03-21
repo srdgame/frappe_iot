@@ -149,7 +149,7 @@ frappe.GroupEditor = Class.extend({
 			if($(this).prop("checked")) {
 				// Make sure the group is not assigned twice!
 				me.frm.doc.group_assigned = $.map(me.frm.doc.group_assigned || [], function(d) { if(d.group != group){ return d } });
-				var role = me.wrapper.find(".block-group-role").val();
+				var role = $(this).find(".block-group-role").val();
 				me.frm.add_child("group_assigned", {"group": group, "role": role});
 			} else {
 				// remove from group_assigned
