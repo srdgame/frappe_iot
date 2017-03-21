@@ -86,14 +86,12 @@ frappe.GroupEditor = Class.extend({
 				me.roles.forEach(function(m) {
 					options = options + '<option value="New">' + m.name + '</option>'
 				});
-				me.role_select = '<div class="control-input-wrapper">' +
-					'<div class="control-input"><select data-doctype="IOT User" placeholder="" data-fieldname="role" data-fieldtype="Link" maxlength="140" class="input-with-feedback form-control" autocomplete="off" type="text">' +
+				me.role_select =
+					'<div class="control-input">' +
+					'<select maxlength="140" class="input-with-feedback form-control block-group-role" autocomplete="off" type="text">' +
 					'<option value=""></option>' +
 					options +
-					'</select></div>' +
-					'<div class="control-value like-disabled-input" style="display: none;">New</div>' +
-					'<p class="help-box small text-muted hidden-xs"></p>' +
-					'</div>';
+					'</select></div>'
 				alert(me.role_select);
 				me.load_groups();
 			}
@@ -137,6 +135,7 @@ frappe.GroupEditor = Class.extend({
 			this.wrapper.find(".block-group-check").prop("checked", false);
 			$.each(this.frm.doc.group_assigned, function(i, d) {
 				me.wrapper.find(".block-group-check[data-group='"+ d.group +"']").prop("checked", true);
+				me.wrapper.find(".block-group-role").val(d.role);
 			});
 		}
 	},
@@ -151,7 +150,8 @@ frappe.GroupEditor = Class.extend({
 			if($(this).prop("checked")) {
 				// Make sure the group is not assigned twice!
 				me.frm.doc.group_assigned = $.map(me.frm.doc.group_assigned || [], function(d) { if(d.group != group){ return d } });
-				me.frm.add_child("group_assigned", {"group": group});
+				var role = me.wrapper.find(".block-group-role").val();
+				me.frm.add_child("group_assigned", {"group": group, "role": role});
 			} else {
 				// remove from group_assigned
 				me.frm.doc.group_assigned = $.map(me.frm.doc.group_assigned || [], function(d) { if(d.group != group){ return d } });
