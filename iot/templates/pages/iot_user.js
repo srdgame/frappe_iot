@@ -20,7 +20,7 @@ frappe.ready(function() {
 					if(r.message) {
 						frappe.msgprint(r.message);
 						setTimeout(function() {
-							window.location.href = "/iot_companys/"+args.company;
+							window.location.href = "/iot_companies/"+args.company;
 						}, 2000);
 					}
 				}

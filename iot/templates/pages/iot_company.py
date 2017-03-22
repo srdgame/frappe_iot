@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
-from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
 
 
 def get_context(context):
@@ -23,7 +22,7 @@ def get_context(context):
 	context.show_sidebar = True
 	#context.no_breadcrumbs = True
 
-	company = frappe.get_doc('IOT Enterprise', name)
+	company = frappe.get_doc('Cloud Company', name)
 	company.has_permission('read')
 
 	if company.get('admin') == frappe.session.user:
@@ -33,13 +32,11 @@ def get_context(context):
 		user_groups= [d[0] for d in frappe.db.get_values("IOT UserGroup", {"parent" : frappe.session.user}, "group")]
 		company.groups = [g for g in company.groups if g.name in user_groups]
 
-	# context.parents = [{"label": _("IOT Enterprises"), "route": "/iot_companys"}]
-
 	context.doc = company
 	"""
 	context.parents = [
 		{"label": _("Back"), "route": frappe.get_request_header("referer")},
-		{"label": _("IOT Enterprises"), "route": "/iot_companys"}
+		{"label": _("IOT Companies"), "route": "/iot_companies"}
 	]
 	"""
 
@@ -50,7 +47,7 @@ def get_users(company, start=0, search=None, enabled=None):
 	if enabled:
 		filters["enabled"] = enabled
 
-	users = frappe.get_all("IOT User", filters=filters,
+	users = frappe.get_all("Cloud Employee", filters=filters,
 		fields=["name", "enabled", "modified", "creation"],
 		limit_start=start, limit_page_length=10)
 

@@ -24,8 +24,8 @@ def get_context(context):
 
 	context.no_cache = 1
 	context.show_sidebar = True
-	doc = frappe.get_doc('IOT Employee Group', name)
-	is_admin = is_company_admin(frappe.session.user, doc.parent)
+	doc = frappe.get_doc('Cloud Company Group', name)
+	is_admin = is_company_admin(frappe.session.user, doc.company)
 
 	doc.has_permission('read')
 
@@ -33,12 +33,12 @@ def get_context(context):
 		doc.users = get_users(doc.name, start=0, search=frappe.form_dict.get("search"))
 	doc.bunch_codes = get_bunch_codes(doc.name, start=0, search=frappe.form_dict.get("search"))
 
-	context.parents = [{"label": doc.parent, "route": "/iot_companys/" + doc.parent}]
+	context.parents = [{"label": doc.parent, "route": "/iot_companies/" + doc.parent}]
 	context.doc = doc
 	"""
 	context.parents = [
 		{"label": _("Back"), "route": frappe.get_request_header("referer")},
-		{"label": doc.parent, "route": "/iot_companys/" + doc.parent}
+		{"label": doc.parent, "route": "/iot_companies/" + doc.parent}
 	]
 	"""
 
@@ -54,7 +54,7 @@ def get_users(group, start=0, search=None):
 
 	users = []
 	for user in user_names:
-		u = frappe.get_value("User", user.user, ["name", "enabled", "modified", "creation"])
+		u = frappe.get_value("Cloud Employee", user.user, ["user", "enabled", "modified", "creation"])
 		users.append({
 			"name": u[0],
 			"enabled": u[1],

@@ -20,7 +20,7 @@ frappe.ready(function() {
 			url: "/",
 			dataType: "json",
 			data: {
-				cmd: "iot.templates.pages.iot_companys.get_"+ item +"_html",
+				cmd: "iot.templates.pages.iot_companies.get_"+ item +"_html",
 				company: '{{ doc.name }}',
 				enabled: enabled,
 			},
@@ -55,7 +55,7 @@ frappe.ready(function() {
 			url: "/",
 			dataType: "json",
 			data: {
-				cmd: "iot.templates.pages.iot_companys.get_"+ item +"_html",
+				cmd: "iot.templates.pages.iot_companies.get_"+ item +"_html",
 				company: '{{ doc.name }}',
 				start: start,
 				enabled: enabled,
@@ -80,7 +80,7 @@ frappe.ready(function() {
 		frappe.call({
 			btn: this,
 			type: "POST",
-			method: "iot.templates.pages.iot_companys.set_"+ item +"_status",
+			method: "iot.templates.pages.iot_companies.set_"+ item +"_status",
 			args: args,
 			callback: function(r) {
 				if(r.exc) {

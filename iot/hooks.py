@@ -50,18 +50,18 @@ error_report_email = "dirk.chang@symid.com.com"
 
 # Website Route Rules
 website_route_rules = [
-	{"from_route": "/iot_companies", "to_route": "IOT Enterprise"},
+	{"from_route": "/iot_companies", "to_route": "Cloud Company"},
 	{"from_route": "/iot_companies/<path:name>", "to_route": "iot_company",
 		"defaults": {
 			"doctype": "IOT Enterprise",
 			"parents": [{"title": _("IOT Enterprise"), "name": "iot_companies"}]
 		}
 	},
-	{"from_route": "/iot_employee_groups", "to_route": "IOT Employee Group"},
-	{"from_route": "/iot_employee_groups/<path:name>", "to_route": "iot_employee_group",
+	{"from_route": "/iot_company_groups", "to_route": "Cloud Company Group"},
+	{"from_route": "/iot_company_groups/<path:name>", "to_route": "iot_company_group",
 		"defaults": {
-			"doctype": "IOT Employee Group",
-			"parents": [{"title": _("IOT Employee Group"), "name": "iot_employee_groups"}]
+			"doctype": "Cloud Company Group",
+			"parents": [{"title": _("Cloud Company Group"), "name": "iot_company_groups"}]
 		}
 	},
 	{"from_route": "/iot_device_bunch_codes", "to_route": "IOT Device Bunch"},
@@ -78,19 +78,19 @@ website_route_rules = [
 			"parents": [{"title": _("IOT Device"), "name": "iot_devices"}]
 		}
 	},
-	{"from_route": "/iot_users", "to_route": "IOT User"},
+	{"from_route": "/iot_users", "to_route": "User"},
 	{"from_route": "/iot_users/<path:name>", "to_route": "iot_user",
 		"defaults": {
-			"doctype": "IOT User",
+			"doctype": "User",
 			"parents": [{"title": _("IOT User"), "name": "iot_users"}]
 		}
 	},
 ]
 
 portal_menu_items = [
-	{"title": _("IOT Companies"), "route": "/iot_companies", "reference_doctype": "IOT Enterprise", "role": "IOT Manager"},
+	{"title": _("IOT Companies"), "route": "/iot_companies", "role": "IOT Manager"},
 	{"title": _("IOT Company"), "route": "/iot_company", "role": "IOT User"},
-	{"title": _("IOT Devices"), "route": "/iot_devices", "reference_doctype": "IOT Enterprise", "role": "IOT User"},
+	{"title": _("IOT Devices"), "route": "/iot_devices", "role": "IOT User"},
 	{"title": _("IOT Devices Map"), "route": "/iot_device_map", "role": "IOT User"},
 	{"title": _("IOT Account"), "route": "/iot_me"}
 ]

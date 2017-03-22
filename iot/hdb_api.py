@@ -68,7 +68,7 @@ def list_iot_devices(user):
 	for g in groups:
 		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {
 			"owner_id": g.group,
-			"owner_type": "IOT Employee Group"
+			"owner_type": "Cloud Company Group"
 		}, "code")]
 
 		sn_list = []

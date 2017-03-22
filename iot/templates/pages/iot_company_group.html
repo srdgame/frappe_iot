@@ -2,7 +2,7 @@
 
 {% block title %}{{ doc.grp_name }}{% endblock %}
 
-{% block header %} <h1>{{ _("IOT Employee Group") }}</h1> {% endblock %}
+{% block header %} <h1>{{ _("IOT Company Group") }}</h1> {% endblock %}
 
 {% block style %}
 	<style>
@@ -30,12 +30,12 @@
 	</div>
 	<div class="col-sm-8 pull-left">
 		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Enterprise") }}</div>
-			<div class="col-xs-8">{{ doc.parent }}</div>
+			<div class="col-xs-4 text-right text-muted">{{ _("Company") }}</div>
+			<div class="col-xs-8">{{ doc.company }}</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
-			<div class="col-xs-8">{{ doc.grp_name }}</div>
+			<div class="col-xs-8">{{ doc.group_name }}</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-4 text-right text-muted">{{ _("Description") }}</div>
@@ -46,7 +46,7 @@
 
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Bunch Codes") }}</h4>
-  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1&type=IOT Employee Group&owner={{ doc.name }}'>{{ _("New bunch code") }}</a>
+  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1&type=Cloud Company Group&owner={{ doc.name }}'>{{ _("New bunch code") }}</a>
 </div>
 
 {% if doc.bunch_codes %}

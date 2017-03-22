@@ -35,18 +35,6 @@ def get_context(context):
 		raise frappe.Redirect
 
 	doc = frappe.get_doc('IOT Device Bunch', bunch)
-	if doc.owner_type == 'User':
-		if doc.owner_id != frappe.session.user:
-			raise frappe.PermissionError
-	else:
-		if not frappe.db.get_value("IOT UserGroup", {"group": doc.owner_id, "parent": frappe.session.user}):
-			ent = frappe.db.get_value("IOT Employee Group", doc.owner_id, "parent")
-			if not cint(frappe.db.get_value('IOT Enterprise', ent, 'enabled')):
-				raise frappe.PermissionError
-
-			if frappe.db.get_value("IOT Enterprise", ent, "admin") != frappe.session.user:
-				raise frappe.PermissionError
-
 	doc.has_permission('read')
 
 	if doc.owner_type == 'User':

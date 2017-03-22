@@ -5,8 +5,8 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
-from iot.iot.doctype.iot_user.iot_user import add_user
-
+from cloud.cloud.doctype.cloud_company.cloud_company import list_users, get_domain
+from cloud.cloud.doctype.cloud_employee.cloud_employee import add_employee
 
 def is_company_admin(user, company):
 	return frappe.db.get_value("IOT Enterprise", {"name": company, "admin": user}, "admin")
@@ -19,15 +19,16 @@ def list_users_by_domain(domain):
 
 
 def list_possible_users(company):
-	domain = frappe.db.get_value("IOT Enterprise", company, "domain")
+	domain = get_domain(company)
 	users = list_users_by_domain(domain)
-	return [user for user in users if not frappe.get_value('IOT User', {"user": user.name, "company": company})]
+	employees = list_users(company)
+	return [user for user in users if user not in employees]
 
 
 def get_context(context):
 	company = frappe.form_dict.company
 	if frappe.form_dict.user:
-		add_user(frappe.form_dict.user, company)
+		add_employee(frappe.form_dict.user, company)
 
 	user = frappe.session.user
 
@@ -46,7 +47,7 @@ def get_context(context):
 
 	possible_users = list_possible_users(company)
 
-	context.parents = [{"label": company, "route": "/iot_companys/" + company}]
+	context.parents = [{"label": company, "route": "/iot_companies/" + company}]
 	context.doc = {
 		"company": company,
 		"possible_users": possible_users
