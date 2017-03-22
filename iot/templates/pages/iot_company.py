@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
+from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
 
 
 def get_context(context):
@@ -32,7 +33,7 @@ def get_context(context):
 		company.users = get_users(company.name, start=0, search=frappe.form_dict.get("search"))
 		context.is_admin = True
 	else:
-		user_groups= [d[0] for d in frappe.db.get_values("IOT UserGroup", {"parent" : frappe.session.user}, "group")]
+		user_groups = [d.group for d in list_user_groups(frappe.session.user)]
 		company.groups = [g for g in company.groups if g.name in user_groups]
 
 	context.doc = company
