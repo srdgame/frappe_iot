@@ -117,12 +117,12 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, or
 			and bunch_code.owner_id = %(user)s
 			and bunch_code.code = device.bunch)
 			or (bunch_code.owner_type = "Cloud Company Group"
-			and bunch_code.owner_id in %(groups)s
+			and bunch_code.owner_id IN %(groups)s
 			and bunch_code.code = device.bunch)
 			order by device.{0}
 			limit {1}, {2}
 		'''.format(order_by, limit_start, limit_page_length),
-			{'user' : frappe.session.user, groups: '"' + '", "'.join(groups) + '"'},
+			{'user' : frappe.session.user, 'groups': '"' + '", "'.join(groups) + '"'},
 			as_dict=True,
 			update={'doctype' : 'IOT Device'})
 
