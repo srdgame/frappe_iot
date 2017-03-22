@@ -6,6 +6,7 @@ import frappe
 import json
 from frappe import _
 from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+from cloud.cloud.doctype.cloud_company.cloud_company import list_groups_obj
 
 
 def get_context(context):
@@ -29,12 +30,15 @@ def get_context(context):
 	company = frappe.get_doc('Cloud Company', name)
 	company.has_permission('read')
 
+	groups = list_groups_obj(name)
+
 	if company.get('admin') == frappe.session.user:
 		company.users = get_users(company.name, start=0, search=frappe.form_dict.get("search"))
 		context.is_admin = True
+		context.groups = groups
 	else:
 		user_groups = [d.group for d in list_user_groups(frappe.session.user)]
-		company.groups = [g for g in company.groups if g.name in user_groups]
+		company.groups = [g for g in groups if g.name in user_groups]
 
 	context.doc = company
 	"""
