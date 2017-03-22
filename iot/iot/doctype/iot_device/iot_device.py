@@ -91,7 +91,7 @@ class IOTDevice(Document):
 		if bunch.owner_type == "User":
 			return CloudSettings.get_default_company()
 		else:
-			return frappe.get_value(bunch.owner_type, bunch.owner_id, "parent")
+			return frappe.get_value(bunch.owner_type, bunch.owner_id, "company")
 
 
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
