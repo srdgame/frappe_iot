@@ -51,7 +51,7 @@ def add_bunch_code(code=None, bunch_name=None, owner_type=None, owner_id=None):
 	if owner_type == "User":
 		return "/iot_me"
 	else:
-		return ("/iot_employee_groups/{0}").format(owner_id)
+		return ("/iot_company_groups/{0}").format(owner_id)
 
 
 @frappe.whitelist()

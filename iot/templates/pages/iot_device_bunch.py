@@ -41,8 +41,8 @@ def get_context(context):
 		if (frappe.session.user == doc.owner_id):
 			context.parents = [{"label": _("Your IOT Account"), "route": '/iot_me'}]
 		else:
-			context.parents = [{"label": doc.owner_id, "route": '/iot_employee_groups/' + doc.owner_id}]
+			context.parents = [{"label": doc.owner_id, "route": '/iot_company_groups/' + doc.owner_id}]
 	else:
-		context.parents = [{"label": doc.owner_id, "route": '/iot_employee_groups/' + doc.owner_id}]
+		context.parents = [{"label": doc.owner_id, "route": '/iot_company_groups/' + doc.owner_id}]
 
 	context.doc = doc
