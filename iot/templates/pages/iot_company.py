@@ -11,6 +11,9 @@ def get_context(context):
 	name = frappe.form_dict.company or frappe.form_dict.name
 
 	if not name:
+		name = frappe.get_value("Cloud Employee", frappe.session.user, "compnay")
+
+	if not name:
 		frappe.local.flags.redirect_location = "/me"
 		raise frappe.Redirect
 
