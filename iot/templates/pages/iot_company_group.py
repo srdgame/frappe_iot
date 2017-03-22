@@ -54,12 +54,11 @@ def get_users(group, start=0, search=None):
 
 	users = []
 	for user in user_names:
-		u = frappe.get_value("Cloud Employee", user.user, ["user", "enabled", "modified", "creation"])
+		u = frappe.get_value("Cloud Employee", user.user, ["user", "modified", "creation"])
 		users.append({
 			"name": u[0],
-			"enabled": u[1],
-			"modified": u[2],
-			"creation": u[3]
+			"modified": u[1],
+			"creation": u[2]
 		})
 
 	return users

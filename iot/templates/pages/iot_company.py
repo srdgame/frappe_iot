@@ -26,7 +26,7 @@ def get_context(context):
 	company.has_permission('read')
 
 	if company.get('admin') == frappe.session.user:
-		company.users = get_users(company.name, start=0, enabled=True, search=frappe.form_dict.get("search"))
+		company.users = get_users(company.name, start=0, search=frappe.form_dict.get("search"))
 		context.is_admin = True
 	else:
 		user_groups= [d[0] for d in frappe.db.get_values("IOT UserGroup", {"parent" : frappe.session.user}, "group")]
@@ -40,12 +40,10 @@ def get_context(context):
 	]
 	"""
 
-def get_users(company, start=0, search=None, enabled=None):
+def get_users(company, start=0, search=None):
 	filters = {"company": company}
 	if search:
 		filters["user"] = ("like", "%{0}%".format(search))
-	if enabled:
-		filters["enabled"] = enabled
 
 	users = frappe.get_all("Cloud Employee", filters=filters,
 		fields=["name", "enabled", "modified", "creation"],
