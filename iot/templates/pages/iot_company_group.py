@@ -33,7 +33,7 @@ def get_context(context):
 		doc.users = get_users(doc.name, start=0, search=frappe.form_dict.get("search"))
 	doc.bunch_codes = get_bunch_codes(doc.name, start=0, search=frappe.form_dict.get("search"))
 
-	context.parents = [{"label": doc.parent, "route": "/iot_companies/" + doc.parent}]
+	context.parents = [{"label": doc.parent, "route": "/iot_companies/" + doc.company}]
 	context.doc = doc
 	"""
 	context.parents = [
