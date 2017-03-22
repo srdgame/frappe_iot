@@ -15,7 +15,7 @@ class IOTShareGroup(Document):
 		if not frappe.session.user:
 			raise frappe.PermissionError
 		for user in self.users:
-			if self.comany in list_user_companies(user):
+			if self.company in list_user_companies(user):
 				throw(_("Cannot your employee {0} into shared group").format(user))
 
 		for device in self.devices:
@@ -51,7 +51,7 @@ class IOTShareGroup(Document):
 		for user in users:
 			if user in current_users:
 				continue
-			if self.comany in list_user_companies(user):
+			if self.company in list_user_companies(user):
 				throw(_("Cannot your employee {0} into shared group").format(user))
 			self.append("users", {"user": user})
 
