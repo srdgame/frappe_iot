@@ -9,12 +9,11 @@ from frappe.model.document import Document
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
 from frappe.utils import cint
-from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
-
+from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
 
 class IOTDevice(Document):
 	def validate(self):
-		self.enterprise = self.__get_enterprise()
+		self.company = self.__get_company()
 
 	def update_status(self, status):
 		""" update device status """
@@ -82,19 +81,16 @@ class IOTDevice(Document):
 
 		raise Exception("You should got here!")
 
-	def __get_enterprise(self):
+	def __get_company(self):
 		if not self.bunch:
 			return None
 		bunch = frappe.get_doc("IOT Device Bunch", self.bunch)
 		if not bunch:
 			return None
-		if bunch.owner_type == "IOT Employee Group":
-			return frappe.get_value("IOT Employee Group", bunch.owner_id, "parent")
+		if bunch.owner_type == "User":
+			return CloudSettings.get_default_company()
 		else:
-			# Treat all private bunch codes in default enterprise
-			#return frappe.get_value("IOT User", bunch.owner_id, "enterprise") \
-			#	or IOTSettings.get_default_enterprise()
-			return IOTSettings.get_default_enterprise()
+			return frappe.get_value(bunch.owner_type, bunch.owner_id, "parent")
 
 	def has_website_permission(self, ptype, verbose=False):
 		user = frappe.session.user
@@ -102,8 +98,8 @@ class IOTDevice(Document):
 		if bunch.owner_type == "User" and bunch.owner_id == user:
 			return True
 
-		if self.enterprise is not None:
-			if not cint(frappe.get_value('IOT Enterprise', self.enterprise, 'enabled')):
+		if self.company is not None:
+			if not cint(frappe.get_value('IOT Enterprise', self.company, 'enabled')):
 				return False
 
 		groups = [d[0] for d in frappe.db.get_values('IOT UserGroup', {"parent": user}, "group")]
@@ -118,7 +114,7 @@ class IOTDevice(Document):
 
 
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
-	ent = frappe.get_value('IOT User', frappe.session.user, 'enterprise')
+	ent = frappe.get_value('IOT User', frappe.session.user, 'company')
 	if not ent or not cint(frappe.get_value('IOT Enterprise', ent, 'enabled')):
 		return frappe.db.sql('''select distinct device.*
 		from `tabIOT Device` device, `tabIOT Device Bunch` bunch_code 

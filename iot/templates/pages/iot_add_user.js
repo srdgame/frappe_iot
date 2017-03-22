@@ -2,7 +2,7 @@ frappe.ready(function() {
 	$(".btn-iot-add-user").click(function() {
 		var args = {
 			enable: $("#enable").val(),
-			enterprise: $("#enterprise").val(),
+			company: $("#company").val(),
 			user: $("#user").val(),
 		};
 

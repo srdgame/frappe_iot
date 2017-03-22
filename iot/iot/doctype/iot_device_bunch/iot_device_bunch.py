@@ -10,28 +10,6 @@ from frappe.utils import cint
 
 
 class IOTDeviceBunch(Document):
-	def has_website_permission(self, ptype, verbose=False):
-		"""Returns true if current user is the session user"""
-		#if ptype == "read":
-		#	return True
-		user = frappe.session.user
-		if self.owner_type == "User" and self.owner_id == user:
-			return True
-
-		if self.owner_type == "IOT Employee Group":
-			enterprise = frappe.get_value("IOT Employee Group", self.owner_id, "parent")
-			# Check enterprise enabled
-			if not cint(frappe.get_value('IOT Enterprise', self.enterprise, 'enabled')):
-				return False
-			# Check for Enterprise Admin
-			if frappe.get_value("IOT Enterprise", enterprise, "admin") == user:
-				return True
-			# Check for Employee Group
-			if frappe.get_value("IOT UserGroup", {"group": self.owner_id, "parent": user}):
-				return True
-
-		return False
-
 	def on_trash(self):
 		# TODO:Let's verify devices.
 		print("DO it!")

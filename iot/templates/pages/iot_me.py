@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
+from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 
 
 def get_user_bunch_codes(user):
@@ -27,16 +28,7 @@ def get_context(context):
 
 	# context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
 
-	if frappe.get_value("IOT User", frappe.session.user):
-		doc = frappe.get_doc('IOT User', frappe.session.user)
-		doc.has_permission('read')
-
-		doc.bunch_codes = get_user_bunch_codes(frappe.session.user)
-		context.doc = doc
-	else:
-		context.doc = {
-			"name": frappe.session.user,
-			"user": frappe.session.user,
-			"enterprise": "Public",
-			"bunch_codes": get_user_bunch_codes(frappe.session.user)
-		}
+	context.doc = {
+		"companies": list_user_companies(frappe.session.user),
+		"bunch_codes": get_user_bunch_codes(frappe.session.user)
+	}

@@ -14,23 +14,29 @@ frappe.ready(function() {
 		more_items('user', true);
 	});
 
+	var start = 10;
+	$(".more-groups").click(function() {
+		more_items('group', true);
+	});
+
+
 	var reload_items = function(enabled, item, $btn) {
 		$.ajax({
 			method: "GET",
 			url: "/",
 			dataType: "json",
 			data: {
-				cmd: "iot.templates.pages.iot_enterprises.get_"+ item +"_html",
-				enterprise: '{{ doc.name }}',
+				cmd: "iot.templates.pages.iot_companys.get_"+ item +"_html",
+				company: '{{ doc.name }}',
 				enabled: enabled,
 			},
 			dataType: "json",
 			success: function(data) {
 				if(typeof data.message == 'undefined') {
-					$('.enterprise-'+ item).html("No "+ enabled +" "+ item);
+					$('.company-'+ item).html("No "+ enabled +" "+ item);
 					$(".more-"+ item).toggle(false);
 				}
-				$('.enterprise-'+ item).html(data.message);
+				$('.company-'+ item).html(data.message);
 				$(".more-"+ item).toggle(true);
 
 				// update status
@@ -47,7 +53,7 @@ frappe.ready(function() {
 	var more_items = function(item, enabled){
 		if(enabled)
 		{
-			var enabled = $('.enterprise-'+ item +'-section .btn-group .bold').hasClass('btn-closed-'+ item)
+			var enabled = $('.company-'+ item +'-section .btn-group .bold').hasClass('btn-closed-'+ item)
 				? 'closed' : 'True';
 		}
 		$.ajax({
@@ -55,15 +61,15 @@ frappe.ready(function() {
 			url: "/",
 			dataType: "json",
 			data: {
-				cmd: "iot.templates.pages.iot_enterprises.get_"+ item +"_html",
-				enterprise: '{{ doc.name }}',
+				cmd: "iot.templates.pages.iot_companys.get_"+ item +"_html",
+				company: '{{ doc.name }}',
 				start: start,
 				enabled: enabled,
 			},
 			dataType: "json",
 			success: function(data) {
 
-				$(data.message).appendTo('.enterprise-'+ item);
+				$(data.message).appendTo('.company-'+ item);
 				if(typeof data.message == 'undefined') {
 					$(".more-"+ item).toggle(false);
 				}
@@ -74,13 +80,13 @@ frappe.ready(function() {
 
 	var close_item = function(item, item_name){
 		var args = {
-			enterprise: '{{ doc.name }}',
+			company: '{{ doc.name }}',
 			item_name: item_name,
 		}
 		frappe.call({
 			btn: this,
 			type: "POST",
-			method: "iot.templates.pages.iot_enterprises.set_"+ item +"_status",
+			method: "iot.templates.pages.iot_companys.set_"+ item +"_status",
 			args: args,
 			callback: function(r) {
 				if(r.exc) {
@@ -92,5 +98,12 @@ frappe.ready(function() {
 			}
 		})
 		return false;
+	}
+
+	if($('.navbar-header .navbar-toggle:visible').length === 1)
+	{
+		$('.page-head h1').addClass('list-head').click(function(){
+			window.history.back();
+	 	});
 	}
 });

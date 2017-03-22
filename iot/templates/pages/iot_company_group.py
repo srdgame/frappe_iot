@@ -5,10 +5,11 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
+from cloud.cloud.doctype.cloud_company.cloud_company import list_admin_companies
 
 
-def is_enterprise_admin(user, enterprise):
-	return frappe.db.get_value("IOT Enterprise", {"name": enterprise, "admin": user}, "admin")
+def is_company_admin(user, company):
+	return company in list_admin_companies(user)
 
 
 def get_context(context):
@@ -24,7 +25,7 @@ def get_context(context):
 	context.no_cache = 1
 	context.show_sidebar = True
 	doc = frappe.get_doc('IOT Employee Group', name)
-	is_admin = is_enterprise_admin(frappe.session.user, doc.parent)
+	is_admin = is_company_admin(frappe.session.user, doc.parent)
 
 	doc.has_permission('read')
 
@@ -32,28 +33,28 @@ def get_context(context):
 		doc.users = get_users(doc.name, start=0, search=frappe.form_dict.get("search"))
 	doc.bunch_codes = get_bunch_codes(doc.name, start=0, search=frappe.form_dict.get("search"))
 
-	context.parents = [{"label": doc.parent, "route": "/iot_enterprises/" + doc.parent}]
+	context.parents = [{"label": doc.parent, "route": "/iot_companys/" + doc.parent}]
 	context.doc = doc
 	"""
 	context.parents = [
 		{"label": _("Back"), "route": frappe.get_request_header("referer")},
-		{"label": doc.parent, "route": "/iot_enterprises/" + doc.parent}
+		{"label": doc.parent, "route": "/iot_companys/" + doc.parent}
 	]
 	"""
 
 
 def get_users(group, start=0, search=None):
-	filters = {"group": group}
+	filters = {"parent": group}
 	if search:
 		filters["user"] = ("like", "%{0}%".format(search))
 
-	user_names = frappe.get_all("IOT UserGroup", filters=filters,
-		fields=["parent"],
+	user_names = frappe.get_all("Cloud Company GroupUser", filters=filters,
+		fields=["user"],
 		limit_start=start, limit_page_length=10)
 
 	users = []
 	for user in user_names:
-		u = frappe.get_value("IOT User", user.parent, ["name", "enabled", "modified", "creation"])
+		u = frappe.get_value("User", user.user, ["name", "enabled", "modified", "creation"])
 		users.append({
 			"name": u[0],
 			"enabled": u[1],
@@ -66,7 +67,7 @@ def get_users(group, start=0, search=None):
 
 def get_bunch_codes(group, start=0, search=None):
 	filters = {
-		"owner_type": "IOT Employee Group",
+		"owner_type": "Cloud Company Group",
 		"owner_id": group
 	}
 	if search:

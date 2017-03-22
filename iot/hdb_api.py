@@ -10,7 +10,9 @@ from frappe import throw, msgprint, _
 from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from iot.doctype.iot_settings.iot_settings import IOTSettings
+from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
+from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 from frappe.utils import cint
 
 
@@ -31,10 +33,9 @@ def valid_auth_code(auth_code=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def list_enterprises(usr=None, pwd=None):
+def list_companies(usr=None, pwd=None):
 	valid_auth_code()
-	# 	return frappe.get_all("IOT Enterprise", fields=["*"], filters = {"name": ("like", "*")})
-	return frappe.get_all("IOT Enterprise", fields=["name", "ent_name", "enabled", "admin", "domain"])
+	return frappe.get_all("Cloud Company", fields=["name", "comp_name", "full_name", "enabled", "admin", "domain"])
 
 
 @frappe.whitelist(allow_guest=True)
@@ -43,34 +44,18 @@ def login(user=None, passwd=None):
 	HDB Application checking for user login
 	:param user: Username (Frappe Username)
 	:param pwd: Password (Frappe User Password)
-	:return: {"user": <Frappe Username>, "ent": <IOT Enterprise>}
+	:return: {"user": <Frappe Username>}
 	"""
 	valid_auth_code()
 	if not (user and passwd):
 		user, passwd = frappe.form_dict.get('user'), frappe.form_dict.get('passwd')
 	frappe.logger(__name__).debug(_("HDB Checking login user {0} password {1}").format(user, passwd))
 
-	"""
-	if '@' not in usr:
-		throw(_("Username must be <login_name>@<enterprise domain>"))
-
-	login_name, domain = usr.split('@')
-	enterprise = frappe.db.get_value("IOT Enterprise", {"domain": domain}, "name")
-	if not enterprise:
-		throw(_("Enterprise Domain {0} does not exists").format(domain))
-
-	user = frappe.db.get_value("IOT User", {"enterprise": enterprise, "login_name": login_name}, "user")
-	if not user:
-		throw(_("User login_name {0} not found in Enterprise {1}").format(login_name, enterprise))
-	"""
-
 	frappe.local.login_manager.authenticate(user, passwd)
 	if frappe.local.login_manager.user != user:
 		throw(_("Username password is not matched!"))
 
-	enterprise = frappe.get_value("IOT User", user, "enterprise") or IOTSettings.get_default_enterprise()
-	
-	return {"user": user, "enterprise": enterprise}
+	return {"user": user}
 
 
 def list_iot_devices(user):
@@ -78,29 +63,25 @@ def list_iot_devices(user):
 
 	# Get Enteprise Devices
 	ent_devices = []
-	if frappe.get_value("IOT User", user):
-		user_doc = frappe.get_doc("IOT User", user)
-		if cint(frappe.get_value('IOT Enterprise', user_doc.enterprise, 'enabled')):
-			groups = user_doc.get("group_assigned")
-			for g in groups:
-				bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {
-					"owner_id": g.group,
-					"owner_type": "IOT Employee Group"
-				}, "code")]
+	groups = list_user_groups(user)
+	compaines = list_user_companies(user)
+	for g in groups:
+		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {
+			"owner_id": g.group,
+			"owner_type": "IOT Employee Group"
+		}, "code")]
 
-				sn_list = []
-				for c in bunch_codes:
-					sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-					ent_devices.append({"group": g.group, "devices": sn_list, "permissions": "all"})
+		sn_list = []
+		for c in bunch_codes:
+			sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
+			ent_devices.append({"group": g.group, "devices": sn_list, "permissions": "all"})
 
 	# Get Shared Devices
 	shd_devices = []
 	for shared_group in [d[0] for d in frappe.db.get_values("IOT ShareGroupUser", {"user": user}, "parent")]:
-		# Make sure we will not having shared device from your enterprise
-		if frappe.get_value("IOT User", user):
-			user_doc = frappe.get_doc("IOT User", user)
-			if frappe.get_value("IOT Share Group", shared_group, "enterprise") == user_doc.enterprise:
-				continue
+		# Make sure we will not having shared device from your company
+		if frappe.get_value("IOT Share Group", shared_group, "company") == compaines:
+			continue
 
 		dev_list = []
 		for dev in [d[0] for d in frappe.db.get_values("IOT SharedGroupDevice", {"parent": shared_group}, "device")]:
@@ -115,7 +96,7 @@ def list_iot_devices(user):
 		pri_devices.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
 
 	devices = {
-		"enterprise_devices": ent_devices,
+		"company_devices": ent_devices,
 		"private_devices": pri_devices,
 		"shared_devices": shd_devices,
 	}
@@ -177,7 +158,7 @@ def __generate_hdb(dev):
 		dev.hdb = dev.sn
 
 	# hdb = dev.hdb.replace("-", "").replace("_", "")
-	domain = frappe.get_value("IOT Enterprise", dev.enterprise, "domain")
+	domain = frappe.get_value("Cloud Company", dev.company, "domain")
 	dev.hdb = ("/{0}/{1}").format(domain, dev.hdb)
 	return dev
 

@@ -27,10 +27,14 @@
 			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
 			<div class="col-xs-8">{{ fullname }}</div>
 		</div>
+		{% if doc.companies %}
+		{% for company in doc.companies %}
 		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Enterprise") }}</div>
-			<div class="col-xs-8">{{ doc.enterprise }}</div>
+			<div class="col-xs-4 text-right text-muted">{{ _("Company") }}</div>
+			<div class="col-xs-8">{{ company }}</div>
 		</div>
+		{% endfor %}
+		{% endif %}
 	</div>
 </div>
 
@@ -42,7 +46,7 @@
 {% if doc.bunch_codes %}
 	<div class='device-bench-code-section'>
 		<div class='device-bench-code'>
-		{% include "templates/includes/iot_enterprise/iot_device_bunch_codes.html" %}
+		{% include "templates/includes/iot_company/iot_device_bunch_codes.html" %}
 		</div>
 		<p><a id= 'more-bunch-codes' style='display: none;' class='more-bunch-codes small underline'>{{ _("More") }}</a><p>
 	</div>

@@ -25,10 +25,10 @@
 						<h6 class="text-muted">{{ _("Edit IOT Profile") }}</h6>
 					</a></li>
 						<li><form role="form form-iot-delete-user">
-						<input type="hidden" id="enterprise" name="enterprise" value="{{ doc.enterprise }}">
+						<input type="hidden" id="company" name="company" value="{{ doc.company }}">
 						<input type="hidden" id="user" name="user" value="{{ doc.user }}">
 						<button class="btn btn-warning btn-iot-delete-user" type="submit">
-							{{ _("Delete User From") }} {{ doc.enterprise }}</button>
+							{{ _("Delete User From") }} {{ doc.company }}</button>
 					</form>
 					</a></li>
 				</ul>
@@ -45,7 +45,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-4 text-right text-muted">{{ _("Enterprise") }}</div>
-			<div class="col-xs-8">{{ doc.enterprise }}</div>
+			<div class="col-xs-8">{{ doc.company }}</div>
 		</div>
 	</div>
 </div>

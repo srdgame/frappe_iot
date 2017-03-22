@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, _
 from frappe.model.document import Document
+from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 
 
 class IOTShareGroup(Document):
@@ -14,17 +15,12 @@ class IOTShareGroup(Document):
 		if not frappe.session.user:
 			raise frappe.PermissionError
 		for user in self.users:
-			if self.enterprise == frappe.get_value("IOT User", user, "enterprise"):
+			if self.comany in list_user_companies(user):
 				throw(_("Cannot your employee {0} into shared group").format(user))
 
 		for device in self.devices:
-			if self.enterprise != frappe.get_value("IOT Device", device, "enterprise"):
-				throw(_("Cannot device {0} which is not belongs to your enterprise").format(device))
-
-	def autoname(self):
-		"""set name as [self.parent].<name>"""
-		self.grp_name = self.grp_name.strip()
-		self.name = '[' + self.enterprise + '].' + self.grp_name
+			if self.company != frappe.get_value("IOT Device", device, "company"):
+				throw(_("Cannot device {0} which is not belongs to your company").format(device))
 
 	def append_devices(self, *devices):
 		"""Add groups to user"""
@@ -32,8 +28,8 @@ class IOTShareGroup(Document):
 		for device in devices:
 			if device in current_devices:
 				continue
-			if self.enterprise != frappe.get_value("IOT Device", device, "enterprise"):
-				throw(_("Cannot device {0} which is not belongs to your enterprise").format(device))
+			if self.company != frappe.get_value("IOT Device", device, "company"):
+				throw(_("Cannot device {0} which is not belongs to your company").format(device))
 			self.append("devices", {"device": device})
 
 	def add_devices(self, *devices):
@@ -55,7 +51,7 @@ class IOTShareGroup(Document):
 		for user in users:
 			if user in current_users:
 				continue
-			if self.enterprise == frappe.get_value("IOT User", user, "enterprise"):
+			if self.comany in list_user_companies(user):
 				throw(_("Cannot your employee {0} into shared group").format(user))
 			self.append("users", {"user": user})
 

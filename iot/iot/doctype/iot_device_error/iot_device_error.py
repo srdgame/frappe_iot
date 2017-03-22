@@ -7,7 +7,9 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils.data import format_datetime
-from iot.iot.doctype.iot_settings.iot_settings import IOTSettings
+from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users, get_company
+from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
+from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
 
 class IOTDeviceError(Document):
 	def on_submit(self):
@@ -52,17 +54,16 @@ def wechat_notify_by_name(err_name, err_doc=None):
 			print("No user binded")
 			return
 
-		enterprise = None
+		company = None
 		bunch_doc = frappe.get_doc("IOT Device Bunch", bunch)
-		if bunch_doc.owner_type == "IOT Employee Group":
-			user_list = [d[0] for d in frappe.db.get_values("IOT UserGroup", {"group": bunch_doc.owner_id}, "parent")]
+		if bunch_doc.owner_type == "Cloud Company Group":
+			user_list = [d.user for d in list_users(bunch_doc.owner_id)]
+			company = get_company(bunch_doc.owner_id)
 		else:
 			user_list.append(bunch_doc.owner_id)
 
 		if len(user_list) > 0:
-			enterprise = enterprise or frappe.get_value("IOT User", user_list[0], "enterprise") or IOTSettings.get_default_enterprise()
-
-			app = frappe.get_value("IOT Enterprise", enterprise, "wechat_app")
+			app = get_wechat_app(company or CloudSettings.get_default_company())
 			if app:
 				from wechat.api import send_doc
 				send_doc(app, 'IOT Device Error', err_doc.name, user_list)

@@ -8,7 +8,7 @@ from frappe import _
 
 
 def get_context(context):
-	name = frappe.form_dict.enterprise or frappe.form_dict.name
+	name = frappe.form_dict.device or frappe.form_dict.name
 	if not name:
 		frappe.local.flags.redirect_location = "/me"
 		raise frappe.Redirect

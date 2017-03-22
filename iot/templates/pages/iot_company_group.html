@@ -52,7 +52,7 @@
 {% if doc.bunch_codes %}
 	<div class='device-bench-code-section'>
 		<div class='device-bench-code'>
-		{% include "templates/includes/iot_enterprise/iot_device_bunch_codes.html" %}
+		{% include "templates/includes/iot_company/iot_device_bunch_codes.html" %}
 		</div>
 		<p><a id= 'more-bunch-codes' style='display: none;' class='more-bunch-codes small underline'>{{ _("More") }}</a><p>
 	</div>
@@ -64,13 +64,13 @@
 <div class='padding'></div>
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Users") }}</h4>
-  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_user?new=1&enterprise={{ doc.ent_name }}'>{{ _("New user") }}</a>
+  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_user?new=1&company={{ doc.ent_name }}'>{{ _("New user") }}</a>
 </div>
 
 {% if doc.users %}
-	<div class='enterprise-user-section'>
-		<div class='enterprise-user'>
-		{% include "templates/includes/iot_enterprise/iot_enterprise_users.html" %}
+	<div class='company-user-section'>
+		<div class='company-user'>
+		{% include "templates/includes/iot_company/iot_company_users.html" %}
 		</div>
 		<p><a id= 'more-users' style='display: none;' class='more-users small underline'>{{ _("More") }}</a><p>
 	</div>

@@ -1,7 +1,7 @@
 frappe.ready(function() {
 	$(".btn-iot-delete-user").click(function() {
 		var args = {
-			enterprise: $("#enterprise").val(),
+			company: $("#company").val(),
 			user: $("#user").val(),
 		};
 
@@ -20,7 +20,7 @@ frappe.ready(function() {
 					if(r.message) {
 						frappe.msgprint(r.message);
 						setTimeout(function() {
-							window.location.href = "/iot_enterprises/"+args.enterprise;
+							window.location.href = "/iot_companys/"+args.company;
 						}, 2000);
 					}
 				}

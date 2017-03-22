@@ -6,7 +6,7 @@
 
 {% block style %}
 	<style>
-		{% include "templates/includes/iot_enterprise.css" %}
+		{% include "templates/includes/iot_company.css" %}
 	</style>
 {% endblock %}
 
@@ -14,13 +14,13 @@
 {% block page_content %}
 
 <!-- no-cache -->
-<div class="row iot-enterprise-info hidden-xs" style="min-height: 200px; padding-bottom: 50px;">
+<div class="row iot-company-info hidden-xs" style="min-height: 200px; padding-bottom: 50px;">
 	<div class="col-sm-4">
 		<span class="user-image-myaccount"></span>
 		{% if is_admin %}
 		<div>
 			<ul class="list-unstyled">
-				<li><a href="/update-iot-enterprise?name={{ doc.name }}">
+				<li><a href="/update-iot-company?name={{ doc.name }}">
 					<h6 class="text-muted">{{ _("Edit") }}</h6>
 				</a></li>
 					<li><a href="/update-iot-employee-group?name={{ doc.name }}">
@@ -56,9 +56,9 @@
 {% endif %}
 
 	</div>
-	<div class='enterprise-group-section'>
-		<div class='enterprise-group'>
-		{% include "templates/includes/iot_enterprise/iot_enterprise_groups.html" %}
+	<div class='company-group-section'>
+		<div class='company-group'>
+		{% include "templates/includes/iot_company/iot_company_groups.html" %}
 		</div>
 		<p><a id= 'more-groups' style='display: none;' class='more-groups small underline'>{{ _("More") }}</a><p>
 	</div>
@@ -72,13 +72,13 @@
 
 <div class="clearfix">
   <h4 style="float: left;">{{ _("Users") }}</h4>
-  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_add_user?enterprise={{ doc.name }}'>{{ _("New user") }}</a>
+  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_add_user?company={{ doc.name }}'>{{ _("New user") }}</a>
 </div>
 
 {% if doc.users %}
-	<div class='enterprise-user-section'>
-		<div class='enterprise-user'>
-		{% include "templates/includes/iot_enterprise/iot_enterprise_users.html" %}
+	<div class='company-user-section'>
+		<div class='company-user'>
+		{% include "templates/includes/iot_company/iot_company_users.html" %}
 		</div>
 		<p><a id= 'more-users' style='display: none;' class='more-users small underline'>{{ _("More") }}</a><p>
 	</div>
@@ -91,7 +91,7 @@
 {% endif %} <!-- is_admin -->
 
 <script>
-	{% include "templates/pages/iot_enterprise.js" %}
+	{% include "templates/pages/iot_company.js" %}
 </script>
 
 {% endblock %}

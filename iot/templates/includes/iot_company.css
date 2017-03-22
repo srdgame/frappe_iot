@@ -4,16 +4,16 @@
 	text-decoration: underline;
 }
 
-.enterprise-item:hover {
+.company-item:hover {
   background-color: #f7f7f7;
 }
 
-.enterprise-item {
+.company-item {
   color: #6c7680;
   font-size: 14px;
 }
 
-.bunch-code-subject, .group-subject
+.user-subject, .group-subject
 {
 	margin: 0px;
 }
@@ -23,22 +23,22 @@
 	font-size: 10px;
 	margin-left: 15px;
 }
-.page-container .enterprise-item {
+.page-container .company-item {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
 
-#enterprise-search {
+#company-search {
 	position: relative;
 	outline:none;
 	border:none;
 }
 
-.bunch-code-link, .user-link {
+.user-link, .group-link {
 	font-weight: bold;
 }
 
-.bunch-code-link.seen, .user-link.seen {
+.user-link.seen, .group-link.seen {
 	font-weight: normal;
 }
 
@@ -75,7 +75,7 @@
 }
 
 
-.bunch-code-btn, .user-btn{
+.user-btn, .group-btn{
 	padding: 8px;
 }
 

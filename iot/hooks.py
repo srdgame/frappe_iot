@@ -50,11 +50,11 @@ error_report_email = "dirk.chang@symid.com.com"
 
 # Website Route Rules
 website_route_rules = [
-	{"from_route": "/iot_enterprises", "to_route": "IOT Enterprise"},
-	{"from_route": "/iot_enterprises/<path:name>", "to_route": "iot_enterprise",
+	{"from_route": "/iot_companies", "to_route": "IOT Enterprise"},
+	{"from_route": "/iot_companies/<path:name>", "to_route": "iot_company",
 		"defaults": {
 			"doctype": "IOT Enterprise",
-			"parents": [{"title": _("IOT Enterprise"), "name": "iot_enterprises"}]
+			"parents": [{"title": _("IOT Enterprise"), "name": "iot_companies"}]
 		}
 	},
 	{"from_route": "/iot_employee_groups", "to_route": "IOT Employee Group"},
@@ -88,8 +88,8 @@ website_route_rules = [
 ]
 
 portal_menu_items = [
-	{"title": _("IOT Enterprises"), "route": "/iot_enterprises", "reference_doctype": "IOT Enterprise", "role": "IOT Manager"},
-	{"title": _("IOT Enterprise"), "route": "/iot_enterprise", "role": "IOT User"},
+	{"title": _("IOT Companies"), "route": "/iot_companies", "reference_doctype": "IOT Enterprise", "role": "IOT Manager"},
+	{"title": _("IOT Company"), "route": "/iot_company", "role": "IOT User"},
 	{"title": _("IOT Devices"), "route": "/iot_devices", "reference_doctype": "IOT Enterprise", "role": "IOT User"},
 	{"title": _("IOT Devices Map"), "route": "/iot_device_map", "role": "IOT User"},
 	{"title": _("IOT Account"), "route": "/iot_me"}
@@ -99,7 +99,7 @@ portal_menu_items = [
 website_context = {
 	"favicon": 	"/assets/img/frappe-bird-white.png",
 #	"top_bar_items": [
-#		{"label": "IOT Enterprise", "url": "/iot_enterprises", "right": 1},
+#		{"label": "IOT Comanies", "url": "/iot_companies", "right": 1},
 #		{"label": "IOT Devices", "url": "/iot_devices", "right": 1},
 #		{"label": "IOT Account", "url": "/iot_me", "right": 1},
 #		{"label": "SymLink", "url": 'https://www.symid.com', "right": 1}

@@ -1,7 +1,7 @@
 {% extends "templates/web.html" %}
 
-{% block title %}{{ _("Adding User to ") }} {{ doc.enterprise }}{% endblock %}
-{% block header %} <h1>{{ doc.enterprise }}</h1> {% endblock %}
+{% block title %}{{ _("Adding User to ") }} {{ doc.company }}{% endblock %}
+{% block header %} <h1>{{ doc.company }}</h1> {% endblock %}
 
 {% block style %}
 	<style>
@@ -19,7 +19,7 @@
 {% for user in doc.possible_users %}
 	<div class='user'>
 		<a class="no-decoration user-link {{ user.css_seen }}"
-		   href="/iot_add_user?user={{ user.name }}&enterprise={{ doc.enterprise }}">
+		   href="/iot_add_user?user={{ user.name }}&company={{ doc.company }}">
 		<div class='row user-item'>
 			<div class='col-xs-9'>
 				<span class="indicator {{ "green" if user.enabled else "darkgrey" }}" title="{{ user.enabled }}">
@@ -54,7 +54,7 @@
 	</div>
    	<form role="form form-iot-add-user">
         <input type="hidden" id="enable" name="enabled" value="True">
-        <input type="hidden" id="enterprise" name="enterprise" value="{{ doc.enterprise }}">
+        <input type="hidden" id="company" name="company" value="{{ doc.company }}">
 
 		<div class="form-group">
 			<label for="user" class="control-label text-muted small"> {{ _("Email") }}</label>
