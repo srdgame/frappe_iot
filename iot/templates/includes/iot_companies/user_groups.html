@@ -4,6 +4,10 @@
 		<div class='row group-item'>
 			<div class='col-xs-4'>
 				<span class="indicator green" title="{{ group.group }}"  > {{ group.group }}</span>
+				<div class="small text-muted item-timestamp"
+					title="{{ frappe.utils.pretty_date(group.modified) }}">
+					modified {{ frappe.utils.pretty_date(group.modified) }}
+				</div>
 			</div>
 			<div class='col-xs-4'>
 				 {{ group.role }}
