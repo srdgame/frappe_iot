@@ -55,7 +55,9 @@ def login(user=None, passwd=None):
 	if frappe.local.login_manager.user != user:
 		throw(_("Username password is not matched!"))
 
-	return {"user": user}
+	companies = list_user_companies(user)
+
+	return {"user": user, "companies": companies}
 
 
 def list_iot_devices(user):

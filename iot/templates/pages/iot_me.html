@@ -31,7 +31,9 @@
 		{% for company in doc.companies %}
 		<div class="row">
 			<div class="col-xs-4 text-right text-muted">{{ _("Company") }}</div>
-			<div class="col-xs-8">{{ company }}</div>
+			<a href="/iot_companies/{{ company }}">
+				<div class="col-xs-8">{{ company }}</div>
+			</a>
 		</div>
 		{% endfor %}
 		{% endif %}
