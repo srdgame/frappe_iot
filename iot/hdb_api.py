@@ -66,23 +66,23 @@ def list_iot_devices(user):
 	# Get Enteprise Devices
 	ent_devices = []
 	groups = list_user_groups(user)
-	compaines = list_user_companies(user)
+	companies = list_user_companies(user)
 	for g in groups:
 		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {
-			"owner_id": g.group,
+			"owner_id": g.name,
 			"owner_type": "Cloud Company Group"
 		}, "code")]
 
 		sn_list = []
 		for c in bunch_codes:
 			sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-			ent_devices.append({"group": g.group, "devices": sn_list, "permissions": "all"})
+			ent_devices.append({"group": g.name, "devices": sn_list, "permissions": "all"})
 
 	# Get Shared Devices
 	shd_devices = []
 	for shared_group in [d[0] for d in frappe.db.get_values("IOT ShareGroupUser", {"user": user}, "parent")]:
 		# Make sure we will not having shared device from your company
-		if frappe.get_value("IOT Share Group", shared_group, "company") == compaines:
+		if frappe.get_value("IOT Share Group", shared_group, "company") in companies:
 			continue
 
 		dev_list = []
@@ -92,7 +92,7 @@ def list_iot_devices(user):
 
 	# Get Private Devices
 	bunch_codes = [d[0] for d in
-				   frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
+					frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
 	pri_devices = []
 	for c in bunch_codes:
 		pri_devices.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
