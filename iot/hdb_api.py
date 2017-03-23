@@ -109,7 +109,7 @@ def list_iot_devices(user):
 
 	# Get Shared Devices
 	shd_devices = []
-	for shared_group in [ d[0] for d in frappe.db.get_values("IOT ShareGroupUser", {"user": user}, "parent")]
+	for shared_group in [ d[0] for d in frappe.db.get_values("IOT ShareGroupUser", {"user": user}, "parent")]:
 		# Make sure we will not having shared device from your company
 		if frappe.get_value("IOT Share Group", shared_group, "company") in companies:
 			continue
