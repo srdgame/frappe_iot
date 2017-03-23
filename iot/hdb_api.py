@@ -56,6 +56,13 @@ def list_user_groups(user):
 
 
 @frappe.whitelist(allow_guest=True)
+def get_role_permission(role):
+	valid_auth_code()
+	role = frappe.get_doc("Cloud User Role", role)
+	return role.list_perms()
+
+
+@frappe.whitelist(allow_guest=True)
 def login(user=None, passwd=None):
 	"""
 	HDB Application checking for user login
@@ -309,6 +316,23 @@ def update_device_name():
 		throw(_("Device is not found. SN:{0}").format(sn))
 
 	dev.update_dev_name(name)
+	return __generate_hdb(dev)
+
+
+@frappe.whitelist(allow_guest=True)
+def update_device_position():
+	valid_auth_code()
+	data = get_post_json_data()
+	pos = data.get("position")
+	sn = data.get("sn")
+	if not (sn and pos):
+		throw(_("Request fields not found. fields: sn\tposition"))
+
+	dev = IOTDevice.get_device_doc(sn)
+	if not dev:
+		throw(_("Device is not found. SN:{0}").format(sn))
+	# TODO: Get Position
+	#dev.update_dev_name(name)
 	return __generate_hdb(dev)
 
 
