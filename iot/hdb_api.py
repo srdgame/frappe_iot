@@ -199,8 +199,8 @@ def update_device():
 	valid_auth_code()
 	data = get_post_json_data()
 	dev = add_device(device_data=data)
-	if dev.dev_name != data.dev_name:
-		dev.update_dev_name(data.dev_name)
+	if dev.dev_name != data.get("dev_name"):
+		dev.update_dev_name(data.get("dev_name"))
 	update_device_bunch(device_data=data)
 	return update_device_status(device_data=data)
 
