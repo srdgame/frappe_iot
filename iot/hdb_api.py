@@ -58,14 +58,13 @@ def list_user_groups(user):
 @frappe.whitelist(allow_guest=True)
 def list_roles():
 	valid_auth_code()
-	role = frappe.get_all("Cloud User Role", role)
-	return role.list_perms()
+	return [d.name for d in frappe.get_all("Cloud User Role")]
 
 
 @frappe.whitelist(allow_guest=True)
 def list_role_permissions(role):
 	valid_auth_code()
-	return [ d.perm for d in frappe.get_all("Cloud User RolePermission", filters={"parent": role},fields=["perm"])]
+	return [ d.perm for d in frappe.get_all("Cloud User RolePermission", filters={"parent": role}, fields=["perm"])]
 
 
 @frappe.whitelist(allow_guest=True)
