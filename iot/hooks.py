@@ -51,7 +51,7 @@ error_report_email = "dirk.chang@symid.com.com"
 # Website Route Rules
 website_route_rules = [
 	{"from_route": "/iot_companies", "to_route": "Cloud Company"},
-	{"from_route": "/iot_companies/<path:name>", "to_route": "cloud_company",
+	{"from_route": "/iot_companies/<path:name>", "to_route": "iot_company",
 		"defaults": {
 			"doctype": "Cloud Company",
 			"parents": [{"title": _("IOT Enterprise"), "name": "iot_companies"}]
