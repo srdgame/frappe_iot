@@ -109,16 +109,16 @@ def list_iot_devices(user):
 
 	# Get Shared Devices
 	shd_devices = []
-	shared_groups = frappe.db.get_values("IOT ShareGroupUser", {"user": user}, ["parent", "role"])
-	for shared_group in shared_groups:
+	for shared_group in [ d[0] for d in frappe.db.get_values("IOT ShareGroupUser", {"user": user}, "parent")]
 		# Make sure we will not having shared device from your company
-		if frappe.get_value("IOT Share Group", shared_group[0], "company") in companies:
+		if frappe.get_value("IOT Share Group", shared_group, "company") in companies:
 			continue
+		role = frappe.get_value("IOT Share Group", shared_group, "role")
 
 		dev_list = []
-		for dev in [d[0] for d in frappe.db.get_values("IOT SharedGroupDevice", {"parent": shared_group[0]}, "device")]:
+		for dev in [d[0] for d in frappe.db.get_values("IOT SharedGroupDevice", {"parent": shared_group}, "device")]:
 			dev_list.append(dev)
-		shd_devices.append({"group": shared_group[0], "devices": dev_list, "role": shared_group[1]})
+		shd_devices.append({"group": shared_group, "devices": dev_list, "role": role})
 
 	# Get Private Devices
 	bunch_codes = [d[0] for d in
