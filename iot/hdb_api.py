@@ -116,7 +116,7 @@ def list_iot_devices(user):
 		role = frappe.get_value("IOT Share Group", shared_group, "role")
 
 		dev_list = []
-		for dev in [d[0] for d in frappe.db.get_values("IOT SharedGroupDevice", {"parent": shared_group}, "device")]:
+		for dev in [d[0] for d in frappe.db.get_values("IOT ShareGroupDevice", {"parent": shared_group}, "device")]:
 			dev_list.append(dev)
 		shd_devices.append({"group": shared_group, "devices": dev_list, "role": role})
 
