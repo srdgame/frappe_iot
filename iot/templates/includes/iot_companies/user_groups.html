@@ -1,0 +1,14 @@
+{% for group in doc.groups %}
+	<div class='group'>
+		<a class="no-decoration group-link {{ group.css_seen }}" href="/iot_company_groups/{{ group.name }}">
+		<div class='row group-item'>
+			<div class='col-xs-4'>
+				<span class="indicator green" title="{{ group.group }}"  > {{ group.group }}</span>
+			</div>
+			<div class='col-xs-4'>
+				 {{ group.role }}
+			</div>
+		</div>
+		</a>
+	</div>
+{% endfor %}

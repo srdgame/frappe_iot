@@ -39,6 +39,21 @@
 </div>
 
 <div class="clearfix">
+	<h4 style="float: left;">{{ _("Groups") }}</h4>
+</div>
+
+{% if doc.groups %}
+	<div class='company-group-section'>
+		<div class='company-group'>
+		{% include "templates/includes/iot_companies/user_groups.html" %}
+		</div>
+		<p><a id= 'more-groups' style='display: none;' class='more-groups small underline'>{{ _("More") }}</a><p>
+	</div>
+{% endif %}
+
+<div class='padding'></div>
+
+<div class="clearfix">
   <h4 style="float: left;">{{ _("Private Bunch Codes") }}</h4>
   <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1'>{{ _("New Bunch Code") }}</a>
 </div>

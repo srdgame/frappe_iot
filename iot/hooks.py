@@ -80,7 +80,7 @@ website_route_rules = [
 ]
 
 portal_menu_items = [
-	{"title": _("IOT Company"), "route": "/iot_companies", "role": "IOT User"},
+	{"title": _("IOT Companies"), "route": "/iot_companies", "role": "Cloud User"},
 	{"title": _("IOT Devices"), "route": "/iot_devices", "role": "IOT User"},
 	{"title": _("IOT Devices Map"), "route": "/iot_device_map", "role": "IOT User"},
 	{"title": _("IOT Account"), "route": "/iot_me"}
