@@ -35,13 +35,24 @@ def valid_auth_code(auth_code=None):
 @frappe.whitelist(allow_guest=True)
 def list_companies():
 	valid_auth_code()
-	return frappe.get_all("Cloud Company", fields=["name", "comp_name", "full_name", "enabled", "admin", "domain"])
+	return frappe.get_all("Cloud Company",
+						fields=["name", "comp_name", "full_name", "enabled", "admin", "domain", "creation", "modified"])
 
 
 @frappe.whitelist(allow_guest=True)
-def list_groups(user=None):
+def list_company_groups(comp):
 	valid_auth_code()
-	return list_user_groups(user)
+	return frappe.get_all("Cloud Company Group", filters={"company": comp},
+						fields=["name", "group_name", "enabled", "description", "creation", "modified"])
+
+
+@frappe.whitelist(allow_guest=True)
+def list_user_groups(user):
+	valid_auth_code()
+	groups = list_user_groups(user)
+	for g in groups:
+		g.group_name = frappe.get_value("Cloud Company Cloud", g.name, "group_name")
+	return groups
 
 
 @frappe.whitelist(allow_guest=True)
