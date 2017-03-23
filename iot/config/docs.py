@@ -11,7 +11,7 @@ def get_context(context):
 	context.brand_html = ('<img class="brand-logo" src="'+context.docs_base_url
 		+'/assets/img/frappe-bird-white.png"> Frappé Framework</img>')
 	context.top_bar_items = [
-		{"label": "IOT Company", "url": context.docs_base_url + "/iot_companies", "right": 1},
+		{"label": "IOT Companies", "url": context.docs_base_url + "/iot_companies", "right": 1},
 		{"label": "IOT Devices", "url": context.docs_base_url + "/iot_devices", "right": 1},
 		{"label": "IOT Account", "url": context.docs_base_url + "/iot_me", "right": 1},
 		{"label": "SymLink", "url": 'https://symid.com', "right": 1}
