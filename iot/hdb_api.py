@@ -56,7 +56,7 @@ def list_user_groups(user):
 
 
 @frappe.whitelist(allow_guest=True)
-def get_role_permission(role):
+def get_role_permissions(role):
 	valid_auth_code()
 	role = frappe.get_doc("Cloud User Role", role)
 	return role.list_perms()
