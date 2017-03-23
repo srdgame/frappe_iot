@@ -11,7 +11,7 @@ from frappe.model.document import Document
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
-from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups as _list_user_groups
 from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 from frappe.utils import cint
 
@@ -49,7 +49,7 @@ def list_company_groups(comp):
 @frappe.whitelist(allow_guest=True)
 def list_user_groups(user):
 	valid_auth_code()
-	groups = list_user_groups(user)
+	groups = _list_user_groups(user)
 	for g in groups:
 		g.group_name = frappe.get_value("Cloud Company Cloud", g.name, "group_name")
 	return groups
@@ -82,7 +82,7 @@ def list_iot_devices(user):
 
 	# Get Enteprise Devices
 	ent_devices = []
-	groups = list_user_groups(user)
+	groups = _list_user_groups(user)
 	companies = list_user_companies(user)
 	for g in groups:
 		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {
