@@ -54,7 +54,13 @@ website_route_rules = [
 	{"from_route": "/iot_companies/<path:name>", "to_route": "iot_company",
 		"defaults": {
 			"doctype": "Cloud Company",
-			"parents": [{"title": _("IOT Enterprise"), "name": "iot_companies"}]
+			"parents": [{"title": _("IOT Companies"), "name": "iot_companies"}]
+		}
+	},
+	{"from_route": "/iot_company_groups/<path:name>", "to_route": "iot_company_group",
+		"defaults": {
+			"doctype": "Cloud Company",
+			"parents": [{"title": _("IOT Companies"), "name": "iot_companies"}]
 		}
 	},
 	{"from_route": "/iot_device_bunch_codes", "to_route": "IOT Device Bunch"},
