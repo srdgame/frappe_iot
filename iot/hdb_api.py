@@ -51,7 +51,7 @@ def list_user_groups(user):
 	valid_auth_code()
 	groups = _list_user_groups(user)
 	for g in groups:
-		g.group_name = frappe.get_value("Cloud Company Cloud", g.name, "group_name")
+		g.group_name = frappe.get_value("Cloud Company Group", g.name, "group_name")
 	return groups
 
 
