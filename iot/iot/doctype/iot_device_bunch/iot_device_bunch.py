@@ -10,9 +10,7 @@ from frappe.utils import cint
 
 
 class IOTDeviceBunch(Document):
-	def on_trash(self):
-		# TODO:Let's verify devices.
-		print("DO it!")
+	pass
 
 
 @frappe.whitelist()
