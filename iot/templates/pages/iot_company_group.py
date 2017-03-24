@@ -13,7 +13,7 @@ def get_context(context):
 
 	cloud_get_context(context)
 
-	context.parents = [{"label": context.doc.group_name, "route": "/iot_companies/" + context.doc.company}]
+	context.parents = [{"title": context.doc.group_name, "route": "/iot_companies/" + context.doc.company}]
 	context.doc.bunch_codes = get_bunch_codes(name, start=0, search=frappe.form_dict.get("search"))
 
 def get_bunch_codes(group, start=0, search=None):

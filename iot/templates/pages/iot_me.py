@@ -28,7 +28,7 @@ def get_context(context):
 	context.no_cache = 1
 	context.show_sidebar = True
 
-	# context.parents = [{"label": _("Back"), "route": frappe.get_request_header("referer")}]
+	# context.parents = [{"title": _("Back"), "route": frappe.get_request_header("referer")}]
 
 	context.doc = {
 		"companies": list_user_companies(frappe.session.user),
