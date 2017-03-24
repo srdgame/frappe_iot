@@ -10,8 +10,10 @@ from cloud.templates.pages.cloud_company_group import get_context as cloud_get_c
 
 def get_context(context):
 	name = frappe.form_dict.group or frappe.form_dict.name
+
 	cloud_get_context(context)
 
+	context.parents = [{"label": context.doc.group_name, "route": "/iot_companies/" + context.doc.company}]
 	context.doc.bunch_codes = get_bunch_codes(name, start=0, search=frappe.form_dict.get("search"))
 
 def get_bunch_codes(group, start=0, search=None):
