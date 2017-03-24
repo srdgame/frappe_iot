@@ -7,9 +7,6 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils.data import format_datetime
-from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users, get_company
-from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
-from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
 
 class IOTDeviceError(Document):
 	def on_submit(self):
@@ -45,6 +42,10 @@ class IOTDeviceError(Document):
 
 
 def wechat_notify_by_name(err_name, err_doc=None):
+	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users, get_company
+	from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
+	from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
+
 	err_doc = err_doc or frappe.get_doc("IOT Device Error", err_name)
 
 	if err_doc.status in ["New", "Open"]:

@@ -9,8 +9,6 @@ from frappe.model.document import Document
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
 from frappe.utils import cint
-from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
-from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users, list_user_groups
 
 class IOTDevice(Document):
 	def validate(self):
@@ -69,6 +67,8 @@ class IOTDevice(Document):
 
 	@staticmethod
 	def find_owners_by_bunch(bunch):
+		from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users
+
 		if not bunch:
 			return []
 		code = frappe.get_doc("IOT Device Bunch", bunch)
@@ -83,6 +83,8 @@ class IOTDevice(Document):
 		raise Exception("You should got here!")
 
 	def __get_company(self):
+		from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
+
 		if not self.bunch:
 			return None
 		bunch = frappe.get_doc("IOT Device Bunch", self.bunch)
@@ -95,6 +97,8 @@ class IOTDevice(Document):
 
 
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
+	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+
 	groups = [d.name for d in list_user_groups(frappe.session.user)]
 	if len(groups) == 0:
 		return frappe.db.sql('''select distinct device.*

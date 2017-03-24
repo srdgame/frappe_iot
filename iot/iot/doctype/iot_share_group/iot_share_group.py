@@ -6,12 +6,13 @@ from __future__ import unicode_literals
 import frappe
 from frappe import throw, _
 from frappe.model.document import Document
-from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 
 
 class IOTShareGroup(Document):
 
 	def validate(self):
+		from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
+
 		if not frappe.session.user:
 			raise frappe.PermissionError
 		for user in self.users:
@@ -46,6 +47,8 @@ class IOTShareGroup(Document):
 		self.save()
 
 	def append_users(self, *users):
+		from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
+
 		"""Add groups to user"""
 		current_users = [d.group for d in self.get("users")]
 		for user in users:

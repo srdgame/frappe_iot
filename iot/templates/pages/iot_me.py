@@ -5,8 +5,6 @@ from __future__ import unicode_literals
 import frappe
 import json
 from frappe import _
-from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
-from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
 
 
 def get_user_bunch_codes(user):
@@ -16,6 +14,9 @@ def get_user_bunch_codes(user):
 
 
 def get_context(context):
+	from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
+	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+
 	if frappe.session.user == 'Guest':
 		frappe.local.flags.redirect_location = "/login"
 		raise frappe.Redirect
