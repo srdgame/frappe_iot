@@ -58,7 +58,7 @@ def wechat_notify_by_name(err_name, err_doc=None):
 		company = None
 		bunch_doc = frappe.get_doc("IOT Device Bunch", bunch)
 		if bunch_doc.owner_type == "Cloud Company Group":
-			user_list = [d.user for d in list_users(bunch_doc.owner_id)]
+			user_list = [d.name for d in list_users(bunch_doc.owner_id)]
 			company = get_company(bunch_doc.owner_id)
 		else:
 			user_list.append(bunch_doc.owner_id)
