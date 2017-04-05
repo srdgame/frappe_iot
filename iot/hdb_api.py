@@ -22,13 +22,13 @@ def valid_auth_code(auth_code=None):
 		throw(_("HDB-AuthorizationCode is required in HTTP Header!"))
 	frappe.logger(__name__).debug(_("HDB-AuthorizationCode as {0}").format(auth_code))
 
-	code = IOTHDBSettings.get_authorization_code()
-	if auth_code != code:
+	user = IOTHDBSettings.get_on_behalf(auth_code)
+	if not user:
 		throw(_("Authorization Code is incorrect!"))
 
 	#frappe.session.user = IOTHDBSettings.get_on_behalf()
 	form_dict = frappe.local.form_dict
-	frappe.set_user(IOTHDBSettings.get_on_behalf())
+	frappe.set_user(user)
 	frappe.local.form_dict = form_dict
 
 
@@ -193,6 +193,7 @@ def __generate_hdb(dev):
 	domain = frappe.get_value("Cloud Company", dev.company, "domain")
 	dev.hdb = ("/{0}/{1}").format(domain, dev.hdb)
 	return dev
+
 
 @frappe.whitelist(allow_guest=True)
 def add_device(device_data=None):

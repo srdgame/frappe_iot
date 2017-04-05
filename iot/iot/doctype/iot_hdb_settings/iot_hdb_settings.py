@@ -9,12 +9,10 @@ from frappe.model.document import Document
 class IOTHDBSettings(Document):
 
 	@staticmethod
-	def get_authorization_code():
-		return frappe.db.get_single_value("IOT HDB Settings", "authorization_code")
-
-	@staticmethod
-	def get_on_behalf():
-		return frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
+	def get_on_behalf(auth_code):
+		if frappe.db.get_single_value("IOT HDB Settings", "authorization_code") == auth_code:
+			return frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
+		return None
 
 	@staticmethod
 	def get_data_url():
