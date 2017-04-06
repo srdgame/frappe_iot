@@ -336,8 +336,8 @@ def update_device_position():
 	dev = IOTDevice.get_device_doc(sn)
 	if not dev:
 		throw(_("Device is not found. SN:{0}").format(sn))
-	# TODO: Get Position
-	#dev.update_dev_name(name)
+
+	dev.update_dev_pos(pos)
 	return __generate_hdb(dev)
 
 

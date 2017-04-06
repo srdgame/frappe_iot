@@ -5,13 +5,10 @@
 from __future__ import unicode_literals
 import frappe
 import json
+import redis
 import requests
-from frappe import throw, msgprint, _
-from frappe.utils import cint
-from frappe.model.document import Document
-from iot.doctype.iot_device.iot_device import IOTDevice
+from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from hdb_api import valid_auth_code
 
 
 @frappe.whitelist(allow_guest=True)
@@ -19,29 +16,46 @@ def iot_device_data_hdb(sn=None):
 	# valid_auth_code()
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
-	session = requests.session()
-	url = IOTHDBSettings.get_data_url() + "/rtdb/boxdata"
-	params = {
-		"sn": doc.sn
-	}
-	r = session.get(url, params=params)
-	if r:
-		return r.json();
+
 
 
 @frappe.whitelist()
-def iot_device_data(sn=None):
+def iot_device_data(sn=None, vsn=None):
+	sn = sn or frappe.form_dict.get('sn')
+	vsn = vsn or sn
+	doc = frappe.get_doc('IOT Device', sn)
+	doc.has_permission("read")
+	cfg = iot_device_cfg(sn)
+	if not cfg:
+		return ""
+
+	tags = json.loads(cfg).get("tags")
+	if vsn != sn:
+		ves = [d.get("sn") for d in json.loads(iot_device_tree()).get("ves")]
+		if vsn not in ves:
+			return ""
+
+	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/2")
+	hs = client.hgetall(sn)
+	data = {}
+	for tag in tags:
+		name = tag.get('name')
+		data[name] = {
+			"PV": hs.get(name + ".PV"),
+			"TM": hs.get(name + ".TM"),
+			"Q": hs.get(name + ".Q"),
+		}
+
+	return data
+
+
+@frappe.whitelist()
+def iot_device_tree(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	session = requests.session()
-	url = IOTHDBSettings.get_data_url() + "/rtdb/boxdata"
-	params = {
-		"sn": doc.sn
-	}
-	r = session.get(url, params=params)
-	if r:
-		return r.json();
+	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/1")
+	return client.get(sn)
 
 
 @frappe.whitelist()
@@ -49,14 +63,8 @@ def iot_device_cfg(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	session = requests.session()
-	url = IOTHDBSettings.get_data_url() + "/rtdb/boxcfg"
-	params = {
-		"sn": doc.sn
-	}
-	r = session.get(url, params=params)
-	if r:
-		return r.json();
+	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/0")
+	return client.get(sn)
 
 
 def get_post_json_data():
