@@ -31,8 +31,7 @@ def iot_device_data(sn=None, vsn=None):
 
 	tags = json.loads(cfg).get("tags")
 	if vsn != sn:
-		ves = [d.get("sn") for d in json.loads(iot_device_tree()).get("ves")]
-		if vsn not in ves:
+		if vsn not in iot_device_tree(sn):
 			return ""
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/2")
@@ -55,7 +54,7 @@ def iot_device_tree(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/1")
-	return client.get(sn)
+	return client.lrange(sn, 0, -1)
 
 
 @frappe.whitelist()
