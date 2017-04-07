@@ -63,7 +63,7 @@ def iot_device_cfg(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/0")
-	return client.get(sn)
+	return json.loads(client.get(sn))
 
 
 def get_post_json_data():
