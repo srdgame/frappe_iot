@@ -46,8 +46,7 @@ class IOTDevice(Document):
 		self.save()
 
 	def update_dev_pos(self, position):
-		self.set("longitude", position)
-		self.set("latitude", None)
+		self.set("position", position)
 		self.set("last_updated", now())
 		self.save()
 
