@@ -27,7 +27,6 @@ class IOTDevice(Document):
 		if self.bunch == bunch:
 			return
 		self.set("bunch", bunch)
-		self.set("last_updated", now())
 		self.save()
 
 	def update_hdb(self, hdb):
@@ -35,19 +34,17 @@ class IOTDevice(Document):
 		if self.hdb == hdb:
 			return
 		self.set("hdb", hdb)
-		self.set("last_updated", now())
 		self.save()
 
 	def update_dev_name(self, dev_name):
 		if self.dev_name == dev_name:
 			return
 		self.set("dev_name", dev_name)
-		self.set("last_updated", now())
 		self.save()
 
-	def update_dev_pos(self, position):
-		self.set("position", position)
-		self.set("last_updated", now())
+	def update_dev_pos(self, longitude, latitude):
+		self.set("longitude", longitude)
+		self.set("latitude", latitude)
 		self.save()
 
 	@staticmethod
