@@ -25,17 +25,17 @@ def iot_device_data(sn=None, vsn=None):
 	vsn = vsn or sn
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	cfg = iot_device_cfg(sn)
-	if not cfg:
-		return ""
 
-	tags = json.loads(cfg).get("tags")
 	if vsn != sn:
 		if vsn not in iot_device_tree(sn):
 			return ""
 
+	cfg = iot_device_cfg(vsn)
+	if not cfg:
+		return ""
+	tags = json.loads(cfg).get("tags")
 	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/2")
-	hs = client.hgetall(sn)
+	hs = client.hgetall(vsn)
 	data = {}
 	for tag in tags:
 		name = tag.get('name')

@@ -116,7 +116,7 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, or
 				order by device.{0}
 				limit {1}, {2}
 			'''.format(order_by, limit_start, limit_page_length),
-				{'user':frappe.session.user},
+				{'user' : frappe.session.user},
 				as_dict=True,
 				update={'doctype':'IOT Device'})
 
