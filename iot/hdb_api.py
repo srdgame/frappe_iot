@@ -330,7 +330,8 @@ def update_device_position():
 	data = get_post_json_data()
 	pos = data.get("position")
 	if not isinstance(pos, basestring):
-		pos = json.dumps(pos)
+		pos = json.loads(pos)
+
 	sn = data.get("sn")
 	if not (sn and pos):
 		throw(_("Request fields not found. fields: sn\tposition"))
@@ -339,7 +340,7 @@ def update_device_position():
 	if not dev:
 		throw(_("Device is not found. SN:{0}").format(sn))
 
-	dev.update_dev_pos(pos)
+	dev.update_dev_pos(pos.get("long"), pos.get("lati"))
 	return __generate_hdb(dev)
 
 
