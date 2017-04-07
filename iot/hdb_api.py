@@ -329,6 +329,8 @@ def update_device_position():
 	valid_auth_code()
 	data = get_post_json_data()
 	pos = data.get("position")
+	if not isinstance(pos, basestring):
+		pos = json.dumps(pos)
 	sn = data.get("sn")
 	if not (sn and pos):
 		throw(_("Request fields not found. fields: sn\tposition"))
