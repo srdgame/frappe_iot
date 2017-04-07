@@ -33,7 +33,7 @@ def iot_device_data(sn=None, vsn=None):
 	cfg = iot_device_cfg(vsn)
 	if not cfg:
 		return ""
-	tags = json.loads(cfg).get("tags")
+	tags = cfg.get("tags")
 	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/2")
 	hs = client.hgetall(vsn)
 	data = {}
