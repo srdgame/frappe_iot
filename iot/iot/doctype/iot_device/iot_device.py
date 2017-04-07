@@ -155,7 +155,7 @@ def list_device_map():
 
 @frappe.whitelist()
 def list_device_map2():
-	devices = frappe.get_all('IOT Device', fields=["sn", "dev_name", "longitude", "latitude", "device_status", "last_updated"])
+	devices = frappe.get_all('IOT Device', fields=["sn", "dev_name", "longitude", "latitude", "position", "device_status", "last_updated"])
 	for dev in devices:
 		if not dev.longitude:
 			dev.longitude = '116.3252'
