@@ -30,7 +30,7 @@ def iot_device_data(sn=None, vsn=None):
 		if vsn not in iot_device_tree(sn):
 			return ""
 
-	cfg = iot_device_cfg(vsn)
+	cfg = iot_device_cfg(sn, vsn)
 	if not cfg:
 		return ""
 	tags = cfg.get("tags")
@@ -58,12 +58,12 @@ def iot_device_tree(sn=None):
 
 
 @frappe.whitelist()
-def iot_device_cfg(sn=None):
+def iot_device_cfg(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/0")
-	return json.loads(client.get(sn))
+	return json.loads(client.get(vsn or sn))
 
 
 def get_post_json_data():

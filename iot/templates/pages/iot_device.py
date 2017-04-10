@@ -4,7 +4,9 @@
 from __future__ import unicode_literals
 import frappe
 import json
+import redis
 from frappe import _
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 
 def get_context(context):
@@ -29,3 +31,6 @@ def get_context(context):
 		{"title": _("Back"), "route": frappe.get_request_header("referer")},
 		{"title": _("IOT Devices"), "route": "/iot_devices"}
 	]
+
+	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/1")
+	context.devices = client.lrange(name, 0, -1)
