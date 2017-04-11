@@ -29,11 +29,11 @@
 					<h6 class="text-muted">{{ _("Data") }}</h6>
 				</a></li>
 				{% for dev in devices %}
-				<li><a href="/api/method/iot.hdb.iot_device_cfg?sn={{ doc.sn }}&vsn={{ dev }}">
-					<h6 class="text-muted">{{ _("Cfg") }} {{ dev }}</h6>
+				<li><a href="/api/method/iot.hdb.iot_device_cfg?sn={{ doc.sn }}&vsn={{ dev.sn }}">
+					<h6 class="text-muted">{{ _("Cfg") }} {{ dev.name or dev.sn }}</h6>
 				</a></li>
-				<li><a href="/api/method/iot.hdb.iot_device_data?sn={{ doc.sn }}&vsn={{ dev }}">
-					<h6 class="text-muted">{{ _("Device: ") }} {{ dev }}</h6>
+				<li><a href="/api/method/iot.hdb.iot_device_data?sn={{ doc.sn }}&vsn={{ dev.sn }}">
+					<h6 class="text-muted">{{ _("Device: ") }} {{ dev.name or dev.sn }}</h6>
 				</a></li>
 				{% endfor %}
 			</ul>

@@ -33,4 +33,12 @@ def get_context(context):
 	]
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/1")
-	context.devices = client.lrange(name, 0, -1)
+	context.devices = []
+	for d in client.lrange(name, 0, -1):
+		dev = {
+			'sn': d
+		}
+		if d[0:len(name)] == name:
+			dev['name']= d[len(name):]
+
+		context.devices.append(dev)
