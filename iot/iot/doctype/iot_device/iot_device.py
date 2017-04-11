@@ -80,7 +80,7 @@ class IOTDevice(Document):
 			return [id]
 
 		if code.get("owner_type") == "Cloud Company Group":
-			return [user.user for user in list_users(code.get("owner_id"))]
+			return [user.name for user in list_users(code.get("owner_id"))]
 
 		raise Exception("You should got here!")
 

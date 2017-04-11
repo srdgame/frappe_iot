@@ -194,6 +194,26 @@ def __generate_hdb(dev):
 	return dev
 
 
+def on_device_bunch_update(device, org_bunch=None):
+	url = IOTHDBSettings.get_callback_url()
+	print(device.sn, device.bunch)
+	if url:
+		""" Fire callback data """
+		cb_data = {
+			'cmd': 'add_device',
+			'sn': device.sn,
+		}
+		if org_bunch is not None:
+			cb_data['cmd'] = 'update_device'
+			cb_data['add_users'] = IOTDevice.find_owners_by_bunch(device.bunch)
+			cb_data['del_users'] = IOTDevice.find_owners_by_bunch(org_bunch)
+		else:
+			cb_data['users'] = IOTDevice.find_owners_by_bunch(device.bunch)
+		print('------------------------------------------')
+		print(json.dumps(cb_data))
+		print('------------------------------------------')
+
+
 @frappe.whitelist(allow_guest=True)
 def add_device(device_data=None):
 	valid_auth_code()
@@ -208,20 +228,11 @@ def add_device(device_data=None):
 	device.update({
 		"doctype": "IOT Device"
 	})
-	doc = frappe.get_doc(device).insert().as_dict()
+	dev = frappe.get_doc(device).insert()
 
-	url = IOTHDBSettings.get_callback_url()
-	if url:
-		""" Fire callback data """
-		user_list = IOTDevice.find_owners_by_bunch(device.get("bunch"))
+	frappe.enqueue('iot.hdb_api.on_device_bunch_update', device = dev)
 
-		frappe.enqueue('iot.hdb_api.fire_callback', cb_url = url  + "/api/datachanged", cb_data = {
-			'cmd': 'add_device',
-			'sn': sn,
-			'users': user_list
-		})
-
-	return __generate_hdb(doc)
+	return __generate_hdb(dev)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -256,18 +267,7 @@ def update_device_bunch(device_data=None):
 	org_bunch = dev.bunch
 	dev.update_bunch(bunch)
 
-	url = IOTHDBSettings.get_callback_url()
-	if url:
-		""" Fire callback data """
-		org_user_list = IOTDevice.find_owners_by_bunch(org_bunch)
-		user_list = IOTDevice.find_owners_by_bunch(bunch)
-
-		frappe.enqueue('iot.hdb_api.fire_callback', cb_url = url  + "/api/datachanged", cb_data = {
-			'cmd': 'update_device',
-			'sn': sn,
-			'add_users': user_list,
-			'del_users': org_user_list
-		})
+	frappe.enqueue('iot.hdb_api.on_device_bunch_update', device = dev, org_bunch = org_bunch)
 
 	return __generate_hdb(dev)
 
