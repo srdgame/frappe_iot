@@ -20,6 +20,11 @@ def iot_device_data_hdb(sn=None):
 
 
 @frappe.whitelist()
+def iot_device_data_f(sn=None, vsn=None):
+	return json.load(open('/home/frappe/frappe-bench/sites/test/public/files/data.json'))
+
+
+@frappe.whitelist()
 def iot_device_data(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	vsn = vsn or sn
@@ -43,6 +48,7 @@ def iot_device_data(sn=None, vsn=None):
 			"PV": hs.get(name + ".PV"),
 			"TM": hs.get(name + ".TM"),
 			"Q": hs.get(name + ".Q"),
+			"DESC": tag.get("desc"),
 		}
 
 	return data
