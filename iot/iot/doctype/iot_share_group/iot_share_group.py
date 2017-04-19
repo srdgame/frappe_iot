@@ -17,11 +17,11 @@ class IOTShareGroup(Document):
 			raise frappe.PermissionError
 		for user in self.users:
 			if self.company in list_user_companies(user.user):
-				throw(_("Cannot your employee {0} into shared group").format(user.user))
+				throw(_("Cannot adding your employee {0} into shared group").format(user.user))
 
 		for device in self.devices:
 			if self.company != frappe.get_value("IOT Device", device.device, "company"):
-				throw(_("Cannot device {0} which is not belongs to your company").format(device.device))
+				throw(_("Device {0} is not belongs to company {1}").format(device.device, self.company))
 
 	def append_devices(self, *devices):
 		"""Add groups to user"""
