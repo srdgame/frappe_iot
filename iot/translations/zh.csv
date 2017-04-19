@@ -1,136 +1,125 @@
-apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +39,Add bunch code {0} to {1}:{2},添加绑定码 {0} 到 {1}:{2}
-DocType: IOT Enterprise,Address,地址
-DocType: IOT Enterprise,Admin,管理员
+apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +35,Add bunch code {0} to {1}:{2},添加绑定码 {0} 到 {1}:{2}
 DocType: IOT Homepage,Administrator,超级管理员
+DocType: IOT Device Error,Amended From,修订源
 DocType: IOT HDB Settings,Authorization Code,验证码
-apps/iot/iot/hdb_api.py +24,Authorization Code is incorrect!,验证码不正确
-apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +109,Authorization error,认证错误
-apps/iot/iot/templates/pages/iot_user.py +36,Back,后退
+apps/iot/iot/hdb_api.py +27,Authorization Code is incorrect!,验证码不正确
+apps/iot/iot/templates/pages/iot_device.py +31,Back,后退
 DocType: IOT Device,Bunch,绑定码
-apps/iot/iot/templates/pages/iot_device_bunch.py +23,Bunch Code,绑定码
-apps/iot/iot/templates/pages/iot_device_bunch.js +35,Bunch Code Inserted,绑定码新增成功
-apps/iot/iot/templates/pages/iot_employee_group.html +44,Bunch Codes,绑定码列表
+apps/iot/iot/templates/pages/iot_device_bunch.py +24,Bunch Code,绑定码
+apps/iot/iot/templates/pages/iot_device_bunch.js +30,Bunch Code Inserted,绑定码新增成功
+apps/iot/iot/templates/pages/iot_company_group.html +12,Bunch Codes,绑定码列表
+apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +38,Bunch code already exists!,
 DocType: IOT HDB Settings,CallBack URL,回调URL地址
-apps/iot/iot/iot/doctype/iot_user/iot_user.py +19,Cannot add user {0} into {1} as Enterprise {2} has domain {3},不能增加用户 {0} 到 {1} 因为企业 {2} 拥有域名 {3}
+apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +20,Cannot adding your employee {0} into shared group,
+apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +33,Cannot device {0} which is not belongs to your company,
+apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +58,Cannot your employee {0} into shared group,
+apps/iot/iot/templates/pages/iot_device.html +26,Cfg,
+DocType: IOT Device Error,Close,关闭
+DocType: IOT Device Bunch,Cloud Company Group,
+DocType: IOT Device,Cloud User,
 DocType: IOT Device Bunch,Code,绑定码
+DocType: IOT Device,Company,公司
 DocType: IOT Homepage,Company Description for website iot homepage,公司描述
 DocType: IOT Homepage,Company Tagline for website iot homepage,公司描述信息
-DocType: IOT Enterprise,Contact,联系信息
-DocType: IOT Enterprise,Contact Info,联系信息
-apps/iot/iot/templates/pages/iot_device_bunch.html +64,Create new,创建新的绑定码
-apps/iot/iot/templates/pages/iot_device_bunch.html +51,Creation,创建时间
-DocType: IOT Settings,Default Enterprise,默认企业
-DocType: IOT Employee Group,Description,描述
+apps/iot/iot/templates/pages/iot_device_bunch.html +62,Create for,
+apps/iot/iot/templates/pages/iot_device_bunch.html +49,Creation,创建时间
+apps/iot/iot/templates/pages/iot_device.html +29,Data,数据
+DocType: IOT HDB Settings,Data URL,
+DocType: IOT Error Type,Description,描述
+DocType: IOT Device Error,Device,
+DocType: IOT HDB Settings,Device Data URL,
 DocType: IOT Device,Device Status,设备状态
-apps/iot/iot/hdb_api.py +185,Device is not found. SN:{0},设备不存在. 序列号:{0}
-apps/iot/iot/iot/doctype/iot_device/iot_device.py +43,Device {0} does not exits!,设备 {0} 不存在
-DocType: IOT Enterprise,Domain,域名
-apps/iot/iot/templates/pages/iot_enterprise.html +25,Edit,编辑
-apps/iot/iot/templates/pages/iot_enterprise.html +28,Edit Employee Groups,编辑员工组
-apps/iot/iot/templates/pages/iot_user.html +25,Edit IOT Profile,编辑 IOT 信息
-apps/iot/iot/templates/pages/iot_enable.html +29,Enable,启用
-apps/iot/iot/templates/pages/iot_enable.html +9,Enable IOT,启用 IOT 
-apps/iot/iot/iot/doctype/iot_user/iot_user.py +89,Enable IOT User for {0} login_name {1},启用 登录名为 {1} 的IOT 用户 {0}
-apps/iot/iot/templates/pages/iot_enable.html +3,Enable IOT for ,启用 IOT 
+apps/iot/iot/hdb_api.py +260,Device is not found. SN:{0},设备不存在. 序列号:{0}
+apps/iot/iot/iot/doctype/iot_device/iot_device.py +67,Device {0} does not exits!,设备 {0} 不存在
+apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +24,Device {0} is not belongs to company {1},
+apps/iot/iot/hdb_api.py +361,Device {0} not found.,
+apps/iot/iot/templates/pages/iot_device.html +36,Device: ,
+DocType: IOT Share Group,Devices,
+apps/iot/iot/templates/pages/iot_device_bunch.html +25,Edit,编辑
+apps/iot/iot/templates/pages/iot_device_bunch.html +77,Enable,启用
 DocType: IOT Device,Enabled,启用
-DocType: IOT Device,Enterprise,所属企业
-apps/iot/iot/hdb_api.py +56,Enterprise Domain {0} does not exists,企业域名 {0} 不存在
-DocType: IOT UserGroup,Group,组
-DocType: IOT User,Group Assigned,所属的组
-DocType: IOT User,Group HTML,
-DocType: IOT Enterprise,Group Settings,组设定
-DocType: IOT Enterprise,Groups,组列表
-apps/iot/iot/hdb_api.py +47,HDB Checking login {0} password {1},HDB检测登录用户 {0} 密码 {1}
+DocType: IOT Device Error,Error Info,
+DocType: IOT Device Error,Error Key,
+DocType: IOT Error Type,Error Name,
+DocType: IOT Device Error,Error Type,
+DocType: IOT Share Group,Group Name,
+apps/iot/iot/templates/pages/iot_me.html +44,Groups,组列表
+apps/iot/iot/hdb_api.py +80,HDB Checking login user {0} password {1},
 DocType: IOT HDB Settings,HDB Status,HDB状态
-apps/iot/iot/hdb_api.py +20,HDB_AuthorizationCode as {0},HDB认证码 {0}
-apps/iot/iot/hdb_api.py +19,HDB_AuthorizationCode is required in HTTP Header!,在HTTP头部找不到HDB认证码
+apps/iot/iot/hdb_api.py +23,HDB-AuthorizationCode as {0},
+apps/iot/iot/hdb_api.py +22,HDB-AuthorizationCode is required in HTTP Header!,
+apps/iot/iot/iot/doctype/iot_device_error/iot_device_error.py +20,Has new ,
 DocType: IOT Device,IOT,IOT
-apps/iot/iot/hooks.py +93,IOT Account,IOT 账户
-apps/iot/iot/templates/pages/iot_user.html +3,IOT Account - ,IOT 账户 -
+apps/iot/iot/hooks.py +86,IOT Account,IOT 账户
+apps/iot/iot/hooks.py +57,IOT Companies,
 DocType: IOT Device,IOT Device,IOT 设备
 DocType: IOT Device Bunch,IOT Device Bunch,IOT 设备绑定码
-apps/iot/iot/hooks.py +92,IOT Devices,IOT 设备列表
-apps/iot/iot/iot/doctype/iot_device/iot_device.py +114,IOT Devices of your group/account,属于您企业和个人的IOT设备列表
-DocType: IOT Employee Group,IOT Employee Group,IOT 企业员工组
-DocType: IOT Enterprise,IOT Enterprise,IOT 企业
-apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +123,IOT Enterprise {0} does not exists!,IOT 企业 {0} 不存在
-apps/iot/iot/hooks.py +91,IOT Enterprises,IOT 企业列表
+DocType: IOT Device Error,IOT Device Error,
+apps/iot/iot/hooks.py +84,IOT Devices,IOT 设备列表
+apps/iot/iot/hooks.py +85,IOT Devices Map,
+apps/iot/iot/iot/doctype/iot_device/iot_device.py +168,IOT Devices of your group/account,属于您企业和个人的IOT设备列表
+DocType: IOT Error Type,IOT Error Type,
 DocType: IOT HDB Settings,IOT HDB Settings,IOT HDB设定
 DocType: IOT Homepage,IOT Homepage,IOT 主页
 DocType: IOT Device,IOT Manager,IOT 管理员
-DocType: IOT Permissions,IOT Permissions,IOT 权限列表
 DocType: IOT Homepage,IOT Portal,
-DocType: IOT Settings,IOT Settings,IOT 设定
+DocType: IOT Share Group,IOT Share Group,
+DocType: IOT ShareGroupDevice,IOT ShareGroupDevice,
+DocType: IOT ShareGroupUser,IOT ShareGroupUser,
 DocType: IOT Device,IOT User,IOT 用户
-DocType: IOT UserGroup,IOT UserGroup,IOT 用户组
-DocType: IOT Enterprise,Image,企业Logo
-apps/iot/iot/hdb_api.py +112,Incorrect HTTP Content-Type found {0},检测到不正确的Content-Type {0}
+apps/iot/iot/hdb.py +80,Incorrect HTTP Content-Type found {0},检测到不正确的Content-Type {0}
 DocType: IOT Device,Informations,设备信息
-apps/iot/iot/templates/pages/iot_device_bunch.js +27,Invalid Bunch Code,不合法的设备绑定码
-apps/iot/iot/templates/pages/iot_reset_password.js +29,Invalid Password,不合法的用户密码
-apps/iot/iot/hdb_api.py +114,JSON Data not found!,未找到JSON数据
+apps/iot/iot/hdb.py +82,JSON Data not found!,未找到JSON数据
 DocType: IOT Device,Last Updated,最后更新时间
-apps/iot/iot/hdb_api.py +84,List Devices for user {0},属于用户 {0} 的设备列表
-apps/iot/iot/iot/doctype/iot_user/iot_user.js +77,Loading,加载中
-DocType: IOT User,Login Name,登录名
-apps/iot/iot/iot/doctype/iot_user/iot_user.py +14,Login Name {0} already exists in Enterprise {1},企业 {1} 中已经有人使用了该登录名 {0}
-apps/iot/iot/templates/pages/iot_device_bunch.html +55,Modified,编辑时间
-apps/iot/iot/templates/pages/iot_enterprise.html +60,More,更多
+DocType: IOT Device,Latitude,
+apps/iot/iot/hdb_api.py +92,List Devices for user {0},属于用户 {0} 的设备列表
+DocType: IOT Device,Longitude,
+apps/iot/iot/templates/pages/iot_device_bunch.html +53,Modified,编辑时间
+apps/iot/iot/templates/pages/iot_me.html +52,More,更多
+apps/iot/iot/templates/pages/iot_me.html +3,My IOT Account,
 DocType: IOT Device,Name,名称
-apps/iot/iot/templates/pages/iot_me.html +37,New Bunch Code,新增绑定码
-apps/iot/iot/templates/pages/iot_reset_password.html +14,New Password,新密码
-apps/iot/iot/templates/pages/iot_employee_group.html +45,New bunch code,新增绑定码
-apps/iot/iot/templates/pages/iot_enterprise.html +52,New group,新增员工组
-apps/iot/iot/templates/pages/iot_enterprise.html +70,New user,新增员工
-apps/iot/iot/iot/doctype/iot_user/iot_user.py +103,No Enterprise for domain {0},没有企业使用域名 {0}
-apps/iot/iot/templates/pages/iot_me.html +48,No bunch-codes,没有设备绑定码
-apps/iot/iot/templates/pages/iot_enterprise.html +63,No groups,没有员工组
-apps/iot/iot/templates/pages/iot_enterprise.html +81,No users,没有员工
+apps/iot/iot/templates/pages/iot_me.html +60,New Bunch Code,新增绑定码
+apps/iot/iot/templates/pages/iot_company_group.html +13,New bunch code,新增绑定码
+apps/iot/iot/templates/pages/iot_company_group.html +24,No bunch-codes,没有设备绑定码
+apps/iot/iot/templates/pages/iot_me.html +71,No device bunch codes,
 DocType: IOT Device,OFFLINE,离线
 DocType: IOT Device,ONLINE,在线
 DocType: IOT HDB Settings,On Behalf,代理用户
-DocType: IOT Device Bunch,Owner Type,拥有者类型
+DocType: IOT Device Error,Open,开
+DocType: IOT Device Bunch,Owenr Type,
 DocType: IOT Device Bunch,Owner ID,拥有者ID
-apps/iot/iot/templates/pages/iot_device_bunch.html +43,Owner Type,拥有者类型
-apps/iot/iot/templates/pages/iot_reset_password.js +37,Password Updated,密码已更新
-apps/iot/iot/templates/pages/iot_reset_password.js +67,Please enter the password,请输入密码
+apps/iot/iot/templates/pages/iot_device_bunch.html +41,Owner Type,拥有者类型
 apps/iot/iot/config/website.py +6,Portal,
-apps/iot/iot/templates/pages/iot_me.html +36,Private Bunch Codes,私有绑定码
-apps/iot/iot/hdb_api.py +83,Query string user does not specified,没有指定用户名
-apps/iot/iot/iot/doctype/iot_user/iot_user.js +37,Refreshing...,刷新中....
-apps/iot/iot/hdb_api.py +109,Request Method Must be POST!,只接受POST请求
-apps/iot/iot/hdb_api.py +123,Request fields not found. fields: sn,请求中未包含设备序列号
-apps/iot/iot/hdb_api.py +181,Request fields not found. fields: sn\tbunch,请求中未包含设备序列号、绑定码
-apps/iot/iot/hdb_api.py +218,Request fields not found. fields: sn\tname,请求中未包含设备序列号、设备名
-apps/iot/iot/hdb_api.py +201,Request fields not found. fields: sn\tstatus,请求中未包含设备序列号、状态值
-apps/iot/iot/templates/pages/iot_reset_password.html +9,Reset Password,重置密码
-apps/iot/iot/templates/pages/iot_reset_password.html +3,Reset {0} Password,重置用户 {0} 的密码
+DocType: IOT Device,Position Settings,
+apps/iot/iot/templates/pages/iot_me.html +59,Private Bunch Codes,私有绑定码
+apps/iot/iot/hdb_api.py +148,Query string user does not specified,没有指定用户名
+apps/iot/iot/hdb.py +77,Request Method Must be POST!,只接受POST请求
+apps/iot/iot/hdb_api.py +358,Request fields not found. fields: device,
+apps/iot/iot/hdb_api.py +169,Request fields not found. fields: sn,请求中未包含设备序列号
+apps/iot/iot/hdb_api.py +282,Request fields not found. fields: sn\thdb,
+apps/iot/iot/hdb_api.py +317,Request fields not found. fields: sn\tname,请求中未包含设备序列号、设备名
+apps/iot/iot/hdb_api.py +337,Request fields not found. fields: sn\tposition,
+apps/iot/iot/hdb_api.py +300,Request fields not found. fields: sn\tstatus,请求中未包含设备序列号、状态值
+apps/iot/iot/iot/doctype/iot_device_error/iot_device_error.js +7,Resend,重发
+DocType: IOT Share Group,Role,角色
 DocType: IOT Device,SN,设备序列号
 apps/iot/iot/config/website.py +11,Settings for IOT Cloud homepage,IOT主页设定
-apps/iot/iot/templates/pages/iot_employee_group.js +38,Show closed,显示已关闭项
-apps/iot/iot/templates/pages/iot_employee_group.js +40,Show open,只显示未关闭项
-apps/iot/iot/templates/pages/iot_device.html +49,Status,状态
+DocType: IOT Share Group,Shared Device List,
+DocType: IOT Share Group,Shared To Users,
+DocType: IOT Device Error,Status,状态
 DocType: IOT Homepage,System Manager,系统管理员
 DocType: IOT Homepage,TItle,标题
 DocType: IOT Homepage,Tag Line,标签行
 ,Test Page,
-apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +83,The IOT Enteprises those you can manage!,属于您的企业列表
 apps/iot/iot/iot_portal/doctype/iot_homepage/iot_homepage.py +13,This is an example website auto-generated from IOT,
-DocType: IOT User,This only saved the user which are belongs to IOT Enterprises,只保存企业用户
-apps/iot/iot/templates/pages/iot_reset_password.js +115,This password will take {0} to crack,暴力破解该密码只需要 {0}
-apps/iot/iot/templates/pages/iot_reset_password.html +19,Update,更新密码
-apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +67,Update device bunch code {0} name to {1},更新设备绑定码名称 {0} → {1}
-DocType: IOT User,User,用户
-apps/iot/iot/hdb_api.py +60,User login_name {0} not found in Enterprise {1},企业 {1} 中不存在使用登录名 {0} 的用户
-apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +119,User {0} has no permission to access Enterprise {1},用户 {0} 没有访问企业 {1} 的权限
-apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +97,User {0} is not an IOT User,用户 {0} 不是企业用户
-apps/iot/iot/templates/pages/iot_enable.html +16,Username,用户名
-apps/iot/iot/hdb_api.py +51,Username must be <login_name>@<enterprise domain>,用户名必须是 <login_name>@<enterprise domain>
-apps/iot/iot/hdb_api.py +65,Username password is not matched!,用户名密码不匹配
-apps/iot/iot/templates/pages/iot_enterprise.html +69,Users,用户列表
-DocType: IOT Permissions,Value,值
-apps/iot/iot/iot/doctype/iot_user/iot_user.py +166,"You are not IOT Mananger, cannot accessing other user's group settings",你不是IOT管理元，不能访问其他用户的组设定
-apps/iot/iot/iot/doctype/iot_device/iot_device.py +113,Your Devices,您的设备列表
-apps/iot/iot/iot/doctype/iot_enterprise/iot_enterprise.py +82,Your Enteprises,您的企业列表
-apps/iot/iot/templates/pages/iot_device_bunch.py +50,Your IOT Account,您的IOT账户
+apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +63,Update device bunch code {0} name to {1},更新设备绑定码名称 {0} → {1}
+DocType: IOT Device Bunch,User,用户
+apps/iot/iot/templates/pages/iot_me.html +23,Username,用户名
+apps/iot/iot/hdb_api.py +84,Username password is not matched!,用户名密码不匹配
+DocType: IOT Share Group,Users,用户列表
+DocType: IOT Error Type,Value,值
+DocType: IOT Device Error,Wechat Notify,
+apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +28,You are not an IOT User,
+apps/iot/iot/iot/doctype/iot_device/iot_device.py +167,Your Devices,您的设备列表
+apps/iot/iot/templates/pages/iot_device_bunch.py +42,Your IOT Account,您的IOT账户
 DocType: IOT Device,hdb,
