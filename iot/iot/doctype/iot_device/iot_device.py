@@ -98,6 +98,32 @@ class IOTDevice(Document):
 			return frappe.get_value(bunch.owner_type, bunch.owner_id, "company")
 
 
+def get_permission_query_conditions(user):
+	"""
+	Show devices for Company Administrator
+	:param user: 
+	:return: 
+	"""
+	if 'IOT Manager' in frappe.get_roles(user):
+		return ""
+	from cloud.cloud.doctype.cloud_company.cloud_company import list_admin_companies
+
+	ent_list = list_admin_companies(user)
+
+	return """(`tabIOT Device`.company in ({user_ents}))""".format(
+		user_ents='"' + '", "'.join(ent_list) + '"')
+
+
+def has_permission(doc, ptype, user):
+	if 'IOT Manager' in frappe.get_roles(user):
+		return True
+
+	if frappe.get_value('Cloud Company', {'admin': user, 'name': doc.company}):
+		return True
+
+	return False
+
+
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):
 	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
 

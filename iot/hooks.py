@@ -119,15 +119,14 @@ website_context = {
 # -----------
 # Permissions evaluated in scripted ways
 
-#permission_query_conditions = {
-#	"IOT Device": "iot.iot.doctype.iot_device.iot_device.get_permission_query_conditions",
-#}
+permission_query_conditions = {
+	"IOT Device": "iot.iot.doctype.iot_device.iot_device.get_permission_query_conditions",
+}
 
 # Dirk: has permission will replace system's permission checking for DocType
-#has_permission = {
-#	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
-#	"IOT Device Bunch": "iot.iot.doctype.iot_device_bunch.iot_device_bunch.has_permission",
-#}
+has_permission = {
+	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
+}
 
 # Document Events
 # ---------------
