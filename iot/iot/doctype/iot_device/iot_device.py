@@ -88,7 +88,7 @@ class IOTDevice(Document):
 		from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
 
 		if not self.bunch:
-			return None
+			return CloudSettings.get_default_company()
 		bunch = frappe.get_doc("IOT Device Bunch", self.bunch)
 		if not bunch:
 			return None
