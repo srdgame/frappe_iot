@@ -70,3 +70,24 @@ class IOTShareGroup(Document):
 				self.get("users").remove(existing_users[user])
 
 		self.save()
+
+
+def get_permission_query_conditions(user):
+	if 'IOT Manager' in frappe.get_roles(user):
+		return ""
+	from cloud.cloud.doctype.cloud_company.cloud_company import list_admin_companies
+
+	ent_list = list_admin_companies(user)
+
+	return """(`tabIOT Share Group`.company in ({user_ents}))""".format(
+		user_ents='"' + '", "'.join(ent_list) + '"')
+
+
+def has_permission(doc, ptype, user):
+	if 'IOT Manager' in frappe.get_roles(user):
+		return True
+
+	if frappe.get_value('Cloud Company', {'admin': user, 'name': doc.company}):
+		return True
+
+	return False
