@@ -28,3 +28,9 @@ class IOTHDBSettings(Document):
 			url = None
 		return url
 
+	@staticmethod
+	def get_default_bunch():
+		bunch = frappe.db.get_single_value("IOT HDB Settings", "default_bunch_code")
+		if bunch == "":
+			bunch = None
+		return bunch

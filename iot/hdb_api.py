@@ -219,6 +219,8 @@ def add_device(device_data=None):
 	valid_auth_code()
 	device = device_data or get_post_json_data()
 	sn = device.get("sn")
+	if not device.get("bunch"):
+		device["bunch"] = IOTHDBSettings.get_default_bunch()
 	if not sn:
 		throw(_("Request fields not found. fields: sn"))
 
@@ -261,6 +263,8 @@ def update_device_bunch(device_data=None):
 
 	if bunch == "":
 		bunch = None
+	if not bunch:
+		bunch = IOTHDBSettings.get_default_bunch()
 	if dev.bunch == bunch:
 		return __generate_hdb(dev)
 
