@@ -62,9 +62,10 @@ def wechat_notify_by_name(err_name, err_doc=None):
 			company = get_company(bunch_doc.owner_id)
 		else:
 			user_list.append(bunch_doc.owner_id)
+			company = CloudSettings.get_default_company()
 
 		if len(user_list) > 0:
-			app = get_wechat_app(company or CloudSettings.get_default_company())
+			app = get_wechat_app(company)
 			if app:
 				from wechat.api import send_doc
 				send_doc(app, 'IOT Device Error', err_doc.name, user_list)
