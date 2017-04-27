@@ -12,12 +12,7 @@ def after_insert(doc, method):
 		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
 		return
 
-	session = requests.session()
-	url = inf_server + "/query"
-	params = {
-		"q": ('''CREATE DATABASE "{0}"''').format(doc.domain)
-	}
-	r = session.get(url, params=params)
+	r = requests.session().get(inf_server + "/query", params={ "q": ('''CREATE DATABASE "{0}"''').format(doc.domain)	})
 
 	if r.status_code != 200:
 		frappe.logger(__name__).error(r.text)
