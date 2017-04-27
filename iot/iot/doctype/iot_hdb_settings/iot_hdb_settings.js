@@ -22,11 +22,11 @@ frappe.ui.form.on('IOT HDB Settings', {
 		var redis_status = frm.doc.redis_status  || 'none';
 		var influxdb_status = frm.doc.influxdb_status  || 'none';
 		var hdb_status = frm.doc.hdb_status  || 'none';
-		var s = $(repl(grid_html, {title: __("Redis Status"), status: redis_status.toLowerCase()}));
+		var s = $(repl(grid_html, {title: __("Redis"), status: redis_status.toLowerCase()}));
 		$(frm.fields_dict['server_status_html'].wrapper).html(s);
-		var s = $(repl(grid_html, {title: __("InfluxDB Status"), status: influxdb_status.toLowerCase()}));
+		var s = $(repl(grid_html, {title: __("InfluxDB"), status: influxdb_status.toLowerCase()}));
 		$(frm.fields_dict['server_status_html'].wrapper).append(s);
-		var s = $(repl(grid_html, {title: __("HDB Status"), status: hdb_status.toLowerCase()}));
+		var s = $(repl(grid_html, {title: __("HDB"), status: hdb_status.toLowerCase()}));
 		$(frm.fields_dict['server_status_html'].wrapper).append(s);
 	},
 	refresh_status: function(frm) {
