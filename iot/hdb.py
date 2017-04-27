@@ -11,12 +11,17 @@ from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 
+@frappe.whitelist()
+def iot_hdb_status():
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server(), socket_timeout=0.1, socket_connect_timeout=0.1)
+	return client.ping()
+
+
 @frappe.whitelist(allow_guest=True)
 def iot_device_data_hdb(sn=None):
 	# valid_auth_code()
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
-
 
 
 @frappe.whitelist()
