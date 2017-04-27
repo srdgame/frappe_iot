@@ -134,11 +134,14 @@ has_permission = {
 # ---------------
 # Hook on document methods and events
 #
-# doc_events = {
-# 	"User": {
-# 		"after_insert": "iot.controllers.user_hooks.after_insert",
-# 	},
-# }
+doc_events = {
+	# "User": {
+	# 	"after_insert": "iot.controllers.user_hooks.after_insert",
+	# },
+	"Cloud Company": {
+		"after_insert": "iot.controllers.cloud_company_hooks.after_insert",
+	}
+}
 
 # doc_events = {
 # 	"*": {

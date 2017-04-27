@@ -39,7 +39,7 @@ def iot_device_data(sn=None, vsn=None):
 	if not cfg:
 		return ""
 	tags = cfg.get("tags")
-	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/2")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/2")
 	hs = client.hgetall(vsn)
 	data = {}
 	for tag in tags:
@@ -59,7 +59,7 @@ def iot_device_tree(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/1")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/1")
 	return client.lrange(sn, 0, -1)
 
 
@@ -68,7 +68,7 @@ def iot_device_cfg(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/0")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/0")
 	return json.loads(client.get(vsn or sn))
 
 
@@ -111,14 +111,15 @@ def iot_device_ctrl(ctrl=None):
 			"val": cmd.val,
 			"vt": cmd.vt
 		})
-
-	url = IOTHDBSettings.get_data_url() + "/iocmd"
-	session = requests.session()
-	r = session.post(url, json={
-		"cmds": cmds
-	})
-	if r:
-		return r.json();
+	# TODO: Need this
+	#
+	# url = IOTHDBSettings.get_redis_server() + "/iocmd"
+	# session = requests.session()
+	# r = session.post(url, json={
+	# 	"cmds": cmds
+	# })
+	# if r:
+	# 	return r.json();
 
 
 @frappe.whitelist(allow_guest=True)

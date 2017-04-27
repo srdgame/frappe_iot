@@ -32,7 +32,7 @@ def get_context(context):
 		{"title": _("IOT Devices"), "route": "/iot_devices"}
 	]
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_data_url() + "/1")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/1")
 	context.devices = []
 	for d in client.lrange(name, 0, -1):
 		dev = {

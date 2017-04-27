@@ -4,7 +4,9 @@
 
 from __future__ import unicode_literals
 import frappe
+import re
 from frappe.model.document import Document
+
 
 class IOTHDBSettings(Document):
 
@@ -15,18 +17,19 @@ class IOTHDBSettings(Document):
 		return None
 
 	@staticmethod
-	def get_data_url():
-		url = frappe.db.get_single_value("IOT HDB Settings", "data_url")
-		if url == "":
-			url = None
-		return url
+	def get_redis_server():
+		url = frappe.db.get_single_value("IOT HDB Settings", "redis_server")
+		if not url:
+			return None
+		return gen_server_url(url, "reids", 6379)
 
 	@staticmethod
-	def get_callback_url():
-		url = frappe.db.get_single_value("IOT HDB Settings", "callback_url")
-		if url == "":
-			url = None
-		return url
+	def get_influxdb_server():
+		url = frappe.db.get_single_value("IOT HDB Settings", "influxdb_server")
+		if not url:
+			return None
+		return gen_server_url(url, "http", 8086)
+
 
 	@staticmethod
 	def get_default_bunch():
@@ -34,3 +37,13 @@ class IOTHDBSettings(Document):
 		if bunch == "":
 			bunch = None
 		return bunch
+
+
+def gen_server_url(server, protocol=None, port=None):
+	mport = re.search(":(\d+)$", server)
+	mprotocol = re.search("^(.+)://", server)
+	if not mprotocol and protocol:
+		server = protocol + "://" + server
+	if not mport and port:
+		server = server + ":" + port
+	return server

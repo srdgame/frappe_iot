@@ -195,7 +195,7 @@ def __generate_hdb(dev):
 
 
 def on_device_bunch_update(device, org_bunch=None):
-	url = IOTHDBSettings.get_callback_url()
+	url = None #IOTHDBSettings.get_redis_url()
 	print(device.sn, device.bunch)
 	if url:
 		""" Fire callback data """
