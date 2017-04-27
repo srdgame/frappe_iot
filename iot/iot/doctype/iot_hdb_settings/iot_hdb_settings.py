@@ -7,10 +7,15 @@ import frappe
 import re
 import redis
 import requests
+from frappe import throw, _
 from frappe.model.document import Document
 
 
 class IOTHDBSettings(Document):
+	def validate(self):
+		if self.enable_default_bunch_code and not self.default_bunch_code:
+			throw(_("Default Bunch Code Missing"))
+
 	def update_redis_status(self, status):
 		if self.redis_status == status:
 			return
@@ -60,6 +65,10 @@ class IOTHDBSettings(Document):
 	def get_default_bunch():
 		return frappe.db.get_single_value("IOT HDB Settings", "default_bunch_code")
 
+	@staticmethod
+	def is_default_bunch_enabled():
+		return frappe.db.get_single_value("IOT HDB Settings", "enable_default_bunch_code")
+
 
 def gen_server_url(server, protocol=None, port=None):
 	mport = re.search(":(\d+)$", server)
@@ -94,7 +103,7 @@ def get_influxdb_status():
 
 
 def get_hdb_status():
-	doc = frappe.get_doc("IOT HDB Settings", "IOT HDB Settings")
+	doc = frappe.get_single("IOT HDB Settings")
 
 	status = get_redis_status()
 	if status:
