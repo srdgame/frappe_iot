@@ -8,6 +8,10 @@ from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 def after_insert(doc, method):
 	inf_server = IOTHDBSettings.get_influxdb_server()
+	if not inf_server:
+		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
+		return
+
 	session = requests.session()
 	url = inf_server + "/query"
 	params = {
