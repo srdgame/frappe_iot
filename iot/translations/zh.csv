@@ -9,28 +9,26 @@ apps/iot/iot/templates/pages/iot_device_bunch.py +24,Bunch Code,绑定码
 apps/iot/iot/templates/pages/iot_device_bunch.js +30,Bunch Code Inserted,绑定码新增成功
 apps/iot/iot/templates/pages/iot_company_group.html +12,Bunch Codes,绑定码列表
 apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +38,Bunch code already exists!,绑定码重复
-DocType: IOT HDB Settings,CallBack URL,回调URL地址
 apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +20,Cannot add your employee {0} into shared group,不能添加公司员工{0}到共享组
 apps/iot/iot/templates/pages/iot_device.html +26,Cfg,点表
 DocType: IOT Device Error,Close,关闭
-DocType: IOT Device Bunch,Cloud Company Group,Cloud 公司组
+DocType: IOT Device Bunch,Cloud Company Group,Cloud 组
 DocType: IOT Device,Cloud User,Cloud 用户
-DocType: IOT Device Bunch,Code,绑定码
+DocType: IOT Device Bunch,Code,基站编码
 DocType: IOT Device,Company,公司
 DocType: IOT Homepage,Company Description for website iot homepage,公司描述
 DocType: IOT Homepage,Company Tagline for website iot homepage,公司描述信息
 apps/iot/iot/templates/pages/iot_device_bunch.html +62,Create for,创建
 apps/iot/iot/templates/pages/iot_device_bunch.html +49,Creation,创建时间
 apps/iot/iot/templates/pages/iot_device.html +29,Data,数据
-DocType: IOT HDB Settings,Data URL,数据地址
+DocType: IOT HDB Settings,Default Bunch Code,
 DocType: IOT Error Type,Description,描述
 DocType: IOT Device Error,Device,设备
-DocType: IOT HDB Settings,Device Data URL,设备数据地址
 DocType: IOT Device,Device Status,设备状态
-apps/iot/iot/hdb_api.py +260,Device is not found. SN:{0},设备不存在. 序列号:{0}
+apps/iot/iot/hdb_api.py +262,Device is not found. SN:{0},设备不存在. 序列号:{0}
 apps/iot/iot/iot/doctype/iot_device/iot_device.py +67,Device {0} does not exits!,设备 {0} 不存在
 apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +24,Device {0} is not belongs to company {1},设备{0}不属于公司{1}
-apps/iot/iot/hdb_api.py +361,Device {0} not found.,设备{0}不存在。
+apps/iot/iot/hdb_api.py +365,Device {0} not found.,设备{0}不存在。
 apps/iot/iot/templates/pages/iot_device.html +36,Device: ,设备：
 DocType: IOT Share Group,Devices,设备列表
 apps/iot/iot/templates/pages/iot_device_bunch.html +25,Edit,编辑
@@ -40,7 +38,7 @@ DocType: IOT Device Error,Error Info,错误信息
 DocType: IOT Device Error,Error Key,错误关键字
 DocType: IOT Error Type,Error Name,错误名称
 DocType: IOT Device Error,Error Type,错误类型
-DocType: IOT Share Group,Group Name,组名
+DocType: IOT Share Group,Group Name,组名称
 apps/iot/iot/templates/pages/iot_me.html +44,Groups,组列表
 apps/iot/iot/hdb_api.py +80,HDB Checking login user {0} password {1},HDB登陆验证 用户{0} 密码{1}
 DocType: IOT HDB Settings,HDB Status,HDB状态
@@ -66,6 +64,7 @@ DocType: IOT ShareGroupDevice,IOT ShareGroupDevice,
 DocType: IOT ShareGroupUser,IOT ShareGroupUser,
 DocType: IOT Device,IOT User,IOT 用户
 apps/iot/iot/hdb.py +80,Incorrect HTTP Content-Type found {0},检测到不正确的Content-Type {0}
+DocType: IOT HDB Settings,InfluxDB Server IP,
 DocType: IOT Device,Informations,设备信息
 apps/iot/iot/hdb.py +82,JSON Data not found!,未找到JSON数据
 DocType: IOT Device,Last Updated,最后更新时间
@@ -84,20 +83,20 @@ DocType: IOT Device,OFFLINE,离线
 DocType: IOT Device,ONLINE,在线
 DocType: IOT HDB Settings,On Behalf,代理用户
 DocType: IOT Device Error,Open,开
-DocType: IOT Device Bunch,Owner Type,拥护者类型
 DocType: IOT Device Bunch,Owner ID,拥有者ID
-apps/iot/iot/templates/pages/iot_device_bunch.html +41,Owner Type,拥有者类型
+DocType: IOT Device Bunch,Owner Type,拥有者类型
 apps/iot/iot/config/website.py +6,Portal,门户
 DocType: IOT Device,Position Settings,位置设定
 apps/iot/iot/templates/pages/iot_me.html +59,Private Bunch Codes,私有绑定码
 apps/iot/iot/hdb_api.py +148,Query string user does not specified,没有指定用户名
+DocType: IOT HDB Settings,Redis Server IP,
 apps/iot/iot/hdb.py +77,Request Method Must be POST!,只接受POST请求
-apps/iot/iot/hdb_api.py +358,Request fields not found. fields: device,请求中未包含设备
+apps/iot/iot/hdb_api.py +362,Request fields not found. fields: device,请求中未包含设备
 apps/iot/iot/hdb_api.py +169,Request fields not found. fields: sn,请求中未包含设备序列号
-apps/iot/iot/hdb_api.py +282,Request fields not found. fields: sn\thdb,请求中未包含设备序列号、存储路径
-apps/iot/iot/hdb_api.py +317,Request fields not found. fields: sn\tname,请求中未包含设备序列号、设备名
-apps/iot/iot/hdb_api.py +337,Request fields not found. fields: sn\tposition,请求中未包含设备序列号、经维度
-apps/iot/iot/hdb_api.py +300,Request fields not found. fields: sn\tstatus,请求中未包含设备序列号、状态值
+apps/iot/iot/hdb_api.py +286,Request fields not found. fields: sn\thdb,请求中未包含设备序列号、存储路径
+apps/iot/iot/hdb_api.py +321,Request fields not found. fields: sn\tname,请求中未包含设备序列号、设备名
+apps/iot/iot/hdb_api.py +341,Request fields not found. fields: sn\tposition,请求中未包含设备序列号、经维度
+apps/iot/iot/hdb_api.py +304,Request fields not found. fields: sn\tstatus,请求中未包含设备序列号、状态值
 apps/iot/iot/iot/doctype/iot_device_error/iot_device_error.js +7,Resend,重发
 DocType: IOT Share Group,Role,角色
 DocType: IOT Device,SN,设备序列号
@@ -120,4 +119,6 @@ DocType: IOT Device Error,Wechat Notify,微信通知
 apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +28,You are not an IOT User,您不是IOT用户
 apps/iot/iot/iot/doctype/iot_device/iot_device.py +167,Your Devices,您的设备列表
 apps/iot/iot/templates/pages/iot_device_bunch.py +42,Your IOT Account,您的IOT账户
+DocType: IOT HDB Settings,e.g. http://10.0.0.164:8086  or 10.0.0.164,
+DocType: IOT HDB Settings,e.g. redis://10.0.0.164:6379  or 10.0.0.164,
 DocType: IOT Device,hdb,存储路径
