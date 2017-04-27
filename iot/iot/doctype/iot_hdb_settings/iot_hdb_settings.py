@@ -5,6 +5,8 @@
 from __future__ import unicode_literals
 import frappe
 import re
+import redis
+import requests
 from frappe.model.document import Document
 
 
@@ -30,13 +32,42 @@ class IOTHDBSettings(Document):
 			return None
 		return gen_server_url(url, "http", 8086)
 
-
 	@staticmethod
 	def get_default_bunch():
-		bunch = frappe.db.get_single_value("IOT HDB Settings", "default_bunch_code")
-		if bunch == "":
-			bunch = None
-		return bunch
+		return frappe.db.get_single_value("IOT HDB Settings", "default_bunch_code")
+
+	def update_redis_status(self, status):
+		if self.redis_status == status:
+			return
+		self.redis_status = status
+		self.redis_status_image_link = gen_image_url(status)
+		self.redis_updated = frappe.utils.now()
+		self.save()
+
+	def update_influxdb_status(self, status):
+		if self.influxdb_status == status:
+			return
+		self.influxdb_status = status
+		self.influxdb_status_image_link = gen_image_url(status)
+		self.influxdb_updated = frappe.utils.now()
+		self.save()
+
+	def update_hdb_status(self, status):
+		if self.hdb_status == status:
+			return
+		self.hdb_status = status
+		self.hdb_status_image_link = gen_image_url(status)
+		self.hdb_updated = frappe.utils.now()
+		self.save()
+
+	def refresh_status(self):
+		#frappe.enqueue('iot.iot.doctype.iot_hdb_settings.iot_hdb_settings.get_hdb_status')
+		get_hdb_status()
+
+
+def gen_image_url(status):
+	#/assets/iot/images/connect/none.png
+	return "/assets/iot/images/connect/" + status.lower() + ".png"
 
 
 def gen_server_url(server, protocol=None, port=None):
@@ -47,3 +78,41 @@ def gen_server_url(server, protocol=None, port=None):
 	if not mport and port:
 		server = server + ":" + port
 	return server
+
+
+def get_redis_status():
+	try:
+		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server(), socket_timeout=0.1,
+									  socket_connect_timeout=0.1)
+		return client.ping()
+	except Exception:
+		return False
+
+
+def get_influxdb_status():
+	try:
+		inf_server = IOTHDBSettings.get_influxdb_server()
+		if not inf_server:
+			frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
+			return
+
+		r = requests.session().get(inf_server + "/query", params={"q": '''SHOW USERS'''}, timeout=1)
+		return r.status_code == 200
+	except Exception:
+		return False
+
+
+def get_hdb_status():
+	doc = frappe.get_doc("IOT HDB Settings", "IOT HDB Settings")
+
+	status = get_redis_status()
+	if status:
+		doc.update_redis_status("ON")
+	else:
+		doc.update_redis_status("OFF")
+
+	status = get_influxdb_status()
+	if status:
+		doc.update_influxdb_status("ON")
+	else:
+		doc.update_influxdb_status("OFF")

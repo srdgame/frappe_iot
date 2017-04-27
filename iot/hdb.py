@@ -12,9 +12,15 @@ from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 
 @frappe.whitelist()
-def iot_hdb_status():
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server(), socket_timeout=0.1, socket_connect_timeout=0.1)
-	return client.ping()
+def redis_status():
+	from iot.doctype.iot_hdb_settings.iot_hdb_settings import get_redis_status
+	return get_redis_status()
+
+
+@frappe.whitelist()
+def influxdb_status():
+	from iot.doctype.iot_hdb_settings.iot_hdb_settings import get_influxdb_status
+	return get_influxdb_status()
 
 
 @frappe.whitelist(allow_guest=True)
