@@ -3,17 +3,11 @@
 
 frappe.ui.form.on('IOT HDB Settings', {
 	setup: function(frm) {
+		frm.events.refresh_status(frm);
 	},
 	refresh: function(frm) {
 		frm.add_custom_button(__("Refresh Server Status"), function() {
-			return frappe.call({
-				doc: frm.doc,
-				method: "refresh_status",
-				freeze: true,
-				callback: function(r) {
-					if(!r.exc) frm.reload_doc();
-				}
-			})
+			frm.events.refresh_status(frm);
 		}).removeClass("btn-default").addClass("btn-primary");
 
 		var grid_html = '<div class="form-group"> \
@@ -34,5 +28,15 @@ frappe.ui.form.on('IOT HDB Settings', {
 		$(frm.fields_dict['influxdb_status_html'].wrapper).html(s);
 		var s = $(repl(grid_html, {title: __("HDB Status"), status: hdb_status.toLowerCase()}));
 		$(frm.fields_dict['hdb_status_html'].wrapper).html(s);
+	},
+	refresh_status: function(frm) {
+		return frappe.call({
+			doc: frm.doc,
+			method: "refresh_status",
+			freeze: true,
+			callback: function(r) {
+				if(!r.exc) frm.reload_doc();
+			}
+		})
 	}
 });
