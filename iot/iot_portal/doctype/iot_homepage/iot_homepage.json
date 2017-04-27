@@ -1,5 +1,6 @@
 {
  "allow_copy": 0, 
+ "allow_guest_to_view": 0, 
  "allow_import": 0, 
  "allow_rename": 0, 
  "autoname": "", 
@@ -12,6 +13,7 @@
  "editable_grid": 0, 
  "fields": [
   {
+   "allow_bulk_edit": 0, 
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -41,6 +43,7 @@
    "unique": 0
   }, 
   {
+   "allow_bulk_edit": 0, 
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -71,6 +74,7 @@
    "unique": 0
   }, 
   {
+   "allow_bulk_edit": 0, 
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -101,17 +105,17 @@
    "unique": 0
   }
  ], 
+ "has_web_view": 0, 
  "hide_heading": 0, 
  "hide_toolbar": 0, 
  "idx": 0, 
  "image_view": 0, 
  "in_create": 0, 
- "in_dialog": 0, 
  "is_submittable": 0, 
  "issingle": 1, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-02 10:02:17.217860", 
+ "modified": "2017-04-27 19:25:08.025079", 
  "modified_by": "Administrator", 
  "module": "IOT Portal", 
  "name": "IOT Homepage", 
