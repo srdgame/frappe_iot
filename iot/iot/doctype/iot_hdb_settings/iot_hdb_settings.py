@@ -11,6 +11,30 @@ from frappe.model.document import Document
 
 
 class IOTHDBSettings(Document):
+	def update_redis_status(self, status):
+		if self.redis_status == status:
+			return
+		self.redis_status = status
+		self.redis_updated = frappe.utils.now()
+		self.save()
+
+	def update_influxdb_status(self, status):
+		if self.influxdb_status == status:
+			return
+		self.influxdb_status = status
+		self.influxdb_updated = frappe.utils.now()
+		self.save()
+
+	def update_hdb_status(self, status):
+		if self.hdb_status == status:
+			return
+		self.hdb_status = status
+		self.hdb_updated = frappe.utils.now()
+		self.save()
+
+	def refresh_status(self):
+		#frappe.enqueue('iot.iot.doctype.iot_hdb_settings.iot_hdb_settings.get_hdb_status')
+		get_hdb_status()
 
 	@staticmethod
 	def get_on_behalf(auth_code):
@@ -35,39 +59,6 @@ class IOTHDBSettings(Document):
 	@staticmethod
 	def get_default_bunch():
 		return frappe.db.get_single_value("IOT HDB Settings", "default_bunch_code")
-
-	def update_redis_status(self, status):
-		if self.redis_status == status:
-			return
-		self.redis_status = status
-		self.redis_status_image_link = gen_image_url(status)
-		self.redis_updated = frappe.utils.now()
-		self.save()
-
-	def update_influxdb_status(self, status):
-		if self.influxdb_status == status:
-			return
-		self.influxdb_status = status
-		self.influxdb_status_image_link = gen_image_url(status)
-		self.influxdb_updated = frappe.utils.now()
-		self.save()
-
-	def update_hdb_status(self, status):
-		if self.hdb_status == status:
-			return
-		self.hdb_status = status
-		self.hdb_status_image_link = gen_image_url(status)
-		self.hdb_updated = frappe.utils.now()
-		self.save()
-
-	def refresh_status(self):
-		#frappe.enqueue('iot.iot.doctype.iot_hdb_settings.iot_hdb_settings.get_hdb_status')
-		get_hdb_status()
-
-
-def gen_image_url(status):
-	#/assets/iot/images/connect/none.png
-	return "/assets/iot/images/connect/" + status.lower() + ".png"
 
 
 def gen_server_url(server, protocol=None, port=None):
