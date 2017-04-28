@@ -525,7 +525,7 @@
    "print": 1, 
    "read": 1, 
    "report": 1, 
-   "role": "Cloud User", 
+   "role": "Company Admin",
    "set_user_permissions": 0, 
    "share": 1, 
    "submit": 0, 
