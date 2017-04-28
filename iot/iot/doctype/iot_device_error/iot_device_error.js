@@ -3,10 +3,13 @@
 
 frappe.ui.form.on('IOT Device Error', {
 	refresh: function(frm) {
-		if(frm.doc.docstatus == 1 && frm.doc.wechat_notify == 1) {
+		if(frm.doc.docstatus == 1) {
 			frm.add_custom_button(__("Fire Wechat Notify"), function() {
-				 frm.events.wechat_msg_send(frm);
-			}).removeClass("btn-default").addClass("btn-primary");;
+				if (frm.doc.wechat_notify == 1)
+				 	frm.events.wechat_msg_send(frm);
+				else
+					frm.doc.amend_doc();
+			}).removeClass("btn-default").addClass("btn-primary");
 		}
 	},
 	wechat_msg_send: function(frm) {
