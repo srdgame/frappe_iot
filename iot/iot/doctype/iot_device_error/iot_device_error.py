@@ -10,11 +10,9 @@ from frappe.utils.data import format_datetime
 
 class IOTDeviceError(Document):
 	def on_submit(self):
-		if self.wechat_notify == 1:
-			frappe.enqueue('iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify_by_name',
-							err_name = self.name, err_doc=self)
+		self.wechat_msg_send()
 
-	def resend_wechat_msg(self):
+	def wechat_msg_send(self):
 		if self.wechat_notify == 1:
 			frappe.enqueue('iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify_by_name',
 							err_name=self.name, err_doc=self)
