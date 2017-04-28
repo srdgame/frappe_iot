@@ -14,6 +14,11 @@ class IOTDeviceError(Document):
 			frappe.enqueue('iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify_by_name',
 							err_name = self.name, err_doc=self)
 
+	def resend_wechat_msg(self):
+		if self.wechat_notify == 1:
+			frappe.enqueue('iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify_by_name',
+							err_name=self.name, err_doc=self)
+
 	def wechat_tmsg_data(self):
 		return {
 			"first": {
