@@ -10,7 +10,12 @@ from frappe.utils import cint
 
 
 class IOTDeviceBunch(Document):
-	pass
+	def get_company(self):
+		if self.owner_type == "Cloud Company Group":
+			return frappe.get_value("Cloud Company Group", self.owner_id, "company")
+		else:
+			from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
+			return CloudSettings.get_default_company()
 
 
 @frappe.whitelist()
