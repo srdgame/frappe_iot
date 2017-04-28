@@ -38,7 +38,8 @@ class IOTDeviceError(Document):
 		}
 
 	def wechat_tmsg_url(self):
-		return "/view-iot-device-error?name=" + self.name
+		#return "/view-iot-device-error?name=" + self.name
+		return self.get_url()
 
 
 def wechat_notify_by_name(err_name, err_doc=None):
