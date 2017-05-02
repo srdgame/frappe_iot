@@ -87,7 +87,7 @@ def gen_server_url(server, protocol, port):
 def get_redis_status():
 	try:
 		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server(), socket_timeout=0.1,
-									  socket_connect_timeout=0.1)
+										socket_connect_timeout=0.1)
 		return client.ping()
 	except Exception:
 		return False
