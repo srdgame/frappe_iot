@@ -70,14 +70,18 @@ class IOTHDBSettings(Document):
 		return frappe.db.get_single_value("IOT HDB Settings", "enable_default_bunch_code")
 
 
-def gen_server_url(server, protocol=None, port=None):
-	mport = re.search(":(\d+)$", server)
-	mprotocol = re.search("^(.+)://", server)
-	if not mprotocol and protocol:
-		server = protocol + "://" + server
-	if not mport and port:
-		server = server + ":" + port
-	return server
+def gen_server_url(server, protocol, port):
+	m = re.search("^(.+)://(.+)$", server)
+	if m:
+		protocol = m.group(1)
+		server = m.group(2)
+
+	m = re.search("^(.+):(\d+)$", server)
+
+	if m:
+		server = m.group(1)
+		port = m.group(2)
+	return ("{0}://{1}:{2}").format(protocol, server, port)
 
 
 def get_redis_status():
