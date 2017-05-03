@@ -66,6 +66,30 @@ def iot_device_data(sn=None, vsn=None):
 
 
 @frappe.whitelist()
+def iot_device_his_data(sn=None, vsn=None, tag=None):
+	sn = sn or frappe.form_dict.get('sn')
+	vsn = vsn or sn
+	tag = tag or frappe.form_dict.get("tag")
+	doc = frappe.get_doc('IOT Device', sn)
+	doc.has_permission("read")
+
+	if vsn != sn:
+		if vsn not in iot_device_tree(sn):
+			return 401
+
+	inf_server = IOTHDBSettings.get_influxdb_server()
+	if not inf_server:
+		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
+		return 500
+
+	r = requests.session().get(inf_server + "/query", params={"q": frappe.form_dict.get('q')}, timeout=10)
+	if r.status_code == 200:
+		return r.json()
+
+	return r.status_code
+
+
+@frappe.whitelist()
 def iot_device_tree(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
