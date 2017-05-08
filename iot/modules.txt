@@ -1,2 +1,4 @@
 IOT
 IOT Portal
+IOT License
+IOT Remote
