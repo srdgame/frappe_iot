@@ -17,15 +17,11 @@ class IOTHDBSettings(Document):
 			throw(_("Default Bunch Code Missing"))
 
 	def update_redis_status(self, status):
-		if self.redis_status == status:
-			return
 		self.redis_status = status
 		self.redis_updated = frappe.utils.now()
 		self.save()
 
 	def update_influxdb_status(self, status):
-		if self.influxdb_status == status:
-			return
 		self.influxdb_status = status
 		self.influxdb_updated = frappe.utils.now()
 		self.save()
