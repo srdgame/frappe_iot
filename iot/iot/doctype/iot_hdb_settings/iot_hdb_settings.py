@@ -27,8 +27,6 @@ class IOTHDBSettings(Document):
 		self.save()
 
 	def update_hdb_status(self, status):
-		if self.hdb_status == status:
-			return
 		self.hdb_status = status
 		self.hdb_updated = frappe.utils.now()
 		self.save()
