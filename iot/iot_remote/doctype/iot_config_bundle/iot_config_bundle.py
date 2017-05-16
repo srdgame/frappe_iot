@@ -18,6 +18,7 @@ class IOTConfigBundle(Document):
 					throw(_("Device SN {0} is licensed by {1}").format(dev.device, sid))
 
 		self.config_name = frappe.get_value("IOT Config", self.config, "config_name")
+		self.config_version = frappe.get_value("IOT Config File", self.config_file, "version")
 
 	def after_insert(self):
 		for dev in self.devices:
@@ -25,7 +26,7 @@ class IOTConfigBundle(Document):
 				"doctype": "IOT Device Config",
 				"device": dev.device,
 				"config": self.config,
-				"version": self.config_version,
+				"config_file": self.config_file,
 				"source_type": self.doctype,
 				"source_id": self.name
 			}).insert()
@@ -36,8 +37,8 @@ class IOTConfigBundle(Document):
 			if d[0] not in dev_list:
 				frappe.delete_doc("IOT Device Config", d[0])
 			else:
-				frappe.set_value("IOT Device Config", d[0], "version", self.config_version)
 				frappe.set_value("IOT Device Config", d[0], "config", self.config)
+				frappe.set_value("IOT Device Config", d[0], "config_file", self.config_file)
 
 		for dev in self.devices:
 			if not frappe.get_value("IOT Device Config", dev.device):
@@ -45,7 +46,7 @@ class IOTConfigBundle(Document):
 					"doctype": "IOT Device Config",
 					"device": dev.device,
 					"config": self.config,
-					"version": self.config_version,
+					"config_file": self.config_file,
 					"source_type": self.doctype,
 					"source_id": self.name
 				}).insert()
