@@ -11,3 +11,4 @@ class IOTConfigFile(Document):
 	def validate(self):
 		self.config_name = frappe.get_value("IOT Config", self.config, "config_name")
 		self.owner_name = frappe.get_value("IOT Config", self.config, "owner_name")
+		self.file_url = "/iot_configs/{0}/v_{1}".format(self.config_name.strip().lower().replace(' ','_'), self.version)
