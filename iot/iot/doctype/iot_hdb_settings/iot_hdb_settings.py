@@ -33,7 +33,7 @@ class IOTHDBSettings(Document):
 
 	def refresh_status(self):
 		#frappe.enqueue('iot.iot.doctype.iot_hdb_settings.iot_hdb_settings.get_hdb_status')
-		get_hdb_status()
+		get_hdb_status(self)
 
 	@staticmethod
 	def get_on_behalf(auth_code):
@@ -46,7 +46,7 @@ class IOTHDBSettings(Document):
 		url = frappe.db.get_single_value("IOT HDB Settings", "redis_server")
 		if not url:
 			return None
-		return gen_server_url(url, "reids", 6379)
+		return gen_server_url(url, "redis", 6379)
 
 	@staticmethod
 	def get_influxdb_server():
@@ -100,8 +100,8 @@ def get_influxdb_status():
 		return False
 
 
-def get_hdb_status():
-	doc = frappe.get_single("IOT HDB Settings")
+def get_hdb_status(doc):
+	doc = doc or frappe.get_single("IOT HDB Settings")
 
 	status = get_redis_status()
 	if status:
