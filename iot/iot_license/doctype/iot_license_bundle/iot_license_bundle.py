@@ -16,19 +16,8 @@ class IOTLicenseBundle(Document):
 				if sid != self.name:
 					throw(_("Device SN {0} is licensed by {1}").format(dev.sn, sid))
 
-	def after_insert(self):
-		for dev in self.devices:
-			doc = frappe.get_doc({
-				"doctype": "IOT License",
-				"sn": dev.sn,
-				"type": self.type,
-				"enabled": self.enabled,
-				"expire_date": self.expire_date,
-				"source_type": self.doctype,
-				"source_id": self.name
-			}).insert()
-
 	def on_update(self):
+		type_value = frappe.get_value("IOT License Type", self.type, "value")
 		sn_list = [d.sn for d in self.devices]
 		for d in frappe.db.get_values("IOT License", {"source_id": self.name}, "sn"):
 			if d[0] not in sn_list:
@@ -36,6 +25,7 @@ class IOTLicenseBundle(Document):
 			else:
 				frappe.set_value("IOT License", d[0], "expire_date", self.expire_date)
 				frappe.set_value("IOT License", d[0], "type", self.type)
+				frappe.set_value("IOT License", d[0], "type_value", type_value)
 				frappe.set_value("IOT License", d[0], "enabled", self.enabled)
 
 		for dev in self.devices:
@@ -44,6 +34,7 @@ class IOTLicenseBundle(Document):
 					"doctype": "IOT License",
 					"sn": dev.sn,
 					"type": self.type,
+					"type_value": type_value,
 					"enabled": self.enabled,
 					"expire_date": self.expire_date,
 					"source_type": self.doctype,

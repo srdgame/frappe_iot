@@ -19,17 +19,17 @@ class IOTConfigBundle(Document):
 
 		self.config_name = frappe.get_value("IOT Config", self.config, "config_name")
 		self.config_version = frappe.get_value("IOT Config File", self.config_file, "version")
-
-	def after_insert(self):
-		for dev in self.devices:
-			doc = frappe.get_doc({
-				"doctype": "IOT Device Config",
-				"device": dev.device,
-				"config": self.config,
-				"config_file": self.config_file,
-				"source_type": self.doctype,
-				"source_id": self.name
-			}).insert()
+	#
+	# def after_insert(self):
+	# 	for dev in self.devices:
+	# 		doc = frappe.get_doc({
+	# 			"doctype": "IOT Device Config",
+	# 			"device": dev.device,
+	# 			"config": self.config,
+	# 			"config_file": self.config_file,
+	# 			"source_type": self.doctype,
+	# 			"source_id": self.name
+	# 		}).insert()
 
 	def on_update(self):
 		dev_list = [d.device for d in self.devices]
