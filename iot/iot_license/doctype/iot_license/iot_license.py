@@ -7,4 +7,5 @@ import frappe
 from frappe.model.document import Document
 
 class IOTLicense(Document):
-	pass
+	def validate(self):
+		self.type_value = frappe.get_value("IOT License Type", self.type, "value")

@@ -35,7 +35,7 @@ class IOTShareGroup(Document):
 
 	def add_devices(self, *devices):
 		"""Add groups to user and save"""
-		self.append_groups(*devices)
+		self.append_devices(*devices)
 		self.save()
 
 	def remove_devices(self, *devices):
@@ -60,7 +60,7 @@ class IOTShareGroup(Document):
 
 	def add_users(self, *users):
 		"""Add groups to user and save"""
-		self.append_groups(*users)
+		self.append_users(*users)
 		self.save()
 
 	def remove_users(self, *users):
