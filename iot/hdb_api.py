@@ -352,7 +352,7 @@ def update_device_position():
 def add_device_error(err_data=None):
 	"""
 	Add device error
-	:param err_data: {"device": device_sn, "error_type": Error Type defined, "error_key": any text, "error_info": any text}
+	:param err_data: {"device": device_sn, "error_type": Error Type defined, "error_key": any text, "error_level": int, "error_info": any text}
 	:return: iot_device_error
 	"""
 	valid_auth_code()
