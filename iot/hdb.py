@@ -84,8 +84,9 @@ def iot_device_data_array(sn=None, vsn=None):
 	hs = client.hgetall(vsn)
 	data = []
 	for tag in tags:
+		name = tag.get('name')
 		data.append({
-			"NAME": tag.get('name')
+			"NAME": name,
 			"PV": hs.get(name + ".PV"),
 			"TM": hs.get(name + ".TM"),
 			"Q": hs.get(name + ".Q"),
