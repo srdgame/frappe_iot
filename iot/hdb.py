@@ -8,7 +8,6 @@ import json
 import redis
 import requests
 import datetime
-from pytz import timezone
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings

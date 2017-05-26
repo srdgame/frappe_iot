@@ -6,6 +6,7 @@ import datetime
 import time
 import redis
 import requests
+from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 UTC_FORMAT1 = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -58,7 +59,8 @@ def taghisdata(sn=None, vsn=None, fields=None, condition=None):
 					utc_time = datetime.datetime.strptime(res[i][0], UTC_FORMAT2)
 				except Exception as err:
 					pass
-				local_time = utc2local(utc_time).strftime("%Y-%m-%d %H:%M:%S")
+				#local_time = utc2local(utc_time).strftime("%Y-%m-%d %H:%M:%S")
+				local_time = str(convert_utc_to_user_timezone(utc_time).replace(tzinfo=None))
 				#print('#######', local_time)
 				if res[i][2] == '1':
 					hisvalue = {'name': res[i][1], 'value': res[i][4], 'time': local_time, 'quality': 0}
