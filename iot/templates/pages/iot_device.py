@@ -8,6 +8,7 @@ import json
 import redis
 from frappe import _
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.hdb import iot_device_tree
 
 
 def get_context(context):
@@ -43,3 +44,8 @@ def get_context(context):
 			dev['name']= d[len(name):]
 
 		context.devices.append(dev)
+
+	if device.sn:
+		context.vsn = iot_device_tree(device.sn)
+	else:
+		context.vsn = []

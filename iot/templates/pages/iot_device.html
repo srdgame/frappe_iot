@@ -2,73 +2,79 @@
 
 {% block title %}{{ doc.dev_name }}{% endblock %}
 
-{% block header %} <h1>{{ _("IOT Device") }}</h1> {% endblock %}
+{% block header %}  {% endblock %}
 
 {% block style %}
 	<style>
-		{% include "templates/includes/iot_device.css" %}
+		{% include "templates/includes/css/jquery.dataTables.min.css" %}
+		{% include "templates/includes/css/responsive.dataTables.min.css" %}
 	</style>
 {% endblock %}
 
 
 {% block page_content %}
 
-<!-- no-cache -->
-<div class="row iot-device-info" style="min-height: 400px; padding-bottom: 50px;">
-	<div class="col-sm-4 hidden-xs">
-		<span class="user-image-myaccount"></span>
-		<div>
-			<ul class="list-unstyled">
-				<!--<li><a href="/update-iot-device?name={{ doc.name }}">
-					<h6 class="text-muted">{{ _("Edit") }}</h6>
-				</a></li> -->
-				<li><a href="/api/method/iot.hdb.iot_device_cfg?sn={{ doc.sn }}">
-					<h6 class="text-muted">{{ _("Cfg") }}</h6>
-				</a></li>
-				<li><a href="/api/method/iot.hdb.iot_device_data?sn={{ doc.sn }}">
-					<h6 class="text-muted">{{ _("Data") }}</h6>
-				</a></li>
-				{% for dev in devices %}
-				<li><a href="/api/method/iot.hdb.iot_device_cfg?sn={{ doc.sn }}&vsn={{ dev.sn }}">
-					<h6 class="text-muted">{{ _("Cfg") }} {{ dev.name or dev.sn }}</h6>
-				</a></li>
-				<li><a href="/api/method/iot.hdb.iot_device_data?sn={{ doc.sn }}&vsn={{ dev.sn }}">
-					<h6 class="text-muted">{{ _("Device: ") }} {{ dev.name or dev.sn }}</h6>
-				</a></li>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
-	<div class="col-sm-8 pull-left">
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Name") }}</div>
-			<div class="col-xs-8">{{ doc.dev_name }}</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("SN") }}</div>
-			<div class="col-xs-8">{{ doc.sn }}</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Bunch Code") }}</div>
-			<div class="col-xs-8">{{ doc.bunch }}</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Company") }}</div>
-			<div class="col-xs-8">{{ doc.company }}</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Status") }}</div>
-			<div class="col-xs-8">{{ doc.device_status }}</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4 text-right text-muted">{{ _("Last Updated") }}</div>
-			<div class="col-xs-8">{{ frappe.utils.pretty_date(doc.last_updated) }}</div>
-		</div>
-	</div>
+<div class="btn btn-success" devname="{{ doc.dev_name }}" devid="{{ doc.name }}">{{ doc.dev_name }}
 </div>
+{% for dev in devices %}
+<div class="btn btn-default" devname="{{ dev.name }}" devid="{{ dev.sn }}">{{ dev.name }}
+</div>
+
+{% endfor %}
+
+
+    <div class="col-xs-12 col-sm-12 widget-container-col" id="widget-container-col-2">
+        <div class="widget-box widget-color-grey" id="widget-box-2">
+            <div class="col-xs-12 col-sm-4">
+                <h1 class="widget-title bigger lighter" id="devname">
+                    {{_('NAME:')}}{{ doc.dev_name }}
+                </h1>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                <h1 class="widget-title bigger lighter" id="devsn">
+                    {{_('SN:')}}{{ doc.name }}
+                </h1>
+            </div>
+
+            <table id="example"  class="display responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>{{_('Name')}}</th>
+                        <th>{{_('Description')}}</th>
+                        <th>{{_('TimeStamp')}}</th>
+                        <th>{{_('Value')}}</th>
+						<th>{{_('Quality')}}</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+        </div>
+
+    </div><!-- /.span -->
+
+
 
 <script>
 	{% include "templates/pages/iot_device.js" %}
 </script>
 
+ <script type="text/javascript">
+
+
+
+ </script>
+
 {% endblock %}
+
+{% block script %}
+		<script src="/assets/iot/js/jquery.dataTables.min.js"></script>
+		<script src="/assets/iot/js/jquery.dataTables.bootstrap.min.js"></script>
+        <script src="/assets/iot/js/dataTables.responsive.min.js"></script>
+{% endblock %}
+
+
+
+
+
+

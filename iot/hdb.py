@@ -7,6 +7,7 @@ import frappe
 import json
 import redis
 import requests
+import datetime
 from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
@@ -85,10 +86,15 @@ def iot_device_data_array(sn=None, vsn=None):
 	data = []
 	for tag in tags:
 		name = tag.get('name')
+		tt = hs.get(name + ".TM")
+		timestr = ''
+		if tt:
+			timestr = str(datetime.datetime.fromtimestamp(int(int(tt)/1000)))
 		data.append({
 			"NAME": name,
 			"PV": hs.get(name + ".PV"),
-			"TM": hs.get(name + ".TM"),
+			#"TM": hs.get(name + ".TM"),
+			"TM": timestr,
 			"Q": hs.get(name + ".Q"),
 			"DESC": tag.get("desc"),
 		})
