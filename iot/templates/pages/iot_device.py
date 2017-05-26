@@ -22,7 +22,7 @@ def get_context(context):
 		raise frappe.PermissionError
 		
 	context.no_cache = 1
-	context.show_sidebar = True
+	context.show_sidebar = False
 	device = frappe.get_doc('IOT Device', name)
 
 	device.has_permission('read')

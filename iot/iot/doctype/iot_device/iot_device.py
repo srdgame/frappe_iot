@@ -161,7 +161,7 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, or
 
 def get_list_context(context=None):
 	return {
-		"show_sidebar": True,
+		"show_sidebar": False,
 		"show_search": True,
 		"no_breadcrumbs": True,
 		"title": _("Your Devices"),
