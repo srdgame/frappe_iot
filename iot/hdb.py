@@ -8,6 +8,8 @@ import json
 import redis
 import requests
 import datetime
+from pytz import timezone
+from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
@@ -89,7 +91,7 @@ def iot_device_data_array(sn=None, vsn=None):
 		tt = hs.get(name + ".TM")
 		timestr = ''
 		if tt:
-			timestr = str(datetime.datetime.fromtimestamp(int(int(tt)/1000)))
+			timestr = str(convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt)/1000))))
 		data.append({
 			"NAME": name,
 			"PV": hs.get(name + ".PV"),
