@@ -91,7 +91,7 @@ def iot_device_data_array(sn=None, vsn=None):
 		tt = hs.get(name + ".TM")
 		timestr = ''
 		if tt:
-			timestr = str(convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt)/1000))))
+			timestr = str(convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt)/1000))).replace(tzinfo=None))
 		data.append({
 			"NAME": name,
 			"PV": hs.get(name + ".PV"),
