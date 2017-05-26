@@ -9,8 +9,5 @@ no_cache = 1
 no_sitemap = 1
 
 def get_context(context):
-	homepage = frappe.get_doc('IOT Homepage')
-
-	context.title = homepage.title or homepage.company
-
-	context.homepage = homepage
+	frappe.local.flags.redirect_location = "/iot_devices"
+	raise frappe.Redirect
