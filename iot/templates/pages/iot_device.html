@@ -14,17 +14,22 @@
 
 {% block page_content %}
 
-<div class="btn btn-success" devname="{{ doc.dev_name }}" devid="{{ doc.name }}">{{ doc.dev_name }}
-</div>
-{% for dev in devices %}
-<div class="btn btn-default" devname="{{ dev.name }}" devid="{{ dev.sn }}">{{ dev.name }}
-</div>
 
-{% endfor %}
 
 
     <div class="col-xs-12 col-sm-12 widget-container-col" id="widget-container-col-2">
-        <div class="widget-box widget-color-grey" id="widget-box-2">
+        <div class="widget-box widget-color-grey">
+            <div class="btn btn-success" devname="{{ doc.dev_name }}" devid="{{ doc.name }}">{{ doc.dev_name }}
+            </div>
+            {% for dev in devices %}
+            <div class="btn btn-default" devname="{{ dev.name }}" devid="{{ dev.sn }}">{{ dev.name }}
+            </div>
+
+            {% endfor %}
+
+            <hr width=100% size=1>
+        </div>
+        <div class="widget-box widget-color-grey">
             <div class="col-xs-12 col-sm-4">
                 <h1 class="widget-title bigger lighter" id="devname">
                     {{_('NAME:')}}{{ doc.dev_name }}
@@ -35,6 +40,7 @@
                     {{_('SN:')}}{{ doc.name }}
                 </h1>
             </div>
+            <hr width=100% size=1>
 
             <table id="example"  class="display responsive nowrap tooltip-options" data-toggle="tooltip" cellspacing="0" width="100%" title="<h2>双击查看历史数据</h2>">
                 <thead>
