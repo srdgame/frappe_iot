@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="cn">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>历史数据</title>
+
+		<meta name="description" content="frequently asked questions using tabs and accordions" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="/assets/iot/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/assets/iot/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+		<!-- page specific plugin styles -->
+
+		<!-- text fonts -->
+
+
+        <link type="text/css" rel="stylesheet" href="/assets/sskl_webui/assets/css/jquery.dataTables.min.css">
+        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+        <link rel="stylesheet" href="/assets/sskl_webui/assets/css/jquery.datetimepicker.css" />
+
+        <!--[if !IE]> -->
+		<script src="/assets/iot/js/jquery-2.1.4.min.js"></script>
+
+		<!-- <![endif]-->
+		<!--[if IE]>
+		<script src="/assets/iot/js/jquery-1.11.3.min.js"></script>
+
+        <![endif]-->
+
+
+
+		<script src="/assets/iot/js/bootstrap.min.js"></script>
+		<script src="/assets/iot/js/jquery.dataTables.min.js"></script>
+		<script src="/assets/iot/js/jquery.dataTables.bootstrap.min.js"></script>
+        <script src="/assets/iot/js/dataTables.responsive.min.js"></script>
+		<script src="/assets/iot/js/jquery.datetimepicker.full.js"></script>
+		<script src="/assets/iot/js/canvasjs.min.js"></script>
+	</head>
+<body class="no-skin" style="margin: 10px;padding: 0px;">
+<div>
+	<h3>
+		设备{% if vsn %}{{vsn}}{% else %}{{sn}}{% endif %}中的标签{{tag}}的历史数据
+	</h3>
+	<div style="clear:both">
+
+		<button id="buttona" class="btn btn-default">
+			<span class="glyphicon glyphicon-refresh" aria-hidden="true">
+			</span>前10分钟
+		</button>
+
+		<button id="buttonb" class="btn btn-default">
+			<span class="glyphicon glyphicon-refresh" aria-hidden="true">
+			</span>前20分钟
+		</button>
+
+		<button id="buttonc" class="btn btn-default">
+			<span class="glyphicon glyphicon-refresh" aria-hidden="true">
+			</span>前60分钟
+		</button>
+
+		<div style="float:right">
+
+			<input type="text" class="some_class" value="" placeholder="开始时间:" id="some_1"/>
+
+			<input type="text" class="some_class" value="" placeholder="结束时间:" id="some_2"/>
+
+
+
+			<button id="buttonquery" class="btn btn-default">
+				<span class="glyphicon glyphicon-refresh" aria-hidden="true">
+				</span>查询
+			</button>
+
+			<button id="buttonswitch" class="btn btn-default">
+				<span class="glyphicon glyphicon-refresh" aria-hidden="true">
+				</span>切换为曲线
+			</button>
+
+		</div>
+
+	</div>
+
+	<div id="hisTableContainer" style="float:left;width: 100%">
+		<table width="100%" class="display responsive nowrap" id="example">
+		<thead>
+			<tr>
+				<th>时间</th>
+				<th>数值</th>
+				<th>质量</th>
+				<th>名称</th>
+			</tr>
+		</thead>
+
+		</table>
+	</div>
+
+	<div id="chartContainer" style="float:left;width: 100%;height: 100%;display: none;">
+	</div>
+</div>
+<script>
+    var sn = "{{sn}}";
+    var vsn = "{{vsn}}";
+    var tag = "{{tag}}";
+    var curveshow = false;
+    var fulldataurl="";
+
+function strtotime(str){
+    var _arr = str.split(' ');
+    var _day = _arr[0].split('-');
+    _arr[1] = (_arr[1] == null) ? '0:0:0' :_arr[1];
+    var _time = _arr[1].split(':');
+    for (var i = _day.length - 1; i >= 0; i--) {
+        _day[i] = isNaN(parseInt(_day[i])) ? 0 :parseInt(_day[i]);
+    };
+    for (var i = _time.length - 1; i >= 0; i--) {
+        _time[i] = isNaN(parseInt(_time[i])) ? 0 :parseInt(_time[i]);
+    };
+    var _temp = new Date(_day[0],_day[1]-1,_day[2],_time[0],_time[1],_time[2]);
+    return _temp.getTime();
+}
+
+function creatcurve(url) {
+	  $.ajax({url:url,async:true,success:function(r)
+	{
+		hisval = r.message;
+		console.log(hisval);
+		var arrayXY = new Array();
+		if(hisval.length>1){
+		    for(i in hisval){
+				var xyobj = new Object();
+				xyobj.x = strtotime(hisval[i].time);
+				xyobj.y = hisval[i].value;
+				arrayXY.push(xyobj);
+			}
+		}
+
+		//console.log(arrayXY);
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",
+		zoomEnabled: true,
+		animationEnabled: true,
+		title: {
+			text: "原始值"
+		},
+		subtitles:[
+			{   text: "{{tag}}" }
+		],
+		axisX:{
+		  valueFormatString: "YYYY/MM/DD HH:mm:ss",
+		},
+
+		data: [
+		{
+			type: "spline",
+			xValueType: "dateTime",
+			dataPoints: arrayXY
+		}
+		]
+	});
+	chart.render();
+
+	},
+		error : function() {
+		console.log("SN或VSN错误");
+		}
+	});
+}
+
+$(document).ready(function() {
+    var dataSet = [];
+	$('.some_class').datetimepicker();
+    var dataurl="";
+      if(vsn!="None"){
+        dataurl = "/api/method/iot.iot_tag_hisquery.taghisdata?sn="+sn+"&vsn="+vsn+"&condition=aa='"+tag.toLowerCase()+"'";
+      }
+      else{
+        dataurl = "/api/method/iot.iot_tag_hisquery.taghisdata?sn="+sn+"&condition=aa='"+tag.toLowerCase()+"'";
+      }
+		fulldataurl = dataurl + "+and+time>now()+-+5m";
+      	//console.log(fulldataurl);
+
+          var table = $('#example').DataTable( {
+                "dom": 'rtp',
+
+                "ajax": {
+                    "url": fulldataurl,
+                    "dataSrc": "message"
+                },
+				"iDisplayLength" : 25,
+                "columns": [
+
+					{ "data": "time" },
+					{ "data": "value" },
+					{ "data": "quality" },
+					{ "data": "name" },
+                ],
+        "columnDefs": [
+            {
+                "targets": [ 1 ],
+                "visible": true
+
+            },
+            {
+                "targets": [ 2 ],
+                "visible": true
+            }
+        ]
+            } );
+
+
+    $.ajax({url:fulldataurl,async:true,success:function(r)
+    {
+
+		//console.log(r.message);
+        //################################################
+        //console.log(symts.tags);
+
+        //################################################
+
+    },
+        error : function() {
+        console.log("SN或VSN错误");
+        }
+    });
+
+	$("#buttona").click(function(){
+		  fulldataurl = dataurl +"+and+time>now()+-+10m";
+		  if(curveshow){
+			creatcurve(fulldataurl);
+		  }
+		  else{
+		  	table.ajax.url(fulldataurl).load();
+		  }
+
+	});
+
+	$("#buttonb").click(function(){
+		  fulldataurl = dataurl +"+and+time>now()+-+20m";
+		  if(curveshow){
+			creatcurve(fulldataurl);
+		  }
+		  else{
+		  	table.ajax.url(fulldataurl).load();
+		  }
+	});
+
+	$("#buttonc").click(function(){
+		  fulldataurl = dataurl +"+and+time>now()+-+60m";
+		  if(curveshow){
+			creatcurve(fulldataurl);
+		  }
+		  else{
+		  	table.ajax.url(fulldataurl).load();
+		  }
+	});
+
+	$("#buttonquery").click(function(){
+		val1 = $("#some_1")[0].value;
+
+		val2 = $("#some_2")[0].value;
+		if(!!val1 && !!val2) {
+
+            var d1 = new Date(val1);
+            var n1 = d1.toISOString();
+            //alert(n1);
+            var d2 = new Date(val2);
+            var n2 = d2.toISOString();
+
+			fulldataurl = dataurl +"AND+time+>=+'"+n1+"'+AND+time+<=+'"+n2+"'"+"+limit+10000";
+			if(curveshow){
+				creatcurve(fulldataurl);
+		  	}
+		  	else{
+		  		table.ajax.url(fulldataurl).load();
+		  }
+        }
+		else
+		{
+		alert("时间段未选择！");
+		}
+	});
+	//table.ajax.url( 'newData.json' ).load();
+
+		$("#buttonswitch").click(function(){
+
+		if(curveshow){
+			$("#hisTableContainer").show();
+			$("#chartContainer").hide();
+			$("#buttonswitch").text("切换为曲线");
+			curveshow = false;
+
+		  	table.ajax.url(fulldataurl).load();
+		}
+		else{
+
+			$("#hisTableContainer").hide();
+			$("#chartContainer").show();
+			$("#buttonswitch").text("切换为列表");
+			curveshow = true;
+			creatcurve(fulldataurl);
+		}
+
+	});
+
+} );
+	</script>
+	</body>
+</html>

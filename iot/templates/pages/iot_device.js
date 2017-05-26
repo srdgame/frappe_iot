@@ -89,10 +89,10 @@ frappe.ready(function() {
 
           if(isvsn){
 
-            hisdataurl = "/S_Tag_His?sn="+symlinksn+"&vsn="+ current_vsn +"&tag="+tnm;
+            hisdataurl = "/iot_tag_his?sn="+symlinksn+"&vsn="+ current_vsn +"&tag="+tnm;
           }
           else{
-            hisdataurl = "/S_Tag_His?sn="+symlinksn+"&tag="+tnm;
+            hisdataurl = "/iot_tag_his?sn="+symlinksn+"&tag="+tnm;
                   }
               console.log(hisdataurl);
               window.open(hisdataurl);
