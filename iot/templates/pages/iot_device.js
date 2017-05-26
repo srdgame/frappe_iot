@@ -2,7 +2,9 @@ var refflag = 0;
 var symlinksn = '{{ doc.sn }}';
 var devices = {{ vsn }};
 var id = '';
-var rtvalueurl = ';'
+var isvsn = false;
+var current_vsn = '';
+var rtvalueurl = ';';
 
 console.log(symlinksn);
 console.log(devices);
@@ -57,9 +59,13 @@ frappe.ready(function() {
                   console.log(name, id);
                   if(id==symlinksn){
                       var rtvalueurl = "/api/method/iot.hdb.iot_device_data_array?sn=" + symlinksn;
+                      isvsn = false;
+                      vsn = '';
                   }
                   else{
                       var rtvalueurl = "/api/method/iot.hdb.iot_device_data_array?sn=" + symlinksn + "&vsn=" + id;
+                      isvsn = true;
+                      vsn = id;
                   }
 
                   console.log(rtvalueurl);
@@ -71,6 +77,26 @@ frappe.ready(function() {
               });
           });
     //点击按钮
+
+    //双击表格行
+      $('#example tbody').on('dblclick', 'tr', function () {
+        var data = table.row( this ).data();
+        console.log(data['NAME']);
+        tnm = data['NAME'].toLowerCase();
+        //window.location.href="/S_Station_infox/"+data['name'];
+
+          if(isvsn){
+
+            hisdataurl = "/S_Tag_His?sn="+symlinksn+"&vsn="+ current_vsn +"&tag="+tnm;
+          }
+          else{
+            hisdataurl = "/S_Tag_His?sn="+symlinksn+"&tag="+tnm;
+                  }
+              console.log(hisdataurl);
+              window.open(hisdataurl);
+
+    } );
+    //双击表格行
 });
 
 
