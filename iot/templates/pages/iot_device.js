@@ -60,12 +60,12 @@ frappe.ready(function() {
                   if(id==symlinksn){
                       var rtvalueurl = "/api/method/iot.hdb.iot_device_data_array?sn=" + symlinksn;
                       isvsn = false;
-                      vsn = '';
+                      current_vsn = '';
                   }
                   else{
                       var rtvalueurl = "/api/method/iot.hdb.iot_device_data_array?sn=" + symlinksn + "&vsn=" + id;
                       isvsn = true;
-                      vsn = id;
+                      current_vsn = id;
                   }
 
                   console.log(rtvalueurl);
@@ -81,8 +81,10 @@ frappe.ready(function() {
     //双击表格行
       $('#example tbody').on('dblclick', 'tr', function () {
         var data = table.row( this ).data();
-        console.log(data['NAME']);
         tnm = data['NAME'].toLowerCase();
+        console.log(isvsn);
+        console.log(current_vsn);
+        console.log(tnm);
         //window.location.href="/S_Station_infox/"+data['name'];
 
           if(isvsn){
