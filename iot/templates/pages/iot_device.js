@@ -72,7 +72,7 @@ frappe.ready(function() {
                   table.ajax.url(rtvalueurl).load();
                     $($(this).siblings()).removeClass('btn-success');
                     $(this).addClass('btn-success');
-                    $('#devname').html("{{_('NAME')}}"+":"+name);
+                    $('#devname').html("{{_('Name')}}"+":"+name);
                     $('#devsn').html("{{_('SN')}}"+":"+id);
               });
           });
