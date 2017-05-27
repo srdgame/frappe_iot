@@ -161,6 +161,8 @@ DocType: IOT Homepage,System Manager,系统管理员
 DocType: IOT Homepage,TItle,标题
 DocType: IOT Homepage,Tag Line,标签行
 ,Test Page,测试页面
+,TimeStamp,时间戳
+,Quality,质量
 apps/iot/iot/iot_portal/doctype/iot_homepage/iot_homepage.py +13,This is an example website auto-generated from IOT,这是自动生成的物联网示例页面
 DocType: IOT License,Type,类型
 DocType: IOT License Type,Type Description,类型描述
