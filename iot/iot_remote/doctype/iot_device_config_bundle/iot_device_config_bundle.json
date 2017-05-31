@@ -447,10 +447,10 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-05-16 01:16:31.689590", 
+ "modified": "2017-05-31 14:36:26.094104", 
  "modified_by": "Administrator", 
  "module": "IOT Remote", 
- "name": "IOT Config Bundle", 
+ "name": "IOT Device Config Bundle", 
  "name_case": "", 
  "owner": "Administrator", 
  "permissions": [
