@@ -14,6 +14,7 @@ from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from hdb_api import valid_auth_code
 
+
 @frappe.whitelist()
 def redis_status():
 	from iot.doctype.iot_hdb_settings.iot_hdb_settings import get_redis_status
