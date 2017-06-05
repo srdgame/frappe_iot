@@ -9,8 +9,11 @@ import requests
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
+
 UTC_FORMAT1 = "%Y-%m-%dT%H:%M:%S.%fZ"
 UTC_FORMAT2 = "%Y-%m-%dT%H:%M:%SZ"
+
+
 def utc2local(utc_st):
 	now_stamp = time.time()
 	local_time = datetime.datetime.fromtimestamp(now_stamp)
