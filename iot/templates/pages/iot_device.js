@@ -9,7 +9,6 @@ var rtvalueurl = ';';
 console.log(symlinksn);
 console.log(devices);
 
-
 frappe.ready(function() {
     var rtvalueurl = "/api/method/iot.hdb.iot_device_data_array?sn=" + symlinksn;
     var table = jQuery('#example').DataTable({
@@ -102,5 +101,3 @@ frappe.ready(function() {
     //$(function () { $('table .tooltip-show').tooltip('show');});
     $(function () { $("table.tooltip-options").tooltip({html : true });});
 });
-
-
