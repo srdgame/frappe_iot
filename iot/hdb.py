@@ -8,10 +8,11 @@ import json
 import redis
 import requests
 import datetime
+import uuid
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-
+from hdb_api import valid_auth_code
 
 @frappe.whitelist()
 def redis_status():
@@ -23,13 +24,6 @@ def redis_status():
 def influxdb_status():
 	from iot.doctype.iot_hdb_settings.iot_hdb_settings import get_influxdb_status
 	return get_influxdb_status()
-
-
-@frappe.whitelist(allow_guest=True)
-def iot_device_data_hdb(sn=None):
-	# valid_auth_code()
-	sn = sn or frappe.form_dict.get('sn')
-	doc = frappe.get_doc('IOT Device', sn)
 
 
 @frappe.whitelist()
@@ -174,30 +168,52 @@ def fire_callback(cb_url, cb_data):
 
 
 @frappe.whitelist()
-def iot_device_ctrl(ctrl=None):
-	ctrl = ctrl or get_post_json_data()
-	cmds = []
-	for cmd in ctrl:
-		doc = frappe.get_doc('IOT Device', cmd.sn)
-		doc.has_permission("write")
-		cmds.append({
-			"boxname": doc.dev_name,
-			"boxsn": cmd.sn,
-			"ctrl": cmd.ctrl,
-			"tag": cmd.tag,
-			"uflg": cmd.uflg,
-			"val": cmd.val,
-			"vt": cmd.vt
-		})
-	# TODO: Need this
-	#
-	# url = IOTHDBSettings.get_redis_server() + "/iocmd"
-	# session = requests.session()
-	# r = session.post(url, json={
-	# 	"cmds": cmds
-	# })
-	# if r:
-	# 	return r.json();
+def iot_device_write():
+	ctrl = _dict(get_post_json_data())
+	doc = frappe.get_doc('IOT Device', ctrl.sn)
+	doc.has_permission("write")
+	cmd = {
+		"sn": ctrl.vsn,
+		"tag": ctrl.tag,
+		"nrsp": ctrl.nrsp,
+		"vt": ctrl.vt,
+		"val": ctrl.val,
+		"pris": ctrl.pris or uuid.uuid1()
+	}
+
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
+	r = client.publish("ziotagwrites", json.dumps({
+		"cmds": [cmd],
+		"ver": 0
+	}))
+	return {
+		"result": r,
+		"uuid": cmd["pris"]
+	}
+
+
+@frappe.whitelist(allow_guest=True)
+def iot_device_api_write():
+	valid_auth_code()
+	ctrl = _dict(get_post_json_data())
+	cmd = {
+		"sn": ctrl.vsn,
+		"tag": ctrl.tag,
+		"nrsp": ctrl.nrsp,
+		"vt": ctrl.vt,
+		"val": ctrl.val,
+		"pris": ctrl.pris or uuid.uuid1()
+	}
+
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
+	r = client.publish("ziotagwrites", json.dumps({
+		"cmds": [cmd],
+		"ver": 0
+	}))
+	return {
+		"result": r,
+		"uuid": cmd["pris"]
+	}
 
 
 @frappe.whitelist(allow_guest=True)
