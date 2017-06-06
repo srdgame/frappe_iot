@@ -380,6 +380,12 @@ def get_user_session(user):
 
 
 @frappe.whitelist(allow_guest=True)
+def get_license_data(sn=None):
+	valid_auth_code()
+	return frappe.get_value("IOT License", {"name": sn, "enabled": 1}, "license_data")
+
+
+@frappe.whitelist(allow_guest=True)
 def get_time():
 	valid_auth_code()
 	return frappe.utils.now()
