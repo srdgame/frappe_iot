@@ -6,16 +6,16 @@ from __future__ import unicode_literals
 import frappe
 import json
 import redis
-import requests
 import datetime
 import uuid
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from frappe import throw, msgprint, _, _dict
-from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from hdb_api import list_iot_devices
 
 
 def valid_auth_code(auth_code=None):
+	if 'Guest' != frappe.session.user:
+		return
 	auth_code = auth_code or frappe.get_request_header("AuthorizationCode")
 	if not auth_code:
 		throw(_("AuthorizationCode is required in HTTP Header!"))
@@ -35,3 +35,13 @@ def list_devices():
 	valid_auth_code()
 	return list_iot_devices(frappe.session.user)
 
+
+@frappe.whitelist(allow_guest=True)
+def get_user():
+	valid_auth_code()
+	return frappe.session.user
+
+
+@frappe.whitelist(allow_guest=True)
+def gen_uuid():
+	return str(uuid.uuid1())
