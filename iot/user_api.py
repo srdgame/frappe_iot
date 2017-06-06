@@ -44,4 +44,4 @@ def get_user():
 
 @frappe.whitelist(allow_guest=True)
 def gen_uuid():
-	return str(uuid.uuid1())
+	return str(uuid.uuid1()).upper()
