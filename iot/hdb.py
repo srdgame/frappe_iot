@@ -46,18 +46,24 @@ def iot_device_data(sn=None, vsn=None):
 	cfg = iot_device_cfg(sn, vsn)
 	if not cfg:
 		return ""
-	tags = cfg.get("tags")
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/2")
 	hs = client.hgetall(vsn)
 	data = {}
-	for tag in tags:
-		name = tag.get('name')
-		data[name] = {
-			"PV": hs.get(name + ".PV"),
-			"TM": hs.get(name + ".TM"),
-			"Q": hs.get(name + ".Q"),
-			"DESC": tag.get("desc"),
-		}
+	if cfg.has_key("nodes"):
+		nodes = cfg.get("nodes")
+		for node in nodes:
+			tags = node.get("tags")
+			for tag in tags:
+				name = node.get("name")+"."+tag.get('name')
+				data[name] = {"PV": hs.get(name + ".PV"), "TM": hs.get(name + ".TM"), "Q": hs.get(name + ".Q"),
+				              "DESC": tag.get("desc"), }
+
+	if cfg.has_key("tags"):
+		tags = cfg.get("tags")
+		for tag in tags:
+			name = tag.get('name')
+			data[name] = {"PV": hs.get(name + ".PV"), "TM": hs.get(name + ".TM"), "Q": hs.get(name + ".Q"),
+			              "DESC": tag.get("desc"), }
 
 	return data
 
@@ -85,15 +91,10 @@ def iot_device_data_array(sn=None, vsn=None):
 		tt = hs.get(name + ".TM")
 		timestr = ''
 		if tt:
-			timestr = str(convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt)/1000))).replace(tzinfo=None))
-		data.append({
-			"NAME": name,
-			"PV": hs.get(name + ".PV"),
-			#"TM": hs.get(name + ".TM"),
-			"TM": timestr,
-			"Q": hs.get(name + ".Q"),
-			"DESC": tag.get("desc"),
-		})
+			timestr = str(convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt) / 1000))).replace(
+				tzinfo=None))
+		data.append({"NAME": name, "PV": hs.get(name + ".PV"),  # "TM": hs.get(name + ".TM"),
+		             "TM": timestr, "Q": hs.get(name + ".Q"), "DESC": tag.get("desc"), })
 
 	return data
 
@@ -168,7 +169,6 @@ def fire_callback(cb_url, cb_data):
 		frappe.logger(__name__).debug(r.text)
 
 
-@frappe.whitelist()
 def iot_device_write():
 	ctrl = _dict(get_post_json_data())
 	doc = frappe.get_doc('IOT Device', ctrl.sn)
@@ -225,5 +225,3 @@ def ping():
 			form_data = json.loads(form_data.data)
 		return form_data.get("text") or "No Text"
 	return 'pong'
-
-
