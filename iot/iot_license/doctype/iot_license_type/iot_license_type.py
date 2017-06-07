@@ -8,3 +8,8 @@ from frappe.model.document import Document
 
 class IOTLicenseType(Document):
 	pass
+
+
+@frappe.whitelist()
+def query_plugin_list(type):
+	return [d.name for d in frappe.get_list("IOT License Plugin", fields=["name"], filters={"plugin_type":type})]
