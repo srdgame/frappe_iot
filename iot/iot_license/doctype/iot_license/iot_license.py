@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 
+
 class IOTLicense(Document):
 	def validate(self):
-		self.type_value = frappe.get_value("IOT License Type", self.type, "value")
+		self.license_data = str(self.expire_date) + " AAAA"
