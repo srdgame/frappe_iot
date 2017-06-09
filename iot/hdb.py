@@ -157,22 +157,11 @@ def get_post_json_data():
 	return json.loads(frappe.form_dict.data)
 
 
-def fire_callback(cb_url, cb_data):
-	frappe.logger(__name__).debug("HDB Fire Callback with data:")
-	frappe.logger(__name__).debug(cb_data)
-	session = requests.session()
-	r = session.post(cb_url, json=cb_data)
-
-	if r.status_code != 200:
-		frappe.logger(__name__).error(r.text)
-	else:
-		frappe.logger(__name__).debug(r.text)
-
-
+@frappe.whitelist()
 def iot_device_write():
 	ctrl = _dict(get_post_json_data())
 	doc = frappe.get_doc('IOT Device', ctrl.sn)
-	doc.has_permission("write")
+	doc.has_permission("read")
 	cmd = {
 		"sn": ctrl.vsn,
 		"tag": ctrl.tag,
@@ -196,25 +185,7 @@ def iot_device_write():
 @frappe.whitelist(allow_guest=True)
 def iot_device_api_write():
 	valid_auth_code()
-	ctrl = _dict(get_post_json_data())
-	cmd = {
-		"sn": ctrl.vsn,
-		"tag": ctrl.tag,
-		"nrsp": ctrl.nrsp,
-		"vt": ctrl.vt,
-		"val": ctrl.val,
-		"pris": ctrl.pris or uuid.uuid1()
-	}
-
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
-	r = client.publish("ziotagwrites", json.dumps({
-		"cmds": [cmd],
-		"ver": 0
-	}))
-	return {
-		"result": r,
-		"uuid": cmd["pris"]
-	}
+	return iot_device_write()
 
 
 @frappe.whitelist(allow_guest=True)

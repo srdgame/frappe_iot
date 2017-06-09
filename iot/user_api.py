@@ -8,9 +8,9 @@ import json
 import redis
 import datetime
 import uuid
+import hdb_api
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from frappe import throw, msgprint, _, _dict
-from hdb_api import list_iot_devices
 
 
 def valid_auth_code(auth_code=None):
@@ -31,12 +31,6 @@ def valid_auth_code(auth_code=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def list_devices():
-	valid_auth_code()
-	return list_iot_devices(frappe.session.user)
-
-
-@frappe.whitelist(allow_guest=True)
 def get_user():
 	valid_auth_code()
 	return frappe.session.user
@@ -45,3 +39,45 @@ def get_user():
 @frappe.whitelist(allow_guest=True)
 def gen_uuid():
 	return str(uuid.uuid1()).upper()
+
+
+@frappe.whitelist(allow_guest=True)
+def list_devices():
+	valid_auth_code()
+	return hdb_api.list_iot_devices(frappe.session.user)
+
+
+@frappe.whitelist(allow_guest=True)
+def iot_device_tree(sn=None):
+	valid_auth_code()
+	return hdb_api.iot_device_tree(sn)
+
+
+@frappe.whitelist(allow_guest=True)
+def iot_device_cfg(sn=None, vsn=None):
+	valid_auth_code()
+	return hdb_api.iot_device_cfg(sn, vsn)
+
+
+@frappe.whitelist(allow_guest=True)
+def iot_device_data(sn=None, vsn=None):
+	valid_auth_code()
+	return hdb_api.iot_device_data(sn, vsn)
+
+
+@frappe.whitelist(allow_guest=True)
+def iot_device_data_array(sn=None, vsn=None):
+	valid_auth_code()
+	return hdb_api.iot_device_data_array(sn, vsn)
+
+
+@frappe.whitelist(allow_guest=True)
+def iot_device_his_data(sn=None, vsn=None, fields=None, condition=None):
+	valid_auth_code()
+	return hdb_api.iot_device_his_data(sn, vsn)
+
+
+@frappe.whitelist(allow_guest=True)
+def iot_device_write():
+	valid_auth_code()
+	return hdb_api.iot_device_write()
