@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import requests
+from frappe import _, throw
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 def after_insert(doc, method):
@@ -17,6 +18,6 @@ def after_insert(doc, method):
 
 	if r.status_code != 200:
 		frappe.logger(__name__).error(r.text)
-		frappe.throw(r.text)
+		throw(r.text)
 	else:
 		frappe.logger(__name__).debug(r.text)
