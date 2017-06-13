@@ -104,7 +104,7 @@ def list_iot_devices(user):
 		sn_list = []
 		for c in bunch_codes:
 			sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
-			ent_devices.append({"group": g.name, "devices": sn_list, "role": g.role})
+		ent_devices.append({"group": g.name, "devices": sn_list, "role": g.role})
 
 	# Get Shared Devices
 	shd_devices = []
