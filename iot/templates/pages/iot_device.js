@@ -4,7 +4,7 @@ var devices = {{ vsn }};
 var id = '';
 var isvsn = false;
 var current_vsn = '';
-var rtvalueurl = ';';
+var rtvalueurl = '';
 
 console.log(symlinksn);
 console.log(devices);
