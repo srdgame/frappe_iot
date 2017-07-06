@@ -82,19 +82,38 @@ def iot_device_data_array(sn=None, vsn=None):
 	cfg = iot_device_cfg(sn, vsn)
 	if not cfg:
 		return ""
-	tags = cfg.get("tags")
+
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/2")
 	hs = client.hgetall(vsn)
 	data = []
-	for tag in tags:
-		name = tag.get('name')
-		tt = hs.get(name + ".TM")
-		timestr = ''
-		if tt:
-			timestr = str(convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt) / 1000))).replace(
-				tzinfo=None))
-		data.append({"NAME": name, "PV": hs.get(name + ".PV"),  # "TM": hs.get(name + ".TM"),
-		             "TM": timestr, "Q": hs.get(name + ".Q"), "DESC": tag.get("desc"), })
+
+	if cfg.has_key("nodes"):
+		nodes = cfg.get("nodes")
+		for node in nodes:
+			tags = node.get("tags")
+			for tag in tags:
+				name = tag.get('name')
+				tt = hs.get(name + ".TM")
+				timestr = ''
+				if tt:
+					timestr = str(
+						convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt) / 1000))).replace(
+							tzinfo=None))
+				data.append({"NAME": name, "PV": hs.get(name + ".PV"),  # "TM": hs.get(name + ".TM"),
+				             "TM": timestr, "Q": hs.get(name + ".Q"), "DESC": tag.get("desc"), })
+
+	if cfg.has_key("tags"):
+		tags = cfg.get("tags")
+		for tag in tags:
+			name = tag.get('name')
+			tt = hs.get(name + ".TM")
+			timestr = ''
+			if tt:
+				timestr = str(
+					convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt) / 1000))).replace(
+						tzinfo=None))
+			data.append({"NAME": name, "PV": hs.get(name + ".PV"),  # "TM": hs.get(name + ".TM"),
+			             "TM": timestr, "Q": hs.get(name + ".Q"), "DESC": tag.get("desc"), })
 
 	return data
 
