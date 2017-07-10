@@ -13,9 +13,10 @@ def after_insert(doc, method):
 	frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=doc.domain)
 
 
-def create_influxdb(db_name, sleep=None):
+def create_influxdb(db_name, max_retry=10, sleep=None):
 	if sleep:
 		time.sleep(sleep)
+	max_retry = max_retry - 1
 
 	inf_server = IOTHDBSettings.get_influxdb_server()
 	if not inf_server:
@@ -27,11 +28,13 @@ def create_influxdb(db_name, sleep=None):
 
 		if r.status_code != 200:
 			frappe.logger(__name__).error(r.text)
-			frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=db_name, sleep=60)
+			if max_retry > 0:
+				frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=db_name, max_retry=max_retry, sleep=60)
 			throw(r.text)
 		else:
 			frappe.logger(__name__).debug(r.text)
 	except Exception as ex:
 		frappe.logger(__name__).error(ex.message)
-		frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=db_name, sleep=60)
+		if max_retry > 0:
+			frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=db_name, max_retry=max_retry, sleep=60)
 		throw(ex.message)
