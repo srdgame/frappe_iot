@@ -22,11 +22,12 @@ class IOTDevice(Document):
 		self.set("last_updated", now())
 		self.save()
 
-	def update_bunch(self, bunch):
-		""" update device bunch code """
-		if self.bunch == bunch:
+	def update_owner(self, owner_type, owner_id):
+		""" update device owner """
+		if self.owner_type == owner_type and self.owner_id == owner_id:
 			return
-		self.set("bunch", bunch)
+		self.set("owner_type", owner_type)
+		self.set("owner_id", owner_id)
 		self.save()
 
 	def update_hdb(self, hdb):
@@ -52,8 +53,8 @@ class IOTDevice(Document):
 		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
 
 	@staticmethod
-	def list_device_sn_by_bunch(bunch):
-		return [d[0] for d in frappe.db.get_values("IOT Device", {"bunch": bunch}, "sn")]
+	def list_device_sn_by_owner(owner_id):
+		return [d[0] for d in frappe.db.get_values("IOT Device", {"owner_id": owner_id}, "sn")]
 
 	@staticmethod
 	def get_device_doc(sn):
@@ -68,34 +69,30 @@ class IOTDevice(Document):
 		return dev
 
 	@staticmethod
-	def find_owners_by_bunch(bunch):
+	def find_owners(owner_type, owner_id):
 		from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users
 
-		if not bunch:
+		if not owner_id:
 			return []
-		code = frappe.get_doc("IOT Device Bunch", bunch)
 
-		id = code.get("owner_id")
-		if code.get("owner_type") == "User":
+		if owner_type == "User":
 			return [id]
 
-		if code.get("owner_type") == "Cloud Company Group":
-			return [user.name for user in list_users(code.get("owner_id"))]
+		if owner_type == "Cloud Company Group":
+			return [user.name for user in list_users(owner_id)]
 
 		raise Exception("You should got here!")
 
 	def __get_company(self):
 		from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
 
-		if not self.bunch:
+		if not self.owner_id:
 			return CloudSettings.get_default_company()
-		bunch = frappe.get_doc("IOT Device Bunch", self.bunch)
-		if not bunch:
-			return None
-		if bunch.owner_type == "User":
+
+		if self.owner_type == "User":
 			return CloudSettings.get_default_company()
 		else:
-			return frappe.get_value(bunch.owner_type, bunch.owner_id, "company")
+			return frappe.get_value(self.owner_type, self.owner_id, "company")
 
 
 def get_permission_query_conditions(user):
@@ -129,12 +126,11 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, or
 
 	groups = [d.name for d in list_user_groups(frappe.session.user)]
 	if len(groups) == 0:
-		return frappe.db.sql('''select distinct device.*
-			from `tabIOT Device` device, `tabIOT Device Bunch` bunch_code 
+		return frappe.db.sql('''select *
+			from `tabIOT Device` 
 			where
-				(bunch_code.owner_type = "User"
-				and bunch_code.owner_id = %(user)s
-				and bunch_code.code = device.bunch)
+				`tabIOT Device`.owner_type = "User"
+				and `tabIOT Device`.owner_id = %(user)s
 				order by device.{0}
 				limit {1}, {2}
 			'''.format(order_by, limit_start, limit_page_length),
@@ -142,15 +138,13 @@ def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, or
 				as_dict=True,
 				update={'doctype':'IOT Device'})
 
-	return frappe.db.sql('''select distinct device.*
-		from `tabIOT Device` device, `tabIOT Device Bunch` bunch_code 
+	return frappe.db.sql('''select *
+		from `tabIOT Device`
 		where
-			(bunch_code.owner_type = "User"
-			and bunch_code.owner_id = %(user)s
-			and bunch_code.code = device.bunch)
-			or (bunch_code.owner_type = "Cloud Company Group"
-			and bunch_code.owner_id in {3}
-			and bunch_code.code = device.bunch)
+			(`tabIOT Device`.owner_type = "User"
+			and `tabIOT Device`.owner_id = %(user)s)
+			or (`tabIOT Device`.owner_type = "Cloud Company Group"
+			and `tabIOT Device`.owner_id in {3})
 			order by device.{0}
 			limit {1}, {2}
 		'''.format(order_by, limit_start, limit_page_length, "('"+"','".join(groups)+"')"),

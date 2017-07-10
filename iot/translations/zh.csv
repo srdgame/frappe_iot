@@ -1,5 +1,4 @@
 apps/iot/iot/user_api.py +22,API AuthorizationCode as {0},
-apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +40,Add bunch code {0} to {1}:{2},添加绑定码 {0} 到 {1}:{2}
 DocType: IOT Homepage,Administrator,超级管理员
 DocType: IOT Device Error,Amended From,修订源
 DocType: IOT HDB Settings,Authorization Code,验证码
@@ -9,10 +8,8 @@ apps/iot/iot/templates/pages/iot_me.py +32,Back,后退
 DocType: IOT Device Config Bundle,Batch Add,批量添加
 DocType: IOT Device,Bunch,绑定码
 DocType: IOT Device Config Bundle,Bunch Code,绑定码
-apps/iot/iot/templates/pages/iot_device_bunch.js +30,Bunch Code Inserted,绑定码新增成功
 DocType: IOT Device Config Bundle,Bunch Code Settings,绑定码设定
 apps/iot/iot/templates/pages/iot_company_group.html +12,Bunch Codes,绑定码列表
-apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +43,Bunch code already exists!,绑定码重复
 DocType: IOT Device Config Bundle,Bundle Name,批量名称
 apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +20,Cannot add your employee {0} into shared group,不能添加公司员工{0}到共享组
 DocType: IOT Device Error,Close,关闭
@@ -27,8 +24,6 @@ DocType: IOT Device Config,Config File,配置文件
 DocType: IOT Config,Config Name,配置名称
 DocType: IOT Device Config Bundle,Config Settings,配置设定
 DocType: IOT Device Config Bundle,Config Version,配置版本
-apps/iot/iot/templates/pages/iot_device_bunch.html +62,Create for,创建
-apps/iot/iot/templates/pages/iot_device_bunch.html +49,Creation,创建时间
 DocType: IOT HDB Settings,Default Bunch Code,默认设备绑定码
 apps/iot/iot/iot/doctype/iot_hdb_settings/iot_hdb_settings.py +17,Default Bunch Code Missing,默认设备绑定码缺失
 DocType: IOT Device,Description,描述
@@ -42,8 +37,6 @@ apps/iot/iot/iot/doctype/iot_device/iot_device.py +67,Device {0} does not exits!
 apps/iot/iot/iot/doctype/iot_share_group/iot_share_group.py +24,Device {0} is not belongs to company {1},设备{0}不属于公司{1}
 apps/iot/iot/hdb_api.py +365,Device {0} not found.,设备{0}不存在。
 DocType: IOT Share Group,Devices,设备列表
-apps/iot/iot/templates/pages/iot_device_bunch.html +25,Edit,编辑
-apps/iot/iot/templates/pages/iot_device_bunch.html +77,Enable,启用
 DocType: IOT HDB Settings,Enable Default Bunch Code,启用默认绑定码
 DocType: IOT Device,Enabled,启用
 DocType: IOT Device Error,Error Info,错误信息
@@ -101,7 +94,6 @@ DocType: IOT Device,Last Updated,最后更新时间
 DocType: IOT Device,Latitude,维度
 apps/iot/iot/hdb_api.py +92,List Devices for user {0},属于用户 {0} 的设备列表
 DocType: IOT Device,Longitude,经度
-apps/iot/iot/templates/pages/iot_device_bunch.html +53,Modified,编辑时间
 apps/iot/iot/templates/pages/iot_me.html +52,More,更多
 apps/iot/iot/templates/pages/iot_me.html +3,My IOT Account,IOT 账户
 DocType: IOT Device,Name,名称
@@ -153,7 +145,6 @@ DocType: IOT Homepage,Tag Line,标签行
 ,Test Page,测试页面
 apps/iot/iot/iot_portal/doctype/iot_homepage/iot_homepage.py +13,This is an example website auto-generated from IOT,这是自动生成的物联网示例页面
 apps/iot/iot/templates/pages/iot_device.html +50,TimeStamp,时间戳
-apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +68,Update device bunch code {0} name to {1},更新设备绑定码名称 {0} → {1}
 DocType: IOT Device Bunch,User,用户
 apps/iot/iot/templates/pages/iot_me.html +23,Username,用户名
 apps/iot/iot/hdb_api.py +84,Username password is not matched!,用户名密码不匹配
@@ -161,9 +152,7 @@ DocType: IOT Share Group,Users,用户列表
 apps/iot/iot/templates/pages/iot_device.html +51,Value,值
 DocType: IOT Config File,Version,版本
 DocType: IOT Device Error,Wechat Notify,微信通知
-apps/iot/iot/iot/doctype/iot_device_bunch/iot_device_bunch.py +33,You are not an IOT User,您不是IOT用户
 apps/iot/iot/iot/doctype/iot_device/iot_device.py +167,Your Devices,您的设备列表
-apps/iot/iot/templates/pages/iot_device_bunch.py +43,Your IOT Account,您的IOT账户
 DocType: IOT HDB Settings,e.g. http://[username]:[password]@10.0.0.164:8086 or http://10.0.0.164:8086  or 10.0.0.164,
 DocType: IOT HDB Settings,e.g. redis://:password@10.0.0.164:6379 redis://10.0.0.164:6379  or 10.0.0.164,
 DocType: IOT Device,hdb,存储路径

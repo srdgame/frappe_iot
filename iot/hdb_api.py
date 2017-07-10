@@ -96,14 +96,11 @@ def list_iot_devices(user):
 	groups = _list_user_groups(user)
 	companies = list_user_companies(user)
 	for g in groups:
-		bunch_codes = [d[0] for d in frappe.db.get_values("IOT Device Bunch", {
+		sn_list = [d[0] for d in frappe.db.get_values("IOT Device", {
 			"owner_id": g.name,
 			"owner_type": "Cloud Company Group"
-		}, "code")]
+		}, "sn")]
 
-		sn_list = []
-		for c in bunch_codes:
-			sn_list.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
 		ent_devices.append({"group": g.name, "devices": sn_list, "role": g.role})
 
 	# Get Shared Devices
@@ -120,11 +117,7 @@ def list_iot_devices(user):
 		shd_devices.append({"group": shared_group, "devices": dev_list, "role": role})
 
 	# Get Private Devices
-	bunch_codes = [d[0] for d in
-					frappe.db.get_values("IOT Device Bunch", {"owner_id": user, "owner_type": "User"}, "code")]
-	pri_devices = []
-	for c in bunch_codes:
-		pri_devices.append({"bunch": c, "sn": IOTDevice.list_device_sn_by_bunch(c)})
+	pri_devices = [d[0] for d in frappe.db.get_values("IOT Device", {"owner_id": user, "owner_type": "User"}, "sn")]
 
 	devices = {
 		"company_devices": ent_devices,
@@ -194,21 +187,21 @@ def __generate_hdb(dev):
 	return dev
 
 
-def on_device_bunch_update(device, org_bunch=None):
-	url = None #IOTHDBSettings.get_redis_url()
-	print(device.sn, device.bunch)
+def on_device_owner_update(device, org_owner_type=None, org_owner=None):
+	url = None #IOTHDBSettings.get_redis_url() // TODO: FixMe
+	print(device.sn, device.owner_id)
 	if url:
 		""" Fire callback data """
 		cb_data = {
 			'cmd': 'add_device',
 			'sn': device.sn,
 		}
-		if org_bunch is not None:
+		if org_owner is not None:
 			cb_data['cmd'] = 'update_device'
-			cb_data['add_users'] = IOTDevice.find_owners_by_bunch(device.bunch)
-			cb_data['del_users'] = IOTDevice.find_owners_by_bunch(org_bunch)
+			cb_data['add_users'] = IOTDevice.find_owners(device.owner_type, device.owner_id)
+			cb_data['del_users'] = IOTDevice.find_owners(org_owner_type, org_owner)
 		else:
-			cb_data['users'] = IOTDevice.find_owners_by_bunch(device.bunch)
+			cb_data['users'] = IOTDevice.find_owners(device.owner_type, device.owner_id)
 		print('------------------------------------------')
 		print(json.dumps(cb_data))
 		print('------------------------------------------')
@@ -218,9 +211,8 @@ def on_device_bunch_update(device, org_bunch=None):
 def add_device(device_data=None):
 	valid_auth_code()
 	device = device_data or get_post_json_data()
+
 	sn = device.get("sn")
-	if IOTHDBSettings.is_default_bunch_enabled() and not device.get("bunch"):
-		device["bunch"] = IOTHDBSettings.get_default_bunch()
 	if not sn:
 		throw(_("Request fields not found. fields: sn"))
 
@@ -232,7 +224,7 @@ def add_device(device_data=None):
 	})
 	dev = frappe.get_doc(device).insert()
 
-	frappe.enqueue('iot.hdb_api.on_device_bunch_update', device = dev)
+	frappe.enqueue('iot.hdb_api.on_device_owner_update', device = dev)
 
 	return __generate_hdb(dev)
 
@@ -244,15 +236,16 @@ def update_device():
 	dev = add_device(device_data=data)
 	if dev.dev_name != data.get("dev_name"):
 		dev.update_dev_name(data.get("dev_name"))
-	update_device_bunch(device_data=data)
+	update_device_owner(device_data=data)
 	return update_device_status(device_data=data)
 
 
 @frappe.whitelist(allow_guest=True)
-def update_device_bunch(device_data=None):
+def update_device_owner(device_data=None):
 	valid_auth_code()
 	data = device_data or get_post_json_data()
-	bunch = data.get("bunch")
+	owner_id = data.get("owner_id")
+	owner_type = data.get("owner_type")
 	sn = data.get("sn")
 	if sn is None:
 		throw(_("Request fields not found. fields: sn"))
@@ -261,17 +254,16 @@ def update_device_bunch(device_data=None):
 	if not dev:
 		throw(_("Device is not found. SN:{0}").format(sn))
 
-	if bunch == "":
-		bunch = None
-	if IOTHDBSettings.is_default_bunch_enabled() and not bunch:
-		bunch = IOTHDBSettings.get_default_bunch()
-	if dev.bunch == bunch:
+	if owner_id == "":
+		owner_id = None
+	if dev.owner_id == owner_id:
 		return __generate_hdb(dev)
 
-	org_bunch = dev.bunch
-	dev.update_bunch(bunch)
+	org_owner = dev.owner_id
+	org_owner_type = dev.owner_type
+	dev.update_owner(owner_type, owner_id)
 
-	frappe.enqueue('iot.hdb_api.on_device_bunch_update', device = dev, org_bunch = org_bunch)
+	frappe.enqueue('iot.hdb_api.on_device_owner_update', device = dev, org_owner_type=org_owner_type, org_owner = org_owner)
 
 	return __generate_hdb(dev)
 

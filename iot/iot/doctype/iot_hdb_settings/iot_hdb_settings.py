@@ -12,10 +12,6 @@ from frappe.model.document import Document
 
 
 class IOTHDBSettings(Document):
-	def validate(self):
-		if self.enable_default_bunch_code and not self.default_bunch_code:
-			throw(_("Default Bunch Code Missing"))
-
 	def update_redis_status(self, status):
 		self.redis_status = status
 		self.redis_updated = frappe.utils.now()
@@ -54,14 +50,6 @@ class IOTHDBSettings(Document):
 		if not url:
 			return None
 		return gen_server_url(url, "http", 8086)
-
-	@staticmethod
-	def get_default_bunch():
-		return frappe.db.get_single_value("IOT HDB Settings", "default_bunch_code")
-
-	@staticmethod
-	def is_default_bunch_enabled():
-		return frappe.db.get_single_value("IOT HDB Settings", "enable_default_bunch_code")
 
 
 def gen_server_url(server, protocol, port):

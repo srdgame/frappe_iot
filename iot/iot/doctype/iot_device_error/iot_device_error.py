@@ -52,21 +52,11 @@ def wechat_notify_by_name(err_name, err_doc=None):
 	err_doc = err_doc or frappe.get_doc("IOT Device Error", err_name)
 
 	if err_doc.status in ["New", "Open"]:
-		user_list = []
-		bunch = frappe.db.get_value("IOT Device", err_doc.device, "bunch")
-		if bunch is None:
-			print("No user binded")
-			return
-
-		bunch_doc = frappe.get_doc("IOT Device Bunch", bunch)
-		if bunch_doc.owner_type == "Cloud Company Group":
-			print("Cloud Company Group", bunch_doc.owner_id)
-			user_list = [d.name for d in list_users(bunch_doc.owner_id)]
-		else:
-			user_list.append(bunch_doc.owner_id)
+		doc = frappe.get_doc("IOT Device", err_doc.device)
+		user_list = doc.find_owners(doc.owner_type, doc.owner_id)
 
 		if len(user_list) > 0:
-			app = get_wechat_app(bunch_doc.get_company())
+			app = get_wechat_app(doc.company)
 			if app:
 				from wechat.api import send_doc
 				send_doc(app, 'IOT Device Error', err_doc.name, user_list)
