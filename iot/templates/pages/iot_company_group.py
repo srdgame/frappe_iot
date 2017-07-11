@@ -15,22 +15,20 @@ def get_context(context):
 	cloud_get_context(context)
 
 	context.parents = [{"title": context.doc.group_name, "route": "/iot_companies/" + context.doc.company}]
-	#context.doc.bunch_codes = get_bunch_codes(name, start=0, search=frappe.form_dict.get("search"))
+	context.doc.devices = get_iot_devices(name, start=0, search=frappe.form_dict.get("search"))
 
 
-'''
-def get_bunch_codes(group, start=0, search=None):
+def get_iot_devices(group, start=0, search=None):
 	filters = {
 		"owner_type": "Cloud Company Group",
 		"owner_id": group
 	}
 	if search:
-		filters["bunch_name"] = ("like", "%{0}%".format(search))
+		filters["dev_name"] = ("like", "%{0}%".format(search))
 
-	bunch_codes = frappe.get_all("IOT Device Bunch", filters=filters,
-		fields=["name", "bunch_name", "code", "modified", "creation"],
+	devices = frappe.get_all("IOT Device", filters=filters,
+		fields=["sn", "dev_name", "description", "hdb", "creation", "last_updated"],
 		limit_start=start, limit_page_length=10)
 
 
-	return bunch_codes
-'''
+	return devices

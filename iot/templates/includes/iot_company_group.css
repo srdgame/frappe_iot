@@ -1,18 +1,18 @@
 /* CSS used here will be applied after bootstrap.css */
 
-.bunch-code-subject, .group-subject
+.device-subject, .group-subject
 {
 	margin: 0px;
 }
 
-.bunch-code-link, .user-link {
+.device-link, .user-link {
 	font-weight: bold;
 }
 
-.bunch-code-link.seen, .user-link.seen {
+.device-link.seen, .user-link.seen {
 	font-weight: normal;
 }
 
-.bunch-code-btn, .user-btn{
+.device-btn, .user-btn{
 	padding: 8px;
 }

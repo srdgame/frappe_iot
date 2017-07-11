@@ -8,10 +8,10 @@ import json
 from frappe import _
 
 
-def get_user_bunch_codes(user):
-	return frappe.get_all("IOT Device Bunch",
-						  filters={"owner_type" : "User", "owner_id": user},
-						  fields=["name", "bunch_name", "code", "modified", "creation"])
+def get_user_devices(user):
+	return frappe.get_all("IOT Device",
+						filters={"owner_type": "User", "owner_id": user},
+						fields=["sn", "dev_name", "description", "hdb", "creation", "last_updated"])
 
 
 def get_context(context):
@@ -34,5 +34,5 @@ def get_context(context):
 	context.doc = {
 		"companies": list_user_companies(frappe.session.user),
 		"groups": list_user_groups(frappe.session.user),
-		"bunch_codes": get_user_bunch_codes(frappe.session.user)
+		"devices": get_user_devices(frappe.session.user)
 	}

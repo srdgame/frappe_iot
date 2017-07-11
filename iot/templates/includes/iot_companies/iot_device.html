@@ -1,0 +1,27 @@
+{% for dev in doc.devices %}
+	<div class='device'>
+		<div class='row device-item'>
+			<div class='col-xs-4'>
+				<a class="no-decoration device-link {{ dev.css_seen }}" href="/iot_devices/{{ dev.name }}">
+				<span class="indicator {{ "green" if dev.enabled else "darkgrey" }}" title="{{ dev.enabled }}"  > {{ dev.dev_name }}</span>
+	 				<div class="small text-muted item-timestamp"
+	 					title="{{ frappe.utils.pretty_date(dev.modified) }}">
+	 					modified {{ frappe.utils.pretty_date(dev.modified) }}
+	 				</div>
+				</a>
+			</div>
+			<div class='col-xs-6'>
+				 {{ dev.description }}
+			</div>
+			<!--
+			<div class='col-xs-2'>
+				 <span style="display: inline-block">
+					<div class="switch">
+						<input type="checkbox" {{ "checked" if dev.enabled }}/>
+					</div>
+				</span>
+			</div>
+			-->
+		</div>
+	</div>
+{% endfor %}

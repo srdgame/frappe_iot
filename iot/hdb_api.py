@@ -263,7 +263,7 @@ def update_device_owner(device_data=None):
 	org_owner_type = dev.owner_type
 	dev.update_owner(owner_type, owner_id)
 
-	frappe.enqueue('iot.hdb_api.on_device_owner_update', device = dev, org_owner_type=org_owner_type, org_owner = org_owner)
+	frappe.enqueue('iot.hdb_api.on_device_owner_update', device=dev, org_owner_type=org_owner_type, org_owner=org_owner)
 
 	return __generate_hdb(dev)
 
@@ -391,5 +391,3 @@ def ping():
 			form_data = json.loads(form_data.data)
 		return form_data.get("text") or "No Text"
 	return 'pong'
-
-

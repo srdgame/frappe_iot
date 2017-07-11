@@ -9,19 +9,19 @@
 {% block page_group_header %}
 
 <div class="clearfix">
-  <h4 style="float: left;">{{ _("Bunch Codes") }}</h4>
-  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1&type=Cloud Company Group&owner={{ doc.name }}'>{{ _("New bunch code") }}</a>
+  <h4 style="float: left;">{{ _("Devices") }}</h4>
+  <a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" href='/iot_device_bunch?new=1&type=Cloud Company Group&owner={{ doc.name }}'>{{ _("Add Device") }}</a>
 </div>
 
-{% if doc.bunch_codes %}
-	<div class='device-bench-code-section'>
-		<div class='device-bench-code'>
-		{% include "templates/includes/iot_companies/bunch_codes.html" %}
+{% if doc.devices %}
+	<div class='device-section'>
+		<div class='device'>
+		{% include "templates/includes/iot_companies/iot_device.html" %}
 		</div>
-		<p><a id= 'more-bunch-codes' style='display: none;' class='more-bunch-codes small underline'>{{ _("More") }}</a><p>
+		<p><a id= 'more-devices' style='display: none;' class='more-devices small underline'>{{ _("More") }}</a><p>
 	</div>
 {% else %}
-	<p class="text-muted">{{ _("No bunch-codes") }}</p>
+	<p class="text-muted">{{ _("No Devices") }}</p>
 {% endif %}
 
 
