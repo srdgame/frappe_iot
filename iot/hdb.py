@@ -49,21 +49,11 @@ def iot_device_data(sn=None, vsn=None):
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/2")
 	hs = client.hgetall(vsn)
 	data = {}
-	if cfg.has_key("nodes"):
-		nodes = cfg.get("nodes")
-		for node in nodes:
-			tags = node.get("tags")
-			for tag in tags:
-				name = node.get("name")+"."+tag.get('name')
-				data[name] = {"PV": hs.get(name + ".PV"), "TM": hs.get(name + ".TM"), "Q": hs.get(name + ".Q"),
-				              "DESC": tag.get("desc"), }
-
-	if cfg.has_key("tags"):
-		tags = cfg.get("tags")
-		for tag in tags:
-			name = tag.get('name')
-			data[name] = {"PV": hs.get(name + ".PV"), "TM": hs.get(name + ".TM"), "Q": hs.get(name + ".Q"),
-			              "DESC": tag.get("desc"), }
+	if cfg.has_key("inputs"):
+		inputs = cfg.get("inputs")
+		for input in inputs:
+			val = json.loads(hs.get(input + "/value"))
+			data[input] = {"PV": val[1], "TM": val[0], "Q": val[2]}
 
 	return data
 
@@ -83,37 +73,17 @@ def iot_device_data_array(sn=None, vsn=None):
 	if not cfg:
 		return ""
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/2")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
 	hs = client.hgetall(vsn)
 	data = []
 
-	if cfg.has_key("nodes"):
-		nodes = cfg.get("nodes")
-		for node in nodes:
-			tags = node.get("tags")
-			for tag in tags:
-				name = tag.get('name')
-				tt = hs.get(name + ".TM")
-				timestr = ''
-				if tt:
-					timestr = str(
-						convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt) / 1000))).replace(
-							tzinfo=None))
-				data.append({"NAME": name, "PV": hs.get(name + ".PV"),  # "TM": hs.get(name + ".TM"),
-				             "TM": timestr, "Q": hs.get(name + ".Q"), "DESC": tag.get("desc"), })
-
-	if cfg.has_key("tags"):
-		tags = cfg.get("tags")
-		for tag in tags:
-			name = tag.get('name')
-			tt = hs.get(name + ".TM")
-			timestr = ''
-			if tt:
-				timestr = str(
-					convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(tt) / 1000))).replace(
-						tzinfo=None))
-			data.append({"NAME": name, "PV": hs.get(name + ".PV"),  # "TM": hs.get(name + ".TM"),
-			             "TM": timestr, "Q": hs.get(name + ".Q"), "DESC": tag.get("desc"), })
+	if cfg.has_key("inputs"):
+		inputs = cfg.get("inputs")
+		for input in inputs:
+			val = json.loads(hs.get(input + "/value"))
+			ts = datetime.datetime.utcfromtimestamp(int(int(val[0]) / 1000))
+			timestr = str(convert_utc_to_user_timezone(ts).replace(tzinfo=None))
+			data.append({"NAME": input, "PV": val[1], "TM": timestr, "Q": val[1]})
 
 	return data
 
@@ -152,7 +122,7 @@ def iot_device_tree(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/1")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11")
 	return client.lrange(sn, 0, -1)
 
 
@@ -161,7 +131,7 @@ def iot_device_cfg(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/0")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/10")
 	return json.loads(client.get(vsn or sn) or "")
 
 

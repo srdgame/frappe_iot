@@ -222,6 +222,12 @@ def add_device(device_data=None):
 	device.update({
 		"doctype": "IOT Device"
 	})
+
+	if not device.get("dev_name"):
+		device.update({
+			"dev_name": sn
+		})
+
 	dev = frappe.get_doc(device).insert()
 
 	frappe.enqueue('iot.hdb_api.on_device_owner_update', device = dev)
