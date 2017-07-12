@@ -82,6 +82,9 @@ def iot_device_data_array(sn=None, vsn=None):
 	if cfg.has_key("inputs"):
 		inputs = cfg.get("inputs")
 		for input in inputs:
+			s = hs.get(input + "/value")
+			if not s:
+				continue
 			val = json.loads(hs.get(input + "/value"))
 			ts = datetime.datetime.utcfromtimestamp(int(int(val[0]) / 1000))
 			timestr = str(convert_utc_to_user_timezone(ts).replace(tzinfo=None))
