@@ -46,14 +46,16 @@ def iot_device_data(sn=None, vsn=None):
 	cfg = iot_device_cfg(sn, vsn)
 	if not cfg:
 		return ""
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/2")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
 	hs = client.hgetall(vsn)
 	data = {}
 	if cfg.has_key("inputs"):
 		inputs = cfg.get("inputs")
 		for input in inputs:
-			val = json.loads(hs.get(input + "/value"))
-			data[input] = {"PV": val[1], "TM": val[0], "Q": val[2]}
+			s = hs.get(input + "/value")
+			if s:
+				val = json.loads(s)
+				data[input] = {"PV": val[1], "TM": val[0], "Q": val[2]}
 
 	return data
 
