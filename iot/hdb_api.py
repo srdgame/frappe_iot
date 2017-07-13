@@ -165,6 +165,16 @@ def get_device(sn=None):
 	return __generate_hdb(dev)
 
 
+@frappe.whitelist(allow_guest=True)
+def get_device_db(sn=None):
+	valid_auth_code()
+	sn = sn or frappe.form_dict.get('sn')
+	if not sn:
+		throw(_("Request fields not found. fields: sn"))
+	company = frappe.get_value("IOT Device", sn, "company")
+	return frappe.get_value("Cloud Company", company, "domain")
+
+
 def fire_callback(cb_url, cb_data):
 	frappe.logger(__name__).debug("HDB Fire Callback with data:")
 	frappe.logger(__name__).debug(cb_data)

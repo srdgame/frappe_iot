@@ -111,7 +111,7 @@ def iot_device_his_data(key, sn, vsn=None, fields="*", condition=None):
 	if condition:
 		query = query + condition
 	else:
-		query = query + " ORDER BY TIME DESC LIMIT 1000"
+		query = query + " ORDER BY time DESC LIMIT 1000"
 
 	domain = frappe.get_value("Cloud Company", doc.company, "domain")
 	r = requests.session().get(inf_server + "/query", params={"q": query, "db": domain}, timeout=10)
