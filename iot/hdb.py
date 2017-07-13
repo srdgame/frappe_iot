@@ -94,9 +94,8 @@ def iot_device_data_array(sn=None, vsn=None):
 
 
 @frappe.whitelist()
-def iot_device_his_data(sn=None, vsn=None, fields=None, condition=None):
+def iot_device_his_data(key, sn, vsn=None, fields="*", condition=None):
 	vsn = vsn or sn
-	fields = fields or "*"
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 
@@ -108,11 +107,11 @@ def iot_device_his_data(sn=None, vsn=None, fields=None, condition=None):
 	if not inf_server:
 		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
 		return 500
-	query = 'SELECT ' + fields + ' FROM "' + vsn + '"'
+	query = 'SELECT ' + fields + ' FROM "' + key + '" WHERE device=\'' + vsn + '\''
 	if condition:
-		query = query + " WHERE " + condition
+		query = query + condition
 	else:
-		query = query + " LIMIT 1000"
+		query = query + " ORDER BY TIME DESC LIMIT 1000"
 
 	domain = frappe.get_value("Cloud Company", doc.company, "domain")
 	r = requests.session().get(inf_server + "/query", params={"q": query, "db": domain}, timeout=10)
