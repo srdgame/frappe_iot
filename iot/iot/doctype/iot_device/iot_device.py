@@ -43,6 +43,12 @@ class IOTDevice(Document):
 		self.set("dev_name", dev_name)
 		self.save()
 
+	def update_dev_description(self, desc):
+		if self.description == desc:
+			return
+		self.set("description", desc)
+		self.save()
+
 	def update_dev_pos(self, longitude, latitude):
 		self.set("longitude", longitude)
 		self.set("latitude", latitude)
