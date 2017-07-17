@@ -152,9 +152,6 @@ def send_output():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	# data.update({
-	# 	"topic": "enable/comm"
-	# })
 	return send_action("output", data)
 
 
@@ -163,7 +160,4 @@ def send_command():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	# data.update({
-	# 	"topic": "enable/comm"
-	# })
 	return send_action("command", data)
