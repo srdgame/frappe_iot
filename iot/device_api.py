@@ -49,10 +49,10 @@ def get_action_result(id):
 
 
 @frappe.whitelist(allow_guest=True)
-def send_action(action):
+def send_action(action, data=None):
 	if frappe.session.user == "Guest":
 		valid_auth_code()
-	data = get_post_json_data()
+	data = data or get_post_json_data()
 
 	if not data.get("device"):
 		throw(_("Device SN does not exits!"))
