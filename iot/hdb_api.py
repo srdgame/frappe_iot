@@ -244,6 +244,8 @@ def update_device():
 	dev = add_device(device_data=data)
 	if dev.dev_name != data.get("dev_name"):
 		dev.update_dev_name(data.get("dev_name"))
+	if dev.description != data.get("description"):
+		dev.update_dev_description(data.get("description"))
 	update_device_bunch(device_data=data)
 	return update_device_status(device_data=data)
 
