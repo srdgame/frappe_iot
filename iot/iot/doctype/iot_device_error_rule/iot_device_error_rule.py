@@ -11,12 +11,14 @@ class IOTDeviceErrorRule(Document):
 
 
 def wechat_notify_check(err_doc):
+	if err_doc.wechat_notify == 0:
+		return
 	dev = frappe.get_doc("IOT Device", err_doc.device)
 	if dev.owner_type == "User":
-		if err_doc.wechat_notify == 1:
-			err_doc.submit()
+		err_doc.submit()
 	else:
-		rule = frappe.get_doc("IOT Device Error Rule", filter={"group":dev.owner_id, "error_type": err_doc.error_type})
-		if rule:
+		rules = frappe.get_all("IOT Device Error Rule", filters={"group": dev.owner_id, "error_type": err_doc.error_type})
+		for rule in rules:
 			if err_doc.error_level >= rule.level:
 				err_doc.submit()
+				return
