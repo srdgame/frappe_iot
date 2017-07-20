@@ -17,7 +17,9 @@ def wechat_notify_check(err_doc):
 	if dev.owner_type == "User":
 		err_doc.submit()
 	else:
-		rules = frappe.get_all("IOT Device Error Rule", filters={"group": dev.owner_id, "error_type": err_doc.error_type})
+		rules = frappe.get_all("IOT Device Error Rule",
+								filters={"group": dev.owner_id, "error_type": err_doc.error_type},
+								fields=["name", "level"])
 		for rule in rules:
 			if err_doc.error_level >= rule.level:
 				err_doc.submit()
