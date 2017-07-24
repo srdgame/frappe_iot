@@ -270,6 +270,9 @@ def update_device_bunch(device_data=None):
 	if dev.bunch == bunch:
 		return __generate_hdb(dev)
 
+	if not frappe.get_value("IOT Device Bunch", bunch, "name"):
+		throw(_("Device Bunch Code {0} is not valid!").format(bunch))
+
 	org_bunch = dev.bunch
 	dev.update_bunch(bunch)
 
