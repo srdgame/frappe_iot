@@ -19,7 +19,7 @@ def get_post_json_data():
 	return json.loads(frappe.form_dict.data)
 
 
-def fire_raw_content(content, status=200, content_type='text/plain'):
+def fire_raw_content(status=200, content="", content_type='text/plain'):
 	"""
 	I am hack!!!
 	:param content:
@@ -36,46 +36,55 @@ def fire_raw_content(content, status=200, content_type='text/plain'):
 		raise frappe.PermissionError
 
 
+def return_200ok():
+	fire_raw_content()
+
+
+def return_403(err):
+	fire_raw_content(status=403, content=err)
+
+
 @frappe.whitelist(allow_guest=True)
 def auth(username=None, password=None, topic=None, clientid=None, acc=None):
 	username = username or frappe.form_dict.username
 	password = password or frappe.form_dict.password
-	topic = topic or frappe.form_dict.topic
-	clientid = topic or frappe.form_dict.clientid
-	acc = acc or frappe.form_dict.acc
 
-	print("auth", username, password, topic, clientid, acc)
-	print(frappe.form_dict)
-	if username == 'root' and password == 'root':
-		fire_raw_content("")
+	if username == 'root' and password == 'bXF0dF9pb3RfYWRtaW4K':
+		return_200ok()
 	else:
-		fire_raw_content("Auth Error", 403)
+		if password == 'ZGV2aWNlIGlkCg==':
+			return_200ok()
+		else:
+			return_403("Auth Error")
 
 
 @frappe.whitelist(allow_guest=True)
 def superuser(username=None):
 	username = username or frappe.form_dict.username
-	print("superuser", username)
-	print(frappe.form_dict)
 	if username == "root":
-		fire_raw_content("", 403)
+		return_200ok()
 	else:
-		fire_raw_content("Auth Error", 403)
+		return_403("Auth Error")
 
 
 @frappe.whitelist(allow_guest=True)
 def acl(username=None, topic=None, clientid=None, acc=None):
 	username = username or frappe.form_dict.username
 	topic = topic or frappe.form_dict.topic
-	clientid = topic or frappe.form_dict.clientid
+	clientid = clientid or frappe.form_dict.clientid
 	acc = acc or frappe.form_dict.acc
 
-	print("acl", username)
-	print(frappe.form_dict)
 	if username == 'root':
-		fire_raw_content("")
+		return_200ok()
 	else:
-		fire_raw_content("Auth Error", 403)
+		try:
+			dev = frappe.get_doc("IOT Device", topic)
+			if username in dev.find_owners():
+				return_200ok()
+			else:
+				return_403("Auth Error")
+		except Exception as ex:
+			return_403("Auth Error")
 
 
 @frappe.whitelist(allow_guest=True)
