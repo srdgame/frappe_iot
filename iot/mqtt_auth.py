@@ -36,8 +36,8 @@ def fire_raw_content(status=200, content="", content_type='text/plain'):
 		raise frappe.PermissionError
 
 
-def return_200ok():
-	fire_raw_content()
+def return_200ok(info=""):
+	fire_raw_content(status=200, content=info)
 
 
 def return_403(err):
