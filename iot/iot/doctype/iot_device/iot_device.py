@@ -82,7 +82,7 @@ class IOTDevice(Document):
 			return []
 
 		if owner_type == "User":
-			return [id]
+			return [owner_id]
 
 		if owner_type == "Cloud Company Group":
 			return [user.name for user in list_users(owner_id)]
@@ -99,6 +99,9 @@ class IOTDevice(Document):
 			return CloudSettings.get_default_company()
 		else:
 			return frappe.get_value(self.owner_type, self.owner_id, "company")
+
+	def list_owners(self):
+		return self.find_owners(self.owner_type, self.owner_id)
 
 
 def get_permission_query_conditions(user):

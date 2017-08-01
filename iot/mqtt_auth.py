@@ -45,9 +45,10 @@ def return_403(err):
 
 
 @frappe.whitelist(allow_guest=True)
-def auth(username=None, password=None, topic=None, clientid=None, acc=None):
+def auth(username=None, password=None):
 	username = username or frappe.form_dict.username
 	password = password or frappe.form_dict.password
+	print('auth', username, password)
 
 	if username == 'root' and password == 'bXF0dF9pb3RfYWRtaW4K':
 		return_200ok()
@@ -55,12 +56,21 @@ def auth(username=None, password=None, topic=None, clientid=None, acc=None):
 		if password == 'ZGV2aWNlIGlkCg==':
 			return_200ok()
 		else:
-			return_403("Auth Error")
+			try:
+				frappe.local.login_manager.authenticate(username, password)
+				if frappe.local.login_manager.user == username:
+					return_200ok()
+				else:
+					return_403("Auth Error")
+			except Exception as ex:
+				print('aaaaaaaaaa', ex)
+				return_403("Auth Error")
 
 
 @frappe.whitelist(allow_guest=True)
 def superuser(username=None):
 	username = username or frappe.form_dict.username
+	print('superuser', username)
 	if username == "root":
 		return_200ok()
 	else:
@@ -73,13 +83,15 @@ def acl(username=None, topic=None, clientid=None, acc=None):
 	topic = topic or frappe.form_dict.topic
 	clientid = clientid or frappe.form_dict.clientid
 	acc = acc or frappe.form_dict.acc
+	print('acl', username, topic, clientid, acc)
 
 	if username == 'root':
 		return_200ok()
 	else:
 		try:
 			dev = frappe.get_doc("IOT Device", topic)
-			if username in dev.find_owners():
+			print(dev.list_owners())
+			if username in dev.list_owners():
 				return_200ok()
 			else:
 				return_403("Auth Error")
