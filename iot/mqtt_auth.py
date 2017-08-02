@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+import hashlib
 from frappe import throw, msgprint, _
 
 
@@ -36,11 +37,11 @@ def fire_raw_content(status=200, content="", content_type='text/plain'):
 		raise frappe.PermissionError
 
 
-def return_200ok(info=""):
+def http_200ok(info=""):
 	fire_raw_content(status=200, content=info)
 
 
-def return_403(err):
+def http_403(err):
 	fire_raw_content(status=403, content=err)
 
 
@@ -50,21 +51,31 @@ def auth(username=None, password=None):
 	password = password or frappe.form_dict.password
 	print('auth', username, password)
 
-	if username == 'root' and password == 'bXF0dF9pb3RfYWRtaW4K':
-		return_200ok()
+	if username == 'root':
+		root_password = frappe.db.get_single_value("IOT HDB Settings", "mqtt_root_password") or 'bXF0dF9pb3RfYWRtaW4K'
+		if password == root_password:
+			return http_200ok()
+		else:
+			return http_403("Auth Error")
 	else:
-		if password == 'ZGV2aWNlIGlkCg==':
-			return_200ok()
+		sid = frappe.db.get_single_value("IOT HDB Settings", "mqtt_device_password_sid") or 'ZGV2aWNlIGlkCg=='
+		m = hashlib.md5()
+		m.update(username + sid)
+		if password == m.hexdigest():
+			if frappe.get_value("IOT Device", username, "enabled") == 1:
+				return http_200ok()
+			else:
+				return http_403("Auth Error")
 		else:
 			try:
 				frappe.local.login_manager.authenticate(username, password)
 				if frappe.local.login_manager.user == username:
-					return_200ok()
+					return http_200ok()
 				else:
-					return_403("Auth Error")
+					return http_403("Auth Error")
 			except Exception as ex:
-				print('aaaaaaaaaa', ex)
-				return_403("Auth Error")
+				return http_403("Auth Error")
+	return http_403("Auth Error")
 
 
 @frappe.whitelist(allow_guest=True)
@@ -72,9 +83,9 @@ def superuser(username=None):
 	username = username or frappe.form_dict.username
 	print('superuser', username)
 	if username == "root":
-		return_200ok()
+		return http_200ok()
 	else:
-		return_403("Auth Error")
+		return http_403("Auth Error")
 
 
 @frappe.whitelist(allow_guest=True)
@@ -86,18 +97,19 @@ def acl(username=None, topic=None, clientid=None, acc=None):
 	print('acl', username, topic, clientid, acc)
 
 	if username == 'root':
-		return_200ok()
+		return http_200ok()
 	else:
 		try:
 			dev = frappe.get_doc("IOT Device", topic)
 			print(dev.list_owners())
 			if username in dev.list_owners():
-				return_200ok()
+				return http_200ok()
 			else:
-				return_403("Auth Error")
+				return http_403("Auth Error")
 		except Exception as ex:
-			return_403("Auth Error")
+			return http_403("Auth Error")
 
+	return http_403("Auth Error")
 
 @frappe.whitelist(allow_guest=True)
 def ping():
