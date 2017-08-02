@@ -23,8 +23,9 @@ def get_post_json_data():
 def fire_raw_content(status=200, content="", content_type='text/plain'):
 	"""
 	I am hack!!!
-	:param content:
-	:param content_type:
+	:param status: HTTP Status Code
+	:param content: HTTP Response Content
+	:param content_type: HTTP Response Content Type
 	:return:
 	"""
 	frappe.response['http_status_code'] = status
@@ -62,6 +63,7 @@ def auth(username=None, password=None):
 		m = hashlib.md5()
 		m.update(username + sid)
 		if password == m.hexdigest():
+			# TODO: for the one which is not in IOT Device should we check the frappe-make module to see if it is our device?
 			if frappe.get_value("IOT Device", username, "enabled") == 1:
 				return http_200ok()
 			else:
@@ -75,6 +77,7 @@ def auth(username=None, password=None):
 					return http_403("Auth Error")
 			except Exception as ex:
 				return http_403("Auth Error")
+
 	return http_403("Auth Error")
 
 
@@ -110,6 +113,7 @@ def acl(username=None, topic=None, clientid=None, acc=None):
 			return http_403("Auth Error")
 
 	return http_403("Auth Error")
+
 
 @frappe.whitelist(allow_guest=True)
 def ping():

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2017, Dirk Chang and contributors
 # For license information, please see license.txt
+#
+# RESTFul API for IOT User which has his/her auth code
+#
 
 from __future__ import unicode_literals
 import frappe
@@ -25,6 +28,7 @@ def valid_auth_code(auth_code=None):
 	user = frappe.get_value("IOT User Api", {"authorization_code": auth_code}, "user")
 	if not user:
 		throw(_("Authorization Code is incorrect!"))
+
 	# form dict keeping
 	form_dict = frappe.local.form_dict
 	frappe.set_user(user)
