@@ -230,6 +230,11 @@ def add_device(device_data=None):
 	device.update({
 		"doctype": "IOT Device"
 	})
+
+	bunch = device.get("bunch")
+	if not frappe.get_value("IOT Device Bunch", bunch, "name"):
+		throw(_("Device Bunch Code {0} is not valid!").format(bunch))
+
 	dev = frappe.get_doc(device).insert()
 
 	frappe.enqueue('iot.hdb_api.on_device_bunch_update', device = dev)
