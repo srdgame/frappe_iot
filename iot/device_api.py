@@ -83,7 +83,7 @@ def app_install():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("app", "install", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("app", action="install", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -91,7 +91,7 @@ def app_uninstall():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("app", "uninstall", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("app", action="uninstall", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -99,7 +99,7 @@ def app_upgrade():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("app", "upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("app", action="upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -107,7 +107,7 @@ def sys_upgrade():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("sys", "upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("sys", action="upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -115,7 +115,7 @@ def sys_enable_data():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("sys", "enable/data", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("sys", action="enable/data", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -123,7 +123,7 @@ def sys_enable_log():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("sys", "enable/log", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("sys", action="enable/log", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -131,7 +131,7 @@ def sys_enable_comm():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("sys", "enable/comm", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("sys", action="enable/comm", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
