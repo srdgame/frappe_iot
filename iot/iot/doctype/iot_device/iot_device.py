@@ -103,6 +103,20 @@ class IOTDevice(Document):
 	def list_owners(self):
 		return self.find_owners(self.owner_type, self.owner_id)
 
+	def get_role_permission(self, username):
+		from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users
+
+		if not self.owner_id:
+			return None
+		if self.owner_type == 'User':
+			if self.owner_id == username:
+				return 'Admin'
+		else:
+			for user in list_users(self.owner_id):
+				if user.name == username:
+					return user.role
+		return None
+
 
 def get_permission_query_conditions(user):
 	"""
