@@ -126,6 +126,8 @@ def acl(username=None, topic=None, clientid=None, acc=None):
 			if role == 'Admin':
 				return http_200ok()
 			else:
+				if sub == 'data' and role:
+					return http_200ok()
 				return http_403("Auth Error")
 		except Exception as ex:
 			print(ex)

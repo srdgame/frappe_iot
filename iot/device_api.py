@@ -49,25 +49,30 @@ def get_action_result(id):
 
 
 @frappe.whitelist(allow_guest=True)
-def send_action(action, data=None):
+def send_action(channel, action, id=None, device=None, data=None):
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = data or get_post_json_data()
+	id = id or str(uuid.uuid1()).upper()
 
-	if not data.get("device"):
+	if not device:
 		throw(_("Device SN does not exits!"))
-	doc = frappe.get_doc("IOT Device", data.get("device"))
+
+	doc = frappe.get_doc("IOT Device", device)
 	if not doc.has_permission("write"):
 		frappe.throw(_("Not permitted"), frappe.PermissionError)
 
-	if not data.get("id"):
-		data["id"] = str(uuid.uuid1()).upper()
-
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
-	r = client.publish("device_" + action, json.dumps(data))
+	args = {
+		"id": id,
+		"action": action,
+		"device": device,
+		"data": data,
+	}
+	r = client.publish("device_" + channel, json.dumps(args))
 	if r <= 0:
 		throw(_("Redis message published, but no listener!"))
-	return data["id"]
+	return id
 
 
 @frappe.whitelist(allow_guest=True)
@@ -75,10 +80,7 @@ def app_install():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	data.update({
-		"topic": "install"
-	})
-	return send_action("app", data)
+	return send_action("app", "install", device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -86,10 +88,7 @@ def app_uninstall():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	data.update({
-		"topic": "uninstall"
-	})
-	return send_action("app", data)
+	return send_action("app", "uninstall", device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -97,10 +96,7 @@ def app_upgrade():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	data.update({
-		"topic": "upgrade"
-	})
-	return send_action("app", data)
+	return send_action("app", "upgrade", device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -108,10 +104,7 @@ def sys_upgrade():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	data.update({
-		"topic": "upgrade"
-	})
-	return send_action("sys", data)
+	return send_action("sys", "upgrade", device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -119,10 +112,7 @@ def sys_enable_data():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	data.update({
-		"topic": "enable/data"
-	})
-	return send_action("sys", data)
+	return send_action("sys", "enable/data", device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -130,10 +120,7 @@ def sys_enable_log():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	data.update({
-		"topic": "enable/log"
-	})
-	return send_action("sys", data)
+	return send_action("sys", "enable/log", device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -141,10 +128,7 @@ def sys_enable_comm():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	data.update({
-		"topic": "enable/comm"
-	})
-	return send_action("sys", data)
+	return send_action("sys", "enable/comm", device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
