@@ -111,6 +111,14 @@ def sys_upgrade():
 
 
 @frappe.whitelist(allow_guest=True)
+def sys_upgrade_ack():
+	if frappe.session.user == "Guest":
+		valid_auth_code()
+	data = get_post_json_data()
+	return send_action("sys", action="upgrade/ack", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def sys_enable_data():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
