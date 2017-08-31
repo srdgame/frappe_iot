@@ -139,7 +139,15 @@ def sys_enable_comm():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	data = get_post_json_data()
-	return send_action("sys", action="enable/comm", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("sys", action="enable/stat", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_enable_stat():
+	if frappe.session.user == "Guest":
+		valid_auth_code()
+	data = get_post_json_data()
+	return send_action("sys", action="enable/stat", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
