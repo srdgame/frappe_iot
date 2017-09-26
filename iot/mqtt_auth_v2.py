@@ -77,11 +77,19 @@ def auth(username=None, password=None):
 				return http_403("Auth Error")
 		else:
 			try:
-				frappe.local.login_manager.authenticate(username, password)
-				if frappe.local.login_manager.user == username:
-					return http_200ok()
+				# Valid user with session sid first.
+				data = frappe.cache().hget("session", password)
+				if data:
+					if data.get('user') == username:
+						return http_200ok()
+					else:
+						return http_403("Auth Error")
 				else:
-					return http_403("Auth Error")
+					frappe.local.login_manager.authenticate(username, password)
+					if frappe.local.login_manager.user == username:
+						return http_200ok()
+					else:
+						return http_403("Auth Error")
 			except Exception as ex:
 				return http_403("Auth Error")
 
