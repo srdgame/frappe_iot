@@ -79,6 +79,14 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 
 
 @frappe.whitelist(allow_guest=True)
+def app_list():
+	if frappe.session.user == "Guest":
+		valid_auth_code()
+	data = get_post_json_data()
+	return send_action("app", action="list", id=data.get("id"), device=data.get("device"), data="1")
+
+
+@frappe.whitelist(allow_guest=True)
 def app_install():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
@@ -100,6 +108,14 @@ def app_upgrade():
 		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("app", action="upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def app_conf():
+	if frappe.session.user == "Guest":
+		valid_auth_code()
+	data = get_post_json_data()
+	return send_action("app", action="conf", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
