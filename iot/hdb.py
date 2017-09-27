@@ -150,37 +150,6 @@ def get_post_json_data():
 	return json.loads(frappe.form_dict.data)
 
 
-@frappe.whitelist()
-def iot_device_write():
-	ctrl = _dict(get_post_json_data())
-	doc = frappe.get_doc('IOT Device', ctrl.sn)
-	doc.has_permission("read")
-	cmd = {
-		"sn": ctrl.vsn,
-		"tag": ctrl.tag,
-		"nrsp": ctrl.nrsp,
-		"vt": ctrl.vt,
-		"val": ctrl.val,
-		"pris": ctrl.pris or uuid.uuid1()
-	}
-
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
-	r = client.publish("ziotagwrites", json.dumps({
-		"cmds": [cmd],
-		"ver": 0
-	}))
-	return {
-		"result": r,
-		"uuid": cmd["pris"]
-	}
-
-
-@frappe.whitelist(allow_guest=True)
-def iot_device_api_write():
-	valid_auth_code()
-	return iot_device_write()
-
-
 @frappe.whitelist(allow_guest=True)
 def ping():
 	form_data = frappe.form_dict

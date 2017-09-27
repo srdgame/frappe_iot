@@ -5,14 +5,20 @@
 from __future__ import unicode_literals
 import frappe
 import traceback
+import redis
 from frappe.model.document import Document
 from frappe import _
 from frappe.utils import now, get_datetime, cstr
 from frappe.utils import cint
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 class IOTDevice(Document):
 	def validate(self):
 		self.company = self.__get_company()
+
+	def update(self):
+		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/8")
+		client.set(self.sn, self.company)
 
 	def update_status(self, status):
 		""" update device status """
