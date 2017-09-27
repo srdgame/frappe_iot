@@ -16,7 +16,7 @@ class IOTDevice(Document):
 	def validate(self):
 		self.company = self.__get_company()
 
-	def update(self):
+	def on_update(self):
 		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/8")
 		client.set(self.sn, self.company)
 
