@@ -18,7 +18,8 @@ class IOTDevice(Document):
 
 	def on_update(self):
 		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/8")
-		client.set(self.sn, self.company)
+		domain = frappe.get_value("Cloud Company", self.company, "domain")
+		client.set(self.sn, domain)
 
 	def update_status(self, status):
 		""" update device status """
