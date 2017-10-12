@@ -61,6 +61,11 @@ class IOTDevice(Document):
 		self.set("latitude", latitude)
 		self.save()
 
+	def set_use_beta(self):
+		self.set('use_beta', 1)
+		self.set("last_updated", now())
+		self.save()
+
 	@staticmethod
 	def check_sn_exists(sn):
 		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
