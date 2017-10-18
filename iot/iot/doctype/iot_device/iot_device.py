@@ -62,6 +62,8 @@ class IOTDevice(Document):
 		self.save()
 
 	def set_use_beta(self):
+		if self.use_beta != 0:
+			return
 		self.set('use_beta', 1)
 		self.set("last_updated", now())
 		self.save()
