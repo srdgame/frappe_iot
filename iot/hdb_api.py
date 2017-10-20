@@ -383,6 +383,12 @@ def add_device_error(err_data=None):
 
 
 @frappe.whitelist(allow_guest=True)
+def is_beta_enable(sn):
+	valid_auth_code()
+	return frappe.get_value("IOT Device", sn, "use_beta")
+
+
+@frappe.whitelist(allow_guest=True)
 def get_user_session(user):
 	valid_auth_code()
 	if user:
