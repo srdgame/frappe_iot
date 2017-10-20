@@ -167,6 +167,14 @@ def sys_enable_stat():
 
 
 @frappe.whitelist(allow_guest=True)
+def sys_enable_beta():
+	if frappe.session.user == "Guest":
+		valid_auth_code()
+	data = get_post_json_data()
+	return send_action("sys", action="enable/beta", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def send_output():
 	if frappe.session.user == "Guest":
 		valid_auth_code()
