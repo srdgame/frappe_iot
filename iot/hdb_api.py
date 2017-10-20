@@ -6,11 +6,9 @@ from __future__ import unicode_literals
 import frappe
 import json
 import requests
-from frappe import throw, msgprint, _
-from frappe.model.document import Document
+from frappe import throw, _
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from cloud.cloud.doctype.cloud_settings.cloud_settings import CloudSettings
 from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups as _list_user_groups
 from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 from frappe.utils import cint
@@ -156,6 +154,11 @@ def get_post_json_data():
 
 @frappe.whitelist(allow_guest=True)
 def get_device(sn=None):
+	"""
+	Get device information by device serial number
+	:param sn: Device Serial Number
+	:return: Device information
+	"""
 	valid_auth_code()
 	sn = sn or frappe.form_dict.get('sn')
 	if not sn:
@@ -167,12 +170,28 @@ def get_device(sn=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_device_db(sn=None):
+	"""
+	Get influxdb database for specified database
+	:param sn: Device Serial Number
+	:return: influxdb database name
+	"""
 	valid_auth_code()
 	sn = sn or frappe.form_dict.get('sn')
 	if not sn:
 		throw(_("Request fields not found. fields: sn"))
 	company = frappe.get_value("IOT Device", sn, "company")
 	return frappe.get_value("Cloud Company", company, "domain")
+
+
+@frappe.whitelist(allow_guest=True)
+def is_beta_enable(sn):
+	"""
+	Check if device enabled using beta applications / systems
+	:param sn: Device Serial Number
+	:return: 1 - enabled  0 - disabled
+	"""
+	valid_auth_code()
+	return frappe.get_value("IOT Device", sn, "use_beta")
 
 
 def fire_callback(cb_url, cb_data):
@@ -380,12 +399,6 @@ def add_device_error(err_data=None):
 	doc = frappe.get_doc(err_data).insert().as_dict()
 
 	return doc
-
-
-@frappe.whitelist(allow_guest=True)
-def is_beta_enable(sn):
-	valid_auth_code()
-	return frappe.get_value("IOT Device", sn, "use_beta")
 
 
 @frappe.whitelist(allow_guest=True)
