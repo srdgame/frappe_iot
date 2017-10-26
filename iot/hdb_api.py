@@ -190,7 +190,7 @@ def is_beta_enable(sn):
 	:param sn: Device Serial Number
 	:return: 1 - enabled  0 - disabled
 	"""
-	valid_auth_code()
+	valid_auth_code(frappe.db.get_single_value("IOT HDB Settings", "authorization_code"))
 	return frappe.get_value("IOT Device", sn, "use_beta")
 
 
