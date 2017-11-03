@@ -125,6 +125,8 @@ def acl(username=None, topic=None, clientid=None, acc=None):
 				g = g.groups()
 				devid = g[0]
 				sub = g[1]
+			else:
+				return http_403("Auth Error")
 
 			if username == devid:
 				return http_200ok()		# your self topics
