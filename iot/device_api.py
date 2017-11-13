@@ -80,42 +80,52 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 
 @frappe.whitelist(allow_guest=True)
 def app_list():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("app", action="list", id=data.get("id"), device=data.get("device"), data="1")
 
 
 @frappe.whitelist(allow_guest=True)
 def app_install():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("app", action="install", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def app_uninstall():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("app", action="uninstall", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def app_upgrade():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("app", action="upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def app_conf():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("app", action="conf", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def app_start():
+	'''
+	Start application, data example: {"inst": "bms", "conf": "{}"} conf is optional
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="start", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def app_stop():
+	'''
+	Stop application, data example: {"inst": "bms", "reason": "debug stop"}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="stop", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -128,63 +138,47 @@ def sys_upgrade():
 
 @frappe.whitelist(allow_guest=True)
 def sys_upgrade_ack():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("sys", action="upgrade/ack", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_data():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("sys", action="enable/data", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_log():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("sys", action="enable/log", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_comm():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("sys", action="enable/comm", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_stat():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("sys", action="enable/stat", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_beta():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("sys", action="enable/beta", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def send_output():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("output", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def send_command():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
 	data = get_post_json_data()
 	return send_action("command", id=data.get("id"), device=data.get("device"), data=data.get("data"))
