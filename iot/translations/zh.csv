@@ -55,7 +55,7 @@ DocType: IOT HDB Settings,HDB Status,HDB状态
 DocType: IOT HDB Settings,HDB Updated,HDB更新时间
 apps/iot/iot/hdb_api.py +23,HDB-AuthorizationCode as {0},HDB验证码为 {0}
 apps/iot/iot/hdb_api.py +22,HDB-AuthorizationCode is required in HTTP Header!,HTTP头未包含HDB验证码
-apps/iot/iot/iot/doctype/iot_device_error/iot_device_error.py +23,Has new {0},有新的 {0}
+apps/iot/iot/iot/doctype/iot_device_error/iot_device_error.py +23,Has new device alarm,有新的设备报警消息
 DocType: IOT Device,IOT,IOT
 apps/iot/iot/hooks.py +79,IOT Account,IOT 账户
 apps/iot/iot/hooks.py +57,IOT Companies,IOT 公司列表
