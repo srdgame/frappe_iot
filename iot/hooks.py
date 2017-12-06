@@ -141,9 +141,9 @@ doc_events = {
 	"Cloud Company": {
 		"after_insert": "iot.controllers.cloud_company_hooks.after_insert",
 	},
-	"IOT Device Error": {
-		"after_insert": "iot.controllers.iot_device_error.after_insert"
-	}
+	# "IOT Device Error": {
+	# 	"after_insert": "iot.controllers.iot_device_error.after_insert"
+	# }
 }
 
 # doc_events = {
