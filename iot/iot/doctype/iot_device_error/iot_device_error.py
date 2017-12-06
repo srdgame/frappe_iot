@@ -7,8 +7,13 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils.data import format_datetime
+from iot.iot.doctype.iot_device_error_rule.iot_device_error_rule import wechat_notify_check
+
 
 class IOTDeviceError(Document):
+	def after_insert(self):
+		wechat_notify_check(self)
+
 	def on_submit(self):
 		self.wechat_msg_send()
 
