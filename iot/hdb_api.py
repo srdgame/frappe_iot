@@ -394,7 +394,9 @@ def add_device_error(err_data=None):
 		throw(_("Device {0} not found.").format(device))
 
 	err_data.update({
-		"doctype": "IOT Device Error"
+		"doctype": "IOT Device Error",
+		"error_level": int(err_data.get("error_level") or 0),
+		"wechat_notify": int(err_data.get("wechat_notify") or 0),
 	})
 	doc = frappe.get_doc(err_data).insert().as_dict()
 

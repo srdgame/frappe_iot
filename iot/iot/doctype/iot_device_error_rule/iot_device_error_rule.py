@@ -11,7 +11,7 @@ class IOTDeviceErrorRule(Document):
 
 
 def wechat_notify_check(err_doc):
-	if err_doc.wechat_notify == 0 or err_doc.wechat_notify == '0':
+	if err_doc.wechat_notify == 0:
 		return
 	dev = frappe.get_doc("IOT Device", err_doc.device)
 	if dev.owner_type == "User":
