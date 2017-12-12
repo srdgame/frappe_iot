@@ -26,19 +26,19 @@ class IOTDeviceError(Document):
 		return {
 			"first": {
 				"value": _("Has new device alarm"),
-				"color": "red"
+				"color": "#800000"
 			},
 			"keyword1": {
 				"value": self.error_type,
-				"color": "blue"
+				"color": "#000080"
 			},
 			"keyword2": {
 				"value": frappe.get_value("IOT Device", self.device, "dev_name"),
-				"color": "blue"
+				"color": "#000080"
 			},
 			"keyword3": {
 				"value": format_datetime(self.modified),
-				"color": "green",
+				"color": "#008000",
 			},
 			"remark": {
 				"value": self.error_info
