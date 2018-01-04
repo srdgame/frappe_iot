@@ -23,13 +23,14 @@ class IOTDeviceError(Document):
 							err_name=self.name, err_doc=self)
 
 	def wechat_tmsg_data(self):
+		remark = _("Key: {0}").format(self.error_key) + "\n" + _("Info: {0}").format(self.error_info)
 		return {
 			"first": {
 				"value": _("Has new device alarm"),
 				"color": "#800000"
 			},
 			"keyword1": {
-				"value": self.error_type,
+				"value": frappe.get_value("IOT Error Type", self.error_type, "description"),
 				"color": "#000080"
 			},
 			"keyword2": {
@@ -41,7 +42,7 @@ class IOTDeviceError(Document):
 				"color": "#008000",
 			},
 			"remark": {
-				"value": self.error_info
+				"value": remark
 			}
 		}
 
