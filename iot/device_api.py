@@ -144,6 +144,12 @@ def sys_upgrade_ack():
 
 
 @frappe.whitelist(allow_guest=True)
+def sys_upgrade_ext():
+	data = get_post_json_data()
+	return send_action("sys", action="upgrade_ext", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def sys_enable_data():
 	data = get_post_json_data()
 	return send_action("sys", action="enable/data", id=data.get("id"), device=data.get("device"), data=data.get("data"))
