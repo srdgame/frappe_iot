@@ -130,68 +130,121 @@ def app_stop():
 
 
 @frappe.whitelist(allow_guest=True)
+def app_query_log():
+	'''
+	Query application log, data example: {"name": "bms", "max_count": "60"}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="query_log", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def sys_upgrade():
-	if frappe.session.user == "Guest":
-		valid_auth_code()
+	'''
+	Upgrade IOT System, data example: { "no_ack": 1, "version": 601, "skynet": { "version": 1666} }
+		"skynet" is optional, and do not set it if you do not want to upgrade skynet
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_upgrade_ack():
+	'''
+	IOT System upgrade ack. you need to call this when no_ack is not set in sys_upgrade(), data example: {}
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="upgrade/ack", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_ext_list():
+	'''
+	List System installed extensions, data example: {}
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="ext/list", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_ext_upgrade():
+	'''
+	Upgrade IOT System Extension, data example: {"name": "frpc", "version": "latest"}
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="ext/upgrade", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_data():
+	'''
+	Enable/Disable data upload, enable if data is 1
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="enable/data", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_log():
+	'''
+	Enable log upload for specified time, data is the how long will log be uploaded
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="enable/log", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_comm():
+	'''
+	Enable log upload for specified time, data is the how long will log be uploaded
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="enable/comm", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_stat():
+	'''
+	Enable/Disable data upload, enable if data is 1
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="enable/stat", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def sys_enable_beta():
+	'''
+	Enable/Disable data upload, enable if data is 1
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("sys", action="enable/beta", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def send_output():
+	'''
+	Send device output value, data example:{ "device": "{DeviceID}", "output": "aaaa", "value": "dddd", "prop": "int_value"}
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("output", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
 def send_command():
+	'''
+	Send device output value, data example:{ "device": "{DeviceID}", "cmd": "aaaa", "param": "eeee"}
+	:return:
+	'''
 	data = get_post_json_data()
 	return send_action("command", id=data.get("id"), device=data.get("device"), data=data.get("data"))
