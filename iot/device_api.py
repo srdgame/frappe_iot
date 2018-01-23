@@ -221,6 +221,16 @@ def sys_enable_stat():
 
 
 @frappe.whitelist(allow_guest=True)
+def sys_enable_event():
+	'''
+	Enable/Disable event upload, disable if data is minus number or it is the minimum event level
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="enable/event", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def sys_enable_beta():
 	'''
 	Enable/Disable data upload, enable if data is 1
