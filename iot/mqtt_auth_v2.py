@@ -61,6 +61,7 @@ def auth(clientid=None, username=None, password=None):
 	username = username or frappe.form_dict.username
 	password = password or frappe.form_dict.password
 	print('auth', clientid, username, password)
+	assert(clientid and username and password)
 
 	if username[0:4] == "dev=":
 		index = username.rfind("|time=")
@@ -69,13 +70,13 @@ def auth(clientid=None, username=None, password=None):
 		device_id = username[4:index]
 		timestamp = username[index+6:] #TODO: validate timestamp here
 		sid = frappe.db.get_single_value("IOT HDB Settings", "mqtt_device_password_sid") or 'ZGV2aWNlIGlkCg=='
-		encoded_password = ""
+		encoded_password = timestamp
 		try:
 			encoded_password = hmac.new(sid.encode('utf-8'), username.encode('utf-8'), hashlib.sha1).hexdigest()
 		except Exception as ex:
 			return http_403("Auth Error")
 
-		if clientid == device_id and password == encoded_password:
+		if clientid == device_id and password.lower() == encoded_password:
 			if frappe.get_value("IOT Device", clientid, "enabled") == 1:
 				return http_200ok()
 			else:
