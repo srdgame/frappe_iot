@@ -44,7 +44,7 @@ def fire_raw_content(status=200, content="", content_type='text/plain'):
 	frappe.response['type'] = 'download'
 	if status != 200:
 		frappe.local.is_ajax = True
-		raise frappe.PermissionError
+		raise frappe.AuthenticationError
 
 
 def http_200ok(info=""):
@@ -57,19 +57,29 @@ def http_403(err):
 
 @frappe.whitelist(allow_guest=True)
 def auth(clientid=None, username=None, password=None):
+	clientid = clientid or frappe.form_dict.clientid
 	username = username or frappe.form_dict.username
 	password = password or frappe.form_dict.password
-	print('auth', username, password)
+	print('auth', clientid, username, password)
 
 	if username[0:4] == "dev=":
 		index = username.rfind("|time=")
 		if index == -1:
 			return http_403("Auth Error")
-		device_id = username[5:index]
+		device_id = username[4:index]
 		timestamp = username[index+6:] #TODO: validate timestamp here
 		sid = frappe.db.get_single_value("IOT HDB Settings", "mqtt_device_password_sid") or 'ZGV2aWNlIGlkCg=='
-		if clientid == device_id and password == hmac.new(sid, username, hashlib.sha1).hexdigest():
-			return http_200ok()
+		encoded_password = ""
+		try:
+			encoded_password = hmac.new(sid.encode('utf-8'), username.encode('utf-8'), hashlib.sha1).hexdigest()
+		except Exception as ex:
+			return http_403("Auth Error")
+
+		if clientid == device_id and password == encoded_password:
+			if frappe.get_value("IOT Device", clientid, "enabled") == 1:
+				return http_200ok()
+			else:
+				return http_403("Auth Error")
 		else:
 			return http_403("Auth Error")
 
