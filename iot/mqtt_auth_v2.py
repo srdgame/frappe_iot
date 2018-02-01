@@ -10,6 +10,7 @@ from __future__ import unicode_literals
 import frappe
 import json
 import hashlib
+import hmac
 import re
 from frappe import throw, msgprint, _
 
@@ -55,10 +56,22 @@ def http_403(err):
 
 
 @frappe.whitelist(allow_guest=True)
-def auth(username=None, password=None):
+def auth(clientid=None, username=None, password=None):
 	username = username or frappe.form_dict.username
 	password = password or frappe.form_dict.password
 	print('auth', username, password)
+
+	if username[0:4] == "dev=":
+		index = username.rfind("|time=")
+		if index == -1:
+			return http_403("Auth Error")
+		device_id = username[5:index]
+		timestamp = username[index+6:] #TODO: validate timestamp here
+		sid = frappe.db.get_single_value("IOT HDB Settings", "mqtt_device_password_sid") or 'ZGV2aWNlIGlkCg=='
+		if clientid == device_id and password == hmac.new(sid, username, hashlib.sha1).hexdigest():
+			return http_200ok()
+		else:
+			return http_403("Auth Error")
 
 	if username == 'root':
 		root_password = frappe.db.get_single_value("IOT HDB Settings", "mqtt_root_password") or 'bXF0dF9pb3RfYWRtaW4K'
