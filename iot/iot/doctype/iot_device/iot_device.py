@@ -159,7 +159,8 @@ def has_permission(doc, ptype, user):
 		return True
 
 	if doc.owner_type == "Cloud Company Group":
-		for user in doc.list_users():
+		from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users
+		for user in list_users(doc.owner_id):
 			if user.name == user:
 				return True
 
