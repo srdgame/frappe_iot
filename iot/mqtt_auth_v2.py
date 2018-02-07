@@ -153,8 +153,11 @@ def acl(username=None, topic=None, clientid=None, acc=None):
 			else:
 				return http_403("Auth Error")
 
-			if username == devid:
+			if clientid == devid:
 				return http_200ok()		# your self topics
+
+			if username[0:4] == "dev=":
+				return http_403("Auth Error")
 
 			dev = frappe.get_doc("IOT Device", devid)
 			role = dev.get_role_permission(username)
