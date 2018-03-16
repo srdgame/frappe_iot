@@ -241,6 +241,16 @@ def sys_enable_beta():
 
 
 @frappe.whitelist(allow_guest=True)
+def sys_batch_script():
+	'''
+	Enable/Disable data upload, enable if data is 1
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="batch_script", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def send_output():
 	'''
 	Send device output value, data example:{ "device": "{DeviceID}", "output": "aaaa", "value": "dddd", "prop": "int_value"}
