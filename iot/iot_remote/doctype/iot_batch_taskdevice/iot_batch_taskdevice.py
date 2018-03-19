@@ -7,4 +7,24 @@ import frappe
 from frappe.model.document import Document
 
 class IOTBatchTaskDevice(Document):
-	pass
+	def run_batch_script(self):
+		task = frappe.get_doc("IOT Batch Task", self.parent)
+		if self.status != 'New':
+			return
+
+		frappe.logger(__name__).info("Run batch script {0} on device {1}".format(task.name, self.device))
+
+		try:
+			from iot.device_api import send_action
+			task.set("status", "Running")
+			id = send_action("sys", action="batch_script", device=self.device, data=task.batch_script)
+			while True:
+				a = 1
+			self.set("status", "Finished")
+			self.set("info", "Script run completed")
+		except Exception, e:
+			frappe.logger(__name__).error(_("Run batch script {0} on {1} failed {1}").format(task.name, self.device, e.message))
+			self.set("status", 'Error')
+			self.set("info", e.message)
+		finally:
+			task.update_status()
