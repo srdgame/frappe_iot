@@ -11,14 +11,13 @@ from frappe.model.document import Document
 
 class IOTBatchTask(Document):
 	def validate(self):
-		self.owner_id = frappe.session.user
+		if not self.owner_id:
+			self.owner_id = frappe.session.user
 
 	def on_submit(self):
 		frappe.enqueue_doc('IOT Batch Task', self.name, 'run_task', timeout=self.timeout + 60)
 
 	def run_task(self):
-		if self.docstatus != 1:
-			return
 		if self.status in ["Error", "Finished"]:
 			return
 
@@ -28,20 +27,16 @@ class IOTBatchTask(Document):
 		for device in device_list:
 			frappe.enqueue_doc('IOT Batch TaskDevice', device.name, 'run_batch_script', timeout=timeout)
 
-		self.set("status", "Running")
-		self.save()
+		frappe.db.set_value("IOT Batch Task", self.name, "status", "Running")
 
 		time.sleep(self.timeout)
 		self.update_status()
 
 	def update_status(self):
-		self.reload()
 		device_list = self.get("device_list")
-		count = 0
 		for device in device_list:
 			status = device.get("status")
 			if status in ["New", "Running"]:
 				return
 
-		self.set("status", "Finished")
-		self.save()
+		frappe.db.set_value("IOT Batch Task", self.name, "status", "Finished")
