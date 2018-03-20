@@ -7,10 +7,10 @@ frappe.ui.form.on('IOT Batch Task', {
 			frm.add_custom_button(__("Resend"), function() {
 				me.frm.set_value("status", "New");
 				me.frm.amend_doc();
-			});
+			}).removeClass("btn-default").addClass("btn-primary");
 			frm.add_custom_button(__("Update Status"), function() {
 				frm.events.update_status(frm);
-			});
+			}).removeClass("btn-default").addClass("btn-primary");
 		}
 	},
 	update_status: function(frm) {

@@ -31,20 +31,24 @@ class IOTBatchTaskDevice(Document):
 			self.set("status", 'Error')
 			self.set("info", e.message)
 		finally:
-			task.update_status(task)
+			self.save()
 
-	def update_status(self, task=None):
-		task = task or frappe.get_doc("IOT Batch Task", self.parent)
+	def update_status(self):
+		task = frappe.get_doc("IOT Batch Task", self.parent)
 		timeout = task.timeout
 		time_delta = now_datetime() - get_datetime(self.get("action_startime"))
 		if time_delta.total_seconds() >= timeout:
 			self.set("status", "Error")
 			self.set("info", "Timeout!!")
-		else:
-			result = get_action_result(id)
-			print(result)
-			if result.get('result') == True or result.get('result') == 'True':
-				self.set("status", "Finished")
-				self.set("info", "Script run completed")
+			self.save()
+			return
+
+		result = get_action_result(id)
+		if not result:
+			return
+		print(result)
+		if result.get('result') == True or result.get('result') == 'True':
+			self.set("status", "Finished")
+			self.set("info", "Script run completed")
 
 		self.save()
