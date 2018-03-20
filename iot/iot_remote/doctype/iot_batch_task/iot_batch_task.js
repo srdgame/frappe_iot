@@ -8,6 +8,19 @@ frappe.ui.form.on('IOT Batch Task', {
 				me.frm.set_value("status", "New");
 				me.frm.amend_doc();
 			});
+			frm.add_custom_button(__("Update Status"), function() {
+				frm.events.update_status(frm);
+			});
 		}
+	},
+	update_status: function(frm) {
+		return frappe.call({
+			doc: frm.doc,
+			method: "update_status",
+			freeze: true,
+			callback: function(r) {
+				if(!r.exc) frm.refresh_fields();
+			}
+		})
 	}
 });
