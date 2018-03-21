@@ -51,6 +51,6 @@ class IOTBatchTask(Document):
 
 
 def check_all_task_status():
-	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": ["in", ["New", "Partial"]], "docstatus": 1}):
-		doc = frappe.get_doc("IOT Batch task", d.name)
+	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": ["in", ["Running", "Partial"]], "docstatus": 1}):
+		doc = frappe.get_doc("IOT Batch Task", d.name)
 		doc.update_status()
