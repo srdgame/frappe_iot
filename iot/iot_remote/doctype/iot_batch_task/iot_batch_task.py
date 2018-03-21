@@ -35,7 +35,7 @@ class IOTBatchTask(Document):
 	def update_status(self):
 		print("========================= check_all_task_status ==============================")
 		print("Task Name", self.name, self.task_name)
-		if self.status != 'Running':
+		if self.status not in ['Running', 'Partial']:
 			return
 		device_list = self.get("device_list")
 		done = 0
