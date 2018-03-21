@@ -33,6 +33,8 @@ class IOTBatchTask(Document):
 		frappe.db.set_value("IOT Batch Task", self.name, "status", "Running")
 
 	def update_status(self):
+		print("========================= check_all_task_status ==============================")
+		print("Task Name", self.name, self.task_name)
 		if self.status != 'Running':
 			return
 		device_list = self.get("device_list")
@@ -49,7 +51,6 @@ class IOTBatchTask(Document):
 
 
 def check_all_task_status():
-	print("========================= check_all_task_status ==============================")
 	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": ["in", ["New", "Partial"]], "docstatus": 1}):
 		doc = frappe.get_doc("IOT Batch task", d.name)
 		doc.update_status()

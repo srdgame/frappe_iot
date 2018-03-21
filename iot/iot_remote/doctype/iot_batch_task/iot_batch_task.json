@@ -328,7 +328,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-03-20 17:16:03.659380", 
+ "modified": "2018-03-21 14:47:15.437037", 
  "modified_by": "Administrator", 
  "module": "IOT Remote", 
  "name": "IOT Batch Task", 
@@ -399,9 +399,11 @@
  "quick_entry": 1, 
  "read_only": 0, 
  "read_only_onload": 0, 
+ "search_fields": "task_name,task_description", 
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
+ "title_field": "task_name", 
  "track_changes": 1, 
  "track_seen": 0
 }
