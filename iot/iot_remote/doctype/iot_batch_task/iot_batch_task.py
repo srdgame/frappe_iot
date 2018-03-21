@@ -10,9 +10,13 @@ from frappe.model.document import Document
 
 
 class IOTBatchTask(Document):
-	def validate(self):
+	def on_update(self):
 		if not self.owner_id:
 			self.owner_id = frappe.session.user
+		if self.status == 'New':
+			for device in self.get("device_list"):
+				device.status = 'New'
+				device.info = ''
 
 	def on_submit(self):
 		frappe.enqueue_doc('IOT Batch Task', self.name, 'run_task')
@@ -32,16 +36,20 @@ class IOTBatchTask(Document):
 		if self.status != 'Running':
 			return
 		device_list = self.get("device_list")
-		partial = False
+		done = 0
 		for device in device_list:
-			device.update_status()
-			status = device.get("status")
-			if status in ["New", "Running"]:
-				return
-			if status in ["Error", "Partial"]:
-				partial = True
-		if not partial:
-			frappe.db.set_value("IOT Batch Task", self.name, "status", "Finished")
-		else:
-			frappe.db.set_value("IOT Batch Task", self.name, "status", "Partial")
+			status = device.update_status()
+			if status in ["Finished", "Error"]:
+				done = done + 1
 
+		if done < len(device_list) and done > 0:
+			frappe.db.set_value("IOT Batch Task", self.name, "status", "Partial")
+		if done == len(device_list):
+			frappe.db.set_value("IOT Batch Task", self.name, "status", "Finished")
+
+
+def check_all_task_status():
+	print("========================= check_all_task_status ==============================")
+	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": ["in", ["New", "Partial"]], "docstatus": 1}):
+		doc = frappe.get_doc("IOT Batch task", d.name)
+		doc.update_status()

@@ -26,11 +26,11 @@ class IOTBatchTaskDevice(Document):
 			id = send_action("sys", action="batch_script", device=self.device, data=task.batch_script)
 			if not id:
 				throw("Send action failed")
-			task.set("status", "Running")
+			self.__set_val("status", "Running")
 			self.__set_val("action_id", id)
-			self.__set_val("action_startime", now())
+			self.__set_val("action_starttime", now())
 		except Exception, e:
-			frappe.logger(__name__).error(_("Run batch script {0} on {1} failed {1}").format(task.name, self.device, e.message))
+			frappe.logger(__name__).error(_("Run batch script {0} on {1} failed. {2}").format(task.name, self.device, e.message))
 			self.__set_val("status", 'Error')
 			self.__set_val("info", e.message)
 		finally:
@@ -39,19 +39,20 @@ class IOTBatchTaskDevice(Document):
 	def update_status(self):
 		task = frappe.get_doc("IOT Batch Task", self.parent)
 		timeout = task.timeout
-		time_delta = now_datetime() - get_datetime(self.get("action_startime"))
+		time_delta = now_datetime() - get_datetime(self.get("action_starttime"))
 		if time_delta.total_seconds() >= timeout:
 			self.__set_val("status", "Error")
 			self.__set_val("info", "Timeout!!")
 			frappe.db.commit()
-			return
+			return "Error"
 
+		id = self.get("action_id")
 		result = get_action_result(id)
-		if not result:
-			return
-		print(result)
-		if result.get('result') == True or result.get('result') == 'True':
-			self.__set_val("status", "Finished")
-			self.__set_val("info", "Script run completed")
+		if result:
+			if result.get('result') == True or result.get('result') == 'True':
+				self.__set_val("status", "Finished")
+				self.__set_val("info", "Script run completed")
+				frappe.db.commit()
+				return "Finished"
 
-		frappe.db.commit()
+		return self.get("status")
