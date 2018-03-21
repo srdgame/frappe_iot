@@ -18,11 +18,8 @@ class IOTBatchTask(Document):
 		frappe.enqueue_doc('IOT Batch Task', self.name, 'run_task')
 
 	def run_task(self):
-		if self.status in ["Error", "Finished", "Partial"]:
+		if self.status in ["Error", "Finished", "Partial", "Running"]:
 			return
-
-		if self.status == 'Running':
-			return self.update_status()
 
 		device_list = self.get("device_list")
 
@@ -32,6 +29,8 @@ class IOTBatchTask(Document):
 		frappe.db.set_value("IOT Batch Task", self.name, "status", "Running")
 
 	def update_status(self):
+		if self.status != 'Running':
+			return
 		device_list = self.get("device_list")
 		partial = False
 		for device in device_list:

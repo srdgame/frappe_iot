@@ -12,6 +12,9 @@ from iot.device_api import send_action, get_action_result
 
 
 class IOTBatchTaskDevice(Document):
+	def __set_val(self, dt, dv):
+		frappe.db.set_value("IOT Batch TaskDevice", self.name, dt, dv)
+
 	def run_batch_script(self):
 		task = frappe.get_doc("IOT Batch Task", self.parent)
 		if self.status != 'New':
@@ -24,23 +27,23 @@ class IOTBatchTaskDevice(Document):
 			if not id:
 				throw("Send action failed")
 			task.set("status", "Running")
-			self.set("action_id", id)
-			self.set("action_startime", now())
+			self.__set_val("action_id", id)
+			self.__set_val("action_startime", now())
 		except Exception, e:
 			frappe.logger(__name__).error(_("Run batch script {0} on {1} failed {1}").format(task.name, self.device, e.message))
-			self.set("status", 'Error')
-			self.set("info", e.message)
+			self.__set_val("status", 'Error')
+			self.__set_val("info", e.message)
 		finally:
-			self.save()
+			frappe.db.commit()
 
 	def update_status(self):
 		task = frappe.get_doc("IOT Batch Task", self.parent)
 		timeout = task.timeout
 		time_delta = now_datetime() - get_datetime(self.get("action_startime"))
 		if time_delta.total_seconds() >= timeout:
-			self.set("status", "Error")
-			self.set("info", "Timeout!!")
-			self.save()
+			self.__set_val("status", "Error")
+			self.__set_val("info", "Timeout!!")
+			frappe.db.commit()
 			return
 
 		result = get_action_result(id)
@@ -48,7 +51,7 @@ class IOTBatchTaskDevice(Document):
 			return
 		print(result)
 		if result.get('result') == True or result.get('result') == 'True':
-			self.set("status", "Finished")
-			self.set("info", "Script run completed")
+			self.__set_val("status", "Finished")
+			self.__set_val("info", "Script run completed")
 
-		self.save()
+		frappe.db.commit()
