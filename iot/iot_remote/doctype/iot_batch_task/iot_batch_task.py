@@ -39,18 +39,24 @@ class IOTBatchTask(Document):
 		device_list = self.get("device_list")
 		done = 0
 		err = 0
+		partial = 0
 		for device in device_list:
 			status = device.update_status()
 			if status in ["Finished", "Error", "Partial"]:
 				done = done + 1
-			if status != "Finished":
+			if status == "Error":
 				err = err + 1
+			if status == "Partial":
+				partial = partial + 1
 
 		if done == len(device_list):
-			if err == 0:
+			if (err + partial) == 0:
 				frappe.db.set_value("IOT Batch Task", self.name, "status", "Finished")
 			else:
-				frappe.db.set_value("IOT Batch Task", self.name, "status", "Partial")
+				if partial != 0:
+					frappe.db.set_value("IOT Batch Task", self.name, "status", "Partial")
+				else:
+					frappe.db.set_value("IOT Batch Task", self.name, "status", "Error")
 
 
 def check_all_task_status():
