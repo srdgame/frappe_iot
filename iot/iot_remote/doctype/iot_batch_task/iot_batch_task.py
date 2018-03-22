@@ -33,8 +33,7 @@ class IOTBatchTask(Document):
 		frappe.db.set_value("IOT Batch Task", self.name, "status", "Running")
 
 	def update_status(self):
-		print("========================= check_all_task_status ==============================")
-		print("Task Name", self.name, self.task_name)
+		frappe.logger(__name__).error(_("IOT Batch Task: mame {0} task_name {1}").format(self.name, self.task_name))
 		if self.status not in ['Running', 'Partial']:
 			return
 		device_list = self.get("device_list")
