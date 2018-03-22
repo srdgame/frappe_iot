@@ -36,10 +36,62 @@ class IOTBatchTaskDevice(Document):
 		finally:
 			frappe.db.commit()
 
+	def __get_action_result(self):
+		id = self.get("action_id")
+		result = get_action_result(id)
+		if not result:
+			return "Running"
+		print("Action result", result)
+		if result.get('result') == True or result.get('result') == 'True':
+			running = 0
+			done = 0
+			err = 0
+			sub_list = result.get("message")
+			msg = ""
+			for sub in sub_list:
+				result = get_action_result(sub.get("id"))
+				if result:
+					print("Sub Action result", result)
+					if result.get('result') == True or result.get('result') == 'True':
+						done = done + 1
+					else:
+						err = err + 1
+						msg = msg + "Action id: {0}\r\nTimestamp: {1}\r\nMessage: {2}\r\n".format(
+							result.get("id"),
+							result.get("timestamp_str"),
+							result.get("message"))
+				else:
+					running = running + 1
+			if running > 0:
+				ret = "Partial"
+			else:
+				if err + done == len(sub_list):
+					if err == 0:
+						ret = "Finished"
+						self.__set_val("info", "Time: {0} Message: {1}".format(now()))
+					else:
+						ret = "Error"
+						self.__set_val("info", "Time: {0}\r\nError: {1}\r\nCompleted: {2}\r\nMessage:{3}".format(now(), err, done, msg))
+			self.__set_val("status", ret)
+			frappe.db.commit()
+			return ret
+		else:
+			self.__set_val("status", "Error")
+			self.__set_val("info", "Failed Time: {0} Error: {1}".format(result.get("timestamp_str"), result.get("message")))
+			frappe.db.commit()
+			return "Error"
+
+
 	def update_status(self):
 		task = frappe.get_doc("IOT Batch Task", self.parent)
 		timeout = task.timeout
-		print(timeout, self.get("action_starttime"))
+		start_time = self.get("action_starttime")
+		if not start_time:
+			self.__set_val("status", "Error")
+			self.__set_val("info", "Timeout!!")
+			frappe.db.commit()
+			return "Error"
+
 		time_delta = now_datetime() - get_datetime(self.get("action_starttime"))
 		if time_delta.total_seconds() >= timeout:
 			self.__set_val("status", "Error")
@@ -47,18 +99,4 @@ class IOTBatchTaskDevice(Document):
 			frappe.db.commit()
 			return "Error"
 
-		id = self.get("action_id")
-		result = get_action_result(id)
-		if result:
-			if result.get('result') == True or result.get('result') == 'True':
-				self.__set_val("status", "Finished")
-				self.__set_val("info", "Finished Time: {0} Message: {1}".format(result.get("timestamp_str"), result.get("message")))
-				frappe.db.commit()
-				return "Finished"
-			else:
-				self.__set_val("status", "Error")
-				self.__set_val("info", "Failed Time: {0} Error: {1}".format(result.get("timestamp_str"), result.get("message")))
-				frappe.db.commit()
-				return "Error"
-
-		return self.get("status")
+		return self.__get_action_result()
