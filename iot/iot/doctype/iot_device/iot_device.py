@@ -152,17 +152,24 @@ def has_permission(doc, ptype, user):
 	if 'IOT Manager' in frappe.get_roles(user):
 		return True
 
-	if frappe.get_value('Cloud Company', {'admin': user, 'name': doc.company}):
+	company = frappe.get_value('IOT Device', doc.name, 'company')
+	if frappe.get_value('Cloud Company', {'admin': user, 'name': company}):
 		return True
 
-	if doc.owner_type == 'User' and doc.owner_id == user:
+	owner_type = frappe.get_value('IOT Device', doc.name, 'owner_type')
+	owner_id = frappe.get_value('IOT Device', doc.name, 'owner_id')
+
+	if owner_type == 'User' and owner_id == user:
 		return True
 
-	if doc.owner_type == "Cloud Company Group":
+	if owner_type == "Cloud Company Group":
 		from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users
-		for user in list_users(doc.owner_id):
-			if user.name == user:
+		for d in list_users(owner_id):
+			if d.name == user:
 				return True
+
+	if owner_type == '' and owner_id == None:
+		return True
 
 	return False
 
