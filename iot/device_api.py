@@ -142,7 +142,7 @@ def app_query_log():
 @frappe.whitelist(allow_guest=True)
 def app_option():
 	'''
-	Query application log, data example: {"inst": "bms", "auto": 1}
+	Query application log, data example: {"inst": "bms", "option": "auto", "value": 1}
 	:return:
 	'''
 	data = get_post_json_data()
