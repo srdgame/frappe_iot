@@ -132,11 +132,21 @@ def app_stop():
 @frappe.whitelist(allow_guest=True)
 def app_query_log():
 	'''
-	Query application log, data example: {"name": "bms", "max_count": "60"}
+	Query application log, data example: {"inst": "bms", "max_count": "60"}
 	:return:
 	'''
 	data = get_post_json_data()
 	return send_action("app", action="query_log", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def app_option():
+	'''
+	Query application log, data example: {"inst": "bms", "auto": 1}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="option", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
