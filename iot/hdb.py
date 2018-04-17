@@ -37,7 +37,8 @@ def iot_device_data(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	vsn = vsn or sn
 	doc = frappe.get_doc('IOT Device', sn)
-	doc.has_permission("read")
+	if not doc.has_permission("read"):
+		raise frappe.PermissionError
 
 	if vsn != sn:
 		if vsn not in iot_device_tree(sn):
@@ -65,7 +66,8 @@ def iot_device_data_array(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	vsn = vsn or sn
 	doc = frappe.get_doc('IOT Device', sn)
-	doc.has_permission("read")
+	if not doc.has_permission("read"):
+		raise frappe.PermissionError
 
 	if vsn != sn:
 		if vsn not in iot_device_tree(sn):
@@ -98,7 +100,8 @@ def iot_device_data_array(sn=None, vsn=None):
 def iot_device_his_data(key, sn, vsn=None, fields="*", condition=None):
 	vsn = vsn or sn
 	doc = frappe.get_doc('IOT Device', sn)
-	doc.has_permission("read")
+	if not doc.has_permission("read"):
+		raise frappe.PermissionError
 
 	if vsn != sn:
 		if vsn not in iot_device_tree(sn):
@@ -126,7 +129,8 @@ def iot_device_his_data(key, sn, vsn=None, fields="*", condition=None):
 def iot_device_tree(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
-	doc.has_permission("read")
+	if not doc.has_permission("read"):
+		raise frappe.PermissionError
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11")
 	return client.lrange(sn, 0, -1)
 
@@ -135,7 +139,8 @@ def iot_device_tree(sn=None):
 def iot_device_cfg(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
-	doc.has_permission("read")
+	if not doc.has_permission("read"):
+		raise frappe.PermissionError
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/10")
 	return json.loads(client.get(vsn or sn) or "{}")
 
