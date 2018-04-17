@@ -82,13 +82,14 @@ def iot_device_data_array(sn=None, vsn=None):
 	if cfg.has_key("inputs"):
 		inputs = cfg.get("inputs")
 		for input in inputs:
-			s = hs.get(input + "/value")
+			input_name = input.get('name')
+			s = hs.get(input_name + "/value")
 			if not s:
 				continue
-			val = json.loads(hs.get(input + "/value"))
+			val = json.loads(hs.get(input_name + "/value"))
 			ts = datetime.datetime.utcfromtimestamp(int(int(val[0]) / 1000))
 			timestr = str(convert_utc_to_user_timezone(ts).replace(tzinfo=None))
-			data.append({"NAME": input, "PV": val[1], "TM": timestr, "Q": val[1]})
+			data.append({"name": input_name, "pv": val[1], "tm": timestr, "q": val[2], "vt": input.get('vt'), "desc": input.get("desc") })
 
 	return data
 
@@ -136,7 +137,7 @@ def iot_device_cfg(sn=None, vsn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/10")
-	return json.loads(client.get(vsn or sn) or "")
+	return json.loads(client.get(vsn or sn) or "{}")
 
 
 def get_post_json_data():
