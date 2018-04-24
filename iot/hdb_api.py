@@ -416,7 +416,8 @@ def add_device_event(event=None):
 		throw(_("Device {0} not found.").format(device))
 
 	doc = frappe.get_doc({
-		"doctype": "IOT Device Error",
+		"doctype": "IOT Device Event",
+		"device": device,
 		"event_level": int(event.get("level") or 0),
 		"event_type": event.get("type"),
 		"event_info": event.get("info"),
