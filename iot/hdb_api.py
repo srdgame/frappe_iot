@@ -405,6 +405,31 @@ def add_device_error(err_data=None):
 
 
 @frappe.whitelist(allow_guest=True)
+def add_device_event(event=None):
+	valid_auth_code()
+	event = event or get_post_json_data()
+	device = event.get("device")
+	if not device:
+		throw(_("Request fields not found. fields: device"))
+
+	if not IOTDevice.check_sn_exists(device):
+		throw(_("Device {0} not found.").format(device))
+
+	doc = frappe.get_doc({
+		"doctype": "IOT Device Error",
+		"event_level": int(event.get("level") or 0),
+		"event_type": event.get("type"),
+		"event_info": event.get("info"),
+		"event_data": event.get("data"),
+		"event_time": event.get("time"),
+		"event_device": event.get("device"),
+		"event_source": event.get("source"),
+	}).insert().as_dict()
+
+	return doc
+
+
+@frappe.whitelist(allow_guest=True)
 def get_user_session(user):
 	valid_auth_code()
 	if user:
