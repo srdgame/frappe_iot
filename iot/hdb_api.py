@@ -425,6 +425,7 @@ def add_device_event(event=None):
 		"event_time": event.get("time"),
 		"event_device": event.get("device"),
 		"event_source": event.get("source"),
+		"wechat_notify": 1,
 	}).insert().as_dict()
 
 	return doc
