@@ -296,7 +296,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-04-24 17:44:03.558207", 
+ "modified": "2018-04-25 15:18:32.347103", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT Device Event", 
@@ -353,5 +353,5 @@
  "sort_order": "DESC", 
  "title_field": "", 
  "track_changes": 1, 
- "track_seen": 1
+ "track_seen": 0
 }
