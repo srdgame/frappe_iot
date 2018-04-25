@@ -11,7 +11,8 @@ from frappe.utils.data import format_datetime
 
 class IOTDeviceEvent(Document):
 	def on_submit(self):
-		frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
+		if self.wechat_notify == 1:
+			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 
 	def wechat_msg_send(self):
 		from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
