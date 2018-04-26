@@ -27,7 +27,7 @@ class IOTDevice(Document):
 			return
 		self.set("device_status", status)
 		self.set("last_updated", now())
-		self.save()
+		self.save(ignore_version=True)
 
 	def update_owner(self, owner_type, owner_id):
 		""" update device owner """
