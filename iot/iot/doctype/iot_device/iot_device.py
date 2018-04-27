@@ -12,6 +12,7 @@ from frappe import _
 from frappe.utils import now, get_datetime, cstr
 from frappe.utils import cint
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_status_log, add_device_owner_log
 
 
 class IOTDevice(Document):
@@ -28,14 +29,15 @@ class IOTDevice(Document):
 		if org_owner_id != self.owner_id:
 			if org_owner_id:
 				org_owner_type = frappe.get_value("IOT Device", self.name, "owner_type")
-				message = _("Remove device from {0}").format(org_owner_id)
-				add_device_owner_log(message, frappe.session.user, self.name, org_owner_type, org_owner_id)
+				subject = _("Remove device from {0}").format(org_owner_id)
+				add_device_owner_log(subject, self.name, self.company, org_owner_type, org_owner_id)
 			if self.owner_id:
-				message = _("Add device to {0}").format(self.owner_id)
-				add_device_owner_log(message, self.name, self.owner_type, self.owner_id)
+				subject = _("Add device to {0}").format(self.owner_id)
+				add_device_owner_log(subject, self.name, self.company,  self.owner_type, self.owner_id)
 		last_updated = frappe.get_value("IOT Device", self.name, "last_updated")
 		if last_updated != self.last_updated:
-			add_device_status_log(self.name, self.device_status, self.last_updated)
+			subject = _("Device {0} status change").format(self.name)
+			add_device_status_log(subject, self, self.device_status, self.last_updated)
 
 
 	def update_status(self, status):
@@ -245,33 +247,3 @@ def list_device_map2():
 		if not dev.latitude:
 			dev.latitude = '40.045103'
 	return devices
-
-
-def add_device_owner_log(message, dev_name, owner_type, owner_id, status="Success"):
-	frappe.get_doc({
-		"doctype": "Activity Log",
-		"user": frappe.session.user,
-		"status": status,
-		"subject": "IOT Device Activity: Device Owner Update",
-		"reference_doctype": "IOT Device",
-		"reference_name": dev_name,
-		"link_doctype": owner_type,
-		"link_name": owner_id,
-		"message": message
-	}).insert(ignore_permissions=True)
-
-
-def add_device_status_log(dev_name, device_status, last_updated, status="Success", message=None):
-	frappe.get_doc({
-		"doctype": "Activity Log",
-		"user": frappe.session.user,
-		"status": status,
-		"subject": "IOT Device Activity: Device Status",
-		"reference_doctype": "IOT Device",
-		"reference_name": dev_name,
-		"message": json.dumps({
-			"device_status": status,
-			"last_updated": last_updated,
-			"message": message,
-		})
-	}).insert(ignore_permissions=True)

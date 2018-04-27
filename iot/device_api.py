@@ -49,21 +49,24 @@ def get_action_result(id):
 		return json.loads(str)
 
 
-def add_device_action_log(channel, action, id, device, data, status="Success", message=None):
+def add_device_action_log(dev_doc, channel, action, id, data, status="Success", message=None):
 	frappe.get_doc({
-		"doctype": "Activity Log",
+		"doctype": "IOT Device Activity",
 		"user": frappe.session.user,
 		"status": status,
-		"subject": "IOT Device Activity: Device Action",
-		"reference_doctype": "IOT Device",
-		"reference_name": device,
+		"operation": "Action",
+		"subject": _("Device action {0} - {1}").format(channel, action),
+		"device": dev_doc.name,
+		"owner_type": dev_doc.owner_type,
+		"owner_id": dev_doc.owner_id,
+		"owner_company": dev_doc.company,
 		"message": json.dumps({
 			"channel": channel,
 			"action": action,
 			"id": id,
-			"device": device,
-			"data": data
-		}),
+			"data": data,
+			"message": message
+		})
 	}).insert(ignore_permissions=True)
 
 
@@ -79,7 +82,7 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 
 	doc = frappe.get_doc("IOT Device", device)
 	if not doc.has_permission("write"):
-		add_device_action_log(channel, action, id, device, data, "Failed", "Permission error")
+		add_device_action_log(doc, channel, action, id, data, "Failed", "Permission error")
 		frappe.throw(_("Not permitted"), frappe.PermissionError)
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
@@ -94,10 +97,10 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 		})
 	r = client.publish("device_" + channel, json.dumps(args))
 	if r <= 0:
-		add_device_action_log(channel, action, id, device, data, "Failed", "Redis error")
+		add_device_action_log(doc, channel, action, id, data, "Failed", "Redis error")
 		throw(_("Redis message published, but no listener!"))
 
-	add_device_action_log(channel, action, id, device, data)
+	add_device_action_log(doc, channel, action, id, data)
 	return id
 
 
