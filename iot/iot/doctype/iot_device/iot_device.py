@@ -84,8 +84,6 @@ class IOTDevice(Document):
 		except Exception, e:
 			frappe.logger(__name__).error(e)
 			#traceback.print_exc()
-		finally:
-			frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
 		return dev
 
 	@staticmethod
