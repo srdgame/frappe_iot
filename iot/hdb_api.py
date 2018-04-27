@@ -414,6 +414,7 @@ def add_device_event(event=None):
 
 	if not IOTDevice.check_sn_exists(device):
 		throw(_("Device {0} not found.").format(device))
+	dev_doc = frappe.get_doc("IOT Device", device)
 
 	doc = frappe.get_doc({
 		"doctype": "IOT Device Event",
@@ -425,6 +426,9 @@ def add_device_event(event=None):
 		"event_time": event.get("time"),
 		"event_device": event.get("device"),
 		"event_source": event.get("source"),
+		"owner_type": dev_doc.owner_type,
+		"owner_id": dev_doc.owner_id,
+		"owner_company": dev_doc.compnay,
 		"wechat_notify": 1,
 	}).insert().as_dict()
 

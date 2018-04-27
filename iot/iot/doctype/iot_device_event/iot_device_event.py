@@ -53,3 +53,8 @@ class IOTDeviceEvent(Document):
 	def wechat_tmsg_url(self):
 		return self.get_url()
 
+
+def on_doctype_update():
+	"""Add indexes in `IOT Device Event`"""
+	frappe.db.add_index("IOT Device Event", ["device", "owner_company"])
+	frappe.db.add_index("IOT Device Event", ["owner_type", "owner_id"])
