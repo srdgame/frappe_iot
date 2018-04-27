@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _,throw
 from frappe.model.document import Document
 from frappe.utils import get_fullname, now
 
@@ -54,3 +55,16 @@ def add_device_status_log(subject, dev_doc, device_status, last_updated, status=
 def clear_device_activity_logs():
 	"""clear 100 day old authentication logs"""
 	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
+
+
+def query_logs_by_user(user):
+	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+	groups = [g.name for g in list_user_groups(user)]
+	groups.append(user)
+	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_id": ["in", groups]}, order_by="creation desc")
+
+
+
+def query_logs_by_company(company):
+	#frappe.logger(__name__).debug(_("query_device_logs_by_company {0}").format(company))
+	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_company": company}, order_by="creation desc")
