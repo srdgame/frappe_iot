@@ -172,7 +172,10 @@ scheduler_events = {
 		"0/10 * * * *": [
 			"iot.iot_remote.doctype.iot_batch_task.iot_batch_task.check_all_task_status"
 		]
-	}
+	},
+	"daily": [
+		"iot.iot.doctype.iot_device_activity.iot_device_activity.clear_device_activity_logs"
+	],
 }
 
 # Testing

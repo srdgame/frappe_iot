@@ -49,3 +49,8 @@ def add_device_status_log(subject, dev_doc, device_status, last_updated, status=
 			"last_updated": last_updated,
 		})
 	}).insert(ignore_permissions=True)
+
+
+def clear_device_activity_logs():
+	"""clear 100 day old authentication logs"""
+	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
