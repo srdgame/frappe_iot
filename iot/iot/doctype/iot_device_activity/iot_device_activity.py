@@ -7,7 +7,7 @@ import frappe
 import json
 from frappe import _,throw
 from frappe.model.document import Document
-from frappe.utils import get_fullname, now
+from frappe.utils import get_fullname, now, get_datetime_str
 
 class IOTDeviceActivity(Document):
 	def before_insert(self):
@@ -45,7 +45,7 @@ def add_device_status_log(subject, dev_doc, device_status, last_updated, status=
 		"owner_type": dev_doc.owner_type,
 		"owner_id": dev_doc.owner_id,
 		"owner_company": dev_doc.company,
-		"message": json.dump({
+		"message": json.dumps({
 			"device_status": device_status,
 			"last_updated": last_updated,
 		})

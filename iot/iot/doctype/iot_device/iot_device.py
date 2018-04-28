@@ -36,7 +36,10 @@ class IOTDevice(Document):
 				add_device_owner_log(subject, self.name, self.company,  self.owner_type, self.owner_id)
 		last_updated = frappe.get_value("IOT Device", self.name, "last_updated")
 		if last_updated != self.last_updated:
-			subject = _("Device {0} status change").format(self.name)
+			if self.device_status == 'ONLINE':
+				subject = _("Device {0} connected").format(self.name)
+			else:
+				subject = _("Device {0} disconnected").format(self.name)
 			add_device_status_log(subject, self, self.device_status, self.last_updated)
 
 
