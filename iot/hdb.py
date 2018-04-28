@@ -89,7 +89,7 @@ def iot_device_data_array(sn=None, vsn=None):
 			if not s:
 				continue
 			val = json.loads(hs.get(input_name + "/value"))
-			ts = datetime.datetime.utcfromtimestamp(int(int(val[0]) / 1000))
+			ts = datetime.datetime.utcfromtimestamp(int(val[0]))
 			timestr = str(convert_utc_to_user_timezone(ts).replace(tzinfo=None))
 			data.append({"name": input_name, "pv": val[1], "tm": timestr, "q": val[2], "vt": input.get('vt'), "desc": input.get("desc") })
 
