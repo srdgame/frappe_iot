@@ -120,6 +120,7 @@ permission_query_conditions = {
 # Dirk: has permission will replace system's permission checking for DocType
 has_permission = {
 	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
+	"IOT Device Activity": "iot.iot.doctype.iot_device_activity.iot_device_activity.has_permission",
 	"IOT Share Group": "iot.iot.doctype.iot_share_group.iot_share_group.has_permission",
 }
 
