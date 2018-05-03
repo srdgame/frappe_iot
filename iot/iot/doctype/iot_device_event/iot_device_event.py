@@ -58,3 +58,29 @@ def on_doctype_update():
 	"""Add indexes in `IOT Device Event`"""
 	frappe.db.add_index("IOT Device Event", ["device", "owner_company"])
 	frappe.db.add_index("IOT Device Event", ["owner_type", "owner_id"])
+
+
+def has_permission(doc, ptype, user):
+	if 'IOT Manager' in frappe.get_roles(user):
+		return True
+
+	company = frappe.get_value('IOT Device Event', doc.name, 'company')
+	if frappe.get_value('Cloud Company', {'admin': user, 'name': company}):
+		return True
+
+	owner_type = frappe.get_value('IOT Device Event', doc.name, 'owner_type')
+	owner_id = frappe.get_value('IOT Device Event', doc.name, 'owner_id')
+
+	if owner_type == 'User' and owner_id == user:
+		return True
+
+	if owner_type == "Cloud Company Group":
+		from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users
+		for d in list_users(owner_id):
+			if d.name == user:
+				return True
+
+	if owner_type == '' and owner_id == None:
+		return True
+
+	return False

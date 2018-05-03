@@ -121,6 +121,7 @@ permission_query_conditions = {
 has_permission = {
 	"IOT Device": "iot.iot.doctype.iot_device.iot_device.has_permission",
 	"IOT Device Activity": "iot.iot.doctype.iot_device_activity.iot_device_activity.has_permission",
+	"IOT Device Event": "iot.iot.doctype.iot_device_event.iot_device_event.has_permission",
 	"IOT Share Group": "iot.iot.doctype.iot_share_group.iot_share_group.has_permission",
 }
 
