@@ -13,7 +13,7 @@ app_email = "dirk.chang@symid.com"
 app_license = "MIT"
 source_link = "https://github.com/srdgame/frappe_iot"
 
-error_report_email = "dirk.chang@symid.com.com"
+error_report_email = "dirk.chang@symid.com"
 
 # Includes in <head>
 # ------------------
