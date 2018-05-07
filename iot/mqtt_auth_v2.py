@@ -132,11 +132,11 @@ def superuser(username=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def acl(username=None, topic=None, clientid=None, acc=None):
+def acl(username=None, topic=None, clientid=None, access=None, acc=None):
 	username = username or frappe.form_dict.username
 	topic = topic or frappe.form_dict.topic			# via our auth plugin, this topic is the device id only
 	clientid = clientid or frappe.form_dict.clientid
-	acc = acc or frappe.form_dict.acc
+	acc = access or acc or frappe.form_dict.access or frappe.form_dict.acc
 	print('acl', username, topic, clientid, acc)
 
 	if username == 'root':
