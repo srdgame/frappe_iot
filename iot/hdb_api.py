@@ -428,7 +428,7 @@ def add_device_event(event=None):
 		"event_source": event.get("source"),
 		"owner_type": dev_doc.owner_type,
 		"owner_id": dev_doc.owner_id,
-		"owner_company": dev_doc.compnay,
+		"owner_company": dev_doc.company,
 		"wechat_notify": 1,
 	}).insert().as_dict()
 
