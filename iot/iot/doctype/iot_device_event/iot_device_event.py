@@ -7,21 +7,24 @@ import frappe
 from frappe import _, throw
 from frappe.model.document import Document
 from frappe.utils.data import format_datetime
+from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
+from iot.iot.doctype.iot_device.iot_device import IOTDevice
 
 
 class IOTDeviceEvent(Document):
+	def after_insert(self):
+		if self.wechat_notify == 1 and get_wechat_app(self.owner_company):
+			self.submit()
+
 	def on_submit(self):
 		if self.wechat_notify == 1:
 			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 
 	def wechat_msg_send(self):
-		from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
-
-		dev = frappe.get_doc("IOT Device", self.device)
-		user_list = dev.find_owners(dev.owner_type, dev.owner_id)
+		user_list = IOTDevice.find_owners(self.owner_type, self.owner_id)
 
 		if len(user_list) > 0:
-			app = get_wechat_app(dev.company)
+			app = get_wechat_app(self.owner_company)
 			if app:
 				from wechat.api import send_doc
 				send_doc(app, 'IOT Device Event', self.name, user_list)
