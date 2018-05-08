@@ -251,7 +251,7 @@
    "report_hide": 0, 
    "reqd": 0, 
    "search_index": 0, 
-   "set_only_once": 0, 
+   "set_only_once": 1, 
    "unique": 0
   }, 
   {
@@ -538,7 +538,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-04-27 17:16:11.114339", 
+ "modified": "2018-05-08 15:19:04.060350", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT Device Event", 
