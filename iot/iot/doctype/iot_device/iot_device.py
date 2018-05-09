@@ -24,7 +24,15 @@ class IOTDevice(Document):
 		domain = frappe.get_value("Cloud Company", self.company, "domain")
 		client.set(self.sn, domain)
 
+	def after_insert(self):
+		if self.owner_id:
+			subject = _("Add device to {0}").format(self.owner_id)
+			add_device_owner_log(subject, self.name, self.company, self.owner_type, self.owner_id)
+
 	def before_save(self):
+		if self.is_new():
+			return
+
 		org_owner_id = frappe.get_value("IOT Device", self.name, "owner_id")
 		if org_owner_id != self.owner_id:
 			if org_owner_id:

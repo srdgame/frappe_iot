@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+import requests
 from frappe import _,throw
 from frappe.model.document import Document
 from frappe.utils import get_fullname, now, get_datetime_str
@@ -12,6 +13,25 @@ from frappe.utils import get_fullname, now, get_datetime_str
 class IOTDeviceActivity(Document):
 	def before_insert(self):
 		self.full_name = get_fullname(self.user)
+
+	# def after_insert(self):
+	# 	self.insert_to_influxdb()
+	#
+	# def insert_to_influxdb(self):
+	# 	from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+	# 	inf_server = IOTHDBSettings.get_influxdb_server()
+	# 	if not inf_server:
+	# 		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
+	# 		return
+	#
+	# 	dp = 'iot_device_activity,iot=' + self.device + ',device=' + self.device + ' activity=' + vsn + '\''
+	#
+	# 	domain = frappe.get_value("Cloud Company", self.onwer_company, "domain")
+	# 	r = requests.session().get(inf_server + "/write", params={"db": domain}, timeout=10, data=dp)
+	# 	if r.status_code == 200:
+	# 		return r.json()["results"] or r.json()
+	#
+	# 	return r.text
 
 
 def on_doctype_update():
