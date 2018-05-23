@@ -11,7 +11,7 @@ from cloud.cloud.doctype.cloud_company.cloud_company import list_admin_companies
 
 
 class IOTUserApi(Document):
-	def update(self):
+	def on_update(self):
 		self.enable_statistics(1)
 
 	def on_trash(self):
