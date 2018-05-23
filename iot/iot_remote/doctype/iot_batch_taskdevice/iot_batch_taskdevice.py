@@ -29,10 +29,10 @@ class IOTBatchTaskDevice(Document):
 			self.__set_val("status", "Running")
 			self.__set_val("action_id", id)
 			self.__set_val("action_starttime", now())
-		except Exception, e:
-			frappe.logger(__name__).error(_("Run batch script {0} on {1} failed. {2}").format(task.name, self.device, e.message))
+		except Exception as ex:
+			frappe.logger(__name__).error(_("Run batch script {0} on {1} failed. {2}").format(task.name, self.device, ex.message))
 			self.__set_val("status", 'Error')
-			self.__set_val("info", e.message)
+			self.__set_val("info", ex.message)
 		finally:
 			frappe.db.commit()
 
