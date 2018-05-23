@@ -35,7 +35,7 @@ def create_influxdb(db_name, max_retry=10, sleep=None):
 		else:
 			frappe.logger(__name__).debug(r.text)
 	except Exception as ex:
-		frappe.logger(__name__).error(ex.message)
+		frappe.logger(__name__).error(ex)
 		if max_retry > 0:
 			frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=db_name, max_retry=max_retry, sleep=60)
-		throw(ex.message)
+		throw(repr(ex))
