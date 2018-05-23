@@ -9,6 +9,7 @@ import time
 from frappe import _, throw
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
+
 def after_insert(doc, method):
 	frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=doc.domain)
 
