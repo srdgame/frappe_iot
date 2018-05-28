@@ -157,7 +157,7 @@ def app_stop():
 @frappe.whitelist(allow_guest=True)
 def app_restart():
 	'''
-	Stop application, data example: {"inst": "bms", "reason": "debug stop"}
+	Restart application, data example: {"inst": "bms", "reason": "debug restart"}
 	:return:
 	'''
 	data = get_post_json_data()
@@ -298,7 +298,7 @@ def sys_batch_script():
 @frappe.whitelist(allow_guest=True)
 def sys_reboot():
 	'''
-	Enable/Disable data upload, enable if data is 1
+	Reboot device.
 	:return:
 	'''
 	data = get_post_json_data()
@@ -308,7 +308,7 @@ def sys_reboot():
 @frappe.whitelist(allow_guest=True)
 def sys_quit():
 	'''
-	Enable/Disable data upload, enable if data is 1
+	Quit our iot application which will cause an new application run in our device.
 	:return:
 	'''
 	data = get_post_json_data()
