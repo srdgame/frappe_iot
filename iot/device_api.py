@@ -155,6 +155,16 @@ def app_stop():
 
 
 @frappe.whitelist(allow_guest=True)
+def app_restart():
+	'''
+	Stop application, data example: {"inst": "bms", "reason": "debug stop"}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="restart", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def app_query_log():
 	'''
 	Query application log, data example: {"inst": "bms", "max_count": "60"}
@@ -283,6 +293,26 @@ def sys_batch_script():
 	'''
 	data = get_post_json_data()
 	return send_action("sys", action="batch_script", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_reboot():
+	'''
+	Enable/Disable data upload, enable if data is 1
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="reboot", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_quit():
+	'''
+	Enable/Disable data upload, enable if data is 1
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="quit", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
