@@ -167,11 +167,31 @@ def app_restart():
 @frappe.whitelist(allow_guest=True)
 def app_query_log():
 	'''
-	Query application log, data example: {"inst": "bms", "max_count": "60"}
+	Query application log, data example: {"inst": "bms"}
 	:return:
 	'''
 	data = get_post_json_data()
 	return send_action("app", action="query_log", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def app_query_comm():
+	'''
+	Query application communication stream, data example: {"inst": "bms"}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="query_comm", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def app_upload_comm():
+	'''
+	Upload application communication stream, data example: {"inst": "bms", "sec": 60}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="upload_comm", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
