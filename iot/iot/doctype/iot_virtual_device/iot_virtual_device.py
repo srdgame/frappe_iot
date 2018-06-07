@@ -18,7 +18,7 @@ class IOTVirtualDevice(Document):
 		if frappe.session.user == 'Administrator':
 			return
 		dev_list = frappe.db.get_values('IOT Virtual Device', {"user": self.user})
-		if len(dev_list) > 5:
+		if len(dev_list) >= 5:
 			throw(_("Virtual device count limitation!"))
 
 	def after_insert(self):
