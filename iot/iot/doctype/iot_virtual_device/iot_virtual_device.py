@@ -31,3 +31,6 @@ class IOTVirtualDevice(Document):
 			"owner_id": self.user
 		})
 		doc.insert(ignore_permissions=True)
+
+	def on_trash(self):
+		frappe.delete_doc("IOT Devicee", self.sn, ignore_permissions=True)
