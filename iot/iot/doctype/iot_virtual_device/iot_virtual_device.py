@@ -30,4 +30,4 @@ class IOTVirtualDevice(Document):
 			"owner_type": "User",
 			"owner_id": self.user
 		})
-		doc.insert()
+		doc.insert(ignore_permissions=True)
