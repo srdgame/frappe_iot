@@ -72,7 +72,7 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
-   "unique": 0
+   "unique": 1
   }
  ], 
  "has_web_view": 0, 
@@ -85,7 +85,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-05-23 11:24:51.207331", 
+ "modified": "2018-06-20 14:25:40.619988", 
  "modified_by": "Administrator", 
  "module": "IOT", 
  "name": "IOT User Api", 
