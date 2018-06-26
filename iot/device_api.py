@@ -361,3 +361,14 @@ def send_command():
 	'''
 	data = get_post_json_data()
 	return send_action("command", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def device_status(sn):
+	'''
+	Get device status
+	:return: ONLINE/OFFLINE
+	'''
+	if frappe.session.user == "Guest":
+		valid_auth_code()
+	return frappe.get_value("IOT Device", sn, "device_status")
