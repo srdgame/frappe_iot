@@ -87,3 +87,18 @@ def has_permission(doc, ptype, user):
 		return True
 
 	return False
+
+
+def clear_device_events():
+	"""clear 100 day old authentication logs"""
+	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
+
+
+def query_device_event(sn):
+	#frappe.logger(__name__).debug(_("query_device_event {0}").format(company))
+	return frappe.get_all('IOT Device Event', fields='*', filters={"device": sn}, order_by="creation desc")
+
+
+def query_device_event_by_company(company):
+	#frappe.logger(__name__).debug(_("query_device_event_by_company {0}").format(company))
+	return frappe.get_all('IOT Device Event', fields='*', filters={"owner_company": company}, order_by="creation desc")

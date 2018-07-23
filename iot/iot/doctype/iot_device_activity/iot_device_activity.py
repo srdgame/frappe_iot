@@ -110,7 +110,6 @@ def query_logs_by_user(user):
 	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_id": ["in", groups]}, order_by="creation desc")
 
 
-
 def query_logs_by_company(company):
 	#frappe.logger(__name__).debug(_("query_device_logs_by_company {0}").format(company))
 	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_company": company}, order_by="creation desc")
