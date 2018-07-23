@@ -243,8 +243,9 @@ def query_firmware_lastver(sn, beta):
 		if info:
 			gate_platform = eval(info.get("platform/value"))[1]
 			firmware_lastver = get_latest_version(gate_platform+"_skynet", int(beta))
-			skynet_iot_lastver = get_latest_version("skynet_iot", int(beta))
-			return {"firmware_lastver": firmware_lastver, "skynet_iot_lastver": skynet_iot_lastver,}
+			freeioe_lastver = get_latest_version("freeioe", int(beta))
+			return {"firmware_lastver": firmware_lastver, "freeioe_lastver": freeioe_lastver}
+
 	return None
 
 
