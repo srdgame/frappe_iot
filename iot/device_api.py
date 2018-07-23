@@ -11,6 +11,8 @@ from frappe import throw, msgprint, _
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
+### TODO: Activity Log
+
 
 def valid_auth_code():
 	auth_code = frappe.get_request_header("HDB-AuthorizationCode")
@@ -261,6 +263,26 @@ def sys_enable_data():
 	'''
 	data = get_post_json_data()
 	return send_action("sys", action="enable/data", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_enable_data_cov():
+	'''
+	Enable/Disable data upload cov, enable if data is 1
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="enable/data/cov", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_enable_data_upload_period():
+	'''
+	Enable/Disable data upload period, data is number for period (ms, between 1000 and 60000, 0 is disable period upload)
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="enable/data/upload_period", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
