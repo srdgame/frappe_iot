@@ -84,8 +84,10 @@ def add_device_action_log(dev_doc, channel, action, id, data, status="Success", 
 def send_action(channel, action=None, id=None, device=None, data=None):
 	if frappe.session.user == "Guest":
 		valid_auth_code()
-	data = data or get_post_json_data()
-	id = id or str(uuid.uuid1()).upper()
+	if data is None:
+		data = get_post_json_data()
+	if id is None:
+		id = str(uuid.uuid1()).upper()
 
 	if not device:
 		throw(_("Device SN does not exits!"))
