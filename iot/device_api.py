@@ -276,6 +276,16 @@ def sys_enable_data_cov():
 
 
 @frappe.whitelist(allow_guest=True)
+def sys_enable_data_cov_ttl():
+	'''
+	Set data upload cov ttl, data is number for period (seconds, bigger than 30)
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="enable/data/cov_ttl", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def sys_enable_data_upload_period():
 	'''
 	Enable/Disable data upload period, data is number for period (ms, between 1000 and 60000, 0 is disable period upload)
