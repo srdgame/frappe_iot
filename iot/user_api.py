@@ -94,8 +94,9 @@ def device_history_data(sn=None, vsn=None, fields="*", condition=None):
 	return hdb.iot_device_his_data(sn, vsn, fields, condition)
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def device_is_beta(sn):
+	valid_auth_code()
 	iot_beta_flag = 0
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
 	try:
@@ -107,7 +108,7 @@ def device_is_beta(sn):
 	return iot_beta_flag
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def device_enable_beta(sn):
 	valid_auth_code()
 	doc = frappe.get_doc("IOT Device", sn)
@@ -116,7 +117,7 @@ def device_enable_beta(sn):
 	return send_action("sys", action="enable/beta", device=sn, data="1")
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def add_device(sn, name, desc, owner_type):
 	valid_auth_code()
 	type = "User"
@@ -147,7 +148,7 @@ def add_device(sn, name, desc, owner_type):
 		iot_device.update_owner(type, owner)
 		return True
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def remove_device():
 	valid_auth_code()
 	postdata = get_post_json_data()
@@ -158,7 +159,7 @@ def remove_device():
 	return True
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def update_device(sn, name, desc):
 	valid_auth_code()
 	doc = frappe.get_doc("IOT Device", sn)
@@ -170,70 +171,61 @@ def update_device(sn, name, desc):
 	return True
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
+def device_public_info(sn):
+	valid_auth_code()
+	info = {}
+	try:
+		s = requests.Session()
+		s.auth = ("api", "Pa88word")
+		r = s.get('http://127.0.0.1:18083/api/v2/nodes/emq@127.0.0.1/clients/' + sn)
+		rdict = json.loads(r.text)
+		if rdict and rdict['result']:
+			objects = rdict['result']['objects']
+			if (len(objects) > 0):
+				info['public_ip'] = rdict['result']['objects'][0]['ipaddress']
+				info['public_port'] = rdict['result']['objects'][0]['port']
+	except Exception as ex:
+		frappe.logger(__name__).error(ex)
+
+	return info
+
+
+@frappe.whitelist(allow_guest=True)
 def device_info(sn):
 	valid_auth_code()
 	device = frappe.get_doc('IOT Device', sn)
 	if not device.has_permission("read"):
 		raise frappe.PermissionError
-	basic = {
+
+	device = {
 		'sn': device.sn,
-		'model': "Q102",
 		'name': device.dev_name,
 		'desc': device.description,
 		'company': device.company,
-		'location': device.sn,
+		'location': 'UNKNOWN',  # TODO: Get device location
 		'beta': device.use_beta,
-		'iot_beta': device_is_beta(sn),
+		'is_beta': device_is_beta(sn),
 		'status': device.device_status,
 	}
-	config = {}
-	applist = {}
+
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
 	if client.exists(sn):
 		info = client.hgetall(sn)
 		if info:
-			config['iot_version'] = eval(info.get("version/value"))[1]
-			config['skynet_version'] = eval(info.get("skynet_version/value"))[1]
-			_starttime = eval(info.get("starttime/value"))[1]
-			config['starttime'] = str(
+			device['version'] = info.get("version/value")
+			device['skynet_version'] = info.get("skynet_version/value")
+			_starttime = info.get("starttime/value")
+			device['starttime'] = str(
 				convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(_starttime))).replace(
 					tzinfo=None))
-			config['uptime'] = int(eval(info.get("uptime/value"))[1] / 1000)
-			print(info.get("skynet_platform/value"))
-			config['platform'] = eval(info.get("platform/value"))[1]
+			device['uptime'] = int(info.get("uptime/value") / 1000)  # convert to seconds
+			device['platform'] = info.get("platform/value")
 
-		try:
-			s = requests.Session()
-			s.auth = ("api", "Pa88word")
-			r = s.get('http://127.0.0.1:18083/api/v2/nodes/emq@127.0.0.1/clients/' + sn)
-			rdict = json.loads(r.text)
-			if rdict and rdict['result']:
-				objects = rdict['result']['objects']
-				if (len(objects) > 0):
-					config['public_ip'] = rdict['result']['objects'][0]['ipaddress']
-					config['public_port'] = rdict['result']['objects'][0]['port']
-		except Exception as ex:
-			frappe.logger(__name__).error(ex)
-
-		config['cpu'] = "imx6ull 528MHz"
-		config['ram'] = "256 MB"
-		config['rom'] = "4 GB"
-		config['os'] = "openwrt"
-	try:
-		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/6")
-		applist = json.loads(client.get(sn))
-	except Exception as ex:
-		applist = {}
-
-	return {
-		'basic': basic,
-		'config': config,
-		'applist': applist,
-	}
+	return device
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def device_app_list(sn):
 	from app_center.app_center.doctype.iot_application_version.iot_application_version import IOTApplicationVersion
 
@@ -269,9 +261,9 @@ def device_app_list(sn):
 						"app_name": doc.app_name,
 						"owner": doc.owner,
 						"fullname": get_fullname(doc.owner),
-						"ver": IOTApplicationVersion.get_latest_version(doc.name),
-						"fork_app": doc.fork_from,
-						"fork_ver": doc.fork_version,
+						"version": IOTApplicationVersion.get_latest_version(doc.name),
+						"fork_from": doc.fork_from,
+						"fork_version": doc.fork_version,
 						"icon_image": doc.icon_image,
 					},
 					"info": applist[app],
@@ -289,93 +281,39 @@ def device_app_list(sn):
 	return iot_applist
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def device_app_dev_tree(sn):
-	from iot.hdb import iot_device_tree as _iot_device_tree
-	from iot.hdb import iot_device_cfg as _iot_device_cfg
-
 	valid_auth_code()
-	device_tree = _iot_device_tree(sn)
+	device_tree = hdb.iot_device_tree(sn)
 	app_dev_tree = _dict({})
 
-	for devsn in device_tree:
-		cfg = _iot_device_cfg(sn, devsn)
-		devmeta = cfg['meta']
-		if not devmeta:
+	for dev_sn in device_tree:
+		cfg = hdb.iot_device_cfg(sn, dev_sn)
+		dev_meta = cfg['meta']
+		if not dev_meta:
 			continue
 
-		app = devmeta['app']
+		app = dev_meta['app']
 		if not app:
 			continue
 
-		devmeta['sn']=devsn
+		dev_meta['sn']=dev_sn
 		if not app_dev_tree.get(app):
 			app_dev_tree[app] = []
-		app_dev_tree[app].append(devmeta)
+		app_dev_tree[app].append(dev_meta)
 
 	return app_dev_tree
 
 
-UTC_FORMAT1 = "%Y-%m-%dT%H:%M:%S.%fZ"
-UTC_FORMAT2 = "%Y-%m-%dT%H:%M:%SZ"
-
-
-@frappe.whitelist()
-def store_app_list(category=None, protocol=None, device_supplier=None, user=None, name=None, app_name=None):
-	valid_auth_code()
-	filters = {"owner": ["!=", "Administrator"]}
-	if user:
-		filters = {"owner": user}
-	if category:
-		filters["category"] = category
-	if protocol:
-		filters["protocol"] = protocol
-	if device_supplier:
-		filters["device_supplier"] = device_supplier
-	if name:
-		filters["name"] = name
-	if app_name:
-		filters["app_name"] = app_name
-	filters["published"] = 1
-	filters["license_type"] = 'Open'
-
-	apps = frappe.db.get_all("IOT Application", "*", filters, order_by="modified desc")
-	return apps
-
-
-@frappe.whitelist()
-def store_app_category():
-	valid_auth_code()
-	return frappe.get_all("App Category", fields=["name", "description"])
-
-
-@frappe.whitelist()
-def store_app_supplier():
-	valid_auth_code()
-	return frappe.get_all("App Device Supplier", fields=["name", "description"])
-
-
-@frappe.whitelist()
-def store_app_protocol():
-	valid_auth_code()
-	return frappe.get_all("App Device Protocol", fields=["name", "description"])
-
-
-@frappe.whitelist()
-def store_app_detail(app_name):
-	valid_auth_code()
-	return frappe.get_doc('IOT Application', app_name)
-
-
-@frappe.whitelist()
-def query_device_activity():
+@frappe.whitelist(allow_guest=True)
+def device_activity():
 	valid_auth_code()
 	from iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_user as _query_logs_by_user
 	return _query_logs_by_user(frappe.session.user)
 
 
-@frappe.whitelist()
-def query_device_activity_by_company(company):
+@frappe.whitelist(allow_guest=True)
+def device_activity_by_company(company):
 	valid_auth_code()
 	if frappe.get_value("Cloud Employee", frappe.session.user, "company") != company:
 		return None
@@ -384,22 +322,34 @@ def query_device_activity_by_company(company):
 	return _query_logs_by_company(company)
 
 
-@frappe.whitelist()
-def query_firmware_lastver(sn, beta):
+@frappe.whitelist(allow_guest=True)
+def firmware_last_version_by_platform(platform, beta=0):
+	valid_auth_code()
+	return {
+		"skynet": get_latest_version(platform + "_skynet", int(beta)),
+		"freeioe": get_latest_version("freeioe", int(beta))
+	}
+
+
+@frappe.whitelist(allow_guest=True)
+def firmware_last_version(sn, beta=0):
 	valid_auth_code()
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
 	if client.exists(sn):
 		info = client.hgetall(sn)
 		if info:
-			device_platform = eval(info.get("platform/value"))[1]
-			firmware_lastver = get_latest_version(device_platform+"_skynet", int(beta))
-			freeioe_lastver = get_latest_version("freeioe", int(beta))
-			return {"firmware_lastver": firmware_lastver, "freeioe_lastver": freeioe_lastver}
+			platform = info.get("platform/value")
+			if platform:
+				return firmware_last_version_by_platform(platform, beta)
 
 	return None
 
 
-@frappe.whitelist()
+UTC_FORMAT1 = "%Y-%m-%dT%H:%M:%S.%fZ"
+UTC_FORMAT2 = "%Y-%m-%dT%H:%M:%SZ"
+
+
+@frappe.whitelist(allow_guest=True)
 def device_status_statistics():
 	valid_auth_code()
 	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
@@ -449,7 +399,7 @@ def device_status_statistics():
 		return taghis
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def device_event_type_statistics():
 	valid_auth_code()
 	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
@@ -506,7 +456,7 @@ def device_event_type_statistics():
 		return taghis
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def device_event_count_statistics():
 	valid_auth_code()
 	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
@@ -540,7 +490,7 @@ def device_event_count_statistics():
 		return []
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def device_type_statistics():
 	valid_auth_code()
 	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
