@@ -216,7 +216,7 @@ def device_info(sn):
 			device['version'] = info.get("version/value")
 			device['skynet_version'] = info.get("skynet_version/value")
 			_starttime = info.get("starttime/value")
-			device['starttime'] = str(
+			device['start_time'] = str(
 				convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(_starttime))).replace(
 					tzinfo=None))
 			device['uptime'] = int(info.get("uptime/value") / 1000)  # convert to seconds
@@ -260,7 +260,7 @@ def device_app_list(sn):
 						"name": doc.name,
 						"app_name": doc.app_name,
 						"owner": doc.owner,
-						"fullname": get_fullname(doc.owner),
+						"owner_fullname": get_fullname(doc.owner),
 						"version": IOTApplicationVersion.get_latest_version(doc.name),
 						"fork_from": doc.fork_from,
 						"fork_version": doc.fork_version,

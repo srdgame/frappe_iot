@@ -15,6 +15,8 @@ from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 
 def valid_auth_code():
+	if frappe.session.user != "Guest":
+		return
 	auth_code = frappe.get_request_header("HDB-AuthorizationCode")
 	user = None
 	if auth_code:
@@ -51,8 +53,7 @@ def get_post_json_data():
 
 @frappe.whitelist(allow_guest=True)
 def get_action_result(id):
-	if frappe.session.user == "Guest":
-		valid_auth_code()
+	valid_auth_code()
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/7")
 	str = client.get(id)
 	if str:
@@ -80,10 +81,34 @@ def add_device_action_log(dev_doc, channel, action, id, data, status="Success", 
 	}).insert(ignore_permissions=True)
 
 
+def valid_app_permission(device, data):
+	print("Valid Application Permission")
+	owner_type = device.owner_type
+	owner_id = device.owner_id
+	app = data.get("name")
+	ret = False
+	if owner_type == 'User':
+		from app_center.api import user_access
+		ret = user_access(app, owner_id)
+	else:
+		from app_center.api import company_access
+		ret = company_access(app, owner_id)
+
+	if not ret:
+		throw(_("Not permitted"), frappe.PermissionError)
+
+
+action_validation = {
+	"app": {
+		"install": valid_app_permission,
+		"upgrade": valid_app_permission
+	}
+}
+
+
 @frappe.whitelist(allow_guest=True)
 def send_action(channel, action=None, id=None, device=None, data=None):
-	if frappe.session.user == "Guest":
-		valid_auth_code()
+	valid_auth_code()
 	if data is None:
 		data = get_post_json_data()
 	if id is None:
@@ -95,7 +120,13 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 	doc = frappe.get_doc("IOT Device", device)
 	if not doc.has_permission("write"):
 		add_device_action_log(doc, channel, action, id, data, "Failed", "Permission error")
-		frappe.throw(_("Not permitted"), frappe.PermissionError)
+		throw(_("Not permitted"), frappe.PermissionError)
+
+	valids = action_validation.get(channel)
+	if valids:
+		valid_func = valids.get(action)
+		if valid_func:
+			valid_func(doc, data)
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
 	args = {
