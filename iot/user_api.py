@@ -14,11 +14,13 @@ import uuid
 import requests
 import hdb_api
 import hdb
-from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
+from frappe.utils import now, get_datetime, convert_utc_to_user_timezone, get_fullname
 from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from iot.doctype.iot_device.iot_device import IOTDevice
 from app_center.api import get_latest_version
+from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies, list_users, get_domain
+from device_api import get_post_json_data
 
 
 def valid_auth_code(auth_code=None):
@@ -51,13 +53,13 @@ def gen_uuid():
 
 
 @frappe.whitelist(allow_guest=True)
-def list_gates():
+def list_devices():
 	valid_auth_code()
 	return hdb_api.list_iot_devices(frappe.session.user)
 
 
 @frappe.whitelist(allow_guest=True)
-def get_gate(sn=None):
+def get_device(sn=None):
 	valid_auth_code()
 	return hdb_api.get_device(sn)
 
@@ -75,7 +77,7 @@ def device_cfg(sn=None, vsn=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def iot_device_data(sn=None, vsn=None):
+def device_data(sn=None, vsn=None):
 	valid_auth_code()
 	return hdb.iot_device_data(sn, vsn)
 
@@ -87,19 +89,13 @@ def device_data_array(sn=None, vsn=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def device_his_data(sn=None, vsn=None, fields=None, condition=None):
+def device_history_data(sn=None, vsn=None, fields="*", condition=None):
 	valid_auth_code()
-	return hdb.iot_device_his_data(sn, vsn)
-
-
-@frappe.whitelist(allow_guest=True)
-def device_write():
-	valid_auth_code()
-	return hdb.iot_device_write()
+	return hdb.iot_device_his_data(sn, vsn, fields, condition)
 
 
 @frappe.whitelist()
-def gate_is_beta(sn):
+def device_is_beta(sn):
 	iot_beta_flag = 0
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
 	try:
@@ -112,7 +108,7 @@ def gate_is_beta(sn):
 
 
 @frappe.whitelist()
-def enable_beta(sn):
+def device_enable_beta(sn):
 	valid_auth_code()
 	doc = frappe.get_doc("IOT Device", sn)
 	doc.set_use_beta()
@@ -121,45 +117,203 @@ def enable_beta(sn):
 
 
 @frappe.whitelist()
-def add_gate(sn, name, desc, owner_type):
-	from iot_ui.iot_api import add_new_gate
+def add_device(sn, name, desc, owner_type):
 	valid_auth_code()
-	return add_new_gate(sn, name, desc, owner_type)
+	type = "User"
+	owner = frappe.session.user
+	if owner_type == 2:
+		company = list_user_companies(frappe.session.user)[0]
+		try:
+			owner = frappe.get_value("Cloud Company Group", {"company": company, "group_name": "root"})
+			type = "Cloud Company Group"
+		except Exception as ex:
+			throw(_("Cannot find default group in company{0}. Error: {1}").format(company, repr(ex)))
+
+	iot_device = None
+	sn_exists = frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
+	if not sn_exists:
+		iot_device = frappe.get_doc({"doctype": "IOT Device", "sn": sn, "dev_name": name, "description": desc, "owner_type": type, "owner_id": owner})
+		iot_device.insert(ignore_permissions=True)
+	else:
+		iot_device = frappe.get_doc("IOT Device", sn)
+
+	if iot_device.owner_id:
+		if iot_device.owner_id == owner and iot_device.owner_type == type:
+			return True
+		throw(_("Device {0} is owned by {1}").format(sn, iot_device.owner_id))
+	else:
+		iot_device.set("dev_name", name)
+		iot_device.set("description", desc)
+		iot_device.update_owner(type, owner)
+		return True
+
+@frappe.whitelist()
+def remove_device():
+	valid_auth_code()
+	postdata = get_post_json_data()
+	sn = postdata['sn']
+	for s in sn:
+		doc = frappe.get_doc("IOT Device", s)
+		doc.update_owner("", None)
+	return True
 
 
 @frappe.whitelist()
-def remove_gate():
-	from iot_ui.iot_api import remove_gate as _remove_gate
+def update_device(sn, name, desc):
 	valid_auth_code()
-	return _remove_gate()
+	doc = frappe.get_doc("IOT Device", sn)
+	doc.update({
+		"dev_name": name,
+		"description": desc
+	})
+	doc.save()
+	return True
 
 
 @frappe.whitelist()
-def update_gate(sn, name, desc):
-	from iot_ui.iot_api import update_gate as _update_gate
+def device_info(sn):
 	valid_auth_code()
-	return update_gate(sn, name, desc)
+	device = frappe.get_doc('IOT Device', sn)
+	if not device.has_permission("read"):
+		raise frappe.PermissionError
+	basic = {
+		'sn': device.sn,
+		'model': "Q102",
+		'name': device.dev_name,
+		'desc': device.description,
+		'company': device.company,
+		'location': device.sn,
+		'beta': device.use_beta,
+		'iot_beta': device_is_beta(sn),
+		'status': device.device_status,
+	}
+	config = {}
+	applist = {}
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
+	if client.exists(sn):
+		info = client.hgetall(sn)
+		if info:
+			config['iot_version'] = eval(info.get("version/value"))[1]
+			config['skynet_version'] = eval(info.get("skynet_version/value"))[1]
+			_starttime = eval(info.get("starttime/value"))[1]
+			config['starttime'] = str(
+				convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(_starttime))).replace(
+					tzinfo=None))
+			config['uptime'] = int(eval(info.get("uptime/value"))[1] / 1000)
+			print(info.get("skynet_platform/value"))
+			config['platform'] = eval(info.get("platform/value"))[1]
+
+		try:
+			s = requests.Session()
+			s.auth = ("api", "Pa88word")
+			r = s.get('http://127.0.0.1:18083/api/v2/nodes/emq@127.0.0.1/clients/' + sn)
+			rdict = json.loads(r.text)
+			if rdict and rdict['result']:
+				objects = rdict['result']['objects']
+				if (len(objects) > 0):
+					config['public_ip'] = rdict['result']['objects'][0]['ipaddress']
+					config['public_port'] = rdict['result']['objects'][0]['port']
+		except Exception as ex:
+			frappe.logger(__name__).error(ex)
+
+		config['cpu'] = "imx6ull 528MHz"
+		config['ram'] = "256 MB"
+		config['rom'] = "4 GB"
+		config['os'] = "openwrt"
+	try:
+		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/6")
+		applist = json.loads(client.get(sn))
+	except Exception as ex:
+		applist = {}
+
+	return {
+		'basic': basic,
+		'config': config,
+		'applist': applist,
+	}
 
 
 @frappe.whitelist()
-def gate_info(sn):
-	from iot_ui.iot_api import gate_info as _gate_info
+def device_app_list(sn):
+	from app_center.app_center.doctype.iot_application_version.iot_application_version import IOTApplicationVersion
+
 	valid_auth_code()
-	return _gate_info(sn)
+	device = frappe.get_doc('IOT Device', sn)
+	if not device.has_permission("read"):
+		raise frappe.PermissionError
+
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/6")
+	applist = json.loads(client.get(sn) or "[]")
+
+	iot_applist = []
+	for app in applist:
+		app_obj = _dict(applist[app])
+		try:
+			applist[app]['inst'] = app
+
+			if not frappe.get_value("IOT Application", app_obj.name, "name"):
+				iot_applist.append({
+					"cloud": None,
+					"info": applist[app],
+					"inst": app,
+				})
+				continue
+			else:
+				doc = frappe.get_doc("IOT Application", app_obj.name)
+				if app_obj.auto is None:
+					applist[app]['auto'] = "1"
+
+				iot_applist.append({
+					"cloud": {
+						"name": doc.name,
+						"app_name": doc.app_name,
+						"owner": doc.owner,
+						"fullname": get_fullname(doc.owner),
+						"ver": IOTApplicationVersion.get_latest_version(doc.name),
+						"fork_app": doc.fork_from,
+						"fork_ver": doc.fork_version,
+						"icon_image": doc.icon_image,
+					},
+					"info": applist[app],
+					"inst": app,
+				})
+
+		except Exception as ex:
+			frappe.logger(__name__).error(ex)
+			iot_applist.append({
+				"cloud": None,
+				"info": applist[app],
+				"inst": app,
+			})
+
+	return iot_applist
 
 
 @frappe.whitelist()
-def gate_applist(sn):
-	from iot_ui.iot_api import gate_applist as _gate_applist
-	valid_auth_code()
-	return _gate_applist(sn)
+def device_app_dev_tree(sn):
+	from iot.hdb import iot_device_tree as _iot_device_tree
+	from iot.hdb import iot_device_cfg as _iot_device_cfg
 
-
-@frappe.whitelist()
-def gate_app_dev_tree(sn):
-	from iot_ui.iot_api import gate_app_dev_tree as _gate_app_dev_tree
 	valid_auth_code()
-	return _gate_app_dev_tree(sn)
+	device_tree = _iot_device_tree(sn)
+	app_dev_tree = _dict({})
+
+	for devsn in device_tree:
+		cfg = _iot_device_cfg(sn, devsn)
+		devmeta = cfg['meta']
+		if not devmeta:
+			continue
+
+		app = devmeta['app']
+		if not app:
+			continue
+
+		devmeta['sn']=devsn
+		if not app_dev_tree.get(app):
+			app_dev_tree[app] = []
+		app_dev_tree[app].append(devmeta)
+
+	return app_dev_tree
 
 
 UTC_FORMAT1 = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -167,14 +321,7 @@ UTC_FORMAT2 = "%Y-%m-%dT%H:%M:%SZ"
 
 
 @frappe.whitelist()
-def taghisdata(sn, vsn=None, vt=None, tag=None, condition=None):
-	from iot_ui.iot_api import taghisdata as _taghisdata
-	valid_auth_code()
-	return _taghisdata(sn, vsn, vt, tag, condition)
-
-
-@frappe.whitelist()
-def appstore_applist(category=None, protocol=None, device_supplier=None, user=None, name=None, app_name=None):
+def store_app_list(category=None, protocol=None, device_supplier=None, user=None, name=None, app_name=None):
 	valid_auth_code()
 	filters = {"owner": ["!=", "Administrator"]}
 	if user:
@@ -189,30 +336,33 @@ def appstore_applist(category=None, protocol=None, device_supplier=None, user=No
 		filters["name"] = name
 	if app_name:
 		filters["app_name"] = app_name
+	filters["published"] = 1
+	filters["license_type"] = 'Open'
+
 	apps = frappe.db.get_all("IOT Application", "*", filters, order_by="modified desc")
 	return apps
 
 
 @frappe.whitelist()
-def appstore_category():
+def store_app_category():
 	valid_auth_code()
 	return frappe.get_all("App Category", fields=["name", "description"])
 
 
 @frappe.whitelist()
-def appstore_supplier():
+def store_app_supplier():
 	valid_auth_code()
 	return frappe.get_all("App Device Supplier", fields=["name", "description"])
 
 
 @frappe.whitelist()
-def appstore_protocol():
+def store_app_protocol():
 	valid_auth_code()
 	return frappe.get_all("App Device Protocol", fields=["name", "description"])
 
 
 @frappe.whitelist()
-def app_details(app_name):
+def store_app_detail(app_name):
 	valid_auth_code()
 	return frappe.get_doc('IOT Application', app_name)
 
@@ -241,8 +391,8 @@ def query_firmware_lastver(sn, beta):
 	if client.exists(sn):
 		info = client.hgetall(sn)
 		if info:
-			gate_platform = eval(info.get("platform/value"))[1]
-			firmware_lastver = get_latest_version(gate_platform+"_skynet", int(beta))
+			device_platform = eval(info.get("platform/value"))[1]
+			firmware_lastver = get_latest_version(device_platform+"_skynet", int(beta))
 			freeioe_lastver = get_latest_version("freeioe", int(beta))
 			return {"firmware_lastver": firmware_lastver, "freeioe_lastver": freeioe_lastver}
 
