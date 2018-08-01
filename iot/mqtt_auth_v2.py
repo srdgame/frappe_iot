@@ -68,7 +68,7 @@ def auth(clientid=None, username=None, password=None):
 	if username[0:4] == "dev=":
 		index = username.rfind("|time=")
 		if index == -1:
-			return http_403("Auth Error")
+			return http_403("Auth Error - time is missing in username")
 		device_id = username[4:index]
 		timestamp = username[index+6:] #TODO: validate timestamp here
 		sid = frappe.db.get_single_value("IOT HDB Settings", "mqtt_device_password_sid") or 'ZGV2aWNlIGlkCg=='
@@ -76,22 +76,22 @@ def auth(clientid=None, username=None, password=None):
 		try:
 			encoded_password = hmac.new(sid.encode('utf-8'), username.encode('utf-8'), hashlib.sha1).hexdigest()
 		except Exception as ex:
-			return http_403("Auth Error")
+			return http_403("Auth Error - hashing failure!")
 
 		if clientid == device_id and password.lower() == encoded_password:
 			if frappe.get_value("IOT Device", clientid, "enabled") == 1:
 				return http_200ok()
 			else:
-				return http_403("Auth Error")
+				return http_403("Auth Error - Device is disabled!")
 		else:
-			return http_403("Auth Error")
+			return http_403("Auth Error - Device hashing password incorrect!")
 
 	if username == 'root':
 		root_password = frappe.db.get_single_value("IOT HDB Settings", "mqtt_root_password") or 'bXF0dF9pb3RfYWRtaW4K'
 		if password == root_password:
 			return http_200ok()
 		else:
-			return http_403("Auth Error")
+			return http_403("Auth Error - Root password incorrect")
 	else:
 		sid = frappe.db.get_single_value("IOT HDB Settings", "mqtt_device_password_sid") or 'ZGV2aWNlIGlkCg=='
 		m = hashlib.md5()
@@ -110,17 +110,17 @@ def auth(clientid=None, username=None, password=None):
 					if data.get('user') == username:
 						return http_200ok()
 					else:
-						return http_403("Auth Error")
+						return http_403("Auth Error - Session not matching user")
 				else:
 					frappe.local.login_manager.authenticate(username, password)
 					if frappe.local.login_manager.user == username:
 						return http_200ok()
 					else:
-						return http_403("Auth Error")
+						return http_403("Auth Error - User/Password does not match")
 			except Exception as ex:
 				return http_403("Auth Error")
 
-	return http_403("Auth Error")
+	return http_403("Auth Error - what else")
 
 
 @frappe.whitelist(allow_guest=True)
