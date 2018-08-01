@@ -60,7 +60,8 @@ def auth(clientid=None, username=None, password=None):
 	clientid = clientid or frappe.form_dict.clientid
 	username = username or frappe.form_dict.username
 	password = password or frappe.form_dict.password
-	print('auth', clientid, username, password)
+
+	frappe.logger(__name__).debug(_("MQTT Auth: client_id - {0} username - {1} password {2}").format(clientid, username, password))
 	assert(clientid and username and password)
 
 	if username[0:4] == "dev=":
@@ -124,7 +125,7 @@ def auth(clientid=None, username=None, password=None):
 @frappe.whitelist(allow_guest=True)
 def superuser(username=None):
 	username = username or frappe.form_dict.username
-	print('superuser', username)
+	frappe.logger(__name__).debug(_("MQTT Superuser: username - {0}").format(username))
 	if username == "root":
 		return http_200ok()
 	else:
@@ -137,7 +138,7 @@ def acl(username=None, topic=None, clientid=None, access=None, acc=None):
 	topic = topic or frappe.form_dict.topic			# via our auth plugin, this topic is the device id only
 	clientid = clientid or frappe.form_dict.clientid
 	acc = access or acc or frappe.form_dict.access or frappe.form_dict.acc
-	print('acl', username, topic, clientid, acc)
+	frappe.logger(__name__).debug(_("MQTT Acl: username - {0} topic - {1} clientid - {2} acc - {3}").format(username, topic, clientid, acc))
 
 	if username == 'root':
 		return http_200ok()
