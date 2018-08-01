@@ -52,6 +52,7 @@ def http_200ok(info=""):
 
 
 def http_403(err):
+	frappe.logger(__name__).debug(_("MQTT Auth V2 - 403 : {0}").format(err))
 	fire_raw_content(status=403, content=err)
 
 
