@@ -76,6 +76,7 @@ def auth(clientid=None, username=None, password=None):
 		try:
 			encoded_password = hmac.new(sid.encode('utf-8'), username.encode('utf-8'), hashlib.sha1).hexdigest()
 		except Exception as ex:
+			frappe.logger(__name__).error(ex)
 			return http_403("Auth Error - hashing failure!")
 
 		if clientid == device_id and password.lower() == encoded_password:
@@ -118,7 +119,8 @@ def auth(clientid=None, username=None, password=None):
 					else:
 						return http_403("Auth Error - User/Password does not match")
 			except Exception as ex:
-				return http_403("Auth Error")
+				frappe.logger(__name__).error(ex)
+				return http_403("Auth Error - exception failure!")
 
 	return http_403("Auth Error - what else")
 
@@ -170,7 +172,7 @@ def acl(username=None, topic=None, clientid=None, access=None, acc=None):
 					return http_200ok()
 				return http_403("Auth Error")
 		except Exception as ex:
-			print(ex)
+			frappe.logger(__name__).error(ex)
 			return http_403("Auth Error")
 
 	return http_403("Auth Error")
