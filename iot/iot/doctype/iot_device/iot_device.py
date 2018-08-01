@@ -8,7 +8,7 @@ import traceback
 import redis
 import json
 from frappe.model.document import Document
-from frappe import _
+from frappe import _, throw
 from frappe.utils import now, get_datetime, cstr
 from frappe.utils import cint
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
@@ -18,6 +18,12 @@ from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_s
 class IOTDevice(Document):
 	def validate(self):
 		self.company = self.__get_company()
+		vdev_owenr = frappe.get_value("IOT Virtual Device", "user")
+		if vdev_owenr:
+			if vdev_owenr != self.owner_id:
+				throw(_("Cannot change owner for Virtual Device!"))
+			if "User" != self.owner_type:
+				throw(_("Cannot change owner type for Virtual Device!"))
 
 	def on_update(self):
 		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/8")
