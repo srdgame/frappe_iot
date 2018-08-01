@@ -20,6 +20,10 @@ class IOTDeviceEvent(Document):
 		if self.wechat_notify == 1:
 			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 
+	def wechat_msg_clean(self):
+		from wechat.api import clean_doc
+		clean_doc('IOT Device Event', self.name)
+
 	def wechat_msg_send(self):
 		user_list = IOTDevice.find_owners(self.owner_type, self.owner_id)
 

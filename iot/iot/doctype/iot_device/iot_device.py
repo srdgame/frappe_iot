@@ -102,6 +102,29 @@ class IOTDevice(Document):
 		self.set("use_beta_start_time", now())
 		self.save()
 
+	def has_supper_permissions(self):
+		if frappe.session.user == 'Administrator':
+			return True
+		if 'IOT Manager' in frappe.get_roles(frappe.session.user):
+			return True
+		return False
+
+	def clean_activities(self):
+		if not self.has_supper_permissions():
+			throw(_("You have no permission to clean device activities!"))
+
+		for d in frappe.db.get_values("IOT Device Activity", {"device": self.name}, "name"):
+			frappe.delete_doc("IOT Device Activity", d[0])
+
+	def clean_events(self):
+		if not self.has_supper_permissions():
+			throw(_("You have no permission to clean device events!"))
+
+		for d in frappe.db.get_values("IOT Device Event", {"device": self.name}, "name"):
+			doc = frappe.get_doc("IOT Device Event", d[0])
+			doc.wechat_msg_clean()
+			frappe.delete_doc("IOT Device Event", d[0])
+
 	@staticmethod
 	def check_sn_exists(sn):
 		return frappe.db.get_value("IOT Device", {"sn": sn}, "sn")
