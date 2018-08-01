@@ -117,6 +117,19 @@ def device_enable_beta(sn):
 	return send_action("sys", action="enable/beta", device=sn, data="1")
 
 
+@frappe.whitelist()
+def new_virtual_gate():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+	valid_auth_code()
+	doc = frappe.get_doc({
+		"doctype": "IOT Virtual Device",
+		"user": frappe.session.user,
+		"sn": str(uuid.uuid1()).upper(),
+	}).insert()
+	return doc.name
+
+
 @frappe.whitelist(allow_guest=True)
 def add_device(sn, name, desc, owner_type):
 	valid_auth_code()

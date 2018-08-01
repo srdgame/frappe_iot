@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 import uuid
 from frappe import throw, _
+from frappe.utils import now
 from frappe.model.document import Document
 
 
@@ -28,7 +29,9 @@ class IOTVirtualDevice(Document):
 			"dev_name": self.sn,
 			"description": "Virtual Device for " + self.user,
 			"owner_type": "User",
-			"owner_id": self.user
+			"owner_id": self.user,
+			"use_beta": 1,
+			"use_beta_start_time": now()
 		})
 		doc.insert(ignore_permissions=True)
 
