@@ -98,11 +98,36 @@ def clear_device_events():
 	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
 
 
-def query_device_event(sn):
+def query_device_event_by_user(user, start=None, limit=None):
+	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+	groups = [g.name for g in list_user_groups(user)]
+	groups.append(user)
+	return frappe.get_all('IOT Device Event', fields='*', filters={"owner_id": ["in", groups]}, order_by="creation desc", start=start, limit=limit)
+
+
+def count_device_event_by_user(user):
+	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+	groups = [g.name for g in list_user_groups(user)]
+	groups.append(user)
+	return frappe.db.count('IOT Device Event', filters={"owner_id": ["in", groups]})
+
+
+def query_device_event(sn=None, start=None, limit=None):
 	#frappe.logger(__name__).debug(_("query_device_event {0}").format(company))
-	return frappe.get_all('IOT Device Event', fields='*', filters={"device": sn}, order_by="creation desc")
+	if not sn:
+		return query_device_event_by_user(frappe.session.user, start, limit)
+	return frappe.get_all('IOT Device Event', fields='*', filters={"device": sn}, order_by="creation desc", start=start, limit=limit)
 
 
-def query_device_event_by_company(company):
-	#frappe.logger(__name__).debug(_("query_device_event_by_company {0}").format(company))
-	return frappe.get_all('IOT Device Event', fields='*', filters={"owner_company": company}, order_by="creation desc")
+def count_device_event(sn=None):
+	if not sn:
+		return count_device_event_by_user(frappe.session.user)
+	return frappe.db.count('IOT Device Event', filters={"device": sn})
+
+
+def query_device_event_by_company(company, start=None, limit=None):
+	return frappe.get_all('IOT Device Event', fields='*', filters={"owner_company": company}, order_by="creation desc", start=start, limit=limit)
+
+
+def count_device_event_by_company(company):
+	return frappe.db.count('IOT Device Event', filters={"owner_company": company})

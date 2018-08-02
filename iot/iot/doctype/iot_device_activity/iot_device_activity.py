@@ -103,17 +103,33 @@ def clear_device_activity_logs():
 	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
 
 
-def query_logs_by_user(user):
+def query_logs_by_user(user, start=None, limit=None):
 	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
 	groups = [g.name for g in list_user_groups(user)]
 	groups.append(user)
-	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_id": ["in", groups]}, order_by="creation desc")
+	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_id": ["in", groups]}, order_by="creation desc", start=start, limit=limit)
 
 
-def query_logs_by_company(company):
+def count_logs_by_user(user):
+	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
+	groups = [g.name for g in list_user_groups(user)]
+	groups.append(user)
+	return frappe.db.count('IOT Device Activity', filters={"owner_id": ["in", groups]})
+
+
+def query_logs_by_company(company, start=None, limit=None):
 	#frappe.logger(__name__).debug(_("query_device_logs_by_company {0}").format(company))
-	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_company": company}, order_by="creation desc")
+	return frappe.get_all('IOT Device Activity', fields='*', filters={"owner_company": company}, order_by="creation desc", start=start, limit=limit)
 
 
-def query_logs_by_device(sn):
-	return frappe.get_all('IOT Device Activity', fields='*', filters={"device": sn}, order_by="creation desc")
+def count_logs_by_company(company, start=None, limit=None):
+	#frappe.logger(__name__).debug(_("query_device_logs_by_company {0}").format(company))
+	return frappe.db.count('IOT Device Activity', filters={"owner_company": company})
+
+
+def query_logs_by_device(sn, start=None, limit=None):
+	return frappe.get_all('IOT Device Activity', fields='*', filters={"device": sn}, order_by="creation desc", start=start, limit=limit)
+
+
+def count_logs_by_device(sn):
+	return frappe.db.count('IOT Device Activity', filters={"device": sn})
