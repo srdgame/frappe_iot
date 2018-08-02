@@ -319,7 +319,7 @@ def device_app_dev_tree(sn):
 
 
 @frappe.whitelist(allow_guest=True)
-def device_activity(sn):
+def device_activity(sn=None):
 	from iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_user as _query_logs_by_user
 	from iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_device as _query_logs_by_device
 	valid_auth_code()
