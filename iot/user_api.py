@@ -319,19 +319,22 @@ def device_app_dev_tree(sn):
 
 
 @frappe.whitelist(allow_guest=True)
-def device_activity():
-	valid_auth_code()
+def device_activity(sn):
 	from iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_user as _query_logs_by_user
-	return _query_logs_by_user(frappe.session.user)
+	from iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_device as _query_logs_by_device
+	valid_auth_code()
+	if sn:
+		return _query_logs_by_device(sn)
+	else:
+		return _query_logs_by_user(frappe.session.user)
 
 
 @frappe.whitelist(allow_guest=True)
 def device_activity_by_company(company):
+	from iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_company as _query_logs_by_company
 	valid_auth_code()
 	if frappe.get_value("Cloud Employee", frappe.session.user, "company") != company:
 		return None
-
-	from iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_company as _query_logs_by_company
 	return _query_logs_by_company(company)
 
 
