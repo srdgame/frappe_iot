@@ -299,6 +299,16 @@ def sys_enable_data():
 
 
 @frappe.whitelist(allow_guest=True)
+def sys_enable_data_one_short():
+	'''
+	Enable/Disable data upload for one short, data is the duration for data uploading.
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="enable/data_one_short", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def sys_enable_data_cov():
 	'''
 	Enable/Disable data upload cov, enable if data is 1
