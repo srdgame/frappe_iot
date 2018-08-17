@@ -298,10 +298,10 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-05-16 01:27:38.137186", 
+ "modified": "2018-08-17 19:15:59.683293", 
  "modified_by": "Administrator", 
  "module": "IOT Remote", 
- "name": "IOT Config File", 
+ "name": "IOT Config Version", 
  "name_case": "", 
  "owner": "Administrator", 
  "permissions": [
