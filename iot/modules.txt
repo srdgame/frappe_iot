@@ -1,3 +1,2 @@
 IOT
 IOT Portal
-IOT Remote
