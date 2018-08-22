@@ -17,6 +17,13 @@ class IOTDeviceError(Document):
 	def on_submit(self):
 		self.wechat_msg_send()
 
+	def on_trash(self):
+		self.wechat_msg_clean()
+
+	def wechat_msg_clean(self):
+		from wechat.api import clean_doc
+		clean_doc('IOT Device Error', self.name)
+
 	def wechat_msg_send(self):
 		if self.wechat_notify == 1:
 			frappe.enqueue('iot.iot.doctype.iot_device_error.iot_device_error.wechat_notify_by_name',
