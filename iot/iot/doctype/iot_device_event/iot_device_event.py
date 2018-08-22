@@ -20,6 +20,9 @@ class IOTDeviceEvent(Document):
 		if self.wechat_notify == 1:
 			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 
+	def on_trash(self):
+		self.wechat_msg_clean()
+
 	def wechat_msg_clean(self):
 		from wechat.api import clean_doc
 		clean_doc('IOT Device Event', self.name)
@@ -94,8 +97,8 @@ def has_permission(doc, ptype, user):
 
 
 def clear_device_events():
-	"""clear 100 day old authentication logs"""
-	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
+	"""clear 100 day old iot device events"""
+	frappe.db.sql("""delete from `tabIOT Device Event` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
 
 
 def query_device_event_by_user(user, start=None, limit=None):
