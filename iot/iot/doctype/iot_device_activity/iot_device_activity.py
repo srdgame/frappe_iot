@@ -44,7 +44,7 @@ def has_permission(doc, ptype, user):
 	if 'IOT Manager' in frappe.get_roles(user):
 		return True
 
-	company = frappe.get_value('IOT Device Activity', doc.name, 'company')
+	company = frappe.get_value('IOT Device Activity', doc.name, 'owner_company')
 	if frappe.get_value('Cloud Company', {'admin': user, 'name': company}):
 		return True
 
