@@ -309,36 +309,6 @@ def sys_enable_data_one_short():
 
 
 @frappe.whitelist(allow_guest=True)
-def sys_enable_data_cov():
-	'''
-	Enable/Disable data upload cov, enable if data is 1
-	:return:
-	'''
-	data = get_post_json_data()
-	return send_action("sys", action="enable/data/cov", id=data.get("id"), device=data.get("device"), data=data.get("data"))
-
-
-@frappe.whitelist(allow_guest=True)
-def sys_enable_data_cov_ttl():
-	'''
-	Set data upload cov ttl, data is number for period (seconds, bigger than 30)
-	:return:
-	'''
-	data = get_post_json_data()
-	return send_action("sys", action="enable/data/cov_ttl", id=data.get("id"), device=data.get("device"), data=data.get("data"))
-
-
-@frappe.whitelist(allow_guest=True)
-def sys_enable_data_upload_period():
-	'''
-	Enable/Disable data upload period, data is number for period (ms, between 1000 and 60000, 0 is disable period upload)
-	:return:
-	'''
-	data = get_post_json_data()
-	return send_action("sys", action="enable/data/upload_period", id=data.get("id"), device=data.get("device"), data=data.get("data"))
-
-
-@frappe.whitelist(allow_guest=True)
 def sys_enable_log():
 	'''
 	Enable log upload for specified time, data is the how long will log be uploaded
@@ -426,6 +396,37 @@ def sys_quit():
 	'''
 	data = get_post_json_data()
 	return send_action("sys", action="quit", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_cloud_conf():
+	'''
+	Change IOT Device Cloud Settings, data example: {"ID": "IDIDIDIDIDID", "HOST": "ioe.symgrid.com", ...}
+		Valid keys: ID/CLOUD_ID/HOST/PORT/TIMEOUT/PKG_HOST_URL/CNF_HOST_URL/DATA_UPLOAD/DATA_UPLOAD_PERIOD/COV/COV_TTL
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="conf", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_download_cfg():
+	'''
+	Download IOT Device CFG, data example: {"name": "deab2776ef", "host": "ioe.symgrid.com"}  host is optional
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="cfg/download", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_download_cfg():
+	'''
+	Upload IOT Device CFG to specified host, data example: {"host": "ioe.symgrid.com"}  host is optional
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="cfg/upload", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)

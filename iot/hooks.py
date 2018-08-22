@@ -172,7 +172,7 @@ doc_events = {
 scheduler_events = {
 	"cron": {
 		"0/10 * * * *": [
-			"iot.iot_remote.doctype.iot_batch_task.iot_batch_task.check_all_task_status"
+			"iot.iot.doctype.iot_batch_task.iot_batch_task.check_all_task_status"
 		]
 	},
 	"daily": [
