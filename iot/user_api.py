@@ -274,7 +274,7 @@ def device_app_list(sn):
 						"app_name": doc.app_name,
 						"owner": doc.owner,
 						"owner_fullname": get_fullname(doc.owner),
-						"version": IOTApplicationVersion.get_latest_version(doc.name),
+						"version": get_latest_version(doc.name, device.use_beta),
 						"fork_from": doc.fork_from,
 						"fork_version": doc.fork_version,
 						"icon_image": doc.icon_image,
@@ -394,8 +394,8 @@ def count_device_event_by_company(company):
 def firmware_last_version_by_platform(platform, beta=0):
 	valid_auth_code()
 	return {
-		"skynet": get_latest_version(platform + "_skynet", int(beta)),
-		"freeioe": get_latest_version("freeioe", int(beta))
+		"skynet": get_latest_version(platform + "_skynet", int(beta) == 1),
+		"freeioe": get_latest_version("freeioe", int(beta) == 1)
 	}
 
 
