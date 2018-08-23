@@ -37,3 +37,8 @@ class IOTVirtualDevice(Document):
 
 	def on_trash(self):
 		frappe.delete_doc("IOT Devicee", self.sn, ignore_permissions=True)
+
+
+def on_doctype_update():
+	"""Add indexes in `IOT Virtual Device`"""
+	frappe.db.add_index("IOT Virtual Device", ["user"])

@@ -187,6 +187,12 @@ class IOTDevice(Document):
 		return None
 
 
+def on_doctype_update():
+	"""Add indexes in `IOT Device`"""
+	frappe.db.add_index("IOT Device", ["company", "owner_type", "owner_id"])
+	frappe.db.add_index("IOT Device", ["longitude", "latitude"])
+
+
 def get_permission_query_conditions(user):
 	"""
 	Show devices for Company Administrator
