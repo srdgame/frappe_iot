@@ -394,8 +394,8 @@ def count_device_event_by_company(company):
 def firmware_last_version_by_platform(platform, beta=0):
 	valid_auth_code()
 	return {
-		"skynet": get_latest_version(platform + "_skynet", int(beta) == 1),
-		"freeioe": get_latest_version("freeioe", int(beta) == 1)
+		"skynet": get_latest_version(platform + "_skynet", int(beta)),
+		"freeioe": get_latest_version("freeioe", int(beta))
 	}
 
 
