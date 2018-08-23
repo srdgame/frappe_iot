@@ -101,36 +101,67 @@ def clear_device_events():
 	frappe.db.sql("""delete from `tabIOT Device Event` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
 
 
-def query_device_event_by_user(user, start=None, limit=None):
+event_fields = ["name", "device", "event_source", "event_level", "event_type", "event_info", "event_data", "event_time", "wechat_notify", "creation"]
+
+
+def query_device_event_by_user(user, start=None, limit=None, filters=None):
 	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
 	groups = [g.name for g in list_user_groups(user)]
 	groups.append(user)
-	return frappe.get_all('IOT Device Event', fields='*', filters={"owner_id": ["in", groups]}, order_by="creation desc", start=start, limit=limit)
+
+	filters = filters or {}
+	filters.update({
+		"owner_id": ["in", groups]
+	})
+	return frappe.get_all('IOT Device Event', fields=event_fields, filters=filters, order_by="creation desc", start=start, limit=limit)
 
 
-def count_device_event_by_user(user):
+def count_device_event_by_user(user, filters=None):
 	from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
 	groups = [g.name for g in list_user_groups(user)]
 	groups.append(user)
-	return frappe.db.count('IOT Device Event', filters={"owner_id": ["in", groups]})
+
+	filters = filters or {}
+	filters.update({
+		"owner_id": ["in", groups]
+	})
+	return frappe.db.count('IOT Device Event', filters=filters)
 
 
-def query_device_event(sn=None, start=None, limit=None):
+def query_device_event(sn=None, start=None, limit=None, filters=None):
 	#frappe.logger(__name__).debug(_("query_device_event {0}").format(company))
 	if not sn:
-		return query_device_event_by_user(frappe.session.user, start, limit)
-	return frappe.get_all('IOT Device Event', fields='*', filters={"device": sn}, order_by="creation desc", start=start, limit=limit)
+		return query_device_event_by_user(frappe.session.user, start, limit, filters)
+
+	filters = filters or {}
+	filters.update({
+		"device": sn
+	})
+	return frappe.get_all('IOT Device Event', fields=event_fields, filters=filters, order_by="creation desc", start=start, limit=limit)
 
 
-def count_device_event(sn=None):
+def count_device_event(sn=None, filters=None):
 	if not sn:
 		return count_device_event_by_user(frappe.session.user)
-	return frappe.db.count('IOT Device Event', filters={"device": sn})
+
+	filters = filters or {}
+	filters.update({
+		"device": sn
+	})
+	return frappe.db.count('IOT Device Event', filters=filters)
 
 
-def query_device_event_by_company(company, start=None, limit=None):
-	return frappe.get_all('IOT Device Event', fields='*', filters={"owner_company": company}, order_by="creation desc", start=start, limit=limit)
+def query_device_event_by_company(company, start=None, limit=None, filters=None):
+	filters = filters or {}
+	filters.update({
+		"owner_company": company
+	})
+	return frappe.get_all('IOT Device Event', fields=event_fields, filters=filters, order_by="creation desc", start=start, limit=limit)
 
 
-def count_device_event_by_company(company):
-	return frappe.db.count('IOT Device Event', filters={"owner_company": company})
+def count_device_event_by_company(company, filters=None):
+	filters = filters or {}
+	filters.update({
+		"owner_company": company
+	})
+	return frappe.db.count('IOT Device Event', filters=filters)
