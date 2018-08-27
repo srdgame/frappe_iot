@@ -324,6 +324,14 @@ def device_activity_detail(name):
 	return frappe.get_doc("IOT Device Activity", name)
 
 
+@frappe.whitelist(allow_guest=True)
+def dispose_device_activity(name, disposed=1):
+	valid_auth_code()
+	doc = frappe.get_doc("IOT Device Activity", name)
+	doc.dispose(disposed)
+	return name
+
+
 '''
 filters = [["creation", ">", "2014-01-01"]]
 
@@ -375,6 +383,14 @@ def count_device_activity_by_company(company, filters):
 def device_event_detail(name):
 	valid_auth_code()
 	return frappe.get_doc("IOT Device Event", name)
+
+
+@frappe.whitelist(allow_guest=True)
+def dispose_device_event(name, disposed=1):
+	valid_auth_code()
+	doc = frappe.get_doc("IOT Device Event", name)
+	doc.dispose(disposed)
+	return name
 
 
 '''
