@@ -64,6 +64,12 @@ class IOTDeviceEvent(Document):
 		return self.get_url()
 
 
+	def dispose(self, disposed=1):
+		self.disposed = disposed
+		self.disposed_by = frappe.session.user
+		self.save()
+
+
 def on_doctype_update():
 	"""Add indexes in `IOT Device Event`"""
 	frappe.db.add_index("IOT Device Event", ["device", "owner_company"])

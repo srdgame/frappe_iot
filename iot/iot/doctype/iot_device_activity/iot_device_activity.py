@@ -14,6 +14,13 @@ class IOTDeviceActivity(Document):
 	def before_insert(self):
 		self.full_name = get_fullname(self.user)
 
+
+	def dispose(self, disposed=1):
+		self.disposed = disposed
+		self.disposed_by = frappe.session.user
+		self.save()
+
+
 	# def after_insert(self):
 	# 	self.insert_to_influxdb()
 	#
