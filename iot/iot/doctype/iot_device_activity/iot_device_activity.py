@@ -110,7 +110,7 @@ def clear_device_activities():
 	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
 
 
-activity_fields = ["name", "subject", "operation", "status", "message", "device", "user", "full_name", "creation"]
+activity_fields = ["name", "subject", "operation", "status", "message", "disposed", "disposed_by", "device", "user", "full_name", "creation"]
 
 
 def query_logs_by_user(user, start=None, limit=None, filters=None):

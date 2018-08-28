@@ -111,7 +111,7 @@ def clear_device_events():
 	frappe.db.sql("""delete from `tabIOT Device Event` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")
 
 
-event_fields = ["name", "device", "event_source", "event_level", "event_type", "event_info", "event_data", "event_time", "wechat_notify", "creation"]
+event_fields = ["name", "device", "event_source", "event_level", "event_type", "event_info", "event_data", "event_time", "wechat_notify", "disposed", "disposed_by", "creation"]
 
 
 def query_device_event_by_user(user, start=None, limit=None, filters=None):

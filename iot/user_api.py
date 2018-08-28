@@ -613,3 +613,8 @@ def device_type_statistics():
 		return client.hgetall('device_type.' + company)
 	except Exception as ex:
 		return []
+
+
+@frappe.whitelist(allow_guest=True)
+def ping():
+	return 'pong'
