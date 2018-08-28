@@ -53,10 +53,11 @@ def iot_device_data(sn=None, vsn=None):
 	if cfg.has_key("inputs"):
 		inputs = cfg.get("inputs")
 		for input in inputs:
-			s = hs.get(input + "/value")
+			input_name = input.get('name')
+			s = hs.get(input_name + "/value")
 			if s:
 				val = json.loads(s)
-				data[input] = {"PV": val[1], "TM": val[0], "Q": val[2]}
+				data[input_name] = {"PV": val[1], "TM": val[0], "Q": val[2]}
 
 	return data
 
