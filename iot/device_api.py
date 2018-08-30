@@ -53,6 +53,18 @@ def get_post_json_data():
 
 @frappe.whitelist(allow_guest=True)
 def get_action_result(id):
+	'''
+	Get action result, result example:
+	{
+		"message": "Done",
+		"timestamp_str": "Wed Aug 29 09:39:08 2018",
+		"result": true,
+		"timestamp": 1535535548.28,
+		"device": "000C296CBED3",
+		"id": "605063B4-AB6F-11E8-8C76-00163E06DD4A"
+	}
+	:return:
+	'''
 	valid_auth_code()
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/7")
 	str = client.get(id)

@@ -15,6 +15,8 @@ from frappe.utils import cint
 
 
 def valid_auth_code(auth_code=None):
+	if 'Guest' != frappe.session.user:
+		return
 	auth_code = auth_code or frappe.get_request_header("HDB-AuthorizationCode")
 	if not auth_code:
 		throw(_("HDB-AuthorizationCode is required in HTTP Header!"))
@@ -166,7 +168,8 @@ def get_device(sn=None):
 		throw(_("Request fields not found. fields: sn"))
 
 	dev = IOTDevice.get_device_doc(sn)
-	return __generate_hdb(dev)
+	if dev:
+		return __generate_hdb(dev)
 
 
 @frappe.whitelist(allow_guest=True)
