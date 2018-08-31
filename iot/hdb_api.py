@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+import redis
 import requests
 from frappe import throw, _
 from iot.doctype.iot_device.iot_device import IOTDevice
@@ -153,6 +154,26 @@ def get_post_json_data():
 	if not data:
 		throw(_("JSON Data not found!"))
 	return json.loads(data)
+
+
+@frappe.whitelist(allow_guest=True)
+def access_device(sn, op="Read"):
+	"""
+	Check access permission for device
+	:param sn: Device Serial Number
+	:return: Device information
+	"""
+	valid_auth_code()
+
+	dev_sn = None
+	if IOTDevice.check_sn_exists(sn):
+		dev_sn = sn
+	else:
+		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11")
+		dev_sn = client.get(sn)
+
+	if dev_sn and frappe.has_permission(doctype="IOT Device", doc=dev_sn):
+		return True
 
 
 @frappe.whitelist(allow_guest=True)

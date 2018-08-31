@@ -58,6 +58,13 @@ def list_devices():
 	return hdb_api.list_iot_devices(frappe.session.user)
 
 
+
+@frappe.whitelist(allow_guest=True)
+def access_device(sn=None):
+	valid_auth_code()
+	return hdb_api.access_device(sn)
+
+
 @frappe.whitelist(allow_guest=True)
 def get_device(sn=None):
 	valid_auth_code()
