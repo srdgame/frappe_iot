@@ -60,9 +60,9 @@ def list_devices():
 
 
 @frappe.whitelist(allow_guest=True)
-def access_device(sn=None):
+def access_device(sn, op="read"):
 	valid_auth_code()
-	return hdb_api.access_device(sn)
+	return hdb_api.access_device(sn, op)
 
 
 @frappe.whitelist(allow_guest=True)

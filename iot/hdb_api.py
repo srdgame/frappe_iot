@@ -157,7 +157,7 @@ def get_post_json_data():
 
 
 @frappe.whitelist(allow_guest=True)
-def access_device(sn, op="Read"):
+def access_device(sn, op="read"):
 	"""
 	Check access permission for device
 	:param sn: Device Serial Number
