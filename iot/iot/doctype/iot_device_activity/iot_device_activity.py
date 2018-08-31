@@ -18,7 +18,7 @@ class IOTDeviceActivity(Document):
 	def dispose(self, disposed=1):
 		self.disposed = disposed
 		self.disposed_by = frappe.session.user
-		self.save()
+		self.save(ignore_permissions=True)
 
 
 	# def after_insert(self):

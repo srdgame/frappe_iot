@@ -71,7 +71,7 @@ class IOTDeviceEvent(Document):
 		self.disposed_by = frappe.session.user
 		if self.wechat_notify == 1 and get_wechat_app(self.owner_company):
 			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
-		self.save()
+		self.save(ignore_permissions=True)
 
 
 def on_doctype_update():
