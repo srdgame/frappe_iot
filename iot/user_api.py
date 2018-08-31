@@ -332,6 +332,18 @@ def dispose_device_activity(name, disposed=1):
 	return name
 
 
+@frappe.whitelist(allow_guest=True)
+def dispose_device_activities():
+	valid_auth_code()
+	postdata = get_post_json_data()
+	activities = postdata.get('activities') or []
+	disposed = postdata.get('disposed') or 1
+	for activity in activities:
+		doc = frappe.get_doc("IOT Device Activity", activity)
+		doc.dispose(disposed)
+	return True
+
+
 '''
 filters = [["creation", ">", "2014-01-01"]]
 
@@ -391,6 +403,18 @@ def dispose_device_event(name, disposed=1):
 	doc = frappe.get_doc("IOT Device Event", name)
 	doc.dispose(disposed)
 	return name
+
+
+@frappe.whitelist(allow_guest=True)
+def dispose_device_events():
+	valid_auth_code()
+	postdata = get_post_json_data()
+	events = postdata.get('events') or []
+	disposed = postdata.get('disposed') or 1
+	for event in events:
+		doc = frappe.get_doc("IOT Device Event", event)
+		doc.dispose(disposed)
+	return True
 
 
 '''
