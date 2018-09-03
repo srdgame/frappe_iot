@@ -7,12 +7,12 @@ import frappe
 from frappe import _, throw
 from frappe.model.document import Document
 from frappe.utils.data import format_datetime
+from frappe.utils import get_fullname
 from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
 from iot.iot.doctype.iot_device.iot_device import IOTDevice
 
 
 class IOTDeviceEvent(Document):
-	'''
 	def after_insert(self):
 		if self.wechat_notify == 1 and get_wechat_app(self.owner_company):
 			self.submit()
@@ -20,7 +20,6 @@ class IOTDeviceEvent(Document):
 	def on_submit(self):
 		if self.wechat_notify == 1:
 			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
-	'''
 
 	def on_trash(self):
 		self.wechat_msg_clean()
@@ -40,9 +39,13 @@ class IOTDeviceEvent(Document):
 
 	def wechat_tmsg_data(self):
 		remark = _("Level: {0}\nInfo: {1}\nData:{2}").format(self.event_level, self.event_info, self.event_data)
+		title = _("Has new device alarm")
+		if self.disposed == 1:
+			title = _("Alarm has been disposed")
+			remark = _("Disposed by {0}({1})").format(get_fullname(self.disposed_by))
 		return {
 			"first": {
-				"value": _("Has new device alarm"),
+				"value": title,
 				"color": "#800000"
 			},
 			"keyword1": {
@@ -64,7 +67,6 @@ class IOTDeviceEvent(Document):
 
 	def wechat_tmsg_url(self):
 		return self.get_url()
-
 
 	def dispose(self, disposed=1):
 		self.disposed = disposed
