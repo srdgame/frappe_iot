@@ -166,8 +166,9 @@ def access_device(sn, op="read"):
 	valid_auth_code()
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11")
 	dev_sn = client.get("PARENT_" + sn)
-	if dev_sn and frappe.has_permission(doctype="IOT Device", doc=dev_sn):
+	if dev_sn and frappe.has_permission(doctype="IOT Device", doc=dev_sn, ptype=op):
 		return True
+	return False
 
 
 @frappe.whitelist(allow_guest=True)
