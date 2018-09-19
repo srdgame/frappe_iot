@@ -41,9 +41,6 @@ def fire_hooks_request(name, uri, data):
 	session = requests.session()
 	init_request_headers(session.headers, name)
 	r = session.post(uri, json=data)
-	print("===============================================")
-	print(r)
-	print("===============================================")
 
 
 def fire_device_event_hooks(name, uri, doc):
