@@ -140,8 +140,9 @@ doc_events = {
 		"after_insert": "iot.controllers.iot_device_event_hooks.after_insert"
 	},
 	"IOT Device": {
-		"after_insert": "iot.controllers.iot_device_hooks.after_insert",
-		"after_update": "iot.controllers.iot_device_hooks.after_update"
+		"on_device_add": "iot.controllers.iot_device_hooks.on_device_add",
+		"on_device_del": "iot.controllers.iot_device_hooks.on_device_del",
+		"on_device_status": "iot.controllers.iot_device_hooks.on_device_status"
 	}
 }
 

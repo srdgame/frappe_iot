@@ -32,8 +32,7 @@ class IOTDevice(Document):
 
 	def after_insert(self):
 		if self.owner_id:
-			subject = _("Add device to {0}").format(self.owner_id)
-			add_device_owner_log(subject, self.name, self.company, self.owner_type, self.owner_id)
+			self.run_method('on_device_add', self.company, self.owner_type, self.owner_id)
 
 	def before_save(self):
 		if self.is_new():
@@ -43,19 +42,29 @@ class IOTDevice(Document):
 		if org_owner_id != self.owner_id:
 			if org_owner_id:
 				org_owner_type = frappe.get_value("IOT Device", self.name, "owner_type")
-				subject = _("Remove device from {0}").format(org_owner_id)
-				add_device_owner_log(subject, self.name, self.company, org_owner_type, org_owner_id)
+				org_company = frappe.get_value("IOT Device", self.name, "company")
+				self.run_method('on_device_del', org_company, org_owner_type, org_owner_id)
 			if self.owner_id:
-				subject = _("Add device to {0}").format(self.owner_id)
-				add_device_owner_log(subject, self.name, self.company,  self.owner_type, self.owner_id)
+				self.run_method('on_device_add', self.company, self.owner_type, self.owner_id)
+
 		last_updated = frappe.get_value("IOT Device", self.name, "last_updated")
 		if last_updated != self.last_updated:
-			if self.device_status == 'ONLINE':
-				subject = _("Device {0} connected").format(self.name)
-			else:
-				subject = _("Device {0} disconnected").format(self.name)
-			add_device_status_log(subject, self, self.device_status, self.last_updated)
+			self.run_method('on_device_status')
 
+	def on_device_add(self, company, owner_type, owner_id):
+		subject = _("Add device to {0}").format(owner_id)
+		add_device_owner_log(subject, self.name, company, owner_type, owner_id)
+
+	def on_device_del(self, org_company, org_owner_type, org_owner_id):
+		subject = _("Remove device from {0}").format(org_owner_id)
+		add_device_owner_log(subject, self.name, org_company, org_owner_type, org_owner_id)
+
+	def on_device_status(self):
+		if self.device_status == 'ONLINE':
+			subject = _("Device {0} connected").format(self.name)
+		else:
+			subject = _("Device {0} disconnected").format(self.name)
+		add_device_status_log(subject, self, self.device_status, self.last_updated)
 
 	def update_status(self, status):
 		""" update device status """
@@ -209,16 +218,13 @@ def get_permission_query_conditions(user):
 		user_ents='"' + '", "'.join(ent_list) + '"')
 
 
-def has_permission(doc, ptype, user):
-	if 'IOT Manager' in frappe.get_roles(user):
-		return True
-
-	company = frappe.get_value('IOT Device', doc.name, 'company')
+def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id=None):
+	company = company or frappe.get_value('IOT Device', doc_name, 'company')
 	if frappe.get_value('Cloud Company', {'admin': user, 'name': company}):
 		return True
 
-	owner_type = frappe.get_value('IOT Device', doc.name, 'owner_type')
-	owner_id = frappe.get_value('IOT Device', doc.name, 'owner_id')
+	owner_type = owner_type or frappe.get_value('IOT Device', doc_name, 'owner_type')
+	owner_id = owner_id or frappe.get_value('IOT Device', doc_name, 'owner_id')
 
 	if owner_type == 'User' and owner_id == user:
 		return True
@@ -233,6 +239,13 @@ def has_permission(doc, ptype, user):
 		return True
 
 	return False
+
+
+def has_permission(doc, ptype, user):
+	if 'IOT Manager' in frappe.get_roles(user):
+		return True
+
+	return has_permission_inter(user, doc.name)
 
 
 def get_device_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by="modified desc"):

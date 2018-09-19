@@ -647,5 +647,11 @@ def device_type_statistics():
 
 
 @frappe.whitelist(allow_guest=True)
+def list_user_apps(user=None):
+	from iot_hub.doctype.iot_user_application.iot_user_application import list_user_apps as _list_user_apps
+	return _list_user_apps(user)
+
+
+@frappe.whitelist(allow_guest=True)
 def ping():
 	return 'pong'
