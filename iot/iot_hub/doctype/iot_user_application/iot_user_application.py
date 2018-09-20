@@ -29,7 +29,7 @@ app_props = ["name","app_name","description","uri","on_behalf","device","device_
 
 def _list_user_apps(user=None):
 	if 'IOT Manager' in frappe.get_roles():
-		return None
+		return []
 
 	if user:
 		return frappe.get_all("IOT User Application", fields=app_props, filters={"on_behalf": user, "enabled": 1})
@@ -40,6 +40,7 @@ def list_user_apps(user=None):
 	apps = _list_user_apps(user)
 	for app in apps:
 		app['auth_code'] = frappe.get_value("IOT User Api", app.on_behalf, "authorization_code")
+	return apps
 
 
 def init_request_headers(headers, code):

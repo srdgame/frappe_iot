@@ -647,8 +647,45 @@ def device_type_statistics():
 
 
 @frappe.whitelist(allow_guest=True)
+def list_statistics_companies():
+	'''
+	Cloud statistics enabled when company owner has created its user auth code
+	:return:
+	'''
+	valid_auth_code()
+
+	if 'IOT Manager' in frappe.get_roles():
+		return []
+
+	list = []
+	companies = frappe.get_all("Cloud Company", fields=["name", "admin", "domain", "enabled"])
+	for comp in companies:
+		auth_code = frappe.get_value("IOT User Api", comp.admin, "authorization_code")
+		if auth_code and comp.enabled == 1:
+			list.append({
+				'company': comp.name,
+				'auth_code': auth_code,
+				'database': comp.domain,
+				'enable': 1,
+			})
+		else:
+			list.append({
+				'company': comp.name,
+				'auth_code': 'UNKNOWN',
+				'database': comp.domain,
+				'enable': 0,
+			})
+
+	return list
+
+
+@frappe.whitelist(allow_guest=True)
 def list_user_apps(user=None):
 	valid_auth_code()
+
+	if 'IOT Manager' in frappe.get_roles():
+		return []
+
 	from iot_hub.doctype.iot_user_application.iot_user_application import list_user_apps as _list_user_apps
 	return _list_user_apps(user)
 
