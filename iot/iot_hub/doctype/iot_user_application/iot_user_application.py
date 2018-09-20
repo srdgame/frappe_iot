@@ -24,7 +24,7 @@ class IOTUserApplication(Document):
 
 
 app_props = ['name', 'desc', 'uri', 'on_behalf', 'device', 'device_data', 'device_event',
-			'device_data_mqtt_host', 'device_data_mqtt_username', 'device_data_mqtt_password']
+			'device_data_mqtt_host', 'device_data_mqtt_username', 'device_data_mqtt_password', 'modified']
 
 
 def list_user_apps(user=None):
