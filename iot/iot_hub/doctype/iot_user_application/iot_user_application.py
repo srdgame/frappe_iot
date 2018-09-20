@@ -22,12 +22,17 @@ class IOTUserApplication(Document):
 		if self.on_behalf == 'Administrator':
 			throw(_("User application cannot bind to Administrator!"))
 
+		self.user_auth_code = frappe.get_value("IOT User Api", self.on_behalf, "authorization_code")
 
-app_props = ["name","app_name","description","uri","on_behalf","device","device_data","device_event",
+
+app_props = ["name","app_name","description","uri","on_behalf","user_auth_code","device","device_data","device_event",
 			"device_data_mqtt_host","device_data_mqtt_user","device_data_mqtt_passwd","modified"]
 
 
 def list_user_apps(user=None):
+	if 'IOT Manager' in frappe.get_roles():
+		return None
+
 	if user:
 		return frappe.get_all("IOT User Application", fields=app_props, filters={"on_behalf": user, "enabled": 1})
 	return frappe.get_all("IOT User Application", fields=app_props, filters={"enabled": 1})
