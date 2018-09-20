@@ -105,6 +105,27 @@ def add_device_status_log(subject, dev_doc, device_status, last_updated, status=
 	}).insert(ignore_permissions=True)
 
 
+def add_device_action_log(dev_doc, channel, action, id, data, status="Success", message=None):
+	frappe.get_doc({
+		"doctype": "IOT Device Activity",
+		"user": frappe.session.user,
+		"status": status,
+		"operation": "Action",
+		"subject": _("Device action {0} - {1}").format(channel, action),
+		"device": dev_doc.name,
+		"owner_type": dev_doc.owner_type,
+		"owner_id": dev_doc.owner_id,
+		"owner_company": dev_doc.company,
+		"message": json.dumps({
+			"channel": channel,
+			"action": action or channel,
+			"id": id,
+			"data": data or "",
+			"message": message or ""
+		})
+	}).insert(ignore_permissions=True)
+
+
 def clear_device_activities():
 	"""clear 100 day old iot device activities"""
 	frappe.db.sql("""delete from `tabIOT Device Activity` where creation<DATE_SUB(NOW(), INTERVAL 100 DAY)""")

@@ -8,7 +8,7 @@ import json
 import redis
 import uuid
 from frappe import throw, msgprint, _
-from iot.doctype.iot_device.iot_device import IOTDevice
+from iot.doctype.iot_device_activity.iot_device_activity import add_device_action_log
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 ### TODO: Activity Log
@@ -70,27 +70,6 @@ def get_action_result(id):
 	str = client.get(id)
 	if str:
 		return json.loads(str)
-
-
-def add_device_action_log(dev_doc, channel, action, id, data, status="Success", message=None):
-	frappe.get_doc({
-		"doctype": "IOT Device Activity",
-		"user": frappe.session.user,
-		"status": status,
-		"operation": "Action",
-		"subject": _("Device action {0} - {1}").format(channel, action),
-		"device": dev_doc.name,
-		"owner_type": dev_doc.owner_type,
-		"owner_id": dev_doc.owner_id,
-		"owner_company": dev_doc.company,
-		"message": json.dumps({
-			"channel": channel,
-			"action": action,
-			"id": id,
-			"data": data,
-			"message": message
-		})
-	}).insert(ignore_permissions=True)
 
 
 def valid_app_permission(device, data):
