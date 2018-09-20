@@ -23,14 +23,14 @@ class IOTUserApplication(Document):
 			throw(_("User application cannot bind to Administrator!"))
 
 
-app_props = ['name', 'desc', 'uri', 'on_behalf', 'device', 'device_data', 'device_event',
-			'device_data_mqtt_host', 'device_data_mqtt_username', 'device_data_mqtt_password', 'modified']
+app_props = ["name","app_name","description","uri","on_behalf","device","device_data","device_event",
+			"device_data_mqtt_host","device_data_mqtt_user","device_data_mqtt_passwd","modified"]
 
 
 def list_user_apps(user=None):
 	if user:
-		return frappe.get_all("IOT User Application", filters={"on_behalf": user, 'enabled': 1}, fields=app_props)
-	return frappe.get_all("IOT User Application", filters={'enabled': 1}, fields=app_props)
+		return frappe.get_all("IOT User Application", fields=app_props, filters={"on_behalf": user, "enabled": 1})
+	return frappe.get_all("IOT User Application", fields=app_props, filters={"enabled": 1})
 
 
 def init_request_headers(headers, code):
@@ -70,28 +70,28 @@ def fire_device_status(name, uri, doc):
 
 def handle_device_event_hooks(hooks_doc, hooks_method):
 	dev = frappe.get_doc("IOT Device", hooks_doc.device)
-	apps = frappe.get_all("IOT User Application", filters={"device_event": 1, 'enabled': 1}, fields=["name", "on_behalf", "uri"])
+	apps = frappe.get_all("IOT User Application", fields=["name", "on_behalf", "uri"], filters={"device_event": 1, 'enabled': 1})
 	for app in apps:
 		if has_permission_inter(app.on_behalf, dev.name):
 			fire_device_event_hooks(app.name, app.uri, hooks_doc)
 
 
 def handle_device_add(hooks_doc, hooks_company, hooks_owner_type, hooks_owner_id):
-	apps = frappe.get_all("IOT User Application", filters={"device": 1, 'enabled': 1}, fields=["name", "on_behalf", "uri"])
+	apps = frappe.get_all("IOT User Application", fields=["name", "on_behalf", "uri"], filters={"device": 1, 'enabled': 1})
 	for app in apps:
 		if has_permission_inter(app.on_behalf, hooks_doc.name, hooks_company, hooks_owner_type, hooks_owner_id):
 			fire_device_owner_hooks(app.name, app.uri, hooks_doc.name, 'add', hooks_company)
 
 
 def handle_device_del(hooks_doc, hooks_company, hooks_owner_type, hooks_owner_id):
-	apps = frappe.get_all("IOT User Application", filters={"device": 1, 'enabled': 1}, fields=["name", "on_behalf", "uri"])
+	apps = frappe.get_all("IOT User Application", fields=["name", "on_behalf", "uri"], filters={"device": 1, 'enabled': 1})
 	for app in apps:
 		if has_permission_inter(app.on_behalf, hooks_doc.name, hooks_company, hooks_owner_type, hooks_owner_id):
 			fire_device_owner_hooks(app.name, app.uri, hooks_doc.name, 'del', hooks_company)
 
 
 def handle_device_status(hooks_doc, hooks_method):
-	apps = frappe.get_all("IOT User Application", filters={"device": 1, 'enabled': 1}, fields=["name", "on_behalf", "uri"])
+	apps = frappe.get_all("IOT User Application", fields=["name", "on_behalf", "uri"], filters={"device": 1, 'enabled': 1})
 	for app in apps:
 		if has_permission_inter(app.on_behalf, hooks_doc.name):
 			fire_device_status(app.name, app.uri, hooks_doc)
