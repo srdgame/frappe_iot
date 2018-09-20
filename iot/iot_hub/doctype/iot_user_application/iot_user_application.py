@@ -23,7 +23,8 @@ class IOTUserApplication(Document):
 			throw(_("User application cannot bind to Administrator!"))
 
 
-app_props = ['name', 'desc', 'uri', 'on_behalf', 'device', 'device_data', 'device_event']
+app_props = ['name', 'desc', 'uri', 'on_behalf', 'device', 'device_data', 'device_event',
+			'device_data_restful_uri', 'device_data_influxdb_uri', 'device_data_redis_uri']
 
 
 def list_user_apps(user=None):
