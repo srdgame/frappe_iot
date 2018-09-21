@@ -18,7 +18,7 @@ def after_insert(doc, method):
 def on_admin_insert(doc, method, user):
 	if not frappe.get_value("IOT User Api", user, 'authorization_code'):
 		frappe.get_doc({
-			"doc_type": "IOT User Api",
+			"doctype": "IOT User Api",
 			"user": user,
 			"authorization_code": str(uuid.uuid1()).upper()
 		})
