@@ -21,7 +21,7 @@ def on_admin_insert(doc, method, user):
 			"doctype": "IOT User Api",
 			"user": user,
 			"authorization_code": str(uuid.uuid1()).upper()
-		})
+		}).insert()
 
 
 def create_influxdb(db_name, max_retry=10, sleep=None):
