@@ -654,7 +654,7 @@ def list_statistics_companies():
 	'''
 	valid_auth_code()
 
-	if not 'IOT Manager' in frappe.get_roles():
+	if 'IOT Manager' not in frappe.get_roles():
 		return []
 
 	list = []
@@ -683,7 +683,7 @@ def list_statistics_companies():
 def list_user_apps(user=None):
 	valid_auth_code()
 
-	if not 'IOT Manager' in frappe.get_roles():
+	if 'IOT Manager' not in frappe.get_roles():
 		return []
 
 	from iot_hub.doctype.iot_user_application.iot_user_application import list_user_apps as _list_user_apps
