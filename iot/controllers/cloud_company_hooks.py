@@ -6,12 +6,22 @@ from __future__ import unicode_literals
 import frappe
 import requests
 import time
+import uuid
 from frappe import _, throw
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 
 def after_insert(doc, method):
 	frappe.enqueue('iot.controllers.cloud_company_hooks.create_influxdb', db_name=doc.domain)
+
+
+def on_admin_insert(doc, method, user):
+	if not frappe.get_value("IOT User Api", user, 'authorization_code'):
+		frappe.get_doc({
+			"doc_type": "IOT User Api",
+			"user": user,
+			"authorization_code": str(uuid.uuid1()).upper()
+		})
 
 
 def create_influxdb(db_name, max_retry=10, sleep=None):

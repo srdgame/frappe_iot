@@ -135,6 +135,7 @@ doc_events = {
 	# },
 	"Cloud Company": {
 		"after_insert": "iot.controllers.cloud_company_hooks.after_insert",
+		"on_admin_insert": "iot.controllers.cloud_company_hooks.on_admin_insert"
 	},
 	"IOT Device Event": {
 		"after_insert": "iot.controllers.iot_device_event_hooks.after_insert"
