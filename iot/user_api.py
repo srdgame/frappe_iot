@@ -654,7 +654,7 @@ def list_statistics_companies():
 	'''
 	valid_auth_code()
 
-	if 'IOT Manager' in frappe.get_roles():
+	if not 'IOT Manager' in frappe.get_roles():
 		return []
 
 	list = []
