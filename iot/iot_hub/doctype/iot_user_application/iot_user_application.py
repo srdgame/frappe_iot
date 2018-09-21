@@ -28,7 +28,7 @@ app_props = ["name","app_name","description","uri","on_behalf","device","device_
 
 
 def _list_user_apps(user=None):
-	if 'IOT Manager' in frappe.get_roles():
+	if not 'IOT Manager' in frappe.get_roles():
 		return []
 
 	if user:
