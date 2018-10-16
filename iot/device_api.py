@@ -231,11 +231,21 @@ def app_upload_comm():
 @frappe.whitelist(allow_guest=True)
 def app_option():
 	'''
-	Query application log, data example: {"inst": "bms", "option": "auto", "value": 1}
+	Set application option value, data example: {"inst": "bms", "option": "auto", "value": 1}
 	:return:
 	'''
 	data = get_post_json_data()
 	return send_action("app", action="option", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def app_rename():
+	'''
+	Rename application instance name, data example: {"inst": "bms", "new_name": "bms2"}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("app", action="rename", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
