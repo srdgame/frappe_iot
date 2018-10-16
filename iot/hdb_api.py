@@ -7,12 +7,14 @@ import frappe
 import json
 import redis
 import requests
+import datetime
 from frappe import throw, _
 from iot.doctype.iot_device.iot_device import IOTDevice
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups as _list_user_groups
 from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 from frappe.utils import cint
+from frappe.utils import convert_utc_to_user_timezone, DATETIME_FORMAT
 
 
 def valid_auth_code(auth_code=None):
@@ -435,6 +437,9 @@ def add_device_event(event=None):
 		throw(_("Device {0} not found.").format(device))
 	dev_doc = frappe.get_doc("IOT Device", device)
 
+	event_utc_time = datetime.datetime.strptime(event.get("time"), DATETIME_FORMAT)
+	local_time = str(convert_utc_to_user_timezone(event_utc_time).replace(tzinfo=None))
+
 	doc = frappe.get_doc({
 		"doctype": "IOT Device Event",
 		"device": device,
@@ -442,7 +447,7 @@ def add_device_event(event=None):
 		"event_type": event.get("type"),
 		"event_info": event.get("info"),
 		"event_data": event.get("data"),
-		"event_time": event.get("time"),
+		"event_time": local_time,
 		"event_device": event.get("device"),
 		"event_source": event.get("source"),
 		"owner_type": dev_doc.owner_type,
