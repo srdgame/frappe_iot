@@ -84,7 +84,7 @@ apps/iot/iot/hooks.py +78,IOT Devices Map,IOT 设备地图
 apps/iot/iot/iot/doctype/iot_device/iot_device.py +289,IOT Devices of your group/account,属于您企业和个人的IOT设备列表
 DocType: IOT HDB Settings,IOT HDB Settings,IOT HDB设定
 DocType: IOT Homepage,IOT Homepage,IOT 主页
-DocType: IOT User Application,IOT Hub,
+DocType: IOT User Application,IOT Hub,IOT 中继
 DocType: IOT Batch Task,IOT Manager,IOT 管理员
 DocType: IOT Homepage,IOT Portal,IOT 门户
 DocType: IOT Share Group,IOT Share Group,IOT 共享组
