@@ -390,16 +390,6 @@ def sys_reboot():
 
 
 @frappe.whitelist(allow_guest=True)
-def sys_quit():
-	'''
-	Quit our iot application which will cause an new application run in our device.
-	:return:
-	'''
-	data = get_post_json_data()
-	return send_action("sys", action="quit", id=data.get("id"), device=data.get("device"), data=data.get("data"))
-
-
-@frappe.whitelist(allow_guest=True)
 def sys_cloud_conf():
 	'''
 	Change IOT Device Cloud Settings, data example: {"ID": "IDIDIDIDIDID", "HOST": "ioe.symgrid.com", ...}
@@ -407,7 +397,7 @@ def sys_cloud_conf():
 	:return:
 	'''
 	data = get_post_json_data()
-	return send_action("sys", action="conf", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("sys", action="cloud_conf", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
