@@ -39,10 +39,10 @@ class IOTBatchTaskDevice(Document):
 	def __get_action_result(self):
 		id = self.get("action_id")
 		result = get_action_result(id)
-		if not result:
+		if result is None:
 			return "Running"
-		print("Action result", result)
-		if result.get('result') == True or result.get('result') == 'True':
+		# print("Action result", result)
+		if result.get('result') is True or result.get('result') == 'True':
 			running = 0
 			done = 0
 			err = 0
@@ -80,7 +80,6 @@ class IOTBatchTaskDevice(Document):
 			self.__set_val("info", "Failed Time: {0} Error: {1}".format(result.get("timestamp_str"), result.get("message")))
 			frappe.db.commit()
 			return "Error"
-
 
 	def update_status(self):
 		task = frappe.get_doc("IOT Batch Task", self.parent)
