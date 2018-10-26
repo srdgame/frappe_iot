@@ -14,6 +14,7 @@ import uuid
 import requests
 import hdb_api
 import hdb
+from six import iteritems, string_types
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone, get_fullname
 from frappe import throw, msgprint, _, _dict
 from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
@@ -56,7 +57,6 @@ def gen_uuid():
 def list_devices():
 	valid_auth_code()
 	return hdb_api.list_iot_devices(frappe.session.user)
-
 
 
 @frappe.whitelist(allow_guest=True)
@@ -323,6 +323,28 @@ def device_app_dev_tree(sn):
 		app_dev_tree[app].append(dev_meta)
 
 	return app_dev_tree
+
+
+@frappe.whitelist(allow_guest=True)
+def create_batch_task():
+	valid_auth_code()
+	postdata = get_post_json_data()
+	script = postdata.get('script')
+	if not isinstance(script, string_types):
+		throw(_("Script must be string type!"))
+	devices = postdata.get('devices')
+	if not isinstance(devices, list):
+		throw(_("Devices not be a list!"))
+
+	task = frappe.get_doc({
+		"doctype": "IOT Batch Task",
+		"sn": sn,
+		"dev_name": name,
+		"description": desc,
+		"owner_type": type,
+		"owner_id": owner
+	})
+	iot_device.insert(ignore_permissions=True)
 
 
 @frappe.whitelist(allow_guest=True)
