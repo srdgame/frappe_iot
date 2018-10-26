@@ -328,23 +328,42 @@ def device_app_dev_tree(sn):
 @frappe.whitelist(allow_guest=True)
 def create_batch_task():
 	valid_auth_code()
-	postdata = get_post_json_data()
-	script = postdata.get('script')
+	post_data = get_post_json_data()
+	name = post_data.get('name')
+	if not isinstance(name, string_types):
+		throw(_("Name must be string type!"))
+	script = post_data.get('script')
 	if not isinstance(script, string_types):
 		throw(_("Script must be string type!"))
-	devices = postdata.get('devices')
+	devices = post_data.get('devices')
 	if not isinstance(devices, list):
 		throw(_("Devices not be a list!"))
 
-	task = frappe.get_doc({
+	doc = frappe.get_doc({
 		"doctype": "IOT Batch Task",
-		"sn": sn,
-		"dev_name": name,
-		"description": desc,
-		"owner_type": type,
-		"owner_id": owner
+		"task_name": name,
+		"task_description": post_data.get('description'),
+		"batch_script": script,
+		"timeout": post_data.get('timeout'),
+		"owner_id": frappe.session.user,
 	})
-	iot_device.insert(ignore_permissions=True)
+	for dev in devices:
+		doc.append("device_list", { "device": dev })
+	doc = doc.insert()
+	doc.submit()
+	return doc.name
+
+
+@frappe.whitelist(allow_guest=True)
+def batch_task_detail(name):
+	valid_auth_code()
+	return frappe.get_doc("IOT Batch Task", name).as_dict()
+
+
+@frappe.whitelist(allow_guest=True)
+def batch_task_status(name):
+	valid_auth_code()
+	return frappe.get_value("IOT Batch Task", name, "status")
 
 
 @frappe.whitelist(allow_guest=True)
@@ -364,9 +383,9 @@ def dispose_device_activity(name, disposed=1):
 @frappe.whitelist(allow_guest=True)
 def dispose_device_activities():
 	valid_auth_code()
-	postdata = get_post_json_data()
-	activities = postdata.get('activities') or []
-	disposed = postdata.get('disposed') or 1
+	post_data = get_post_json_data()
+	activities = post_data.get('activities') or []
+	disposed = post_data.get('disposed') or 1
 	for activity in activities:
 		doc = frappe.get_doc("IOT Device Activity", activity)
 		doc.dispose(disposed)
@@ -437,9 +456,9 @@ def dispose_device_event(name, disposed=1):
 @frappe.whitelist(allow_guest=True)
 def dispose_device_events():
 	valid_auth_code()
-	postdata = get_post_json_data()
-	events = postdata.get('events') or []
-	disposed = postdata.get('disposed') or 1
+	post_data = get_post_json_data()
+	events = post_data.get('events') or []
+	disposed = post_data.get('disposed') or 1
 	for event in events:
 		doc = frappe.get_doc("IOT Device Event", event)
 		doc.dispose(disposed)
