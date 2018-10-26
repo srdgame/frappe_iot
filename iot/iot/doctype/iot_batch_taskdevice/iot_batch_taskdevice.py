@@ -68,7 +68,7 @@ class IOTBatchTaskDevice(Document):
 				if err + done == len(sub_list):
 					if err == 0:
 						ret = "Finished"
-						self.__set_val("info", "Time: {0} Message: {1}".format(now()))
+						self.__set_val("info", "Time: {0} Message: Finished tasks {1}".format(now(), done))
 					else:
 						ret = "Error"
 						self.__set_val("info", "Time: {0}\r\nError: {1}\r\nCompleted: {2}\r\nMessage:{3}".format(now(), err, done, msg))
