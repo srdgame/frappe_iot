@@ -51,7 +51,7 @@ class IOTBatchTaskDevice(Document):
 			for sub in sub_list:
 				result = get_action_result(sub.get("id"))
 				if result:
-					print("Sub Action result", result)
+					# print("Sub Action result", result)
 					if result.get('result') == True or result.get('result') == 'True':
 						done = done + 1
 					else:
