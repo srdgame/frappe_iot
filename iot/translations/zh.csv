@@ -73,7 +73,7 @@ apps/iot/iot/hdb_api.py +23,HDB-AuthorizationCode is required in HTTP Header!,HT
 apps/iot/iot/iot/doctype/iot_device_event/iot_device_event.py +42,Has new device alarm,有新的设备报警消息
 DocType: IOT Batch Task,IOT,IOT
 apps/iot/iot/hooks.py +79,IOT Account,IOT 账户
-DocType: IOT Batch Task,IOT Batch Task,IOT批量任务
+DocType: IOT Batch Task,IOT Batch Task,IOT 批量任务
 DocType: IOT Batch TaskDevice,IOT Batch TaskDevice,
 apps/iot/iot/hooks.py +57,IOT Companies,IOT 公司列表
 DocType: IOT Device,IOT Device,IOT 设备
