@@ -10,9 +10,11 @@ from frappe.model.document import Document
 
 
 class IOTBatchTask(Document):
-	def on_update(self):
+	def validate(self):
 		if not self.owner_id:
 			self.owner_id = frappe.session.user
+
+	def on_update(self):
 		if self.status == 'New':
 			for device in self.get("device_list"):
 				device.status = 'New'
