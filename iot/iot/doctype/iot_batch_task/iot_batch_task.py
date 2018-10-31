@@ -7,6 +7,7 @@ import frappe
 import time
 from frappe import throw, _
 from frappe.model.document import Document
+from frappe.utils import now, now_datetime, get_datetime
 
 
 class IOTBatchTask(Document):
@@ -77,4 +78,10 @@ def check_all_task_status():
 
 	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": "New", "docstatus": 1}):
 		doc = frappe.get_doc("IOT Batch Task", d.name)
-		doc.run_task()
+		time_delta = now_datetime() - get_datetime(doc.modified)
+		min_timeout = (frappe.get_conf().scheduler_interval or 240)
+		if time_delta <= min_timeout:
+			doc.run_task()
+		else:
+			frappe.db.set_value("IOT Batch Task", doc.name, "status", "Error")
+
