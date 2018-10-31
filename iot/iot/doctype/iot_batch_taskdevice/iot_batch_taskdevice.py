@@ -62,15 +62,15 @@ class IOTBatchTaskDevice(Document):
 							result.get("message"))
 				else:
 					running = running + 1
-			if running > 0:
+			ret = 'Running'
+			if running == 0:
 				ret = "Partial"
-			else:
 				if err + done == len(sub_list):
 					if err == 0:
 						ret = "Finished"
 						self.__set_val("info", "Time: {0} Message: Finished tasks {1}".format(now(), done))
 					else:
-						ret = "Error"
+						ret = "Partial"
 						self.__set_val("info", "Time: {0}\r\nError: {1}\r\nCompleted: {2}\r\nMessage:{3}".format(now(), err, done, msg))
 			self.__set_val("status", ret)
 			frappe.db.commit()
@@ -82,6 +82,9 @@ class IOTBatchTaskDevice(Document):
 			return "Error"
 
 	def update_status(self):
+		if self.status in ['Finished', 'Error', 'Partial']:
+			return self.status
+
 		task = frappe.get_doc("IOT Batch Task", self.parent)
 		timeout = task.timeout
 		start_time = self.get("action_starttime")
