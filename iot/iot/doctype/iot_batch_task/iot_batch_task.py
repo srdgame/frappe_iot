@@ -16,7 +16,7 @@ class IOTBatchTask(Document):
 
 		min_timeout = (frappe.get_conf().scheduler_interval or 240)
 		if self.timeout < min_timeout:
-			throw(_("Timeout must be bigger than system scheduler running time %d!".format(min_timeout)))
+			throw(_("Timeout must be bigger than system scheduler running time {0}!".format(min_timeout)))
 
 	def on_update(self):
 		if self.status == 'New':
