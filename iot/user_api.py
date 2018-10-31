@@ -361,8 +361,11 @@ def batch_task_detail(name):
 
 
 @frappe.whitelist(allow_guest=True)
-def batch_task_status(name):
+def batch_task_status(name, update=False):
 	valid_auth_code()
+	if update is not False:
+		doc = frappe.get_doc("IOT Batch Task", name)
+		doc.update_status()
 	return frappe.get_value("IOT Batch Task", name, "status")
 
 
