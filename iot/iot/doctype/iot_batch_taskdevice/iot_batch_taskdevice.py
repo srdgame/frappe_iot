@@ -42,7 +42,7 @@ class IOTBatchTaskDevice(Document):
 		if result is None:
 			return "Running"
 		# print("Action result", result)
-		if result.get('result') is True or result.get('result') == 'True':
+		if result.get('result') is True or result.get('result') == 'True' or result.get('result') == 'true':
 			running = 0
 			done = 0
 			err = 0
@@ -52,7 +52,7 @@ class IOTBatchTaskDevice(Document):
 				result = get_action_result(sub.get("id"))
 				if result:
 					# print("Sub Action result", result)
-					if result.get('result') == True or result.get('result') == 'True':
+					if result.get('result') is True or result.get('result') == 'True' or result.get('result') == 'true':
 						done = done + 1
 					else:
 						err = err + 1
@@ -87,14 +87,14 @@ class IOTBatchTaskDevice(Document):
 		start_time = self.get("action_starttime")
 		if not start_time:
 			self.__set_val("status", "Error")
-			self.__set_val("info", "Timeout!!")
+			self.__set_val("info", "Timeout!! action_starttime is empty!")
 			frappe.db.commit()
 			return "Error"
 
 		time_delta = now_datetime() - get_datetime(self.get("action_starttime"))
 		if time_delta.total_seconds() >= timeout:
 			self.__set_val("status", "Error")
-			self.__set_val("info", "Timeout!!")
+			self.__set_val("info", "Timeout!! %d %d" % (time_delta.total_seconds(), timeout))
 			frappe.db.commit()
 			return "Error"
 
