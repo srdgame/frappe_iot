@@ -14,6 +14,10 @@ class IOTBatchTask(Document):
 		if not self.owner_id:
 			self.owner_id = frappe.session.user
 
+		min_timeout = (frappe.get_conf().scheduler_interval or 240)
+		if self.timeout < min_timeout:
+			throw(_("Timeout must be bigger than system scheduler running time %d!".format(min_timeout)))
+
 	def on_update(self):
 		if self.status == 'New':
 			for device in self.get("device_list"):

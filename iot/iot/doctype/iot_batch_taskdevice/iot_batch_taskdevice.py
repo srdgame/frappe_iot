@@ -91,6 +91,10 @@ class IOTBatchTaskDevice(Document):
 			frappe.db.commit()
 			return "Error"
 
+		result = self.__get_action_result()
+		if result == "Error":
+			return result
+
 		time_delta = now_datetime() - get_datetime(self.get("action_starttime"))
 		if time_delta.total_seconds() >= timeout:
 			self.__set_val("status", "Error")
@@ -98,4 +102,3 @@ class IOTBatchTaskDevice(Document):
 			frappe.db.commit()
 			return "Error"
 
-		return self.__get_action_result()

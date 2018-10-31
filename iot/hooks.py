@@ -176,10 +176,8 @@ doc_events = {
 # 	]
 # }
 scheduler_events = {
-	"cron": {
-		"0/10 * * * *": [
-			"iot.iot.doctype.iot_batch_task.iot_batch_task.check_all_task_status"
-		]
+	"all": {
+		"iot.iot.doctype.iot_batch_task.iot_batch_task.check_all_task_status"
 	},
 	"daily": [
 		"iot.iot.doctype.iot_device_activity.iot_device_activity.clear_device_activities",
