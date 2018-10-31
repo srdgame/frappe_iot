@@ -75,7 +75,7 @@ def check_all_task_status():
 		doc = frappe.get_doc("IOT Batch Task", d.name)
 		time_delta = now_datetime() - get_datetime(doc.modified)
 		min_timeout = (frappe.get_conf().scheduler_interval or 240)
-		if time_delta <= min_timeout:
+		if time_delta.total_seconds() <= min_timeout:
 			doc.run_task()
 		else:
 			frappe.db.set_value("IOT Batch Task", doc.name, "status", "Error")
