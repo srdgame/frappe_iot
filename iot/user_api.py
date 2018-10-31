@@ -350,6 +350,7 @@ def create_batch_task():
 	for dev in devices:
 		doc.append("device_list", { "device": dev })
 	doc = doc.insert()
+	frappe.db.commit() # Commit to database to make sure batch task has been there before submit()
 	doc.submit()
 	return doc.name
 
