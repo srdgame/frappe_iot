@@ -71,11 +71,6 @@ class IOTBatchTask(Document):
 
 
 def check_all_task_status():
-	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": "Running", "docstatus": 1}):
-							# filters = {"status": ["in", ["Running", "Partial"]], "docstatus": 1}):
-		doc = frappe.get_doc("IOT Batch Task", d.name)
-		doc.update_status()
-
 	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": "New", "docstatus": 1}):
 		doc = frappe.get_doc("IOT Batch Task", d.name)
 		time_delta = now_datetime() - get_datetime(doc.modified)
@@ -84,4 +79,9 @@ def check_all_task_status():
 			doc.run_task()
 		else:
 			frappe.db.set_value("IOT Batch Task", doc.name, "status", "Error")
+
+	for d in frappe.get_all("IOT Batch Task", "name", filters={"status": "Running", "docstatus": 1}):
+							# filters = {"status": ["in", ["Running", "Partial"]], "docstatus": 1}):
+		doc = frappe.get_doc("IOT Batch Task", d.name)
+		doc.update_status()
 
