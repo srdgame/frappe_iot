@@ -15,10 +15,10 @@ frappe.ui.form.on('IOT Device', {
 			frm.add_custom_button(__("Clean Events"), function () {
 				frm.events.clean_events(frm);
 			}).removeClass("btn-default").addClass("btn-warning");
-			frm.add_custom_button(__("Strip SN Fix"), function () {
-				frm.events.strip_sn_fix(frm);
-			}).removeClass("btn-default").addClass("btn-warning");
 		}
+		frm.add_custom_button(__("Strip SN Fix"), function () {
+			frm.events.strip_sn_fix(frm);
+		}).removeClass("btn-default").addClass("btn-warning");
 	},
 	set_use_beta: function(frm) {
 		return frappe.call({
