@@ -18,6 +18,9 @@ from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_s
 class IOTDevice(Document):
 	def validate(self):
 		self.company = self.__get_company()
+		if self.is_new():
+			self.sn = self.sn.strip()
+			self.name = self.name.strip()
 		vdev_owenr = frappe.get_value("IOT Virtual Device", "user")
 		if vdev_owenr:
 			if vdev_owenr != self.owner_id:
@@ -133,6 +136,11 @@ class IOTDevice(Document):
 			doc = frappe.get_doc("IOT Device Event", d[0])
 			doc.wechat_msg_clean()
 			frappe.delete_doc("IOT Device Event", d[0])
+
+	def strip_sn_fix(self):
+		sn = self.sn.strip()
+		if sn != self.sn:
+			frappe.db.set_value("IOT Device", "sn", sn)
 
 	@staticmethod
 	def check_sn_exists(sn):
