@@ -140,7 +140,7 @@ class IOTDevice(Document):
 	def strip_sn_fix(self):
 		sn = self.sn.strip()
 		if sn != self.sn:
-			frappe.db.set_value("IOT Device", "sn", sn)
+			frappe.db.set_value("IOT Device", self.name, "sn", sn)
 
 	@staticmethod
 	def check_sn_exists(sn):

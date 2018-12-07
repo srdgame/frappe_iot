@@ -99,12 +99,12 @@ def list_iot_devices(user):
 	groups = _list_user_groups(user)
 	companies = list_user_companies(user)
 	for g in groups:
-		sn_list = [d[0] for d in frappe.db.get_values("IOT Device", {
+		dev_list = [d[0] for d in frappe.db.get_values("IOT Device", {
 			"owner_id": g.name,
 			"owner_type": "Cloud Company Group"
-		}, "sn")]
+		}, "name")]
 
-		ent_devices.append({"group": g.name, "devices": sn_list, "role": g.role})
+		ent_devices.append({"group": g.name, "devices": dev_list, "role": g.role})
 
 	# Get Shared Devices
 	shd_devices = []
@@ -120,7 +120,7 @@ def list_iot_devices(user):
 		shd_devices.append({"group": shared_group, "devices": dev_list, "role": role})
 
 	# Get Private Devices
-	pri_devices = [d[0] for d in frappe.db.get_values("IOT Device", {"owner_id": user, "owner_type": "User"}, "sn")]
+	pri_devices = [d[0] for d in frappe.db.get_values("IOT Device", {"owner_id": user, "owner_type": "User"}, "name")]
 
 	devices = {
 		"company_devices": ent_devices,
