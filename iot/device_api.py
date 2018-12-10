@@ -421,6 +421,16 @@ def sys_download_cfg():
 
 
 @frappe.whitelist(allow_guest=True)
+def query_input_snapshot():
+	'''
+	Force device data snapshot data, data example: {}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("input", action="snapshot", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
 def send_output():
 	'''
 	Send device output value, data example:{ "device": "{DeviceID}", "output": "aaaa", "value": "dddd", "prop": "int_value"}
@@ -449,3 +459,4 @@ def device_status(sn):
 	if frappe.session.user == "Guest":
 		valid_auth_code()
 	return frappe.get_value("IOT Device", sn, "device_status")
+
