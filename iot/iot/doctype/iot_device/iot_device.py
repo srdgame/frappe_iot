@@ -21,7 +21,7 @@ class IOTDevice(Document):
 		if self.is_new():
 			self.sn = self.sn.strip()
 			self.name = self.name.strip()
-		vdev_owenr = frappe.get_value("IOT Virtual Device", "user")
+		vdev_owenr = frappe.get_value("IOT Virtual Device", self.sn, "user")
 		if vdev_owenr:
 			if vdev_owenr != self.owner_id:
 				throw(_("Cannot change owner for Virtual Device!"))
