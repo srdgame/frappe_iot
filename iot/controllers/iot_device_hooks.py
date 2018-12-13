@@ -8,7 +8,7 @@ import frappe
 
 def on_device_add(doc, method, company, owner_type, owner_id):
 	frappe.enqueue('iot.iot_hub.doctype.iot_user_application.iot_user_application.handle_device_add',
-		hooks_doc=doc, hooks_company=company, hooks_owner_type=owner_type, ohooks_wner_id=owner_id)
+		hooks_doc=doc, hooks_company=company, hooks_owner_type=owner_type, hooks_owner_id=owner_id)
 
 
 def on_device_del(doc, method, company, owner_type, owner_id):
