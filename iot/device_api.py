@@ -421,13 +421,33 @@ def sys_download_cfg():
 
 
 @frappe.whitelist(allow_guest=True)
-def query_input_snapshot():
+def sys_data_snapshot():
 	'''
 	Force device data snapshot data, data example: {}
 	:return:
 	'''
 	data = get_post_json_data()
-	return send_action("input", action="snapshot", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+	return send_action("sys", action="data/snapshot", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_data_query():
+	'''
+	Force upload device input data, data is device sn (vsn)
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="data/query", id=data.get("id"), device=data.get("device"), data=data.get("data"))
+
+
+@frappe.whitelist(allow_guest=True)
+def sys_data_flush():
+	'''
+	Force flush buffered data, data example: {}
+	:return:
+	'''
+	data = get_post_json_data()
+	return send_action("sys", action="data/flush", id=data.get("id"), device=data.get("device"), data=data.get("data"))
 
 
 @frappe.whitelist(allow_guest=True)
