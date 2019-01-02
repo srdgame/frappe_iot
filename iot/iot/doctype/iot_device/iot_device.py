@@ -56,11 +56,11 @@ class IOTDevice(Document):
 
 	def on_device_add(self, company, owner_type, owner_id):
 		subject = _("Add device to {0}").format(owner_id)
-		add_device_owner_log(subject, self.name, company, owner_type, owner_id)
+		add_device_owner_log(subject, self.name, company, owner_type, owner_id, "Add")
 
 	def on_device_del(self, org_company, org_owner_type, org_owner_id):
 		subject = _("Remove device from {0}").format(org_owner_id)
-		add_device_owner_log(subject, self.name, org_company, org_owner_type, org_owner_id)
+		add_device_owner_log(subject, self.name, org_company, org_owner_type, org_owner_id, "Delete")
 
 	def on_device_status(self):
 		if self.device_status == 'ONLINE':

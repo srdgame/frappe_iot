@@ -73,7 +73,7 @@ def has_permission(doc, ptype, user):
 	return False
 
 
-def add_device_owner_log(subject, dev_name, dev_company, owner_type=None, owner_id=None, status="Success"):
+def add_device_owner_log(subject, dev_name, dev_company, owner_type=None, owner_id=None, action="Add", status="Success"):
 	frappe.get_doc({
 		"doctype": "IOT Device Activity",
 		"user": frappe.session.user,
@@ -84,6 +84,9 @@ def add_device_owner_log(subject, dev_name, dev_company, owner_type=None, owner_
 		"owner_type": owner_type,
 		"owner_id": owner_id,
 		"owner_company": dev_company,
+		"message": json.dumps({
+			"action": action
+		})
 	}).insert(ignore_permissions=True)
 
 
