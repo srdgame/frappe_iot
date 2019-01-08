@@ -279,6 +279,8 @@ def device_app_list(sn):
 					"cloud": {
 						"name": doc.name,
 						"app_name": doc.app_name,
+						"code_name": doc.code_name,
+						"app_path": doc.app_path,
 						"owner": doc.owner,
 						"owner_fullname": get_fullname(doc.owner),
 						"version": get_latest_version(doc.name, device.use_beta),
