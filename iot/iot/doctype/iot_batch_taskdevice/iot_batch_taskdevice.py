@@ -8,7 +8,6 @@ import time
 from frappe import throw, _
 from frappe.model.document import Document
 from frappe.utils import now, now_datetime, get_datetime
-from iot.device_api import send_action, get_action_result
 
 
 class IOTBatchTaskDevice(Document):
@@ -23,6 +22,7 @@ class IOTBatchTaskDevice(Document):
 		frappe.logger(__name__).info("Run batch script {0} on device {1}".format(task.name, self.device))
 
 		try:
+			from iot.device_api import send_action
 			id = send_action("sys", action="batch_script", device=self.device, data=task.batch_script)
 			if not id:
 				throw("Send action failed")
@@ -38,6 +38,7 @@ class IOTBatchTaskDevice(Document):
 
 	def __get_action_result(self):
 		id = self.get("action_id")
+		from iot.device_api import get_action_result
 		result = get_action_result(id)
 		if result is None:
 			return "Running"
