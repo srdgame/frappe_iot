@@ -8,8 +8,8 @@ import json
 import redis
 import uuid
 from frappe import throw, msgprint, _
-from iot.doctype.iot_device_activity.iot_device_activity import add_device_action_log
-from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_action_log
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 ### TODO: Activity Log
 
@@ -48,7 +48,7 @@ def get_post_json_data():
 	data = frappe.request.get_data()
 	if not data:
 		throw(_("JSON Data not found!"))
-	return json.loads(data)
+	return json.loads(data.decode('utf-8'))
 
 
 @frappe.whitelist(allow_guest=True)

@@ -26,7 +26,7 @@ def get_post_json_data():
 	data = frappe.request.get_data()
 	if not data:
 		throw(_("JSON Data not found!"))
-	return json.loads(data)
+	return json.loads(data.decode('utf-8'))
 
 
 def fire_raw_content(status=200, content="", content_type='text/plain'):

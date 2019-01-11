@@ -25,7 +25,7 @@ class IOTDeviceActivity(Document):
 	# 	self.insert_to_influxdb()
 	#
 	# def insert_to_influxdb(self):
-	# 	from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+	# 	from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 	# 	inf_server = IOTHDBSettings.get_influxdb_server()
 	# 	if not inf_server:
 	# 		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")

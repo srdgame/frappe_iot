@@ -8,22 +8,20 @@ import json
 import redis
 import requests
 import datetime
-import uuid
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
-from frappe import throw, msgprint, _, _dict
-from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from hdb_api import valid_auth_code
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.hdb_api import get_post_json_data
 
 
 @frappe.whitelist()
 def redis_status():
-	from iot.doctype.iot_hdb_settings.iot_hdb_settings import get_redis_status
+	from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import get_redis_status
 	return get_redis_status()
 
 
 @frappe.whitelist()
 def influxdb_status():
-	from iot.doctype.iot_hdb_settings.iot_hdb_settings import get_influxdb_status
+	from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import get_influxdb_status
 	return get_influxdb_status()
 
 
@@ -146,22 +144,10 @@ def iot_device_cfg(sn=None, vsn=None):
 	return json.loads(client.get(vsn or sn) or "{}")
 
 
-def get_post_json_data():
-	if frappe.request.method != "POST":
-		throw(_("Request Method Must be POST!"))
-	ctype = frappe.get_request_header("Content-Type")
-	if "json" not in ctype.lower():
-		throw(_("Incorrect HTTP Content-Type found {0}").format(ctype))
-	if not frappe.form_dict.data:
-		throw(_("JSON Data not found!"))
-	return json.loads(frappe.form_dict.data)
-
-
 @frappe.whitelist(allow_guest=True)
 def ping():
 	form_data = frappe.form_dict
 	if frappe.request and frappe.request.method == "POST":
-		if form_data.data:
-			form_data = json.loads(form_data.data)
+		form_data = form_data or get_post_json_data()
 		return form_data.get("text") or "No Text"
 	return 'pong'

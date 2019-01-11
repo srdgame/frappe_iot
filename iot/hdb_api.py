@@ -9,8 +9,8 @@ import redis
 import requests
 import datetime
 from frappe import throw, _
-from iot.doctype.iot_device.iot_device import IOTDevice
-from iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.iot.doctype.iot_device.iot_device import IOTDevice
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups as _list_user_groups
 from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 from frappe.utils import cint
@@ -155,7 +155,7 @@ def get_post_json_data():
 	data = frappe.request.get_data()
 	if not data:
 		throw(_("JSON Data not found!"))
-	return json.loads(data)
+	return json.loads(data.decode('utf-8'))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -482,7 +482,6 @@ def get_time():
 def ping():
 	form_data = frappe.form_dict
 	if frappe.request and frappe.request.method == "POST":
-		if form_data.data:
-			form_data = json.loads(form_data.data)
+		form_data = formdata or get_post_json_data()
 		return form_data.get("text") or "No Text"
 	return 'pong'
