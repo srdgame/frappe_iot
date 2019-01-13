@@ -12,15 +12,15 @@ import redis
 import datetime
 import uuid
 import requests
-from six import iteritems, string_types
-from frappe.utils import now, get_datetime, convert_utc_to_user_timezone, get_fullname
-from frappe import throw, msgprint, _, _dict
+from six import string_types
+from frappe.utils import convert_utc_to_user_timezone, get_fullname
+from frappe import throw, _dict, _
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from iot.iot.doctype.iot_device.iot_device import IOTDevice
-from app_center.app_center.api import get_latest_version
-from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies, list_users, get_domain
-from iot.device_api import get_post_json_data
-from iot.hdb import iot_device_cfg, iot_device_data, iot_device_tree, iot_device_data_array, iot_device_his_data
+from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
+from app_center.api import get_latest_version
+from .device_api import get_post_json_data
+from .hdb import iot_device_cfg, iot_device_data, iot_device_tree, iot_device_data_array, iot_device_his_data
 
 
 def valid_auth_code(auth_code=None):
@@ -55,52 +55,52 @@ def gen_uuid():
 @frappe.whitelist(allow_guest=True)
 def list_devices():
 	valid_auth_code()
-	from iot.hdb_api import list_iot_devices
+	from .hdb_api import list_iot_devices
 	return list_iot_devices(frappe.session.user)
 
 
 @frappe.whitelist(allow_guest=True)
 def access_device(sn, op="read"):
 	valid_auth_code()
-	from iot.hdb_api import access_device as hdb_api_access_device
+	from .hdb_api import access_device as hdb_api_access_device
 	return hdb_api_access_device(sn, op)
 
 
 @frappe.whitelist(allow_guest=True)
 def get_device(sn=None):
 	valid_auth_code()
-	from iot.hdb_api import get_device as hdb_api_get_device
+	from .hdb_api import get_device as hdb_api_get_device
 	return hdb_api_get_device(sn)
 
 
 @frappe.whitelist(allow_guest=True)
 def device_tree(sn=None):
 	valid_auth_code()
-	return hdb.iot_device_tree(sn)
+	return iot_device_tree(sn)
 
 
 @frappe.whitelist(allow_guest=True)
 def device_cfg(sn=None, vsn=None):
 	valid_auth_code()
-	return hdb.iot_device_cfg(sn, vsn)
+	return iot_device_cfg(sn, vsn)
 
 
 @frappe.whitelist(allow_guest=True)
 def device_data(sn=None, vsn=None):
 	valid_auth_code()
-	return hdb.iot_device_data(sn, vsn)
+	return iot_device_data(sn, vsn)
 
 
 @frappe.whitelist(allow_guest=True)
 def device_data_array(sn=None, vsn=None):
 	valid_auth_code()
-	return hdb.iot_device_data_array(sn, vsn)
+	return iot_device_data_array(sn, vsn)
 
 
 @frappe.whitelist(allow_guest=True)
 def device_history_data(sn=None, vsn=None, fields="*", condition=None):
 	valid_auth_code()
-	return hdb.iot_device_his_data(sn, vsn, fields, condition)
+	return iot_device_his_data(sn, vsn, fields, condition)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -122,7 +122,7 @@ def device_enable_beta(sn):
 	valid_auth_code()
 	doc = frappe.get_doc("IOT Device", sn)
 	doc.set_use_beta()
-	from iot.device_api import send_action
+	from .device_api import send_action
 	return send_action("sys", action="enable/beta", device=sn, data="1")
 
 
@@ -308,11 +308,11 @@ def device_app_list(sn):
 @frappe.whitelist(allow_guest=True)
 def device_app_dev_tree(sn):
 	valid_auth_code()
-	device_tree = hdb.iot_device_tree(sn)
+	device_tree = iot_device_tree(sn)
 	app_dev_tree = _dict({})
 
 	for dev_sn in device_tree:
-		cfg = hdb.iot_device_cfg(sn, dev_sn)
+		cfg = iot_device_cfg(sn, dev_sn)
 		dev_meta = cfg['meta']
 		if not dev_meta:
 			continue
@@ -656,7 +656,7 @@ def device_event_count_statistics():
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15")
 
-	from iot.hdb_api import list_iot_devices as _list_iot_devices
+	from .hdb_api import list_iot_devices as _list_iot_devices
 	devices = _list_iot_devices(frappe.session.user)
 	company_devices = devices.get('company_devices')
 
@@ -735,10 +735,10 @@ def list_user_apps(user=None):
 	if 'IOT Manager' not in frappe.get_roles():
 		return []
 
-	from iot_hub.doctype.iot_user_application.iot_user_application import list_user_apps as _list_user_apps
+	from iot.iot_hub.doctype.iot_user_application.iot_user_application import list_user_apps as _list_user_apps
 	return _list_user_apps(user)
 
 
 @frappe.whitelist(allow_guest=True)
 def ping():
-	return 'pong'
+	return 'pong from iot.user_api.ping'

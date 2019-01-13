@@ -10,7 +10,7 @@ import requests
 import datetime
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from iot.hdb_api import get_post_json_data
+from .hdb_api import get_post_json_data
 
 
 @frappe.whitelist()

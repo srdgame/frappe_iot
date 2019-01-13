@@ -482,6 +482,6 @@ def get_time():
 def ping():
 	form_data = frappe.form_dict
 	if frappe.request and frappe.request.method == "POST":
-		form_data = formdata or get_post_json_data()
+		form_data = form_data or get_post_json_data()
 		return form_data.get("text") or "No Text"
-	return 'pong'
+	return 'pong from iot.hdb_api.ping'
