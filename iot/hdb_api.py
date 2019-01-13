@@ -9,8 +9,8 @@ import redis
 import requests
 import datetime
 from frappe import throw, _
-from iot.iot.doctype.iot_device.iot_device import IOTDevice
-from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from .iot.doctype.iot_device.iot_device import IOTDevice
+from .iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups as _list_user_groups
 from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 from frappe.utils import cint
