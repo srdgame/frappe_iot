@@ -670,7 +670,7 @@
  "issingle": 0,
  "istable": 0,
  "max_attachments": 0,
- "modified": "2019-01-14 14:03:40.610367",
+ "modified": "2019-01-14 15:59:58.896232",
  "modified_by": "Administrator",
  "module": "IOT",
  "name": "IOT Device Event",
@@ -723,7 +723,7 @@
  "show_name_in_global_search": 0,
  "sort_field": "modified",
  "sort_order": "DESC",
- "title_field": "",
+ "title_field": "event_info",
  "track_changes": 1,
  "track_seen": 0,
  "track_views": 0
