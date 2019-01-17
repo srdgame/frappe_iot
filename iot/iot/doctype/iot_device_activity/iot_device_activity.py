@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 import json
 import requests
-from frappe import _,throw
+from frappe import _,throw, _dict
 from frappe.model.document import Document
 from frappe.utils import get_fullname, now, get_datetime_str
 
@@ -135,6 +135,14 @@ def clear_device_activities():
 
 
 activity_fields = ["name", "subject", "operation", "status", "message", "disposed", "disposed_by", "device", "user", "full_name", "creation"]
+
+
+def get_log_detail(name):
+	doc = frappe.get_doc("IOT Device Activity", name)
+	data = _dict({})
+	for key in activity_fields:
+		data[key] = doc[key]
+	return data
 
 
 def query_logs_by_user(user, start=None, limit=None, filters=None):

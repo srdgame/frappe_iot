@@ -4,7 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe import _, throw
+from frappe import _, throw, _dict
 from frappe.model.document import Document
 from frappe.utils.data import format_datetime
 from frappe.utils import get_fullname
@@ -114,6 +114,14 @@ def clear_device_events():
 
 
 event_fields = ["name", "device", "event_source", "event_level", "event_type", "event_info", "event_data", "event_time", "wechat_notify", "disposed", "disposed_by", "creation"]
+
+
+def get_event_detail(name):
+	doc = frappe.get_doc("IOT Device Event", name)
+	data = _dict({})
+	for key in event_fields:
+		data[key] = doc[key]
+	return data
 
 
 def query_device_event_by_user(user, start=None, limit=None, filters=None):
