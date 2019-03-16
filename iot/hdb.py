@@ -80,7 +80,7 @@ def iot_device_data_array(sn=None, vsn=None):
 	hs = client.hgetall(vsn)
 	data = []
 
-	if "input" in cfg:
+	if "inputs" in cfg:
 		inputs = cfg.get("inputs")
 		for input in inputs:
 			input_name = input.get('name')
