@@ -7,7 +7,7 @@ import time
 import redis
 import requests
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
-from .iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 
 UTC_FORMAT1 = "%Y-%m-%dT%H:%M:%S.%fZ"

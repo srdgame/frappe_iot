@@ -15,12 +15,12 @@ import requests
 from six import string_types
 from frappe.utils import convert_utc_to_user_timezone, get_fullname
 from frappe import throw, _dict, _
-from .iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from .iot.doctype.iot_device.iot_device import IOTDevice
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.iot.doctype.iot_device.iot_device import IOTDevice
 from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 from app_center.api import get_latest_version
-from .device_api import get_post_json_data
-from .hdb import iot_device_cfg, iot_device_data, iot_device_tree, iot_device_data_array, iot_device_his_data
+from iot.device_api import get_post_json_data
+from iot.hdb import iot_device_cfg, iot_device_data, iot_device_tree, iot_device_data_array, iot_device_his_data
 
 
 def valid_auth_code(auth_code=None):
@@ -55,21 +55,21 @@ def gen_uuid():
 @frappe.whitelist(allow_guest=True)
 def list_devices():
 	valid_auth_code()
-	from .hdb_api import list_iot_devices
+	from iot.hdb_api import list_iot_devices
 	return list_iot_devices(frappe.session.user)
 
 
 @frappe.whitelist(allow_guest=True)
 def access_device(sn, op="read"):
 	valid_auth_code()
-	from .hdb_api import access_device as hdb_api_access_device
+	from iot.hdb_api import access_device as hdb_api_access_device
 	return hdb_api_access_device(sn, op)
 
 
 @frappe.whitelist(allow_guest=True)
 def get_device(sn=None):
 	valid_auth_code()
-	from .hdb_api import get_device as hdb_api_get_device
+	from iot.hdb_api import get_device as hdb_api_get_device
 	return hdb_api_get_device(sn)
 
 
@@ -122,7 +122,7 @@ def device_enable_beta(sn):
 	valid_auth_code()
 	doc = frappe.get_doc("IOT Device", sn)
 	doc.set_use_beta()
-	from .device_api import send_action
+	from iot.device_api import send_action
 	return send_action("sys", action="enable/beta", device=sn, data="1")
 
 
@@ -409,8 +409,8 @@ filters = {"creation": [">", "2014-01-01"], "operation": "Owner"}
 
 @frappe.whitelist(allow_guest=True)
 def device_activity(sn=None, start=0, limit=40, filters=None):
-	from .iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_user as _query_logs_by_user
-	from .iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_device as _query_logs_by_device
+	from iot.iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_user as _query_logs_by_user
+	from iot.iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_device as _query_logs_by_device
 	valid_auth_code()
 	if sn:
 		return _query_logs_by_device(sn, start, limit, filters)
@@ -420,8 +420,8 @@ def device_activity(sn=None, start=0, limit=40, filters=None):
 
 @frappe.whitelist(allow_guest=True)
 def count_device_activity(sn=None, filters=None):
-	from .iot.doctype.iot_device_activity.iot_device_activity import count_logs_by_user as _count_logs_by_user
-	from .iot.doctype.iot_device_activity.iot_device_activity import count_logs_by_device as _count_logs_by_device
+	from iot.iot.doctype.iot_device_activity.iot_device_activity import count_logs_by_user as _count_logs_by_user
+	from iot.iot.doctype.iot_device_activity.iot_device_activity import count_logs_by_device as _count_logs_by_device
 	valid_auth_code()
 	if sn:
 		return _count_logs_by_device(sn, filters)
@@ -431,7 +431,7 @@ def count_device_activity(sn=None, filters=None):
 
 @frappe.whitelist(allow_guest=True)
 def device_activity_by_company(company, start=0, limit=40, filters=None):
-	from .iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_company as _query_logs_by_company
+	from iot.iot.doctype.iot_device_activity.iot_device_activity import query_logs_by_company as _query_logs_by_company
 	valid_auth_code()
 	if frappe.get_value("Cloud Employee", frappe.session.user, "company") != company:
 		return None
@@ -440,7 +440,7 @@ def device_activity_by_company(company, start=0, limit=40, filters=None):
 
 @frappe.whitelist(allow_guest=True)
 def count_device_activity_by_company(company, filters):
-	from .iot.doctype.iot_device_activity.iot_device_activity import count_logs_by_company as _count_logs_by_company
+	from iot.iot.doctype.iot_device_activity.iot_device_activity import count_logs_by_company as _count_logs_by_company
 	valid_auth_code()
 	if frappe.get_value("Cloud Employee", frappe.session.user, "company") != company:
 		return None
@@ -483,21 +483,21 @@ filters = {"creation": [">", "2014-01-01"], "event_type": "系统", "event_level
 
 @frappe.whitelist(allow_guest=True)
 def device_event(sn=None, start=0, limit=40, filters=None):
-	from .iot.doctype.iot_device_event.iot_device_event import query_device_event as _query_device_event
+	from iot.iot.doctype.iot_device_event.iot_device_event import query_device_event as _query_device_event
 	valid_auth_code()
 	return _query_device_event(sn, start, limit, filters)
 
 
 @frappe.whitelist(allow_guest=True)
 def count_device_event(sn=None, filters=None):
-	from .iot.doctype.iot_device_event.iot_device_event import count_device_event as _count_device_event
+	from iot.iot.doctype.iot_device_event.iot_device_event import count_device_event as _count_device_event
 	valid_auth_code()
 	return _count_device_event(sn, filters)
 
 
 @frappe.whitelist(allow_guest=True)
 def device_event_by_company(company, start=0, limit=40, filters=None):
-	from .iot.doctype.iot_device_event.iot_device_event import query_device_event_by_company as _query_device_event_by_company
+	from iot.iot.doctype.iot_device_event.iot_device_event import query_device_event_by_company as _query_device_event_by_company
 	valid_auth_code()
 	if frappe.get_value("Cloud Employee", frappe.session.user, "company") != company:
 		return None
@@ -506,7 +506,7 @@ def device_event_by_company(company, start=0, limit=40, filters=None):
 
 @frappe.whitelist(allow_guest=True)
 def count_device_event_by_company(company, filters=None):
-	from .iot.doctype.iot_device_event.iot_device_event import count_device_event_by_company as _count_device_event_by_company
+	from iot.iot.doctype.iot_device_event.iot_device_event import count_device_event_by_company as _count_device_event_by_company
 	valid_auth_code()
 	if frappe.get_value("Cloud Employee", frappe.session.user, "company") != company:
 		return None
@@ -656,7 +656,7 @@ def device_event_count_statistics():
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15")
 
-	from .hdb_api import list_iot_devices as _list_iot_devices
+	from iot.hdb_api import list_iot_devices as _list_iot_devices
 	devices = _list_iot_devices(frappe.session.user)
 	company_devices = devices.get('company_devices')
 
@@ -735,7 +735,7 @@ def list_user_apps(user=None):
 	if 'IOT Manager' not in frappe.get_roles():
 		return []
 
-	from .iot_hub.doctype.iot_user_application.iot_user_application import list_user_apps as _list_user_apps
+	from iot.iot_hub.doctype.iot_user_application.iot_user_application import list_user_apps as _list_user_apps
 	return _list_user_apps(user)
 
 

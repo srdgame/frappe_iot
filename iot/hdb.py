@@ -9,19 +9,19 @@ import redis
 import requests
 import datetime
 from frappe.utils import now, get_datetime, convert_utc_to_user_timezone
-from .iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from .hdb_api import get_post_json_data
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.hdb_api import get_post_json_data
 
 
 @frappe.whitelist()
 def redis_status():
-	from .iot.doctype.iot_hdb_settings.iot_hdb_settings import get_redis_status
+	from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import get_redis_status
 	return get_redis_status()
 
 
 @frappe.whitelist()
 def influxdb_status():
-	from .iot.doctype.iot_hdb_settings.iot_hdb_settings import get_influxdb_status
+	from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import get_influxdb_status
 	return get_influxdb_status()
 
 

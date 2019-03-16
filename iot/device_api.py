@@ -8,9 +8,9 @@ import json
 import redis
 import uuid
 from frappe import throw, msgprint, _
-from .iot.doctype.iot_device_activity.iot_device_activity import add_device_action_log
-from .iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from .iot.doctype.iot_device.iot_device import has_permission as iot_device_has_permission
+from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_action_log
+from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from iot.iot.doctype.iot_device.iot_device import has_permission as iot_device_has_permission
 
 ### TODO: Activity Log
 
