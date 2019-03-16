@@ -48,7 +48,7 @@ def iot_device_data(sn=None, vsn=None):
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12", decode_responses=True)
 	hs = client.hgetall(vsn)
 	data = {}
-	if cfg.has_key("inputs"):
+	if "input" in cfg:
 		inputs = cfg.get("inputs")
 		for input in inputs:
 			input_name = input.get('name')
@@ -80,7 +80,7 @@ def iot_device_data_array(sn=None, vsn=None):
 	hs = client.hgetall(vsn)
 	data = []
 
-	if cfg.has_key("inputs"):
+	if "input" in cfg:
 		inputs = cfg.get("inputs")
 		for input in inputs:
 			input_name = input.get('name')
