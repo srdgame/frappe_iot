@@ -45,7 +45,7 @@ def iot_device_data(sn=None, vsn=None):
 	cfg = iot_device_cfg(sn, vsn)
 	if not cfg:
 		return ""
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12", decode_responses=True)
 	hs = client.hgetall(vsn)
 	data = {}
 	if cfg.has_key("inputs"):
@@ -76,7 +76,7 @@ def iot_device_data_array(sn=None, vsn=None):
 	if not cfg:
 		return ""
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12", decode_responses=True)
 	hs = client.hgetall(vsn)
 	data = []
 
@@ -130,7 +130,7 @@ def iot_device_tree(sn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	if not doc.has_permission("read"):
 		raise frappe.PermissionError
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11", decode_responses=True)
 	return client.lrange(sn, 0, -1)
 
 
@@ -140,7 +140,7 @@ def iot_device_cfg(sn=None, vsn=None):
 	doc = frappe.get_doc('IOT Device', sn)
 	if not doc.has_permission("read"):
 		raise frappe.PermissionError
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/10")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/10", decode_responses=True)
 	return json.loads(client.get(vsn or sn) or "{}")
 
 

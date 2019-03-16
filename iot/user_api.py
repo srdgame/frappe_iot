@@ -107,7 +107,7 @@ def device_history_data(sn=None, vsn=None, fields="*", condition=None):
 def device_is_beta(sn):
 	valid_auth_code()
 	iot_beta_flag = 0
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12", decode_responses=True)
 	try:
 		betainfo = client.hget(sn, 'enable_beta/value')
 	except Exception as ex:
@@ -231,7 +231,7 @@ def device_info(sn):
 		'status': device.device_status,
 	}
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12", decode_responses=True)
 	if client.exists(sn):
 		info = client.hgetall(sn)
 		if info:
@@ -256,7 +256,7 @@ def device_app_list(sn):
 	if not device.has_permission("read"):
 		raise frappe.PermissionError
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/6")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/6", decode_responses=True)
 	applist = json.loads(client.get(sn) or "[]")
 
 	iot_applist = []
@@ -525,7 +525,7 @@ def firmware_last_version_by_platform(platform, beta=0):
 @frappe.whitelist(allow_guest=True)
 def firmware_last_version(sn, beta=0):
 	valid_auth_code()
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12", decode_responses=True)
 	if client.exists(sn):
 		info = client.hgetall(sn)
 		if info:
@@ -654,7 +654,7 @@ def device_event_count_statistics():
 	if not company:
 		return
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15", decode_responses=True)
 
 	from iot.hdb_api import list_iot_devices as _list_iot_devices
 	devices = _list_iot_devices(frappe.session.user)
@@ -688,7 +688,7 @@ def device_type_statistics():
 	if not company:
 		return
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15", decode_responses=True)
 	try:
 		return client.hgetall('device_type.' + company)
 	except Exception as ex:

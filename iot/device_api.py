@@ -66,7 +66,7 @@ def get_action_result(id):
 	:return:
 	'''
 	valid_auth_code()
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/7")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/7", decode_responses=True)
 	str = client.get(id)
 	if str:
 		return json.loads(str)
@@ -119,7 +119,7 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 		if valid_func:
 			valid_func(doc, data)
 
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server())
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server(), decode_responses=True)
 	args = {
 		"id": id,
 		"device": device,

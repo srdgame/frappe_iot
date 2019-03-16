@@ -166,7 +166,7 @@ def access_device(sn, op="read"):
 	:return: Device information
 	"""
 	valid_auth_code()
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11", decode_responses=True)
 	dev_sn = client.get("PARENT_" + sn)
 	if dev_sn and frappe.has_permission(doctype="IOT Device", doc=dev_sn, ptype=op):
 		return True

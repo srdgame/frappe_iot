@@ -29,7 +29,7 @@ class IOTDevice(Document):
 				throw(_("Cannot change owner type for Virtual Device!"))
 
 	def on_update(self):
-		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/8")
+		client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/8", decode_responses=True)
 		domain = frappe.get_value("Cloud Company", self.company, "domain")
 		client.set(self.sn, domain)
 

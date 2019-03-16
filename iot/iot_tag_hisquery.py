@@ -81,6 +81,6 @@ def iot_device_tree(sn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
-	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11")
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/11", decode_responses=True)
 	return client.lrange(sn, 0, -1)
 
