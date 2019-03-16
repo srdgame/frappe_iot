@@ -109,9 +109,9 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 		throw(_("Device SN does not exits!"))
 
 	doc = frappe.get_doc("IOT Device", device)
-	if not doc.has_permission("write"):
-		add_device_action_log(doc, channel, action, id, data, "Failed", "Permission error")
-		throw(_("Not permitted"), frappe.PermissionError)
+	# if not doc.has_permission("write"):
+	# 	add_device_action_log(doc, channel, action, id, data, "Failed", "Permission error")
+	# 	throw(_("Not permitted"), frappe.PermissionError)
 
 	valids = action_validation.get(channel)
 	if valids:
