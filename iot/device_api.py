@@ -10,6 +10,7 @@ import uuid
 from frappe import throw, msgprint, _
 from .iot.doctype.iot_device_activity.iot_device_activity import add_device_action_log
 from .iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
+from .iot.doctype.iot_device.iot_device import has_permission as iot_device_has_permission
 
 ### TODO: Activity Log
 
@@ -109,9 +110,9 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 		throw(_("Device SN does not exits!"))
 
 	doc = frappe.get_doc("IOT Device", device)
-	# if not doc.has_permission("write"):
-	# 	add_device_action_log(doc, channel, action, id, data, "Failed", "Permission error")
-	# 	throw(_("Not permitted"), frappe.PermissionError)
+	if not iot_device_has_permission(doc, "write", frappe.session.user):
+		add_device_action_log(doc, channel, action, id, data, "Failed", "Permission error")
+		throw(_("Not permitted"), frappe.PermissionError)
 
 	valids = action_validation.get(channel)
 	if valids:
