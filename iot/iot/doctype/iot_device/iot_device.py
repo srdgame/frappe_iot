@@ -228,7 +228,7 @@ def get_permission_query_conditions(user):
 
 def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id=None):
 	company = company or frappe.get_value('IOT Device', doc_name, 'company')
-	if frappe.get_value('Cloud Company', {'admin': user, 'name': company}):
+	if frappe.get_value('Cloud Company', company, 'admin') == user:
 		return True
 
 	owner_type = owner_type or frappe.get_value('IOT Device', doc_name, 'owner_type')
@@ -243,7 +243,7 @@ def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id
 			if d.name == user:
 				return True
 
-	if owner_type == '' and owner_id == None:
+	if owner_type == '' and owner_id is None:
 		return True
 
 	return False
