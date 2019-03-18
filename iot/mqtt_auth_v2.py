@@ -96,9 +96,9 @@ def auth(clientid=None, username=None, password=None):
 	else:
 		sid = frappe.db.get_single_value("IOT HDB Settings", "mqtt_device_password_sid") or 'ZGV2aWNlIGlkCg=='
 		m = hashlib.md5()
-		m.update(username + sid)
+		m.update(frappe.as_unicode(username + sid).encode('utf-8'))
 		if password == m.hexdigest():
-			# TODO: for the one which is not in IOT Device should we check the frappe-make module to see if it is our device?
+			# TODO: There is not more device will use this method for auth. TO BE REMOVED.
 			if frappe.get_value("IOT Device", username, "enabled") == 1:
 				return http_200ok()
 			else:
