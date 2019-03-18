@@ -111,6 +111,7 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 	doc = frappe.get_doc("IOT Device", device)
 	if not doc.has_permission("write"):
 		add_device_action_log(doc, channel, action, id, data, "Failed", "Permission error")
+		frappe.db.commit()
 		throw(_("Not permitted"), frappe.PermissionError)
 
 	valids = action_validation.get(channel)
@@ -132,6 +133,7 @@ def send_action(channel, action=None, id=None, device=None, data=None):
 	r = client.publish("device_" + channel, json.dumps(args))
 	if r <= 0:
 		add_device_action_log(doc, channel, action, id, data, "Failed", "Redis error")
+		frappe.db.commit()
 		throw(_("Redis message published, but no listener!"))
 
 	add_device_action_log(doc, channel, action, id, data)
