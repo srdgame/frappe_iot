@@ -155,13 +155,13 @@ def acl(username=None, topic=None, clientid=None, access=None, acc=None):
 				devid = g[0]
 				sub = g[1]
 			else:
-				return http_403("Auth Error")
+				return http_403("Auth Error - topic match error")
 
 			if clientid == devid:
 				return http_200ok()		# your self topics
 
 			if username[0:4] == "dev=":
-				return http_403("Auth Error")
+				return http_403("Auth Error - cannot find device name")
 
 			dev = frappe.get_doc("IOT Device", devid)
 			role = dev.get_role_permission(username)
@@ -170,12 +170,12 @@ def acl(username=None, topic=None, clientid=None, access=None, acc=None):
 			else:
 				if sub == 'data' and role:
 					return http_200ok()
-				return http_403("Auth Error")
+				return http_403("Auth Error - user is not 'Admin'")
 		except Exception as ex:
 			frappe.logger(__name__).error(repr(ex))
-			return http_403("Auth Error")
+			return http_403("Auth Error - exception")
 
-	return http_403("Auth Error")
+	return http_403("Auth Error - Not here")
 
 
 @frappe.whitelist(allow_guest=True)
