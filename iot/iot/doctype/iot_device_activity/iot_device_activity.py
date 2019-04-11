@@ -141,7 +141,7 @@ def get_log_detail(name):
 	doc = frappe.get_doc("IOT Device Activity", name)
 	data = _dict({})
 	for key in activity_fields:
-		data[key] = doc[key]
+		data[key] = doc.get(key)
 	return data
 
 
