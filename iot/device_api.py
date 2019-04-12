@@ -413,7 +413,7 @@ def sys_download_cfg():
 
 
 @frappe.whitelist(allow_guest=True)
-def sys_download_cfg():
+def sys_upload_cfg():
 	'''
 	Upload IOT Device CFG to specified host, data example: {"host": "ioe.symgrid.com"}  host is optional
 	:return:
