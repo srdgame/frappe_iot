@@ -4,7 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from urllib import quote, urlencode
+from six.moves.urllib.parse import urlencode
 
 
 def get_context(context):
