@@ -61,6 +61,40 @@ def iot_device_data(sn=None, vsn=None):
 
 
 @frappe.whitelist()
+def iot_device_data_weui(sn=None, vsn=None):
+	sn = sn or frappe.form_dict.get('sn')
+	vsn = vsn or sn
+	doc = frappe.get_doc('IOT Device', sn)
+	doc.has_permission("read")
+
+	if vsn != sn:
+		if vsn not in iot_device_tree(sn):
+			return ""
+
+	cfg = iot_device_cfg(sn, vsn)
+	if not cfg:
+		return ""
+
+	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/12", decode_responses=True)
+	hs = client.hgetall(vsn)
+	data = []
+
+	if "input" in cfg:
+		inputs = cfg.get("inputs")
+		for input in inputs:
+			input_name = input.get('name')
+			s = hs.get(input_name + "/value")
+			if s:
+				val = json.loads(s)
+				timestr = str(
+					convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(val[0]) / 1000))).replace(
+						tzinfo=None))[5:]
+			data.append({"NAME": input_name, "PV": val[1], "TM": timestr, "Q": val[2], "DESC": input.get("desc").strip()})
+
+	return data
+
+
+@frappe.whitelist()
 def iot_device_data_array(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
 	vsn = vsn or sn
