@@ -63,6 +63,7 @@ def iot_device_data(sn=None, vsn=None):
 @frappe.whitelist()
 def iot_device_data_weui(sn=None, vsn=None):
 	sn = sn or frappe.form_dict.get('sn')
+	vsn = vsn or frappe.form_dict.get('vsn')
 	vsn = vsn or sn
 	doc = frappe.get_doc('IOT Device', sn)
 	doc.has_permission("read")
