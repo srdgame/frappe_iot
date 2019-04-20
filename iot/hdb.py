@@ -87,10 +87,9 @@ def iot_device_data_weui(sn=None, vsn=None):
 			s = hs.get(input_name + "/value")
 			if s:
 				val = json.loads(s)
-				timestr = str(
-					convert_utc_to_user_timezone(datetime.datetime.utcfromtimestamp(int(int(val[0]) / 1000))).replace(
-						tzinfo=None))[5:]
-			data.append({"NAME": input_name, "PV": val[1], "TM": timestr, "Q": val[2], "DESC": input.get("desc").strip()})
+				ts = datetime.datetime.utcfromtimestamp(int(val[0]))
+				time_str = str(convert_utc_to_user_timezone(ts).replace(tzinfo=None))
+			data.append({"NAME": input_name, "PV": val[1], "TM": time_str, "Q": val[2], "DESC": input.get("desc").strip()})
 
 	return data
 
