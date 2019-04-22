@@ -38,7 +38,7 @@ class IOTDeviceEvent(Document):
 				send_doc(app, 'IOT Device Event', self.name, user_list)
 
 	def wechat_tmsg_data(self):
-		remark = _("Level: {0}\nData:{1}").format(self.event_level, self.event_data)
+		remark = _("Level: {0}\nData: {1}").format(self.event_level, self.event_data)
 		title = _("Has new device alarm")
 		if self.disposed == 1:
 			title = _("Alarm has been disposed")
