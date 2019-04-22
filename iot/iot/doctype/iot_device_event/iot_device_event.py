@@ -10,18 +10,16 @@ from frappe.utils.data import format_datetime
 from frappe.utils import get_fullname
 from cloud.cloud.doctype.cloud_company.cloud_company import get_wechat_app
 from iot.iot.doctype.iot_device.iot_device import IOTDevice
+from wechat.api import send_with_retry
 
 
 class IOTDeviceEvent(Document):
 	def after_insert(self):
 		if self.wechat_notify == 1 and get_wechat_app(self.owner_company):
-			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
-			# self.submit()
+			send_with_retry('IOT Device Event', self.name)
 
 	def on_submit(self):
 		pass
-		# if self.wechat_notify == 1:
-		# 	frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 
 	def on_trash(self):
 		self.wechat_msg_clean()
@@ -73,8 +71,8 @@ class IOTDeviceEvent(Document):
 	def dispose(self, disposed=1):
 		self.disposed = disposed
 		self.disposed_by = frappe.session.user
-		if self.wechat_notify == 1:
-			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
+		if self.wechat_notify == 1 and get_wechat_app(self.owner_company):
+			send_with_retry('IOT Device Event', self.name)
 		self.save(ignore_permissions=True)
 
 

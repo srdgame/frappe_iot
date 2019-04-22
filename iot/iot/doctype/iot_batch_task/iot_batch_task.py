@@ -26,7 +26,7 @@ class IOTBatchTask(Document):
 				device.info = ''
 
 	def on_submit(self):
-		frappe.enqueue_doc('IOT Batch Task', self.name, 'run_task')
+		frappe.enqueue_doc('IOT Batch Task', self.name, 'run_task', enqueue_after_commit=True)
 
 	def run_task(self):
 		if self.status in ["Error", "Finished", "Partial", "Running"]:

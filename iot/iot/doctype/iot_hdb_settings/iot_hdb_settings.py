@@ -28,7 +28,6 @@ class IOTHDBSettings(Document):
 		self.save()
 
 	def refresh_status(self):
-		#frappe.enqueue('iot.iot.doctype.iot_hdb_settings.iot_hdb_settings.get_hdb_status')
 		get_hdb_status(self)
 
 	@staticmethod
