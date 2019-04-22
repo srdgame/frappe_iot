@@ -19,6 +19,7 @@ class IOTDeviceEvent(Document):
 			# self.submit()
 
 	def on_submit(self):
+		pass
 		# if self.wechat_notify == 1:
 		# 	frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 
