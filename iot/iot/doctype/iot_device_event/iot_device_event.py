@@ -38,25 +38,33 @@ class IOTDeviceEvent(Document):
 				send_doc(app, 'IOT Device Event', self.name, user_list)
 
 	def wechat_tmsg_data(self):
-		remark = _("Level: {0}\nInfo: {1}\nData:{2}").format(self.event_level, self.event_info, self.event_data)
+		remark = _("Level: {0}\nData:{1}").format(self.event_level, self.event_data)
 		title = _("Has new device alarm")
 		if self.disposed == 1:
 			title = _("Alarm has been disposed")
 			remark = _("Disposed by {0}({1})").format(get_fullname(self.disposed_by), self.disposed_by)
+
+		position = "{0} - {1}".format(frappe.get_value("IOT Device", self.device, "longitude"),
+										frappe.get_value("IOT Device", self.device, "latitude"))
+		# OPENTM414192361 template
 		return {
 			"first": {
 				"value": title,
 				"color": "#800000"
 			},
 			"keyword1": {
-				"value": self.event_type,
-				"color": "#000080"
-			},
-			"keyword2": {
 				"value": frappe.get_value("IOT Device", self.device, "dev_name"),
 				"color": "#000080"
 			},
+			"keyword2": {
+				"value": position,
+				"color": "#000080"
+			},
 			"keyword3": {
+				"value": self.event_info,
+				"color": "#008000",
+			},
+			"keyword4": {
 				"value": format_datetime(self.modified),
 				"color": "#008000",
 			},
