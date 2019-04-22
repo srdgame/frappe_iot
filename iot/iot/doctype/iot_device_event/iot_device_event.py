@@ -43,7 +43,7 @@ class IOTDeviceEvent(Document):
 		title = _("Has new device alarm")
 		if self.disposed == 1:
 			title = _("Alarm has been disposed")
-			remark = _("Disposed by {0}({1})").format(get_fullname(self.disposed_by))
+			remark = _("Disposed by {0}({1})").format(get_fullname(self.disposed_by), self.disposed_by)
 		return {
 			"first": {
 				"value": title,
