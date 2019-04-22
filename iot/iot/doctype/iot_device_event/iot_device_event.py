@@ -15,11 +15,12 @@ from iot.iot.doctype.iot_device.iot_device import IOTDevice
 class IOTDeviceEvent(Document):
 	def after_insert(self):
 		if self.wechat_notify == 1 and get_wechat_app(self.owner_company):
-			self.submit()
+			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
+			# self.submit()
 
 	def on_submit(self):
-		if self.wechat_notify == 1:
-			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
+		# if self.wechat_notify == 1:
+		# 	frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 
 	def on_trash(self):
 		self.wechat_msg_clean()
@@ -71,7 +72,7 @@ class IOTDeviceEvent(Document):
 	def dispose(self, disposed=1):
 		self.disposed = disposed
 		self.disposed_by = frappe.session.user
-		if self.wechat_notify == 1 and get_wechat_app(self.owner_company):
+		if self.wechat_notify == 1:
 			frappe.enqueue_doc('IOT Device Event', self.name, 'wechat_msg_send')
 		self.save(ignore_permissions=True)
 
