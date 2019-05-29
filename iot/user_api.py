@@ -602,7 +602,7 @@ def device_event_type_statistics():
 		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
 		return
 
-	query = 'SELECT sum("系统") AS "系统", sum("设备") AS "设备", sum("通讯") AS "通讯", sum("数据") AS "数据", sum("应用") AS "应用"'
+	query = 'SELECT sum("SYS") AS "系统", sum("DEV") AS "设备", sum("COMM") AS "通讯", sum("DATA") AS "数据", sum("APP") AS "应用"'
 	query = query + ' FROM "device_event_type_statistics" WHERE time > now() - 7d'
 	query = query + ' AND "owner"=\'' + company + '\' GROUP BY time(1d) FILL(0)'
 	domain = frappe.get_value("Cloud Company", company, "domain")
