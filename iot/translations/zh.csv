@@ -106,7 +106,7 @@ apps/iot/iot/iot_hub/doctype/iot_user_application/iot_user_application.py +20,In
 apps/iot/iot/hdb.py +156,JSON Data not found!,未找到JSON数据
 DocType: IOT Device,Last Updated,最后更新时间
 DocType: IOT Device,Latitude,维度
-apps/iot/iot/iot/doctype/iot_device_event/iot_device_event.py +41,Level: {0}\nData: {1},等级: {0}\n数据:{1}
+apps/iot/iot/iot/doctype/iot_device_event/iot_device_event.py +41,Level: {0}\nData: {1},等级: {0}\n数据: {1}
 apps/iot/iot/hdb_api.py +93,List Devices for user {0},属于用户 {0} 的设备列表
 DocType: IOT Device,Longitude,经度
 apps/iot/iot/mqtt_auth_v2.py +144,MQTT Acl: username - {0} topic - {1} clientid - {2} acc - {3},
