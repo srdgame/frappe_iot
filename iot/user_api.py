@@ -638,11 +638,11 @@ def device_event_type_statistics():
 				pass
 			local_time = str(convert_utc_to_user_timezone(utc_time).replace(tzinfo=None))
 			hisvalue = {'name': 'device_event_type_statistics', 'time': local_time, 'owner': company}
-			hisvalue['系统'] = res[i][1]
-			hisvalue['设备'] = res[i][2]
-			hisvalue['通讯'] = res[i][3]
-			hisvalue['数据'] = res[i][4]
-			hisvalue['应用'] = res[i][5]
+			hisvalue['系统'] = res[i][1] or 0
+			hisvalue['设备'] = res[i][2] or 0
+			hisvalue['通讯'] = res[i][3] or 0
+			hisvalue['数据'] = res[i][4] or 0
+			hisvalue['应用'] = res[i][5] or 0
 			taghis.append(hisvalue)
 		return taghis
 
