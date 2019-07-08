@@ -62,6 +62,10 @@ class IOTDevice(Document):
 		subject = _("Remove device from {0}").format(org_owner_id)
 		add_device_owner_log(subject, self.name, org_company, org_owner_type, org_owner_id, "Delete")
 
+		# Delet from shared group
+		for name in [d[0] for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": self.name}, "name")]:
+			frappe.delete_doc("IOT ShareGroupDevice", name)
+
 	def on_device_status(self):
 		if self.device_status == 'ONLINE':
 			subject = _("Device {0} connected").format(self.name)
