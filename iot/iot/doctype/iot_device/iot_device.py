@@ -201,7 +201,16 @@ class IOTDevice(Document):
 			for user in list_users(self.owner_id):
 				if user.name == username:
 					return user.role
-		return None
+
+		share_role = None
+		for shared_group in [d[0] for d in frappe.db.get_values("IOT ShareGroupDevice",
+																{"device": self.name, "parenttype": 'IOT Share Group'},
+																"parent")]:
+			if frappe.get_value("IOT ShareGroupUser", {"parent": shared_group, "user": user}, "parent") == shared_group:
+				if share_role != 'Admin':
+					share_role = frappe.get_value("IOT Share Group", shared_group, 'role')
+
+		return share_role
 
 
 def on_doctype_update():
