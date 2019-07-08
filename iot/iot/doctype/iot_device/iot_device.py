@@ -63,8 +63,8 @@ class IOTDevice(Document):
 		add_device_owner_log(subject, self.name, org_company, org_owner_type, org_owner_id, "Delete")
 
 		# Delet from shared group
-		for name in [d[0] for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": self.name}, "name")]:
-			frappe.delete_doc("IOT ShareGroupDevice", name)
+		for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": self.name}, "name"):
+			frappe.delete_doc("IOT ShareGroupDevice", d[0])
 
 	def on_device_status(self):
 		if self.device_status == 'ONLINE':
@@ -207,12 +207,10 @@ class IOTDevice(Document):
 					return user.role
 
 		share_role = None
-		for shared_group in [d[0] for d in frappe.db.get_values("IOT ShareGroupDevice",
-																{"device": self.name, "parenttype": 'IOT Share Group'},
-																"parent")]:
-			if frappe.get_value("IOT ShareGroupUser", {"parent": shared_group, "user": username}, "parent") == shared_group:
+		for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": self.name, "parenttype": 'IOT Share Group'}, "parent"):
+			if frappe.get_value("IOT ShareGroupUser", {"parent": d[0], "user": username}, "parent") == d[0]:
 				if share_role != 'Admin':
-					share_role = frappe.get_value("IOT Share Group", shared_group, 'role')
+					share_role = frappe.get_value("IOT Share Group", d[0], 'role')
 
 		return share_role
 
@@ -259,8 +257,8 @@ def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id
 	if owner_type == '' and owner_id is None:
 		return True
 
-	for shared_group in [d[0] for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": doc_name, "parenttype": 'IOT Share Group'}, "parent")]:
-		if frappe.get_value("IOT ShareGroupUser", {"parent": shared_group, "user": user}, "parent") == shared_group:
+	for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": doc_name, "parenttype": 'IOT Share Group'}, "parent"):
+		if frappe.get_value("IOT ShareGroupUser", {"parent": d[0], "user": user}, "parent") == d[0]:
 			return True
 
 	return False
