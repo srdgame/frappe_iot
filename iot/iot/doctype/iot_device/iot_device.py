@@ -83,6 +83,11 @@ class IOTDevice(Document):
 		""" update device owner """
 		if self.owner_type == owner_type and self.owner_id == owner_id:
 			return
+
+		if owner_id is None or owner_id.strip() == "":
+			owner_id = None
+			owner_type = None
+
 		self.set("owner_type", owner_type)
 		self.set("owner_id", owner_id)
 		self.save()
