@@ -21,6 +21,14 @@ class IOTDevice(Document):
 		if self.is_new():
 			self.sn = self.sn.strip()
 			self.name = self.name.strip()
+
+		if self.owner_id is None or self.owner_id.strip() == "":
+			self.owner_id = None
+			self.owner_type = ""
+		else:
+			if self.owner_type is None or self.owner_type.strip() == "":
+				throw(_("Owner Type cannot be empty when owner id is present!"))
+
 		vdev_owenr = frappe.get_value("IOT Virtual Device", self.sn, "user")
 		if vdev_owenr:
 			if vdev_owenr != self.owner_id:
@@ -83,11 +91,6 @@ class IOTDevice(Document):
 		""" update device owner """
 		if self.owner_type == owner_type and self.owner_id == owner_id:
 			return
-
-		if owner_id is None or owner_id.strip() == "":
-			owner_id = None
-			owner_type = ""
-
 		self.set("owner_type", owner_type)
 		self.set("owner_id", owner_id)
 		self.save()
