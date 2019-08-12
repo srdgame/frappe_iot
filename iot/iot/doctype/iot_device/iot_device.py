@@ -86,7 +86,7 @@ class IOTDevice(Document):
 
 		if owner_id is None or owner_id.strip() == "":
 			owner_id = None
-			owner_type = None
+			owner_type = ""
 
 		self.set("owner_type", owner_type)
 		self.set("owner_id", owner_id)
