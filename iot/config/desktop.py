@@ -6,16 +6,16 @@ def get_data():
 	return [
 		{
 			"module_name": "IOT",
+			"label": _("IOT"),
 			"color": "#B8860B",
 			"icon": "fa fa-cloud",
-			"type": "module",
-			"label": _("IOT")
+			"type": "module"
 		},
 		{
 			"module_name": "IOT Hub",
+			"label": _("IOT Hub"),
 			"color": "#B8860B",
 			"icon": "fa fa-cloud",
-			"type": "module",
-			"label": _("IOT Hub")
+			"type": "module"
 		}
 	]
