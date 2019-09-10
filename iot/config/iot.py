@@ -34,9 +34,9 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "IOT Shared Group",
+					"name": "IOT Share Group",
 					"onboard": 1,
-					"description": _("IOT Shared Group"),
+					"description": _("IOT Share Group"),
 				},
 				{
 					"type": "doctype",
