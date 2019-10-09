@@ -253,6 +253,9 @@ def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id
 	owner_type = owner_type or frappe.get_value('IOT Device', doc_name, 'owner_type')
 	owner_id = owner_id or frappe.get_value('IOT Device', doc_name, 'owner_id')
 
+	if owner_type == '' or owner_id is None:
+		return False
+
 	if owner_type == 'User' and owner_id == user:
 		return True
 
@@ -261,9 +264,6 @@ def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id
 		for d in list_users(owner_id):
 			if d.name == user:
 				return True
-
-	if owner_type == '' and owner_id is None:
-		return True
 
 	for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": doc_name, "parenttype": 'IOT Share Group'}, "parent"):
 		if frappe.get_value("IOT ShareGroupUser", {"parent": d[0], "user": user}, "parent") == d[0]:
