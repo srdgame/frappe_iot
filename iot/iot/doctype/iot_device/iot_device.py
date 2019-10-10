@@ -87,13 +87,13 @@ class IOTDevice(Document):
 		self.set("last_updated", now())
 		self.save(ignore_version=True)
 
-	def update_owner(self, owner_type, owner_id):
+	def update_owner(self, owner_type, owner_id, ignore_permissions=False):
 		""" update device owner """
 		if self.owner_type == owner_type and self.owner_id == owner_id:
 			return
 		self.set("owner_type", owner_type)
 		self.set("owner_id", owner_id)
-		self.save()
+		self.save(ignore_permissions = ignore_permissions)
 
 	def update_hdb(self, hdb):
 		""" update device hdb"""
