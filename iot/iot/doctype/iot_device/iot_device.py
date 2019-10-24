@@ -129,7 +129,7 @@ class IOTDevice(Document):
 	def has_supper_permissions(self):
 		if frappe.session.user == 'Administrator':
 			return True
-		if 'IOT Manager' in frappe.get_roles(frappe.session.user):
+		if 'IOT Manager' in frappe.get_roles():
 			return True
 		return False
 
