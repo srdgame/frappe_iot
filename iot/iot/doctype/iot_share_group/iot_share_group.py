@@ -3,6 +3,7 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+from six import string_types
 import frappe
 from frappe import throw, _
 from frappe.model.document import Document
@@ -52,11 +53,19 @@ class IOTShareGroup(Document):
 		"""Add groups to user"""
 		current_users = [d.user for d in self.get("users")]
 		for user in users:
+			comment = None
+			if isinstance(user, string_types):
+				user = user
+			else:
+				user = user.user if user.user else user.get('user')
+				comment = user.comment if user.comment else user.get('comment')
 			if user in current_users:
 				continue
+
 			if self.company in list_user_companies(user):
 				throw(_("Cannot add your employee {0} into shared group").format(user))
-			self.append("users", {"user": user})
+
+			self.append("users", {"user": user, "comment": comment})
 
 	def add_users(self, *users):
 		"""Add groups to user and save"""
