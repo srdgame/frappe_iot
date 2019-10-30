@@ -104,19 +104,19 @@ def has_permission(doc, ptype, user):
 
 @frappe.whitelist()
 def add_user(group, user):
-	frappe.get_doc("IOT Share Group", group).add_users([user])
+	frappe.get_doc("IOT Share Group", group).add_users(user)
 
 
 @frappe.whitelist()
 def remove_user(group, user):
-	frappe.get_doc("IOT Share Group", group).remove_users([user])
+	frappe.get_doc("IOT Share Group", group).remove_users(user)
 
 
 @frappe.whitelist()
 def add_device(group, device):
-	frappe.get_doc("IOT Share Group", group).add_devices([device])
+	frappe.get_doc("IOT Share Group", group).add_devices(device)
 
 
 @frappe.whitelist()
 def remove_device(group, device):
-	frappe.get_doc("IOT Share Group", group).remove_device([device])
+	frappe.get_doc("IOT Share Group", group).remove_device(device)
