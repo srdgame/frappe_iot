@@ -119,4 +119,4 @@ def add_device(group, device):
 
 @frappe.whitelist()
 def remove_device(group, device):
-	frappe.get_doc("IOT Share Group", group).remove_device(device)
+	frappe.get_doc("IOT Share Group", group).remove_devices(device)
