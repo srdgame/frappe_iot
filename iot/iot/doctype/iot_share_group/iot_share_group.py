@@ -103,8 +103,11 @@ def has_permission(doc, ptype, user):
 
 
 @frappe.whitelist()
-def add_user(group, user):
-	frappe.get_doc("IOT Share Group", group).add_users(user)
+def add_user(group, user, comment):
+	frappe.get_doc("IOT Share Group", group).add_users({
+		"user": user,
+		"comment": comment
+	})
 
 
 @frappe.whitelist()
