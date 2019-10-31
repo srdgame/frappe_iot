@@ -57,8 +57,8 @@ class IOTShareGroup(Document):
 			if isinstance(user, string_types):
 				user = user
 			else:
-				user = user.user if user.user else user.get('user')
-				comment = user.comment if user.comment else user.get('comment')
+				user = user.get('user')
+				comment = user.get('comment')
 			if user in current_users:
 				continue
 
