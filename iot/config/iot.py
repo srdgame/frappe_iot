@@ -15,7 +15,7 @@ def get_data():
 					"description": _("IOT Device"),
 				},
 				{
-					"type": "daoctype",
+					"type": "doctype",
 					"name": "IOT Virtual Device",
 					"onboard": 1,
 					"description": _("IOT Virtual Device"),
