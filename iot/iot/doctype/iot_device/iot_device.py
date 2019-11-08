@@ -337,19 +337,3 @@ def list_device_map2():
 		if not dev.latitude:
 			dev.latitude = '40.045103'
 	return devices
-
-
-def list_tags(sn):
-	return []
-
-
-def add_tags(sn, *tags):
-	return tags
-
-
-def remove_tags(sn, *tags):
-	return []
-
-
-def clear_tags(sn):
-	return []
