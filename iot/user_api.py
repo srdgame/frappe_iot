@@ -543,7 +543,7 @@ UTC_FORMAT2 = "%Y-%m-%dT%H:%M:%SZ"
 @frappe.whitelist(allow_guest=True)
 def device_status_statistics():
 	valid_auth_code()
-	companies = list_user_companies()
+	companies = list_user_companies(frappe.session.user)
 	if len(companies) == 0:
 		return
 	company = companies[0]
@@ -594,7 +594,7 @@ def device_status_statistics():
 @frappe.whitelist(allow_guest=True)
 def device_event_type_statistics():
 	valid_auth_code()
-	companies = list_user_companies()
+	companies = list_user_companies(frappe.session.user)
 	if len(companies) == 0:
 		return
 	company = companies[0]
@@ -652,7 +652,7 @@ def device_event_type_statistics():
 @frappe.whitelist(allow_guest=True)
 def device_event_count_statistics():
 	valid_auth_code()
-	companies = list_user_companies()
+	companies = list_user_companies(frappe.session.user)
 	if len(companies) == 0:
 		return
 	company = companies[0]
@@ -687,7 +687,7 @@ def device_event_count_statistics():
 @frappe.whitelist(allow_guest=True)
 def device_type_statistics():
 	valid_auth_code()
-	companies = list_user_companies()
+	companies = list_user_companies(frappe.session.user)
 	if len(companies) == 0:
 		return
 	company = companies[0]
