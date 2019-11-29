@@ -543,9 +543,10 @@ UTC_FORMAT2 = "%Y-%m-%dT%H:%M:%SZ"
 @frappe.whitelist(allow_guest=True)
 def device_status_statistics():
 	valid_auth_code()
-	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
-	if not company:
+	companies = list_user_companies()
+	if len(companies) == 0:
 		return
+	company = companies[0]
 
 	inf_server = IOTHDBSettings.get_influxdb_server()
 	if not inf_server:
@@ -593,9 +594,10 @@ def device_status_statistics():
 @frappe.whitelist(allow_guest=True)
 def device_event_type_statistics():
 	valid_auth_code()
-	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
-	if not company:
+	companies = list_user_companies()
+	if len(companies) == 0:
 		return
+	company = companies[0]
 
 	inf_server = IOTHDBSettings.get_influxdb_server()
 	if not inf_server:
@@ -650,9 +652,10 @@ def device_event_type_statistics():
 @frappe.whitelist(allow_guest=True)
 def device_event_count_statistics():
 	valid_auth_code()
-	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
-	if not company:
+	companies = list_user_companies()
+	if len(companies) == 0:
 		return
+	company = companies[0]
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15", decode_responses=True)
 
@@ -684,9 +687,10 @@ def device_event_count_statistics():
 @frappe.whitelist(allow_guest=True)
 def device_type_statistics():
 	valid_auth_code()
-	company = frappe.get_value('Cloud Employee', frappe.session.user, 'company')
-	if not company:
+	companies = list_user_companies()
+	if len(companies) == 0:
 		return
+	company = companies[0]
 
 	client = redis.Redis.from_url(IOTHDBSettings.get_redis_server() + "/15", decode_responses=True)
 	try:
