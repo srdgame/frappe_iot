@@ -33,7 +33,7 @@ def valid_auth_code(auth_code=None):
 
 	user = frappe.get_value("IOT User Api", {"authorization_code": auth_code}, "user")
 	if not user:
-		throw(_("Authorization Code is incorrect!"))
+		throw(_("Authorization Code {0} is incorrect!").format(auth_code))
 
 	# form dict keeping
 	form_dict = frappe.local.form_dict
