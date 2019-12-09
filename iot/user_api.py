@@ -650,6 +650,64 @@ def device_event_type_statistics():
 
 
 @frappe.whitelist(allow_guest=True)
+def single_device_event_type_statistics(device):
+	valid_auth_code()
+	companies = list_user_companies(frappe.session.user)
+	if len(companies) == 0:
+		return
+	company = companies[0]
+
+	inf_server = IOTHDBSettings.get_influxdb_server()
+	if not inf_server:
+		frappe.logger(__name__).error("InfluxDB Configuration missing in IOTHDBSettings")
+		return
+
+	query = 'SELECT sum("SYS"), sum("DEV"), sum("COMM"), sum("DATA"), sum("APP")'
+	query = query + ' FROM "device_event_type_statistics" WHERE time > now() - 7d'
+	query = query + ' AND "owner"=\'' + company + '\'' + ' AND "iot"=\'' + device + '\' +  GROUP BY time(1d) FILL(0)'
+	domain = frappe.get_value("Cloud Company", company, "domain")
+	r = requests.session().get(inf_server + "/query", params={"q": query, "db": domain + '.statistics'}, timeout=10)
+	if r.status_code == 200:
+		ret = r.json()
+		if not ret:
+			return
+
+		results = ret['results']
+		if not results or len(results) < 1:
+			return
+
+		series = results[0].get('series')
+		if not series or len(series) < 1:
+			return
+
+		res = series[0].get('values')
+		if not res:
+			return
+
+		taghis = []
+		for i in range(0, len(res)):
+			hisvalue = {}
+			# print('*********', res[i][0])
+			try:
+				utc_time = datetime.datetime.strptime(res[i][0], UTC_FORMAT1)
+			except Exception as err:
+				pass
+			try:
+				utc_time = datetime.datetime.strptime(res[i][0], UTC_FORMAT2)
+			except Exception as err:
+				pass
+			local_time = str(convert_utc_to_user_timezone(utc_time).replace(tzinfo=None))
+			hisvalue = {'name': 'single_device_event_type_statistics', 'time': local_time, 'owner': company, 'device': device}
+			hisvalue['系统'] = res[i][1] or 0
+			hisvalue['设备'] = res[i][2] or 0
+			hisvalue['通讯'] = res[i][3] or 0
+			hisvalue['数据'] = res[i][4] or 0
+			hisvalue['应用'] = res[i][5] or 0
+			taghis.append(hisvalue)
+		return taghis
+
+
+@frappe.whitelist(allow_guest=True)
 def device_event_count_statistics():
 	valid_auth_code()
 	companies = list_user_companies(frappe.session.user)
