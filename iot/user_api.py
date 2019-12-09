@@ -672,6 +672,8 @@ def single_device_event_type_statistics(device):
 		if not ret:
 			return
 
+		frappe.logger(__name__).error("Got Single Device Event Type Count {0}".format(json.dumps(ret)))
+
 		results = ret['results']
 		if not results or len(results) < 1:
 			return
