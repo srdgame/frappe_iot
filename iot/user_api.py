@@ -589,6 +589,8 @@ def device_status_statistics():
 			hisvalue = {'name': 'device_status_statistics', 'online': res[i][1], 'time': local_time, 'offline': res[i][2], 'owner': company}
 			taghis.append(hisvalue)
 		return taghis
+	else:
+		return r.txt
 
 
 @frappe.whitelist(allow_guest=True)
@@ -647,6 +649,8 @@ def device_event_type_statistics():
 			hisvalue['应用'] = res[i][5] or 0
 			taghis.append(hisvalue)
 		return taghis
+	else:
+		return r.txt
 
 
 @frappe.whitelist(allow_guest=True)
@@ -707,6 +711,8 @@ def single_device_event_type_statistics(device):
 			hisvalue['应用'] = res[i][5] or 0
 			taghis.append(hisvalue)
 		return taghis
+	else:
+		return r.txt
 
 
 @frappe.whitelist(allow_guest=True)
