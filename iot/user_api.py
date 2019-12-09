@@ -663,7 +663,7 @@ def single_device_event_type_statistics(device):
 		return
 
 	query = 'SELECT sum("SYS"), sum("DEV"), sum("COMM"), sum("DATA"), sum("APP")'
-	query = query + ' FROM "device_event_type_statistics" WHERE time > now() - 7d'
+	query = query + ' FROM "single_device_event_type_statistics" WHERE time > now() - 7d'
 	query = query + ' AND "owner"=\'' + company + '\'' + ' AND "iot"=\'' + device + '\' +  GROUP BY time(1d) FILL(0)'
 	domain = frappe.get_value("Cloud Company", company, "domain")
 	r = requests.session().get(inf_server + "/query", params={"q": query, "db": domain + '.statistics'}, timeout=10)
