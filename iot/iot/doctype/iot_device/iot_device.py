@@ -271,7 +271,7 @@ def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id
 
 	for d in frappe.db.get_values("IOT Device Share", {"device": doc_name, "share_to": user}, "name"):
 		end_time = frappe.get_value("IOT Device Share", d[0], "end_time")
-		if time_diff_in_seconds(get_datetime(), end_time) > 0:
+		if time_diff_in_seconds(end_time, get_datetime()) > 0:
 			return True
 
 	return False
