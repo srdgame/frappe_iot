@@ -15,7 +15,8 @@
    "in_list_view": 1,
    "label": "Device",
    "options": "IOT Device",
-   "reqd": 1
+   "reqd": 1,
+   "set_only_once": 1
   },
   {
    "fieldname": "share_to",
@@ -23,7 +24,8 @@
    "in_list_view": 1,
    "label": "Shared To",
    "options": "User",
-   "reqd": 1
+   "reqd": 1,
+   "set_only_once": 1
   },
   {
    "fieldname": "end_time",
@@ -33,7 +35,7 @@
    "reqd": 1
   }
  ],
- "modified": "2019-12-19 11:27:36.894773",
+ "modified": "2019-12-19 17:13:18.933059",
  "modified_by": "Administrator",
  "module": "IOT",
  "name": "IOT Device Share",
