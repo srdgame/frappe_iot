@@ -20,7 +20,7 @@ class IOTDeviceShare(Document):
 	def before_save(self):
 		if self.is_new():
 			return
-		org_end_time = frappe.get_value("IOT Device Share", self.name, "owner_id")
+		org_end_time = frappe.get_value("IOT Device Share", self.name, "end_time")
 		if org_end_time != self.end_time:
 			subject = "Share device {0} to {1} updated".format(self.device, self.share_to)
 			doc = frappe.get_doc("IOT Device", self.device)
