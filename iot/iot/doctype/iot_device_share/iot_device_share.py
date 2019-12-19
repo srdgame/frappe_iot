@@ -5,27 +5,28 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_status_log, add_device_owner_log
+from frappe.utils.data import get_datetime_str
+from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_owner_log
 
 
 class IOTDeviceShare(Document):
 	def after_insert(self):
 		subject = "Share device {0} to {1}".format(self.device, self.share_to)
 		doc = frappe.get_doc("IOT Device", self.device)
-		add_device_owner_log(subject, self.name, doc.company, doc.owner_type, doc.owner_id, message={
+		add_device_owner_log(subject, self.device, doc.company, doc.owner_type, doc.owner_id, message={
 			"action": "DeleteShare",
 			"device": self.device,
 			"share_to": self.share_to,
-			"end_time": self.end_time
+			"end_time": get_datetime_str(self.end_time)
 		})
 	def on_trash(self):
-		subject = "Delete device share {0} from {1}".format(self.device, self.share_to)
+		subject = "Device share {0} to {1} deleted".format(self.device, self.share_to)
 		doc = frappe.get_doc("IOT Device", self.device)
-		add_device_owner_log(subject, self.name, doc.company, doc.owner_type, doc.owner_id, message={
+		add_device_owner_log(subject, self.device, doc.company, doc.owner_type, doc.owner_id, message={
 			"action": "AddShare",
 			"device": self.device,
 			"share_to": self.share_to,
-			"end_time": self.end_time
+			"end_time": get_datetime_str(self.end_time)
 		})
 
 
