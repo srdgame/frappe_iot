@@ -181,7 +181,8 @@ scheduler_events = {
 	],
 	"daily": [
 		"iot.iot.doctype.iot_device_activity.iot_device_activity.clear_device_activities",
-		"iot.iot.doctype.iot_device_event.iot_device_event.clear_device_events"
+		"iot.iot.doctype.iot_device_event.iot_device_event.clear_device_events",
+		"iot.iot.doctype.iot_device_share.iot_device_share.clear_device_shares"
 	],
 }
 
