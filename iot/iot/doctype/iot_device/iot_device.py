@@ -9,7 +9,7 @@ import redis
 import json
 from frappe.model.document import Document
 from frappe import _, throw
-from frappe.utils import now, get_datetime, cstr
+from frappe.utils import now, get_datetime, cstr, time_diff_in_seconds
 from frappe.utils import cint
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_status_log, add_device_owner_log
@@ -267,6 +267,11 @@ def has_permission_inter(user, doc_name, company=None, owner_type=None, owner_id
 
 	for d in frappe.db.get_values("IOT ShareGroupDevice", {"device": doc_name, "parenttype": 'IOT Share Group'}, "parent"):
 		if frappe.get_value("IOT ShareGroupUser", {"parent": d[0], "user": user}, "parent") == d[0]:
+			return True
+
+	for d in frappe.db.get_values("IOT Device Share", {"device": doc_name, "share_to": user}, "name"):
+		end_time = frappe.get_value("IOT Device Share", d[0], "end_time")
+		if time_diff_in_seconds(get_datetime(), end_time) > 0:
 			return True
 
 	return False
