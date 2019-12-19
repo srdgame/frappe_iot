@@ -22,15 +22,9 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "IOT Device Event",
+					"name": "IOT Device Share",
 					"onboard": 1,
-					"description": _("IOT Device Event"),
-				},
-				{
-					"type": "doctype",
-					"name": "IOT Device Activity",
-					"onboard": 1,
-					"description": _("IOT Device Activity"),
+					"description": _("IOT Device Share"),
 				},
 				{
 					"type": "doctype",
@@ -43,13 +37,24 @@ def get_data():
 					"name": "IOT Batch Task",
 					"onboard": 1,
 					"description": _("IOT Batch Task"),
+				}
+			]
+		},
+		{
+			"label": _("IOT Events"),
+			"items": [
+				{
+					"type": "doctype",
+					"name": "IOT Device Event",
+					"onboard": 1,
+					"description": _("IOT Device Event"),
 				},
 				{
 					"type": "doctype",
-					"name": "IOT User Api",
+					"name": "IOT Device Activity",
 					"onboard": 1,
-					"description": _("IOT User Api"),
-				}
+					"description": _("IOT Device Activity"),
+				},
 			]
 		},
 		{
@@ -60,6 +65,12 @@ def get_data():
 					"name": "IOT HDB Settings",
 					"onboard": 1,
 					"description": _("IOT HDB Settings"),
+				},
+				{
+					"type": "doctype",
+					"name": "IOT User Api",
+					"onboard": 1,
+					"description": _("IOT User Api"),
 				}
 			]
 		}
