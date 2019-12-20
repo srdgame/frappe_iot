@@ -12,7 +12,7 @@ from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_o
 
 class IOTDeviceShare(Document):
 	def validate(self):
-		if not self.is_new():
+		if self.is_new():
 			return
 		if frappe.get_value("IOT Device Share", {"device": self.device, "share_to": self.share_to}, "name") != self.name:
 			throw("device_already_shared_to_this_user")
