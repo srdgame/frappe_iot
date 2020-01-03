@@ -73,7 +73,7 @@ def get_action_result(id):
 
 
 def valid_app_permission(device, data):
-	print("Valid Application Permission")
+	# print("Valid Application Permission")
 	owner_type = device.owner_type
 	owner_id = device.owner_id
 	app = data.get("name")

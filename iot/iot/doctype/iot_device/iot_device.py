@@ -220,6 +220,11 @@ class IOTDevice(Document):
 				if share_role != 'Admin':
 					share_role = frappe.get_value("IOT Share Group", d[0], 'role')
 
+		for d in frappe.db.get_values("IOT Device Share", {"device": self.name, "share_to": username}, "name"):
+			end_time = frappe.get_value("IOT Device Share", d[0], "end_time")
+			if time_diff_in_seconds(end_time, get_datetime()) > 0:
+				share_role = 'Admin'
+
 		return share_role
 
 
