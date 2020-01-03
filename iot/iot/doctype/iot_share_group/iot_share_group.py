@@ -99,8 +99,12 @@ def get_permission_query_conditions(user):
 def has_permission(doc, ptype, user):
 	if 'IOT Manager' in frappe.get_roles(user):
 		return True
+	#
+	# if frappe.get_value('Cloud Company', {'admin': user, 'name': doc.company}):
+	# 	return True
 
-	if frappe.get_value('Cloud Company', {'admin': user, 'name': doc.company}):
+	from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
+	if doc.company not in list_user_companies(user):
 		return True
 
 	return False
