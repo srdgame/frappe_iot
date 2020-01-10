@@ -8,14 +8,26 @@ from frappe import throw
 from frappe.model.document import Document
 from frappe.utils.data import get_datetime_str
 from iot.iot.doctype.iot_device_activity.iot_device_activity import add_device_owner_log
+from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_user_groups
 
 
 class IOTDeviceShare(Document):
 	def validate(self):
-		if self.is_new():
-			return
-		if frappe.get_value("IOT Device Share", {"device": self.device, "share_to": self.share_to}, "name") != self.name:
+		org_share = frappe.get_value("IOT Device Share", {"device": self.device, "share_to": self.share_to}, "name")
+		if org_share and org_share != self.name:
 			throw("device_already_shared_to_this_user")
+
+		if 'IOT Manager' in frappe.get_roles():
+			return
+
+		owner_type = frappe.get_value("IOT Device", self.device, "owner_type")
+		if owner_type == 'User':
+			if frappe.get_value("IOT Device", self.device, "owner_id") != frappe.session.user:
+				throw("you_are_not_owner_of_this_device")
+		else:
+			group = frappe.get_value("IOT Device", self.device, "owner_id")
+			if group not in list_user_groups(frappe.session.user):
+				throw("you_are_not_owner_of_this_device")
 
 	def before_save(self):
 		if self.is_new():
