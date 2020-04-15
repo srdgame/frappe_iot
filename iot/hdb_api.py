@@ -285,6 +285,33 @@ def add_device(device_data=None):
 
 
 @frappe.whitelist(allow_guest=True)
+def batch_add_device(sn_list=None):
+	valid_auth_code()
+	sn_list = sn_list or get_post_json_data()
+
+	done_list = []
+	failed_list = []
+	for sn in sn_list:
+		if not IOTDevice.check_sn_exists(sn):
+			try:
+				dev = frappe.get_doc({
+					"doctype": "IOT Device",
+					"sn": sn,
+					"dev_name": sn
+				}).insert()
+				done_list.append(dev.sn)
+			except Exception as ex:
+				failed_list.append(sn)
+		else:
+			failed_list.append(sn)
+
+	return {
+		"done": done_list,
+		"failed": failed_list
+	}
+
+
+@frappe.whitelist(allow_guest=True)
 def update_device():
 	valid_auth_code()
 	data = get_post_json_data()
