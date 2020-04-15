@@ -285,10 +285,9 @@ def add_device(device_data=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def batch_add_device(sn_list=None):
+def batch_add_device():
 	valid_auth_code()
-	sn_list = sn_list or get_post_json_data()
-
+	sn_list = get_post_json_data().get('sn_list')
 	done_list = []
 	failed_list = []
 	for sn in sn_list:
