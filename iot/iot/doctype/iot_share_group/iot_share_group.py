@@ -17,12 +17,13 @@ class IOTShareGroup(Document):
 		if not frappe.session.user:
 			raise frappe.PermissionError
 
-		if self.company not in list_user_companies(frappe.session.user):
-			throw("you_are_not_in_this_company")
+		if 'IOT Manager' not in frappe.get_roles(frappe.session.user):
+			if self.company not in list_user_companies(frappe.session.user):
+				throw("you_are_not_in_this_company")
 
-		for user in self.users:
-			if self.company in list_user_companies(user.user):
-				throw(_("Cannot add your employee {0} into shared group").format(user.user))
+			for user in self.users:
+				if self.company in list_user_companies(user.user):
+					throw(_("Cannot add your employee {0} into shared group").format(user.user))
 
 		for device in self.devices:
 			if self.company != frappe.get_value("IOT Device", device.device, "company"):
