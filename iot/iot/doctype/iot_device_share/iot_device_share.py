@@ -26,7 +26,12 @@ class IOTDeviceShare(Document):
 				throw("you_are_not_owner_of_this_device")
 		else:
 			group = frappe.get_value("IOT Device", self.device, "owner_id")
-			if group not in list_user_groups(frappe.session.user):
+			got_group = False
+			for g in list_user_groups(frappe.session.user):
+				if g.name == group:
+					got_group = True
+					break
+			if not got_group:
 				throw("you_are_not_owner_of_this_device")
 
 	def before_save(self):
