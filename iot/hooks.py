@@ -96,6 +96,11 @@ website_context = {
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
+# setup wizard
+setup_wizard_requires = "assets/iot/js/setup_wizard.js"
+setup_wizard_stages = "iot.setup.setup_wizard.setup_wizard.get_setup_stages"
+# setup_wizard_test = "cloud.setup.setup_wizard.test_setup_wizard.run_setup_wizard_test"
+
 # Installation
 # ------------
 
