@@ -8,7 +8,7 @@ frappe.pages['setup-wizard'].on_page_load = function(wrapper) {
 };
 
 frappe.setup.on("before_load", function () {
-	cloud.setup.slides_settings.map(frappe.setup.add_slide);
+	iot.setup.slides_settings.map(frappe.setup.add_slide);
 });
 
 iot.setup.slides_settings = [
