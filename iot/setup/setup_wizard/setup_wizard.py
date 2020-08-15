@@ -31,6 +31,9 @@ def setup_hdb_settings(args):
 	if frappe.get_value('User', args.hdb_user) is None:
 		hdb_user = dict(doctype='User', email=args.hdb_user, first_name='HDB User', send_welcome_email=0, enabled=1)
 		frappe.get_doc(hdb_user).insert(ignore_permissions=True)
+	if frappe.get_value('IOT User Api', args.hdb_user) is None:
+		user_api = dict(doctype='IOT User Api', user=args.hdb_user, authorization_code=args.hdb_authorization_code)
+		frappe.get_doc(user_api).insert(ignore_permissions=True)
 
 	settings = frappe.get_doc("IOT HDB Settings")
 	settings.set("authorization_code", args.hdb_authorization_code)
