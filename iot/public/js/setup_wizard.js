@@ -46,7 +46,8 @@ iot.setup.slides_settings = [
 			{
 				fieldname: 'hdb_mqtt_root_password',
 				label: __('MQTT Root Password'),
-				fieldtype: 'Data'
+				fieldtype: 'Data',
+				reqd: 1
 			},
 			{
 				fieldname: 'hdb_device_password_sid',
