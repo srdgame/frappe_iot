@@ -33,7 +33,7 @@ class IOTDeviceActivity(Document):
 	#
 	# 	dp = 'iot_device_activity,iot=' + self.device + ',device=' + self.device + ' activity=' + vsn + '\''
 	#
-	# 	domain = frappe.get_value("Cloud Company", self.onwer_company, "domain")
+	# 	domain = frappe.get_value("Cloud Company", self.owner_company, "domain")
 	# 	r = requests.session().get(inf_server + "/write", params={"db": domain}, timeout=10, data=dp)
 	# 	if r.status_code == 200:
 	# 		return r.json()["results"] or r.json()
