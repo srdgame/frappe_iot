@@ -204,6 +204,9 @@ class IOTDevice(Document):
 	def get_role_permission(self, username):
 		from cloud.cloud.doctype.cloud_company_group.cloud_company_group import list_users
 
+		if 'IOT Manager' in frappe.get_roles(username):
+			return 'Admin'
+
 		if not self.owner_id:
 			return None
 		if self.owner_type == 'User':
