@@ -65,6 +65,9 @@ def auth(clientid=None, username=None, password=None):
 	frappe.logger(__name__).debug(_("MQTT Auth: client_id - {0} username - {1} password {2}").format(clientid, username, password))
 	assert(clientid and username and password)
 
+	if not frappe.local.site:
+		return http_403("Auth Error - Site not created!")
+
 	if username[0:4] == "dev=":
 		index = username.rfind("|time=")
 		if index == -1:
